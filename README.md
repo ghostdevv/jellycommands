@@ -16,3 +16,14 @@
 ```bash
 npm install https://github.com/ghostdevv/jellycommands
 ```
+
+# Boilerplate
+```js
+import { Client } from 'discord.js';
+import { JellyCommands } from 'jellycommands';
+
+const client = new Client();
+const jelly = new JellyCommands(client, {});
+
+client.login();
+```
