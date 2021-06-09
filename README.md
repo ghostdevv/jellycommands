@@ -4,7 +4,7 @@
 
 `npm install jellycommands`
 
-[![](https://img.shields.io/npm/v/mykv?label=Latest%20Version&style=for-the-badge&logo=npm&color=informational)](https://www.npmjs.com/package/mykv)
+[![](https://img.shields.io/npm/v/jellycommands?label=Latest%20Version&style=for-the-badge&logo=npm&color=informational)](https://www.npmjs.com/package/jellycommands)
 
 </div>
 
