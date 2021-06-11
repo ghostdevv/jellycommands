@@ -1,11 +1,11 @@
 import { Client } from 'discord.js';
-import defaultOptions from '../options.default';
+import defaultOptions, { JellyCommandsOptions } from '../options.default';
 
 export class JellyCommands {
     private client: Client;
     private options: typeof defaultOptions;
 
-    constructor(client: Client, options: typeof defaultOptions) {
+    constructor(client: Client, options: JellyCommandsOptions) {
         this.client = client;
         this.options = Object.assign(defaultOptions, options);
 
