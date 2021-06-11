@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "run-p dev:*",
         "dev:tsc": "tsc -w",
-        "dev:nodemon": "nodemon dev/index.js",
+        "dev:nodemon": "nodemon dev/index.mjs",
         "build": "tsc"
     },
     "devDependencies": {
