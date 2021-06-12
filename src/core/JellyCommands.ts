@@ -1,9 +1,12 @@
-import { Client } from 'discord.js';
 import { defaults, JellyCommandsOptions, validate } from '../options';
+import { CommandManager } from './CommandManager';
+import { Client } from 'discord.js';
 
 export class JellyCommands {
     #client: Client;
     #options: JellyCommandsOptions;
+
+    private commandManager: CommandManager;
 
     constructor(client: Client, options: JellyCommandsOptions) {
         const [valid, validationError] = validate(options);
@@ -21,6 +24,8 @@ export class JellyCommands {
 
         this.#client = client;
         this.#options = Object.assign(defaults, options);
+
+        this.commandManager = new CommandManager(this.#options.commandsDir);
     }
 
     get client() {
