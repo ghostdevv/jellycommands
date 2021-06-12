@@ -7,18 +7,24 @@ export const defaults = {
     perGuildPrefix: false,
 };
 
-export const validate = (options: JellyCommandsOptions) =>
-    Object.entries(options).forEach(([key, value]) => {
+export const validate = (options: JellyCommandsOptions) => {
+    for (const [key, value] of Object.entries(options)) {
         // @ts-ignore
         const item = defaults[key];
 
-        if (!item) throw new Error(`Unkown option ${key}`);
+        if (!item) return [false, new Error(`Unkown option ${key}`)];
 
         if (typeof value !== typeof item)
-            throw new TypeError(
-                `Expected type ${typeof item} for ${key}, recieved ${typeof value}`,
-            );
-    });
+            return [
+                false,
+                new TypeError(
+                    `Expected type ${typeof item} for ${key}, recieved ${typeof value}`,
+                ),
+            ];
+    }
+
+    return [true, null];
+};
 
 export interface JellyCommandsOptions {
     ignoreBots?: boolean;

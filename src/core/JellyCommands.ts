@@ -6,7 +6,8 @@ export class JellyCommands {
     #options: JellyCommandsOptions;
 
     constructor(client: Client, options: JellyCommandsOptions) {
-        const validOptions = validate(options);
+        const [valid, validationError] = validate(options);
+        if (!valid) throw validationError;
 
         if (!client)
             throw new SyntaxError(
