@@ -28,6 +28,6 @@ export class JellyCommands {
     }
 
     get options() {
-        return this.#options;
+        return Object.freeze({ ...this.#options });
     }
 }
