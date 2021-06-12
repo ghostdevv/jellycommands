@@ -1,22 +1,20 @@
-import {
-    readdirRecursiveSync,
-    isDisabled,
-    isJsFile,
-    requireES,
-} from '../../util/fs';
-
 import { merge, has } from '../../util/options';
+import { readdirJSFiles } from '../../util/fs';
 import { defaults } from './options';
 
 import type { Client, ClientEvents } from 'discord.js';
 import type { JellyCommands } from '../JellyCommands';
-import type { EventFile } from './events.d';
+
+export interface EventFile {
+    name: keyof ClientEvents;
+    disabled: boolean;
+    once: boolean;
+    run: Function;
+}
 
 export class EventManager {
     private client: Client;
     private jelly: JellyCommands;
-
-    private events = new Map<string, EventFile[]>();
 
     constructor(jelly: JellyCommands) {
         this.jelly = jelly;
@@ -24,8 +22,6 @@ export class EventManager {
     }
 
     private add(name: string, data: EventFile) {
-        this.events.set(name, [...(this.events.get(name) || []), data]);
-
         const cb = (...ctx: any[]) =>
             data.run(...ctx, { client: this.client, jelly: this.jelly });
 
@@ -34,9 +30,7 @@ export class EventManager {
     }
 
     load(path: string) {
-        const paths = readdirRecursiveSync(path)
-            .filter((p) => isJsFile(p) && !isDisabled(p))
-            .map((path) => ({ path, data: requireES(path) }));
+        const paths = readdirJSFiles(path);
 
         for (const { data } of paths) {
             const options = merge<EventFile>(defaults, data);
