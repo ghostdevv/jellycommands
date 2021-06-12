@@ -25,7 +25,7 @@ export class JellyCommands {
         this.#client = client;
         this.#options = Object.assign(defaults, options);
 
-        this.commandManager = new CommandManager(this.#options.commandsDir);
+        this.commandManager = new CommandManager();
     }
 
     get client() {
