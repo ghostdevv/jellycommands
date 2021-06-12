@@ -37,11 +37,11 @@ export class JellyCommands {
         return Object.freeze({ ...this.#options });
     }
 
-    loadCommands(directory: string) {
-        this.commandManager.load(directory);
+    get commands() {
+        return this.commandManager;
     }
 
-    loadEvents(directory: string) {
-        this.eventManager.load(directory);
+    get events() {
+        return this.eventManager;
     }
 }
