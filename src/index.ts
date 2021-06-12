@@ -2,4 +2,4 @@
 export * from './core/JellyCommands';
 
 // Export Misc Types
-export type { JellyCommandsOptions } from './options';
+export type { JellyCommandsOptions } from './options/client';

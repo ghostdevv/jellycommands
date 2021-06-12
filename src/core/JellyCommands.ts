@@ -1,5 +1,6 @@
-import { defaults, JellyCommandsOptions, validate } from '../options';
+import { defaults, JellyCommandsOptions } from '../options/client';
 import { CommandManager } from './CommandManager';
+import { merge } from '../util/options';
 import { Client } from 'discord.js';
 
 export class JellyCommands {
@@ -9,9 +10,6 @@ export class JellyCommands {
     private commandManager: CommandManager;
 
     constructor(client: Client, options: JellyCommandsOptions) {
-        const [valid, validationError] = validate(options);
-        if (!valid) throw validationError;
-
         if (!client)
             throw new SyntaxError(
                 'Expected a instance of Discord.Client, recieved none',
@@ -23,7 +21,7 @@ export class JellyCommands {
             );
 
         this.#client = client;
-        this.#options = Object.assign(defaults, options);
+        this.#options = merge(defaults, options);
 
         this.commandManager = new CommandManager();
     }
