@@ -2,8 +2,8 @@ import { Client } from 'discord.js';
 import { defaults, JellyCommandsOptions, validate } from '../options';
 
 export class JellyCommands {
-    private client: Client;
-    private options: JellyCommandsOptions;
+    #client: Client;
+    #options: JellyCommandsOptions;
 
     constructor(client: Client, options: JellyCommandsOptions) {
         const validOptions = validate(options);
@@ -18,7 +18,15 @@ export class JellyCommands {
                 `Expected a instance of Discord.Client, recieved ${typeof client}`,
             );
 
-        this.client = client;
-        this.options = Object.assign(defaults, options);
+        this.#client = client;
+        this.#options = Object.assign(defaults, options);
+    }
+
+    get client() {
+        return this.#client;
+    }
+
+    get options() {
+        return this.#options;
     }
 }
