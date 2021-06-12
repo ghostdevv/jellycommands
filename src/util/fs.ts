@@ -1,5 +1,7 @@
 import { readdirSync, lstatSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
+
+export const posixify = (path: string) => path.replace(/\\/g, '/');
 
 export const readdirRecursiveSync = (path: string): string[] =>
     readdirSync(path)
@@ -12,4 +14,6 @@ export const readdirRecursiveSync = (path: string): string[] =>
                     : [file]),
             ],
             [],
-        );
+        )
+        .map((p) => resolve(p))
+        .map((p) => posixify(p));
