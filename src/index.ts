@@ -1,5 +1,5 @@
 // Export lib
-export { JellyCommands } from './core/JellyCommands';
+export { JellyCommands } from './JellyCommands';
 
 // Export Misc Types
 export type { JellyCommandsOptions } from './options/JellyCommands';

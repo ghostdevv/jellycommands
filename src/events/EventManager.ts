@@ -1,6 +1,6 @@
-import { merge, has } from '../../util/options';
-import { readdirJSFiles } from '../../util/fs';
+import { merge, has } from '../util/options';
 import { defaults } from './options.default';
+import { readdirJSFiles } from '../util/fs';
 
 import type { Client, ClientEvents } from 'discord.js';
 import type { JellyCommands } from '../JellyCommands';
