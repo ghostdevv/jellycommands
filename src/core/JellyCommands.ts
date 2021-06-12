@@ -33,4 +33,8 @@ export class JellyCommands {
     get options() {
         return Object.freeze({ ...this.#options });
     }
+
+    loadCommands(directory: string) {
+        this.commandManager.load(directory);
+    }
 }
