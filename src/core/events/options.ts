@@ -13,10 +13,3 @@ export const defaults = {
     // Placeholder of run function
     run: new Function(),
 };
-
-export interface EventFile {
-    name: keyof ClientEvents;
-    disabled: boolean;
-    once: boolean;
-    run: Function;
-}

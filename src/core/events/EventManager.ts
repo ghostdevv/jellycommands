@@ -3,13 +3,14 @@ import {
     isDisabled,
     isJsFile,
     requireES,
-} from '../util/fs';
+} from '../../util/fs';
 
-import { defaults, EventFile } from '../options/Event';
-import { merge, has } from '../util/options';
+import { merge, has } from '../../util/options';
+import { defaults } from './options';
 
-import type { JellyCommands } from './JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
+import type { JellyCommands } from '../JellyCommands';
+import type { EventFile } from './events.d';
 
 export class EventManager {
     private client: Client;
