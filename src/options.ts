@@ -5,6 +5,9 @@ export const defaults = {
     // Prefix Settings
     defaultPrefix: '?',
     perGuildPrefix: false,
+
+    // Command Settings
+    commandsDir: 'commands',
 };
 
 export const validate = (options: JellyCommandsOptions) => {
@@ -30,4 +33,5 @@ export interface JellyCommandsOptions {
     ignoreBots?: boolean;
     defaultPrefix?: string;
     perGuildPrefix?: string;
+    commandsDir: string | string[];
 }
