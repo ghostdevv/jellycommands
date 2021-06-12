@@ -1,4 +1,4 @@
-import { defaults, JellyCommandsOptions } from '../options/client';
+import { defaults, JellyCommandsOptions } from '../options/JellyCommands';
 import { CommandManager } from './CommandManager';
 import { merge } from '../util/options';
 import { Client } from 'discord.js';
