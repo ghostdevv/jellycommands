@@ -1,13 +1,12 @@
 import { Client } from 'discord.js';
-import defaultOptions, { JellyCommandsOptions } from '../options.default';
+import { defaults, JellyCommandsOptions, validate } from '../options';
 
 export class JellyCommands {
     private client: Client;
-    private options: typeof defaultOptions;
+    private options: JellyCommandsOptions;
 
     constructor(client: Client, options: JellyCommandsOptions) {
-        this.client = client;
-        this.options = Object.assign(defaultOptions, options);
+        const validOptions = validate(options);
 
         if (!client)
             throw new SyntaxError(
@@ -18,5 +17,8 @@ export class JellyCommands {
             throw new TypeError(
                 `Expected a instance of Discord.Client, recieved ${typeof client}`,
             );
+
+        this.client = client;
+        this.options = Object.assign(defaults, options);
     }
 }
