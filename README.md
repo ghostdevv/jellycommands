@@ -40,6 +40,12 @@ Want to support JellyCommands? Amazing, you can do it in a few ways:
     [Click me](https://ghostdev.xyz/donate)
 
 - ### Add the badge to your readme
-    Click the badge below or [here](https://cdn.sourceb.in/bins/1QMH7nYUiF/0) to copy the markdown image: <br />
+    Copy the text below to get our readme badge 
 
-    [![](https://img.shields.io/badge/Powered%20by%20-Jelly%20Commands-EB5E8A?style=for-the-badge&labelColor=white)](https://cdn.sourceb.in/bins/1QMH7nYUiF/0)
+    ```
+    [![JellyCommands](https://img.shields.io/badge/Powered%20by%20-Jelly%20Commands-EB5E8A?style=for-the-badge&labelColor=white)](https://github.com/ghostdevv/jellycommands)
+    ```
+    
+    The badge:
+
+    [![JellyCommands](https://img.shields.io/badge/Powered%20by%20-Jelly%20Commands-EB5E8A?style=for-the-badge&labelColor=white)](https://github.com/ghostdevv/jellycommands)
