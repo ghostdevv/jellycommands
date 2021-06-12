@@ -1,5 +1,6 @@
 import { defaults, JellyCommandsOptions } from '../options/JellyCommands';
 import { CommandManager } from './CommandManager';
+import { EventManager } from './EventManager';
 import { merge } from '../util/options';
 import { Client } from 'discord.js';
 
@@ -8,6 +9,7 @@ export class JellyCommands {
     #options: JellyCommandsOptions;
 
     private commandManager: CommandManager;
+    private eventManager: EventManager;
 
     constructor(client: Client, options: JellyCommandsOptions) {
         if (!client)
@@ -24,6 +26,7 @@ export class JellyCommands {
         this.#options = merge(defaults, options);
 
         this.commandManager = new CommandManager();
+        this.eventManager = new EventManager(this);
     }
 
     get client() {
@@ -36,5 +39,9 @@ export class JellyCommands {
 
     loadCommands(directory: string) {
         this.commandManager.load(directory);
+    }
+
+    loadEvents(directory: string) {
+        this.eventManager.load(directory);
     }
 }
