@@ -12,6 +12,8 @@
 
 <br />
 
+> # All our docs are located [here](https://ghostdevbusiness.gitbook.io/jellycommands/)
+
 # Beta Installation
 ```bash
 npm install https://github.com/ghostdevv/jellycommands
