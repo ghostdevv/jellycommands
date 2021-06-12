@@ -18,4 +18,18 @@ export const readdirRecursiveSync = (path: string): string[] =>
         .map((p) => resolve(p))
         .map((p) => posixify(p));
 
+const req = require('esm')(module);
+export const requireES = (path: string) => {
+    const data = req(path);
+
+    if (typeof data != 'object')
+        throw new TypeError(`Expected object for ${path}`);
+
+    return data.default && Object.keys(data).length == 1
+        ? { ...data.default }
+        : data;
+};
+
 export const isDisabled = (path: string) => parse(path).name.startsWith('_');
+export const isJsFile = (path: string) =>
+    ['.js', '.mjs'].includes(parse(path).ext);
