@@ -1,6 +1,6 @@
 import { defaults, JellyCommandsOptions } from '../options/JellyCommands';
+import { EventManager } from './events/EventManager';
 import { CommandManager } from './CommandManager';
-import { EventManager } from './EventManager';
 import { merge } from '../util/options';
 import { Client } from 'discord.js';
 
