@@ -4,6 +4,10 @@
     "author": "GHOST",
     "license": "MIT",
     "main": "dist/index.js",
+    "exports": {
+        ".": "./dist/index.js",
+        "./events": "./dist/events/exports.js"
+    },
     "scripts": {
         "dev": "run-p dev:*",
         "dev:tsc": "tsc -w",
