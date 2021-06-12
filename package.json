@@ -22,5 +22,8 @@
         "dist",
         "LICENSE",
         "README.md"
-    ]
+    ],
+    "dependencies": {
+        "esm": "^3.2.25"
+    }
 }
