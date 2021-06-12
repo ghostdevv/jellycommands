@@ -23,7 +23,7 @@ export class JellyCommands {
             );
 
         this.#client = client;
-        this.#options = merge(defaults, options);
+        this.#options = merge<JellyCommandsOptions>(defaults, options);
 
         this.commandManager = new CommandManager();
         this.eventManager = new EventManager(this);
