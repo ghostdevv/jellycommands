@@ -17,3 +17,12 @@ export const merge = <T>(base: T, options: T): T => {
 
     return base;
 };
+
+export const has = (object: object, keys: string | string[]) => {
+    for (const key of [keys].flat()) {
+        if (!object.hasOwnProperty(key))
+            throw new SyntaxError(`Expected option: ${key}`);
+    }
+
+    return true;
+};
