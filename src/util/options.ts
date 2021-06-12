@@ -3,7 +3,8 @@ export const merge = <T>(base: T, options: T): T => {
         // @ts-ignore
         const baseItem = base[key];
 
-        if (!baseItem) throw new Error(`Unknown option ${key}`);
+        if (!(base as unknown as object).hasOwnProperty(key))
+            throw new Error(`Unknown option ${key}`);
 
         if (typeof value !== typeof baseItem)
             throw new TypeError(
