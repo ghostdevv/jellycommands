@@ -1,6 +1,5 @@
-import { defaults, JellyCommandsOptions } from './options/JellyCommands';
+import { defaults, JellyCommandsOptions, schema } from './options';
 import { EventManager } from './events/EventManager';
-import { merge } from './util/options';
 import { Client } from 'discord.js';
 
 export class JellyCommands {
@@ -16,7 +15,13 @@ export class JellyCommands {
             );
 
         this.#client = client;
-        this.#options = merge<JellyCommandsOptions>(defaults, options);
+
+        const { error, value } = schema.validate(
+            Object.assign(defaults, options),
+        );
+
+        if (error) throw error.annotate();
+        else this.#options = value;
 
         this.eventManager = new EventManager(this);
     }

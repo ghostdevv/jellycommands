@@ -9,7 +9,13 @@ export const defaults = {
 
     // Should the event be ran once or every time it's recieved
     once: false,
-
-    // Placeholder of run function
-    run: new Function(),
 };
+
+import Joi from 'joi';
+
+export const schema = Joi.object({
+    name: Joi.string().required(),
+    disabled: Joi.bool().required(),
+    once: Joi.bool().required(),
+    run: Joi.func().required(),
+});

@@ -1,5 +1,4 @@
-import { merge, has } from '../util/options';
-import { defaults } from './options.default';
+import { defaults, schema } from './options';
 import { readdirJSFiles } from '../util/fs';
 
 import type { Client, ClientEvents } from 'discord.js';
@@ -33,13 +32,12 @@ export class EventManager {
         const paths = readdirJSFiles(path);
 
         for (const { data } of paths) {
-            const options = merge<EventFile>(defaults, data);
-            if (options.disabled == true) continue;
+            const { error, value } = schema.validate(
+                Object.assign(defaults, data),
+            );
 
-            const hasRequired = has(data, ['name', 'run']);
-            if (!hasRequired) continue;
-
-            this.add(data.name, data);
+            if (error) throw error.annotate();
+            else this.add(value.name, value);
         }
     }
 }
