@@ -9,7 +9,7 @@ export class JellyCommands {
 
     private eventManager: EventManager;
 
-    constructor(client: Client, options: JellyCommandsOptions) {
+    constructor(client: Client, options: JellyCommandsOptions = {}) {
         if (!client)
             throw new SyntaxError(
                 'Expected a instance of Discord.Client, recieved none',
