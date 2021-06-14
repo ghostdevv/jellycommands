@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "run-p dev:*",
     "dev:ts": "tsup-node --watch",
-    "dev:nodemon": "nodemon dev/index.mjs",
+    "dev:nodemon": "nodemon dev/index.js",
     "build": "tsup-node --dts"
   },
   "devDependencies": {
