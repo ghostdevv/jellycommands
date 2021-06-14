@@ -1,5 +1,5 @@
 import { defaults, JellyCommandsOptions, schema } from './options';
-import { EventManager } from './events/EventManager';
+import { EventManager } from '../events/EventManager';
 import { Client } from 'discord.js';
 
 export class JellyCommands {

@@ -1,8 +1,8 @@
 import { defaults, schema } from './options';
 import { readdirJSFiles } from '../util/fs';
 
+import type { JellyCommands } from '../core/JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
-import type { JellyCommands } from '../JellyCommands';
 
 export interface EventFile {
     name: keyof ClientEvents;
@@ -28,8 +28,8 @@ export class EventManager {
         else this.client.on(name, cb);
     }
 
-    load(path: string) {
-        const paths = readdirJSFiles(path);
+    async load(path: string) {
+        const paths = await readdirJSFiles(path);
 
         for (const { data } of paths) {
             const { error, value } = schema.validate(

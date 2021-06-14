@@ -1,34 +1,53 @@
 {
-    "name": "jellycommands",
-    "version": "0.0.0",
-    "author": "GHOST",
-    "license": "MIT",
-    "main": "dist/index.js",
-    "exports": {
-        ".": "./dist/index.js",
-        "./events": "./dist/events/index.js"
+  "name": "jellycommands",
+  "version": "0.0.0",
+  "author": "GHOST",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/core/index.cjs",
+  "module": "dist/core/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/core/index.cjs",
+      "import": "./dist/core/index.js"
     },
-    "scripts": {
-        "dev": "run-p dev:*",
-        "dev:tsc": "tsc -w",
-        "dev:nodemon": "nodemon dev/index.mjs",
-        "build": "tsc"
-    },
-    "devDependencies": {
-        "@types/node": "^15.12.2",
-        "@types/ws": "^7.4.4",
-        "discord.js": "^12.5.3",
-        "nodemon": "^2.0.7",
-        "npm-run-all": "^4.1.5",
-        "typescript": "^4.3.2"
-    },
-    "files": [
-        "dist",
-        "LICENSE",
-        "README.md"
-    ],
-    "dependencies": {
-        "esm": "^3.2.25",
-        "joi": "^17.4.0"
+    "./events": {
+      "require": "./dist/events/index.cjs",
+      "import": "./dist/events/index.js"
     }
+  },
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:ts": "tsup-node -w",
+    "dev:nodemon": "nodemon dev/index.mjs",
+    "build": "tsup-node"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.2",
+    "@types/ws": "^7.4.4",
+    "discord.js": "^12.5.3",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "tsup": "^4.11.2",
+    "typescript": "^4.3.2"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "dependencies": {
+    "esm": "^3.2.25",
+    "joi": "^17.4.0"
+  },
+  "description": "<div align=\"center\">",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghostdevv/jellycommands.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/ghostdevv/jellycommands/issues"
+  },
+  "homepage": "https://github.com/ghostdevv/jellycommands#readme"
 }

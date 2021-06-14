@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es2019",
-        "module": "commonjs",
+        "module": "esnext",
         "outDir": "./dist",
         "lib": ["ES2020"],
 
@@ -13,7 +13,8 @@
         "noImplicitThis": true,
         "noImplicitAny": true,
         "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node"
     },
     "include": ["src/**/*.ts"],
     "exclude": ["dist", "dev", "node_modules"]
