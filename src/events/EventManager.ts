@@ -30,7 +30,7 @@ export class EventManager {
         else this.client.on(name, cb);
     }
 
-    async load(path: string) {
+    load(path: string) {
         const isDirectory = lstatSync(path).isDirectory();
         return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
     }
