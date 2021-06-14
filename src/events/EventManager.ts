@@ -36,6 +36,8 @@ export class EventManager {
                 Object.assign(defaults, data),
             );
 
+            if (value.disabled) continue;
+
             if (error) throw error.annotate();
             else this.add(value.name, value);
         }
