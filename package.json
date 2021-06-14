@@ -18,9 +18,9 @@
   },
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:ts": "tsup-node -w",
+    "dev:ts": "tsup-node --watch",
     "dev:nodemon": "nodemon dev/index.mjs",
-    "build": "tsup-node"
+    "build": "tsup-node --dts"
   },
   "devDependencies": {
     "@types/node": "^15.12.2",
