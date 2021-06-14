@@ -24,7 +24,7 @@ export const readdirJSFiles = async (path: string) => {
 
     for (const path of files) {
         const { ext, name } = parse(path);
-        if (!(['.js', '.mjs'].includes(ext) && !name.startsWith('_'))) continue;
+        if (!['.js', '.mjs'].includes(ext)) continue;
 
         let data = await import(path);
 
