@@ -17,6 +17,11 @@
       "import": "./dist/events/index.js"
     }
   },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "dev": "run-p dev:*",
     "dev:ts": "tsup-node --watch",
