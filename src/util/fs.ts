@@ -18,18 +18,23 @@ export const readdirRecursiveSync = (path: string): string[] =>
         .map((p) => resolve(p))
         .map((p) => posixify(p));
 
+export const readJSFile = async (path: string) => {
+    const data = await import(path);
+
+    return data.default && Object.keys(data).length == 1
+        ? { ...data.default }
+        : data;
+};
+
 export const readdirJSFiles = async (path: string) => {
     const files = readdirRecursiveSync(path);
     const mapped = [];
 
     for (const path of files) {
-        const { ext, name } = parse(path);
+        const { ext } = parse(path);
         if (!['.js', '.mjs'].includes(ext)) continue;
 
-        let data = await import(path);
-
-        if (data.default && Object.keys(data).length == 1)
-            data = { ...data.default };
+        const data = await readJSFile(path);
 
         mapped.push({
             path,
