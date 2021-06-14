@@ -19,7 +19,7 @@ export const readdirRecursiveSync = (path: string): string[] =>
         .map((p) => posixify(p));
 
 export const readJSFile = async (path: string) => {
-    const data = await import(path);
+    const data = await import(resolve(path));
 
     return data.default && Object.keys(data).length == 1
         ? { ...data.default }
