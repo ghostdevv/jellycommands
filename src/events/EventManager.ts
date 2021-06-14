@@ -13,6 +13,13 @@ export interface EventFile {
     run: Function;
 }
 
+export interface Event {
+    name: keyof ClientEvents;
+    filePath: string;
+    disabled: boolean;
+    once: boolean;
+}
+
 export class EventManager {
     private client: Client;
     private jelly: JellyCommands;
@@ -47,6 +54,13 @@ export class EventManager {
 
         if (error) throw error.annotate();
         else this.add(value.name, value);
+
+        return {
+            name: data.name,
+            once: data.once,
+            disabled: data.disabled,
+            filePath: path,
+        } as Event;
     }
 
     async loadDirectory(path: string) {
@@ -62,6 +76,16 @@ export class EventManager {
             if (error) throw error.annotate();
             else this.add(value.name, value);
         }
+
+        return paths.map(
+            ({ path, data }) =>
+                ({
+                    name: data.name,
+                    once: data.once,
+                    disabled: data.disabled,
+                    filePath: path,
+                } as Event),
+        );
     }
 }
 
