@@ -6,6 +6,7 @@
   "type": "module",
   "main": "dist/core/index.cjs",
   "module": "dist/core/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/core/index.cjs",
