@@ -31,11 +31,6 @@
     "tsup": "^4.11.2",
     "typescript": "^4.3.2"
   },
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
   "dependencies": {
     "esm": "^3.2.25",
     "joi": "^17.4.0"
