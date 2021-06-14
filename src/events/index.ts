@@ -2,4 +2,4 @@
 export { EventManager, createEvent } from './EventManager';
 
 // Export event types
-export { EventFile } from './EventManager';
+export type { EventFile, Event } from './EventManager';
