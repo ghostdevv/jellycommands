@@ -24,9 +24,12 @@ export const readdirJSFiles = async (path: string) => {
 
     for (const path of files) {
         const { ext, name } = parse(path);
-        if (['.js', '.mjs'].includes(ext) && !name.startsWith('_')) continue;
+        if (!(['.js', '.mjs'].includes(ext) && !name.startsWith('_'))) continue;
 
-        const data = await import(path);
+        let data = await import(path);
+
+        if (data.default && Object.keys(data).length == 1)
+            data = { ...data.default };
 
         mapped.push({
             path,
