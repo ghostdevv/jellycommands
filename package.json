@@ -4,15 +4,15 @@
   "author": "GHOST",
   "license": "MIT",
   "main": "dist/core/index.cjs",
-  "module": "dist/core/index.mjs",
+  "module": "dist/core/index.js",
   "exports": {
     ".": {
       "require": "./dist/core/index.cjs",
-      "import": "./dist/core/index.mjs"
+      "import": "./dist/core/index.js"
     },
     "./events": {
       "require": "./dist/events/index.cjs",
-      "import": "./dist/events/index.mjs"
+      "import": "./dist/events/index.js"
     }
   },
   "files": [
@@ -25,8 +25,7 @@
     "dev:ts": "npm run build:cjs -- --watch",
     "dev:nodemon": "nodemon dev/index.js",
     "build": "rimraf dist && run-s build:*",
-    "build:esm": "tsc && renamer --find '/(\\.js)$/' --replace '.mjs' dist/**/*.js",
-    "build:cjs": "tsc --module commonjs && renamer --find '/(\\.js)$/' --replace '.cjs' dist/**/*.js"
+    "build:esm": "tsc"
   },
   "devDependencies": {
     "@types/node": "^15.12.2",
