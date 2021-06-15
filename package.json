@@ -22,10 +22,10 @@
   ],
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:ts": "npm run build:esm -- --watch",
+    "dev:ts": "tsc --watch",
     "dev:nodemon": "nodemon dev/index.js",
     "build": "rimraf dist && run-s build:*",
-    "build:esm": "tsc --module esnext --outDir dist/esm",
+    "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs"
   },
   "devDependencies": {
