@@ -24,9 +24,11 @@
   ],
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:ts": "tsup-node --watch",
+    "dev:ts": "npm run build:esm -- --watch",
     "dev:nodemon": "nodemon dev/index.js",
-    "build": "tsup-node --dts"
+    "build": "rimraf dist && run-s build:*",
+    "build:esm": "tsc --module esnext --outDir dist/esm",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs"
   },
   "devDependencies": {
     "@types/node": "^15.12.2",
@@ -34,11 +36,10 @@
     "discord.js": "^12.5.3",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
-    "tsup": "^4.11.2",
+    "rimraf": "^3.0.2",
     "typescript": "^4.3.2"
   },
   "dependencies": {
-    "esm": "^3.2.25",
     "joi": "^17.4.0"
   },
   "description": "<div align=\"center\">",
