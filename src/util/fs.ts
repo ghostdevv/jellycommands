@@ -18,12 +18,18 @@ export const readdirRecursiveSync = (path: string): string[] =>
         .map((p) => resolve(p))
         .map((p) => posixify(p));
 
+// If there is a default it returns it, if there is a default but other properties it strips the default
+export const resolveImport = (imp: { default?: unknown }) => {
+    if (imp.default && Object.keys(imp).length == 1) return imp.default;
+
+    delete imp.default;
+
+    return imp;
+};
+
 export const readJSFile = async (path: string) => {
     const data = await import(resolve(path));
-
-    return data.default && Object.keys(data).length == 1
-        ? { ...data.default }
-        : data;
+    return resolveImport(data);
 };
 
 export const readdirJSFiles = async (path: string) => {
