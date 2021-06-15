@@ -40,7 +40,6 @@
   "dependencies": {
     "joi": "^17.4.0"
   },
-  "description": "<div align=\"center\">",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ghostdevv/jellycommands.git"
