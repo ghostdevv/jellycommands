@@ -3,8 +3,8 @@ import { defaults, schema } from './options';
 import { lstatSync } from 'fs';
 import { parse } from 'path';
 
-import type { JellyCommands } from '../core/JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
+import type { JellyCommands } from '../JellyCommands';
 
 export interface EventFile {
     name: keyof ClientEvents;
