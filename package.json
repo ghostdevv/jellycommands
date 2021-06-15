@@ -5,6 +5,7 @@
   "license": "MIT",
   "main": "dist/core/index.cjs",
   "module": "dist/core/index.js",
+  "type": "module",
   "exports": {
     ".": {
       "require": "./dist/core/index.cjs",
