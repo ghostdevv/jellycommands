@@ -1,8 +1,11 @@
-import { readdirJSFiles, readJSFile } from '../util/fs';
-import { defaults, schema } from './options';
-import { lstatSync } from 'fs';
-import { parse } from 'path';
-export class EventManager {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createEvent = exports.EventManager = void 0;
+const fs_1 = require("../util/fs");
+const options_1 = require("./options");
+const fs_2 = require("fs");
+const path_1 = require("path");
+class EventManager {
     constructor(jelly) {
         this.jelly = jelly;
         this.client = jelly.client;
@@ -15,15 +18,15 @@ export class EventManager {
             this.client.on(name, cb);
     }
     load(path) {
-        const isDirectory = lstatSync(path).isDirectory();
+        const isDirectory = fs_2.lstatSync(path).isDirectory();
         return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
     }
     async loadFile(path) {
-        const { ext } = parse(path);
+        const { ext } = path_1.parse(path);
         if (!['.js', '.mjs'].includes(ext))
             throw new Error(`${path} is not a JS file`);
-        const data = await readJSFile(path);
-        const { error, value } = schema.validate(Object.assign(defaults, data));
+        const data = await fs_1.readJSFile(path);
+        const { error, value } = options_1.schema.validate(Object.assign(options_1.defaults, data));
         if (value.disabled)
             return;
         if (error)
@@ -38,9 +41,9 @@ export class EventManager {
         };
     }
     async loadDirectory(path) {
-        const paths = await readdirJSFiles(path);
+        const paths = await fs_1.readdirJSFiles(path);
         for (const { data } of paths) {
-            const { error, value } = schema.validate(Object.assign(defaults, data));
+            const { error, value } = options_1.schema.validate(Object.assign(options_1.defaults, data));
             if (value.disabled)
                 continue;
             if (error)
@@ -56,4 +59,6 @@ export class EventManager {
         }));
     }
 }
-export const createEvent = (name, data) => ({ name, ...data });
+exports.EventManager = EventManager;
+const createEvent = (name, data) => ({ name, ...data });
+exports.createEvent = createEvent;

@@ -3,19 +3,7 @@
   "version": "0.0.0-reserve",
   "author": "GHOST",
   "license": "MIT",
-  "main": "dist/core/index.cjs",
-  "module": "dist/core/index.js",
-  "type": "module",
-  "exports": {
-    ".": {
-      "require": "./dist/core/index.cjs",
-      "import": "./dist/core/index.js"
-    },
-    "./events": {
-      "require": "./dist/events/index.cjs",
-      "import": "./dist/events/index.js"
-    }
-  },
+  "main": "dist/core/index.js",
   "files": [
     "dist",
     "LICENSE",

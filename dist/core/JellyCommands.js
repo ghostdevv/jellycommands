@@ -1,3 +1,4 @@
+"use strict";
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
     if (kind === "m") throw new TypeError("Private method is not writable");
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
@@ -10,21 +11,23 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _JellyCommands_client, _JellyCommands_options;
-import { EventManager } from '../events/EventManager';
-import { defaults, schema } from './options';
-export class JellyCommands {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.JellyCommands = void 0;
+const EventManager_1 = require("../events/EventManager");
+const options_1 = require("./options");
+class JellyCommands {
     constructor(client, options = {}) {
         _JellyCommands_client.set(this, void 0);
         _JellyCommands_options.set(this, void 0);
         if (!client)
             throw new SyntaxError('Expected a instance of Discord.Client, recieved none');
         __classPrivateFieldSet(this, _JellyCommands_client, client, "f");
-        const { error, value } = schema.validate(Object.assign(defaults, options));
+        const { error, value } = options_1.schema.validate(Object.assign(options_1.defaults, options));
         if (error)
             throw error.annotate();
         else
             __classPrivateFieldSet(this, _JellyCommands_options, value, "f");
-        this.eventManager = new EventManager(this);
+        this.eventManager = new EventManager_1.EventManager(this);
     }
     get client() {
         return __classPrivateFieldGet(this, _JellyCommands_client, "f");
@@ -36,4 +39,5 @@ export class JellyCommands {
         return this.eventManager;
     }
 }
+exports.JellyCommands = JellyCommands;
 _JellyCommands_client = new WeakMap(), _JellyCommands_options = new WeakMap();
