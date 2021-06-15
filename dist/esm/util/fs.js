@@ -11,11 +11,15 @@ export const readdirRecursiveSync = (path) => readdirSync(path)
 ], [])
     .map((p) => resolve(p))
     .map((p) => posixify(p));
+export const resolveImport = (imp) => {
+    if (imp.default && Object.keys(imp).length == 1)
+        return imp.default;
+    delete imp.default;
+    return imp;
+};
 export const readJSFile = async (path) => {
     const data = await import(resolve(path));
-    return data.default && Object.keys(data).length == 1
-        ? { ...data.default }
-        : data;
+    return resolveImport(data);
 };
 export const readdirJSFiles = async (path) => {
     const files = readdirRecursiveSync(path);

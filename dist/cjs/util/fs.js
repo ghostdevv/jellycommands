@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readdirJSFiles = exports.readJSFile = exports.readdirRecursiveSync = exports.posixify = void 0;
+exports.readdirJSFiles = exports.readJSFile = exports.resolveImport = exports.readdirRecursiveSync = exports.posixify = void 0;
 const fs_1 = require("fs");
 const path_1 = require("path");
 const posixify = (path) => path.replace(/\\/g, '/');
@@ -35,11 +35,16 @@ const readdirRecursiveSync = (path) => fs_1.readdirSync(path)
     .map((p) => path_1.resolve(p))
     .map((p) => exports.posixify(p));
 exports.readdirRecursiveSync = readdirRecursiveSync;
+const resolveImport = (imp) => {
+    if (imp.default && Object.keys(imp).length == 1)
+        return imp.default;
+    delete imp.default;
+    return imp;
+};
+exports.resolveImport = resolveImport;
 const readJSFile = async (path) => {
     const data = await Promise.resolve().then(() => __importStar(require(path_1.resolve(path))));
-    return data.default && Object.keys(data).length == 1
-        ? { ...data.default }
-        : data;
+    return exports.resolveImport(data);
 };
 exports.readJSFile = readJSFile;
 const readdirJSFiles = async (path) => {
