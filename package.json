@@ -3,16 +3,17 @@
   "version": "0.0.0-reserve",
   "author": "GHOST",
   "license": "MIT",
-  "main": "dist/cjs/core/index.js",
-  "module": "dist/esm/core/index.mjs",
+  "main": "dist/cjs/core/index.cjs",
+  "module": "dist/esm/core/index.js",
+  "type": "module",
   "exports": {
     ".": {
-      "require": "./dist/cjs/core/index.js",
-      "import": "./dist/esm/core/index.mjs"
+      "require": "./dist/cjs/core/index.cjs",
+      "import": "./dist/esm/core/index.js"
     },
     "./events": {
-      "require": "./dist/cjs/events/index.js",
-      "import": "./dist/esm/events/index.mjs"
+      "require": "./dist/cjs/events/index.cjs",
+      "import": "./dist/esm/events/index.js"
     }
   },
   "files": [
@@ -25,8 +26,8 @@
     "dev:ts": "npm run build:cjs -- --watch",
     "dev:nodemon": "nodemon dev/index.js",
     "build": "rimraf dist && run-s build:*",
-    "build:esm": "tsc && renamer --find '/(\\.js)$/' --replace '.mjs' dist/esm/**/*.js",
-    "build:cjs": "tsc --module commonjs --outDir dist/cjs"
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs && renamer --find '/(\\.js)$/' --replace '.cjs' dist/cjs/**/*.js"
   },
   "devDependencies": {
     "@types/node": "^15.12.2",
