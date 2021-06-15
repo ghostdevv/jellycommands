@@ -1,5 +1,7 @@
+import { readdirJSFiles, readJSFile } from '../util/fs';
 import { defaults, schema } from './options';
-import { readdirJSFiles } from '../util/fs';
+import { lstatSync } from 'fs';
+import { parse } from 'path';
 
 import type { JellyCommands } from '../core/JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
@@ -9,6 +11,13 @@ export interface EventFile {
     disabled: boolean;
     once: boolean;
     run: Function;
+}
+
+export interface Event {
+    name: keyof ClientEvents;
+    filePath: string;
+    disabled: boolean;
+    once: boolean;
 }
 
 export class EventManager {
@@ -28,7 +37,33 @@ export class EventManager {
         else this.client.on(name, cb);
     }
 
-    async load(path: string) {
+    load(path: string) {
+        const isDirectory = lstatSync(path).isDirectory();
+        return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
+    }
+
+    async loadFile(path: string) {
+        const { ext } = parse(path);
+        if (!['.js', '.mjs'].includes(ext))
+            throw new Error(`${path} is not a JS file`);
+
+        const data: EventFile = await readJSFile(path);
+        const { error, value } = schema.validate(Object.assign(defaults, data));
+
+        if (value.disabled) return;
+
+        if (error) throw error.annotate();
+        else this.add(value.name, value);
+
+        return {
+            name: data.name,
+            once: data.once,
+            disabled: data.disabled,
+            filePath: path,
+        } as Event;
+    }
+
+    async loadDirectory(path: string) {
         const paths = await readdirJSFiles(path);
 
         for (const { data } of paths) {
@@ -36,9 +71,21 @@ export class EventManager {
                 Object.assign(defaults, data),
             );
 
+            if (value.disabled) continue;
+
             if (error) throw error.annotate();
             else this.add(value.name, value);
         }
+
+        return paths.map(
+            ({ path, data }) =>
+                ({
+                    name: data.name,
+                    once: data.once,
+                    disabled: data.disabled,
+                    filePath: path,
+                } as Event),
+        );
     }
 }
 

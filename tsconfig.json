@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es2019",
         "module": "esnext",
-        "outDir": "./dist",
+        "outDir": "dist",
         "lib": ["ES2020"],
 
         "strict": true,
@@ -16,6 +16,5 @@
         "forceConsistentCasingInFileNames": true,
         "moduleResolution": "node"
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["dist", "dev", "node_modules"]
+    "include": ["src/**/*.ts"]
 }
