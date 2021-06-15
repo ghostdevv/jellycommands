@@ -36,6 +36,7 @@ const readdirRecursiveSync = (path) => fs_1.readdirSync(path)
     .map((p) => exports.posixify(p));
 exports.readdirRecursiveSync = readdirRecursiveSync;
 const resolveImport = (imp) => {
+    imp = Object.assign({}, imp);
     if (imp.default && Object.keys(imp).length == 1)
         return imp.default;
     delete imp.default;
