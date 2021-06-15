@@ -1,18 +1,12 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.schema = exports.defaults = void 0;
-exports.defaults = {
+export const defaults = {
     name: '',
     disabled: false,
     once: false,
 };
-const joi_1 = __importDefault(require("joi"));
-exports.schema = joi_1.default.object({
-    name: joi_1.default.string().required(),
-    disabled: joi_1.default.bool().required(),
-    once: joi_1.default.bool().required(),
-    run: joi_1.default.func().required(),
+import Joi from 'joi';
+export const schema = Joi.object({
+    name: Joi.string().required(),
+    disabled: Joi.bool().required(),
+    once: Joi.bool().required(),
+    run: Joi.func().required(),
 });
