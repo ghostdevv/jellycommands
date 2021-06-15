@@ -1,34 +1,41 @@
 {
-    "name": "jellycommands",
-    "version": "0.0.0",
-    "author": "GHOST",
-    "license": "MIT",
-    "main": "dist/index.js",
-    "exports": {
-        ".": "./dist/index.js",
-        "./events": "./dist/events/index.js"
-    },
-    "scripts": {
-        "dev": "run-p dev:*",
-        "dev:tsc": "tsc -w",
-        "dev:nodemon": "nodemon dev/index.mjs",
-        "build": "tsc"
-    },
-    "devDependencies": {
-        "@types/node": "^15.12.2",
-        "@types/ws": "^7.4.4",
-        "discord.js": "^12.5.3",
-        "nodemon": "^2.0.7",
-        "npm-run-all": "^4.1.5",
-        "typescript": "^4.3.2"
-    },
-    "files": [
-        "dist",
-        "LICENSE",
-        "README.md"
-    ],
-    "dependencies": {
-        "esm": "^3.2.25",
-        "joi": "^17.4.0"
-    }
+  "name": "jellycommands",
+  "version": "0.0.0-reserve",
+  "author": "GHOST",
+  "license": "MIT",
+  "main": "dist/core/index.js",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:ts": "npm run build:cjs -- --watch",
+    "dev:nodemon": "nodemon dev/index.js",
+    "build": "rimraf dist && run-s build:*",
+    "build:esm": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.2",
+    "@types/ws": "^7.4.4",
+    "discord.js": "^12.5.3",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "renamer": "^3.2.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "joi": "^17.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghostdevv/jellycommands.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/ghostdevv/jellycommands/issues"
+  },
+  "homepage": "https://github.com/ghostdevv/jellycommands#readme"
 }

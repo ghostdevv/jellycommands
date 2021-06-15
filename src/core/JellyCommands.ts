@@ -1,14 +1,8 @@
-<<<<<<< HEAD:src/core/JellyCommands.ts
 import { EventManager } from '../events/EventManager';
 import { defaults, schema } from './options';
 
 import type { JellyCommandsOptions } from './options';
 import type { Client } from 'discord.js';
-=======
-import { defaults, JellyCommandsOptions, schema } from './options';
-import { EventManager } from './events/EventManager';
-import { Client } from 'discord.js';
->>>>>>> parent of 9b26d3d (feat: export for cjs and esm):src/JellyCommands.ts
 
 export class JellyCommands {
     #client: Client;
