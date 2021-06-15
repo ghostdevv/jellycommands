@@ -3,7 +3,6 @@
   "version": "0.0.0-reserve",
   "author": "GHOST",
   "license": "MIT",
-  "type": "module",
   "main": "dist/cjs/core/index.js",
   "module": "dist/esm/core/index.js",
   "exports": {
