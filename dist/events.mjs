@@ -1,8 +1,58 @@
-import { readdirJSFiles, readJSFile } from '../util/fs';
-import { defaults, schema } from './options';
-import { lstatSync } from 'fs';
-import { parse } from 'path';
-export class EventManager {
+import { readdirSync, lstatSync } from 'fs';
+import { resolve, join, parse } from 'path';
+import Joi from 'joi';
+
+const posixify = (path) => path.replace(/\\/g, '/');
+const readdirRecursiveSync = (path) => readdirSync(path)
+    .map((file) => join(path, file))
+    .reduce((files, file) => [
+    ...files,
+    ...(lstatSync(file).isDirectory()
+        ? readdirRecursiveSync(file)
+        : [file]),
+], [])
+    .map((p) => resolve(p))
+    .map((p) => posixify(p));
+const resolveImport = (imp) => {
+    imp = Object.assign({}, imp);
+    if (imp.default && Object.keys(imp).length == 1)
+        return imp.default;
+    delete imp.default;
+    return imp;
+};
+const readJSFile = async (path) => {
+    const data = await import(resolve(path));
+    return resolveImport(data);
+};
+const readdirJSFiles = async (path) => {
+    const files = readdirRecursiveSync(path);
+    const mapped = [];
+    for (const path of files) {
+        const { ext } = parse(path);
+        if (!['.js', '.mjs', '.cjs'].includes(ext))
+            continue;
+        const data = await readJSFile(path);
+        mapped.push({
+            path,
+            data,
+        });
+    }
+    return mapped;
+};
+
+const defaults = {
+    name: '',
+    disabled: false,
+    once: false,
+};
+const schema = Joi.object({
+    name: Joi.string().required(),
+    disabled: Joi.bool().required(),
+    once: Joi.bool().required(),
+    run: Joi.func().required(),
+});
+
+class EventManager {
     constructor(jelly) {
         this.jelly = jelly;
         this.client = jelly.client;
@@ -56,4 +106,6 @@ export class EventManager {
         }));
     }
 }
-export const createEvent = (name, data) => ({ name, ...data });
+const createEvent = (name, data) => ({ name, ...data });
+
+export { EventManager, createEvent };

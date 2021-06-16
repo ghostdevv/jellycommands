@@ -3,7 +3,8 @@
   "version": "0.0.0-reserve",
   "author": "GHOST",
   "license": "MIT",
-  "main": "dist/core/index.js",
+  "main": "dist/core.cjs",
+  "module": "dist/core.mjs",
   "files": [
     "dist",
     "LICENSE",
@@ -14,9 +15,10 @@
     "dev:ts": "npm run build:cjs -- --watch",
     "dev:nodemon": "nodemon dev/index.js",
     "build": "rimraf dist && run-s build:*",
-    "build:esm": "tsc"
+    "build:rollup": "rollup -c"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.2.1",
     "@types/node": "^15.12.2",
     "@types/ws": "^7.4.4",
     "discord.js": "^12.5.3",
@@ -24,6 +26,8 @@
     "npm-run-all": "^4.1.5",
     "renamer": "^3.2.1",
     "rimraf": "^3.0.2",
+    "rollup": "^2.51.2",
+    "tslib": "^2.3.0",
     "typescript": "^4.3.2"
   },
   "dependencies": {

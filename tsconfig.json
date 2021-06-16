@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es2019",
         "module": "esnext",
-        "outDir": "dist",
+        "outDir": "dist/esm",
         "lib": ["ES2020"],
 
         "strict": true,
