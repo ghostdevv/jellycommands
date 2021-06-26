@@ -1,59 +1,5 @@
-var __create = Object.create;
 var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
-var __require = (x) => {
-  if (typeof require !== "undefined")
-    return require(x);
-  throw new Error('Dynamic require of "' + x + '" is not supported');
-};
-var __reExport = (target, module, desc) => {
-  if (module && typeof module === "object" || typeof module === "function") {
-    for (let key of __getOwnPropNames(module))
-      if (!__hasOwnProp.call(target, key) && key !== "default")
-        __defProp(target, key, { get: () => module[key], enumerable: !(desc = __getOwnPropDesc(module, key)) || desc.enumerable });
-  }
-  return target;
-};
-var __toModule = (module) => {
-  return __reExport(__markAsModule(__defProp(module != null ? __create(__getProtoOf(module)) : {}, "default", module && module.__esModule && "default" in module ? { get: () => module.default, enumerable: true } : { value: module, enumerable: true })), module);
-};
-var __accessCheck = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var __privateGet = (obj, member, getter) => {
-  __accessCheck(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var __privateAdd = (obj, member, value) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-};
-var __privateSet = (obj, member, value, setter) => {
-  __accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
-};
 
 // src/util/fs.ts
 import { readdirSync, lstatSync } from "fs";
@@ -71,7 +17,7 @@ var resolveImport = /* @__PURE__ */ __name((imp) => {
   return imp;
 }, "resolveImport");
 var readJSFile = /* @__PURE__ */ __name(async (path) => {
-  const data = await Promise.resolve().then(() => __toModule(__require(resolve(path))));
+  const data = await import(resolve(path));
   return resolveImport(data);
 }, "readJSFile");
 var readdirJSFiles = /* @__PURE__ */ __name(async (path) => {
@@ -162,7 +108,7 @@ var EventManager = class {
   }
 };
 __name(EventManager, "EventManager");
-var createEvent = /* @__PURE__ */ __name((name, data) => __spreadValues({ name }, data), "createEvent");
+var createEvent = /* @__PURE__ */ __name((name, data) => ({ name, ...data }), "createEvent");
 
 // src/core/options.ts
 import Joi2 from "joi";
@@ -178,34 +124,31 @@ var schema2 = Joi2.object({
 });
 
 // src/core/JellyCommands.ts
-var _client, _options;
 var JellyCommands = class {
+  #client;
+  #options;
   constructor(client, options = {}) {
-    __privateAdd(this, _client, void 0);
-    __privateAdd(this, _options, void 0);
     if (!client)
       throw new SyntaxError("Expected a instance of Discord.Client, recieved none");
-    __privateSet(this, _client, client);
+    this.#client = client;
     const { error, value } = schema2.validate(Object.assign(defaults2, options));
     if (error)
       throw error.annotate();
     else
-      __privateSet(this, _options, value);
+      this.#options = value;
     this.eventManager = new EventManager(this);
   }
   get client() {
-    return __privateGet(this, _client);
+    return this.#client;
   }
   get options() {
-    return Object.freeze(__spreadValues({}, __privateGet(this, _options)));
+    return Object.freeze({ ...this.#options });
   }
   get events() {
     return this.eventManager;
   }
 };
 __name(JellyCommands, "JellyCommands");
-_client = new WeakMap();
-_options = new WeakMap();
 export {
   EventManager,
   JellyCommands,
