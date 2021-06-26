@@ -5,20 +5,7 @@ import { parse } from 'path';
 
 import type { JellyCommands } from '../core/JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
-
-export interface EventFile {
-    name: keyof ClientEvents;
-    disabled: boolean;
-    once: boolean;
-    run: Function;
-}
-
-export interface Event {
-    name: keyof ClientEvents;
-    filePath: string;
-    disabled: boolean;
-    once: boolean;
-}
+import type { Event, EventFile } from './events.d';
 
 export class EventManager {
     private client: Client;
