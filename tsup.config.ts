@@ -5,9 +5,8 @@ export const tsup: Options = {
     sourcemap: false,
     clean: true,
     dts: true,
-    target: 'esnext',
     keepNames: true,
-
+    target: 'esnext',
     format: ['esm', 'cjs'],
     entryPoints: ['src/index.ts'],
 };
