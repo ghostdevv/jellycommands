@@ -1,17 +1,24 @@
 import { ClientEvents, Client } from 'discord.js';
 
-interface EventFile {
-    name: keyof ClientEvents;
+declare const defaults$1: {
     disabled: boolean;
     once: boolean;
-    run: Function;
+};
+
+declare class Event {
+    readonly name: keyof ClientEvents;
+    readonly run: Function;
+    readonly options: typeof defaults$1;
+    constructor(name: keyof ClientEvents, run: Function, options: Partial<typeof defaults$1>);
 }
-interface Event {
-    name: keyof ClientEvents;
-    filePath: string;
-    disabled: boolean;
-    once: boolean;
-}
+declare const createEvent: <K extends keyof ClientEvents>(name: K, run: (instance: {
+    client: Client;
+    jelly: JellyCommands;
+}, ...args: ClientEvents[K]) => void | any, options: {
+    once?: boolean;
+    disabled?: boolean;
+}) => Event;
+
 declare class EventManager {
     private client;
     private jelly;
@@ -21,28 +28,13 @@ declare class EventManager {
     loadFile(path: string): Promise<Event | undefined>;
     loadDirectory(path: string): Promise<Event[]>;
 }
-declare const createEvent: <K extends keyof ClientEvents>(name: K, data: {
-    once?: boolean | undefined;
-    disabled?: boolean | undefined;
-    run: (instance: {
-        client: Client;
-        jelly: JellyCommands;
-    }, ...args: ClientEvents[K]) => void | any;
-}) => {
-    once?: boolean | undefined;
-    disabled?: boolean | undefined;
-    run: (instance: {
-        client: Client;
-        jelly: JellyCommands;
-    }, ...args: ClientEvents[K]) => void | any;
-    name: K;
-};
 
-interface JellyCommandsOptions {
-    ignoreBots?: boolean;
-    defaultPrefix?: string;
-    perGuildPrefix?: boolean;
-}
+declare const defaults: {
+    ignoreBots: boolean;
+    defaultPrefix: string;
+    perGuildPrefix: boolean;
+};
+declare type JellyCommandsOptions = Partial<typeof defaults>;
 
 declare class JellyCommands {
     #private;
@@ -57,4 +49,4 @@ declare class JellyCommands {
     get events(): EventManager;
 }
 
-export { Event, EventFile, EventManager, JellyCommands, JellyCommandsOptions, createEvent };
+export { JellyCommands, JellyCommandsOptions, createEvent };
