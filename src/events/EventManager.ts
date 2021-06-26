@@ -31,7 +31,7 @@ export class EventManager {
 
     async loadFile(path: string) {
         const { ext } = parse(path);
-        if (!['.js', '.mjs'].includes(ext))
+        if (!['.js', '.mjs', '.cjs'].includes(ext))
             throw new Error(`${path} is not a JS file`);
 
         const data: EventFile = await readJSFile(path);
