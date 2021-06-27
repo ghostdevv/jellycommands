@@ -10,6 +10,8 @@ export class EventManager {
     private client: Client;
     private jelly: JellyCommands;
 
+    private loadedPaths = new Set<string>();
+
     constructor(jelly: JellyCommands) {
         this.jelly = jelly;
         this.client = jelly.client;
@@ -21,6 +23,14 @@ export class EventManager {
 
         if (event.options.once) this.client.once(event.name, cb);
         else this.client.on(event.name, cb);
+    }
+
+    private addPath(path: string) {
+        if (this.loadedPaths.has(path))
+            throw new Error(
+                `The path ${path} has already been loaded, please do not attempt to load it twice`,
+            );
+        else this.loadedPaths.add(path);
     }
 
     load(path: string) {
@@ -41,6 +51,7 @@ export class EventManager {
 
         if (event.options.disabled) return;
 
+        this.addPath(path);
         this.add(event);
 
         return event;
@@ -58,7 +69,9 @@ export class EventManager {
 
             if (event.options.disabled) continue;
 
+            this.addPath(path);
             this.add(event);
+
             events.push(event);
         }
 
