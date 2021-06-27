@@ -39,10 +39,7 @@ export class Event {
 
 export const createEvent = <K extends keyof ClientEvents>(
     name: K,
-    options: {
-        once?: boolean;
-        disabled?: boolean;
-
+    options: Partial<typeof defaults> & {
         run: (
             instance: { client: Client; jelly: JellyCommands },
             ...args: ClientEvents[K]
