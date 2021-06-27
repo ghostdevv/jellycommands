@@ -1,5 +1,4 @@
 import { readdirJSFiles, readJSFile } from '../util/fs';
-import { defaults, schema } from './options';
 import { Event } from './Event';
 import { lstatSync } from 'fs';
 import { parse } from 'path';
