@@ -76,6 +76,7 @@ var schema = import_joi.default.object({
 });
 
 // src/events/Event.ts
+var import_ghoststools = __toModule(require("ghoststools"));
 var Event = class {
   constructor(name, run, options) {
     this.name = name;
@@ -92,7 +93,9 @@ var Event = class {
   }
 };
 __name(Event, "Event");
-var createEvent = /* @__PURE__ */ __name((name, run, options) => new Event(name, run, options), "createEvent");
+var createEvent = /* @__PURE__ */ __name((name, options) => {
+  return new Event(name, options.run, (0, import_ghoststools.removeKeys)(options, "run"));
+}, "createEvent");
 
 // src/events/EventManager.ts
 var import_fs3 = __toModule(require("fs"));

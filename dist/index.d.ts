@@ -11,12 +11,14 @@ declare class Event {
     readonly options: typeof defaults$1;
     constructor(name: keyof ClientEvents, run: Function, options: Partial<typeof defaults$1>);
 }
-declare const createEvent: <K extends keyof ClientEvents>(name: K, run: (instance: {
-    client: Client;
-    jelly: JellyCommands;
-}, ...args: ClientEvents[K]) => void | any, options: {
-    once?: boolean;
-    disabled?: boolean;
+declare const createEvent: <K extends keyof ClientEvents>(name: K, options: Partial<{
+    disabled: boolean;
+    once: boolean;
+}> & {
+    run: (instance: {
+        client: Client;
+        jelly: JellyCommands;
+    }, ...args: ClientEvents[K]) => void | any;
 }) => Event;
 
 declare class EventManager {

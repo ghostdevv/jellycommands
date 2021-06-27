@@ -1,7 +1,7 @@
 import type { JellyCommands } from '../core/JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
-import { trimObject } from '../util/trimObject';
 import { defaults, schema } from './options';
+import { removeKeys } from 'ghoststools';
 
 export class Event {
     public readonly name: keyof ClientEvents;
@@ -45,5 +45,5 @@ export const createEvent = <K extends keyof ClientEvents>(
         ) => void | any;
     },
 ) => {
-    return new Event(name, options.run, trimObject(options, ['run']));
+    return new Event(name, options.run, removeKeys(options, 'run'));
 };

@@ -48,6 +48,7 @@ var schema = Joi.object({
 });
 
 // src/events/Event.ts
+import { removeKeys } from "ghoststools";
 var Event = class {
   constructor(name, run, options) {
     this.name = name;
@@ -64,7 +65,9 @@ var Event = class {
   }
 };
 __name(Event, "Event");
-var createEvent = /* @__PURE__ */ __name((name, run, options) => new Event(name, run, options), "createEvent");
+var createEvent = /* @__PURE__ */ __name((name, options) => {
+  return new Event(name, options.run, removeKeys(options, "run"));
+}, "createEvent");
 
 // src/events/EventManager.ts
 import { lstatSync as lstatSync2 } from "fs";
