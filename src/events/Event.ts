@@ -2,7 +2,6 @@ import type { JellyCommands } from '../core/JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
 import { trimObject } from '../util/trimObject';
 import { defaults, schema } from './options';
-import { object } from 'joi';
 
 export class Event {
     public readonly name: keyof ClientEvents;
