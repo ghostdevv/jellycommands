@@ -17,9 +17,6 @@
 # Beta Installation
 ```bash
 npm install https://github.com/ghostdevv/jellycommands
-cd node_modules/jellycommands
-npm install
-npm run build
 ```
 
 # Support
