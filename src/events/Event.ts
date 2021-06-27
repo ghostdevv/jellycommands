@@ -1,6 +1,8 @@
 import type { JellyCommands } from '../core/JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
+import { trimObject } from '../util/trimObject';
 import { defaults, schema } from './options';
+import { object } from 'joi';
 
 export class Event {
     public readonly name: keyof ClientEvents;
@@ -37,12 +39,15 @@ export class Event {
 
 export const createEvent = <K extends keyof ClientEvents>(
     name: K,
-    run: (
-        instance: { client: Client; jelly: JellyCommands },
-        ...args: ClientEvents[K]
-    ) => void | any,
     options: {
         once?: boolean;
         disabled?: boolean;
+
+        run: (
+            instance: { client: Client; jelly: JellyCommands },
+            ...args: ClientEvents[K]
+        ) => void | any;
     },
-) => new Event(name, run, options);
+) => {
+    return new Event(name, options.run, trimObject(object, ['run']));
+};
