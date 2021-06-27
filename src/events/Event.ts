@@ -46,5 +46,5 @@ export const createEvent = <K extends keyof ClientEvents>(
         ) => void | any;
     },
 ) => {
-    return new Event(name, options.run, trimObject(object, ['run']));
+    return new Event(name, options.run, trimObject(options, ['run']));
 };
