@@ -39,16 +39,32 @@ var readdirJSFiles = /* @__PURE__ */ __name(async (path) => {
 // src/events/options.ts
 import Joi from "joi";
 var defaults = {
-  name: "",
   disabled: false,
   once: false
 };
 var schema = Joi.object({
-  name: Joi.string().required(),
   disabled: Joi.bool().required(),
-  once: Joi.bool().required(),
-  run: Joi.func().required()
+  once: Joi.bool().required()
 });
+
+// src/events/Event.ts
+var Event = class {
+  constructor(name, run, options) {
+    this.name = name;
+    if (!name || typeof name != "string")
+      throw new TypeError(`Expected type string for name, recieved ${typeof name}`);
+    this.run = run;
+    if (!run || typeof run != "function")
+      throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
+    const { error, value } = schema.validate(Object.assign(defaults, options));
+    if (error)
+      throw error.annotate();
+    else
+      this.options = value;
+  }
+};
+__name(Event, "Event");
+var createEvent = /* @__PURE__ */ __name((name, run, options) => new Event(name, run, options), "createEvent");
 
 // src/events/EventManager.ts
 import { lstatSync as lstatSync2 } from "fs";
@@ -58,12 +74,12 @@ var EventManager = class {
     this.jelly = jelly;
     this.client = jelly.client;
   }
-  add(name, data) {
-    const cb = /* @__PURE__ */ __name((...ctx) => data.run(...ctx, { client: this.client, jelly: this.jelly }), "cb");
-    if (data.once)
-      this.client.once(name, cb);
+  add(event) {
+    const cb = /* @__PURE__ */ __name((...ctx) => event.run(...ctx, { client: this.client, jelly: this.jelly }), "cb");
+    if (event.options.once)
+      this.client.once(event.name, cb);
     else
-      this.client.on(name, cb);
+      this.client.on(event.name, cb);
   }
   load(path) {
     const isDirectory = lstatSync2(path).isDirectory();
@@ -71,44 +87,31 @@ var EventManager = class {
   }
   async loadFile(path) {
     const { ext } = parse2(path);
-    if (![".js", ".mjs"].includes(ext))
+    if (![".js", ".mjs", ".cjs"].includes(ext))
       throw new Error(`${path} is not a JS file`);
-    const data = await readJSFile(path);
-    const { error, value } = schema.validate(Object.assign(defaults, data));
-    if (value.disabled)
+    const event = await readJSFile(path);
+    if (!(event instanceof Event))
+      throw new TypeError(`Expected instance of Event for ${path}, recieved ${typeof event}`);
+    if (event.options.disabled)
       return;
-    if (error)
-      throw error.annotate();
-    else
-      this.add(value.name, value);
-    return {
-      name: data.name,
-      once: data.once,
-      disabled: data.disabled,
-      filePath: path
-    };
+    this.add(event);
+    return event;
   }
   async loadDirectory(path) {
     const paths = await readdirJSFiles(path);
-    for (const { data } of paths) {
-      const { error, value } = schema.validate(Object.assign(defaults, data));
-      if (value.disabled)
+    const events = [];
+    for (const { path: path2, data: event } of paths) {
+      if (!(event instanceof Event))
+        throw new TypeError(`Expected instance of Event for ${path2}, recieved ${typeof event}`);
+      if (event.options.disabled)
         continue;
-      if (error)
-        throw error.annotate();
-      else
-        this.add(value.name, value);
+      this.add(event);
+      events.push(event);
     }
-    return paths.map(({ path: path2, data }) => ({
-      name: data.name,
-      once: data.once,
-      disabled: data.disabled,
-      filePath: path2
-    }));
+    return events;
   }
 };
 __name(EventManager, "EventManager");
-var createEvent = /* @__PURE__ */ __name((name, data) => ({ name, ...data }), "createEvent");
 
 // src/core/options.ts
 import Joi2 from "joi";
@@ -150,7 +153,6 @@ var JellyCommands = class {
 };
 __name(JellyCommands, "JellyCommands");
 export {
-  EventManager,
   JellyCommands,
   createEvent
 };

@@ -1,11 +1,11 @@
 import { readdirJSFiles, readJSFile } from '../util/fs';
 import { defaults, schema } from './options';
+import { Event } from './Event';
 import { lstatSync } from 'fs';
 import { parse } from 'path';
 
 import type { JellyCommands } from '../core/JellyCommands';
-import type { Client, ClientEvents } from 'discord.js';
-import type { Event, EventFile } from './events.d';
+import type { Client } from 'discord.js';
 
 export class EventManager {
     private client: Client;
@@ -16,12 +16,12 @@ export class EventManager {
         this.client = jelly.client;
     }
 
-    private add(name: string, data: EventFile) {
+    private add(event: Event) {
         const cb = (...ctx: any[]) =>
-            data.run(...ctx, { client: this.client, jelly: this.jelly });
+            event.run(...ctx, { client: this.client, jelly: this.jelly });
 
-        if (data.once) this.client.once(name, cb);
-        else this.client.on(name, cb);
+        if (event.options.once) this.client.once(event.name, cb);
+        else this.client.on(event.name, cb);
     }
 
     load(path: string) {
@@ -34,56 +34,35 @@ export class EventManager {
         if (!['.js', '.mjs', '.cjs'].includes(ext))
             throw new Error(`${path} is not a JS file`);
 
-        const data: EventFile = await readJSFile(path);
-        const { error, value } = schema.validate(Object.assign(defaults, data));
+        const event = await readJSFile(path);
+        if (!(event instanceof Event))
+            throw new TypeError(
+                `Expected instance of Event for ${path}, recieved ${typeof event}`,
+            );
 
-        if (value.disabled) return;
+        if (event.options.disabled) return;
 
-        if (error) throw error.annotate();
-        else this.add(value.name, value);
+        this.add(event);
 
-        return {
-            name: data.name,
-            once: data.once,
-            disabled: data.disabled,
-            filePath: path,
-        } as Event;
+        return event;
     }
 
     async loadDirectory(path: string) {
         const paths = await readdirJSFiles(path);
+        const events = [];
 
-        for (const { data } of paths) {
-            const { error, value } = schema.validate(
-                Object.assign(defaults, data),
-            );
+        for (const { path, data: event } of paths) {
+            if (!(event instanceof Event))
+                throw new TypeError(
+                    `Expected instance of Event for ${path}, recieved ${typeof event}`,
+                );
 
-            if (value.disabled) continue;
+            if (event.options.disabled) continue;
 
-            if (error) throw error.annotate();
-            else this.add(value.name, value);
+            this.add(event);
+            events.push(event);
         }
 
-        return paths.map(
-            ({ path, data }) =>
-                ({
-                    name: data.name,
-                    once: data.once,
-                    disabled: data.disabled,
-                    filePath: path,
-                } as Event),
-        );
+        return events;
     }
 }
-
-export const createEvent = <K extends keyof ClientEvents>(
-    name: K,
-    data: {
-        once?: boolean;
-        disabled?: boolean;
-        run: (
-            instance: { client: Client; jelly: JellyCommands },
-            ...args: ClientEvents[K]
-        ) => void | any;
-    },
-) => ({ name, ...data });

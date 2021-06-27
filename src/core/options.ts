@@ -18,11 +18,7 @@ export const defaults = {
     perGuildPrefix: false,
 };
 
-export interface JellyCommandsOptions {
-    ignoreBots?: boolean;
-    defaultPrefix?: string;
-    perGuildPrefix?: boolean;
-}
+export type JellyCommandsOptions = Partial<typeof defaults>;
 
 import Joi from 'joi';
 
