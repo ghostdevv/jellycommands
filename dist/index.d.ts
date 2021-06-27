@@ -22,8 +22,10 @@ declare const createEvent: <K extends keyof ClientEvents>(name: K, run: (instanc
 declare class EventManager {
     private client;
     private jelly;
+    private loadedPaths;
     constructor(jelly: JellyCommands);
     private add;
+    private addPath;
     load(path: string): Promise<Event[]> | Promise<Event | undefined>;
     loadFile(path: string): Promise<Event | undefined>;
     loadDirectory(path: string): Promise<Event[]>;

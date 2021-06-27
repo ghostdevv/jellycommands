@@ -71,6 +71,7 @@ import { lstatSync as lstatSync2 } from "fs";
 import { parse as parse2 } from "path";
 var EventManager = class {
   constructor(jelly) {
+    this.loadedPaths = new Set();
     this.jelly = jelly;
     this.client = jelly.client;
   }
@@ -80,6 +81,12 @@ var EventManager = class {
       this.client.once(event.name, cb);
     else
       this.client.on(event.name, cb);
+  }
+  addPath(path) {
+    if (this.loadedPaths.has(path))
+      throw new Error(`The path ${path} has already been loaded, please do not attempt to load it twice`);
+    else
+      this.loadedPaths.add(path);
   }
   load(path) {
     const isDirectory = lstatSync2(path).isDirectory();
@@ -94,6 +101,7 @@ var EventManager = class {
       throw new TypeError(`Expected instance of Event for ${path}, recieved ${typeof event}`);
     if (event.options.disabled)
       return;
+    this.addPath(path);
     this.add(event);
     return event;
   }
@@ -105,6 +113,7 @@ var EventManager = class {
         throw new TypeError(`Expected instance of Event for ${path2}, recieved ${typeof event}`);
       if (event.options.disabled)
         continue;
+      this.addPath(path2);
       this.add(event);
       events.push(event);
     }
