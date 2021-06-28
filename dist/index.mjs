@@ -2,13 +2,8 @@ var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
 // src/util/fs.ts
-import { readdirSync, lstatSync } from "fs";
-import { join, resolve, parse } from "path";
-var posixify = /* @__PURE__ */ __name((path) => path.replace(/\\/g, "/"), "posixify");
-var readdirRecursiveSync = /* @__PURE__ */ __name((path) => readdirSync(path).map((file) => join(path, file)).reduce((files, file) => [
-  ...files,
-  ...lstatSync(file).isDirectory() ? readdirRecursiveSync(file) : [file]
-], []).map((p) => resolve(p)).map((p) => posixify(p)), "readdirRecursiveSync");
+import { readdirRecursive } from "ghoststools";
+import { resolve, parse } from "path";
 var resolveImport = /* @__PURE__ */ __name((imp) => {
   imp = Object.assign({}, imp);
   if (imp.default && Object.keys(imp).length == 1)
@@ -21,7 +16,7 @@ var readJSFile = /* @__PURE__ */ __name(async (path) => {
   return resolveImport(data);
 }, "readJSFile");
 var readdirJSFiles = /* @__PURE__ */ __name(async (path) => {
-  const files = readdirRecursiveSync(path);
+  const files = readdirRecursive(path);
   const mapped = [];
   for (const path2 of files) {
     const { ext } = parse(path2);
@@ -70,7 +65,7 @@ var createEvent = /* @__PURE__ */ __name((name, options) => {
 }, "createEvent");
 
 // src/events/EventManager.ts
-import { lstatSync as lstatSync2 } from "fs";
+import { lstatSync } from "fs";
 import { parse as parse2 } from "path";
 var EventManager = class {
   constructor(jelly) {
@@ -92,7 +87,7 @@ var EventManager = class {
       this.loadedPaths.add(path);
   }
   load(path) {
-    const isDirectory = lstatSync2(path).isDirectory();
+    const isDirectory = lstatSync(path).isDirectory();
     return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
   }
   async loadFile(path) {

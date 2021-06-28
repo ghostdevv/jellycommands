@@ -1,22 +1,5 @@
-import { readdirSync, lstatSync } from 'fs';
-import { join, resolve, parse } from 'path';
-
-export const posixify = (path: string) => path.replace(/\\/g, '/');
-
-export const readdirRecursiveSync = (path: string): string[] =>
-    readdirSync(path)
-        .map((file) => join(path, file))
-        .reduce(
-            (files: string[], file: string) => [
-                ...files,
-                ...(lstatSync(file).isDirectory()
-                    ? readdirRecursiveSync(file)
-                    : [file]),
-            ],
-            [],
-        )
-        .map((p) => resolve(p))
-        .map((p) => posixify(p));
+import { readdirRecursive } from 'ghoststools';
+import { resolve, parse } from 'path';
 
 // If there is a default it returns it, if there is a default but other properties it strips the default
 export const resolveImport = (imp: { default?: any }) => {
@@ -34,7 +17,7 @@ export const readJSFile = async (path: string) => {
 };
 
 export const readdirJSFiles = async (path: string) => {
-    const files = readdirRecursiveSync(path);
+    const files = readdirRecursive(path);
     const mapped = [];
 
     for (const path of files) {

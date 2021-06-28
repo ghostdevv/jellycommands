@@ -30,13 +30,8 @@ __export(exports, {
 });
 
 // src/util/fs.ts
-var import_fs = __toModule(require("fs"));
+var import_ghoststools = __toModule(require("ghoststools"));
 var import_path = __toModule(require("path"));
-var posixify = /* @__PURE__ */ __name((path) => path.replace(/\\/g, "/"), "posixify");
-var readdirRecursiveSync = /* @__PURE__ */ __name((path) => (0, import_fs.readdirSync)(path).map((file) => (0, import_path.join)(path, file)).reduce((files, file) => [
-  ...files,
-  ...(0, import_fs.lstatSync)(file).isDirectory() ? readdirRecursiveSync(file) : [file]
-], []).map((p) => (0, import_path.resolve)(p)).map((p) => posixify(p)), "readdirRecursiveSync");
 var resolveImport = /* @__PURE__ */ __name((imp) => {
   imp = Object.assign({}, imp);
   if (imp.default && Object.keys(imp).length == 1)
@@ -49,7 +44,7 @@ var readJSFile = /* @__PURE__ */ __name(async (path) => {
   return resolveImport(data);
 }, "readJSFile");
 var readdirJSFiles = /* @__PURE__ */ __name(async (path) => {
-  const files = readdirRecursiveSync(path);
+  const files = (0, import_ghoststools.readdirRecursive)(path);
   const mapped = [];
   for (const path2 of files) {
     const { ext } = (0, import_path.parse)(path2);
@@ -76,7 +71,7 @@ var schema = import_joi.default.object({
 });
 
 // src/events/Event.ts
-var import_ghoststools = __toModule(require("ghoststools"));
+var import_ghoststools2 = __toModule(require("ghoststools"));
 var Event = class {
   constructor(name, run, options) {
     this.name = name;
@@ -94,11 +89,11 @@ var Event = class {
 };
 __name(Event, "Event");
 var createEvent = /* @__PURE__ */ __name((name, options) => {
-  return new Event(name, options.run, (0, import_ghoststools.removeKeys)(options, "run"));
+  return new Event(name, options.run, (0, import_ghoststools2.removeKeys)(options, "run"));
 }, "createEvent");
 
 // src/events/EventManager.ts
-var import_fs3 = __toModule(require("fs"));
+var import_fs2 = __toModule(require("fs"));
 var import_path2 = __toModule(require("path"));
 var EventManager = class {
   constructor(jelly) {
@@ -120,7 +115,7 @@ var EventManager = class {
       this.loadedPaths.add(path);
   }
   load(path) {
-    const isDirectory = (0, import_fs3.lstatSync)(path).isDirectory();
+    const isDirectory = (0, import_fs2.lstatSync)(path).isDirectory();
     return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
   }
   async loadFile(path) {
