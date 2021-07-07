@@ -19,6 +19,19 @@
 npm install https://github.com/ghostdevv/jellycommands
 ```
 
+# Running in dev mode
+Requirements:
+- NPM 7
+- Node 14
+
+Running in dev mode:
+```
+cd dev
+npm install
+cd ..
+npm run dev
+```
+
 # Support
 Want to support JellyCommands? Amazing, you can do it in a few ways:
 
