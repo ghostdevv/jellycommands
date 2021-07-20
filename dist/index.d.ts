@@ -8,6 +8,28 @@ declare abstract class BaseManager<ManagerTarget> {
     loadDirectory(path: string): Promise<ManagerTarget[]>;
 }
 
+declare const defaults$2: {
+    disabled: boolean;
+};
+
+declare class Command {
+    private readonly name;
+    readonly run: Function;
+    readonly options: typeof defaults$2;
+    constructor(name: string, run: Function, options: Partial<typeof defaults$2>);
+}
+declare const createCommand: (name: string, options: Partial<typeof defaults$2> & {
+    run: () => void | any;
+}) => Command;
+
+declare class CommandManager extends BaseManager<Command> {
+    private client;
+    private jelly;
+    private loadedPaths;
+    constructor(jelly: JellyCommands);
+    protected add(command: Command, path: string): void;
+}
+
 declare const defaults$1: {
     disabled: boolean;
     once: boolean;
@@ -47,6 +69,7 @@ declare type JellyCommandsOptions = Partial<typeof defaults>;
 declare class JellyCommands {
     #private;
     private eventManager;
+    private commandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
     get client(): Client;
     get options(): Readonly<{
@@ -55,6 +78,7 @@ declare class JellyCommands {
         perGuildPrefix?: boolean | undefined;
     }>;
     get events(): EventManager;
+    get commands(): CommandManager;
 }
 
-export { JellyCommands, JellyCommandsOptions, createEvent };
+export { JellyCommands, JellyCommandsOptions, createCommand, createEvent };
