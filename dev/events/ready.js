@@ -1,6 +1,6 @@
-const { createEvent } = require('../../dist/index');
+import { createEvent } from 'jellycommands';
 
-module.exports = createEvent('ready', {
+export default createEvent('ready', {
     once: true,
 
     run: () => {

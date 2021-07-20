@@ -7,4 +7,6 @@ import { JellyCommands } from 'jellycommands';
 const client = new Client();
 const jelly = new JellyCommands(client, {});
 
+jelly.events.load('dev/events');
+
 client.login(process.env.TOKEN);
