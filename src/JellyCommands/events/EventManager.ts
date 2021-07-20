@@ -1,9 +1,9 @@
-import { readdirJSFiles, readJSFile } from '../util/fs';
+import { readdirJSFiles, readJSFile } from '../../util/fs';
 import { Event } from './Event';
 import { lstatSync } from 'fs';
 import { parse } from 'path';
 
-import type { JellyCommands } from '../core/JellyCommands';
+import type { JellyCommands } from '../JellyCommands';
 import type { Client } from 'discord.js';
 
 export class EventManager {
