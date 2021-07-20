@@ -30,6 +30,8 @@ export default class EventManager extends BaseManager<Event> {
                 `Expected instance of Event, recieved ${typeof event}`,
             );
 
+        if (event.options.disabled) return;
+
         const cb = (...ctx: any[]) =>
             event.run(...ctx, { client: this.client, jelly: this.jelly });
 
