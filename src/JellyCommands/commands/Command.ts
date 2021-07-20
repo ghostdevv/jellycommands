@@ -2,7 +2,7 @@ import { defaults, schema } from './options';
 import { removeKeys } from 'ghoststools';
 
 export class Command {
-    private readonly name: string;
+    public readonly name: string;
     public readonly run: Function;
     public readonly options: typeof defaults;
 
