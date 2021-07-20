@@ -59,7 +59,7 @@ var readdirJSFiles = /* @__PURE__ */ __name(async (path) => {
   return mapped;
 }, "readdirJSFiles");
 
-// src/events/options.ts
+// src/JellyCommands/events/options.ts
 var import_joi = __toModule(require("joi"));
 var defaults = {
   disabled: false,
@@ -70,7 +70,7 @@ var schema = import_joi.default.object({
   once: import_joi.default.bool().required()
 });
 
-// src/events/Event.ts
+// src/JellyCommands/events/Event.ts
 var import_ghoststools2 = __toModule(require("ghoststools"));
 var Event = class {
   constructor(name, run, options) {
@@ -92,7 +92,7 @@ var createEvent = /* @__PURE__ */ __name((name, options) => {
   return new Event(name, options.run, (0, import_ghoststools2.removeKeys)(options, "run"));
 }, "createEvent");
 
-// src/events/EventManager.ts
+// src/JellyCommands/events/EventManager.ts
 var import_fs2 = __toModule(require("fs"));
 var import_path2 = __toModule(require("path"));
 var EventManager = class {
@@ -148,7 +148,7 @@ var EventManager = class {
 };
 __name(EventManager, "EventManager");
 
-// src/core/options.ts
+// src/JellyCommands/options.ts
 var import_joi2 = __toModule(require("joi"));
 var defaults2 = {
   ignoreBots: true,
@@ -161,7 +161,7 @@ var schema2 = import_joi2.default.object({
   perGuildPrefix: import_joi2.default.bool().required()
 });
 
-// src/core/JellyCommands.ts
+// src/JellyCommands/JellyCommands.ts
 var JellyCommands = class {
   #client;
   #options;

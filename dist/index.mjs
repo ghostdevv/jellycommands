@@ -31,7 +31,7 @@ var readdirJSFiles = /* @__PURE__ */ __name(async (path) => {
   return mapped;
 }, "readdirJSFiles");
 
-// src/events/options.ts
+// src/JellyCommands/events/options.ts
 import Joi from "joi";
 var defaults = {
   disabled: false,
@@ -42,7 +42,7 @@ var schema = Joi.object({
   once: Joi.bool().required()
 });
 
-// src/events/Event.ts
+// src/JellyCommands/events/Event.ts
 import { removeKeys } from "ghoststools";
 var Event = class {
   constructor(name, run, options) {
@@ -64,7 +64,7 @@ var createEvent = /* @__PURE__ */ __name((name, options) => {
   return new Event(name, options.run, removeKeys(options, "run"));
 }, "createEvent");
 
-// src/events/EventManager.ts
+// src/JellyCommands/events/EventManager.ts
 import { lstatSync } from "fs";
 import { parse as parse2 } from "path";
 var EventManager = class {
@@ -120,7 +120,7 @@ var EventManager = class {
 };
 __name(EventManager, "EventManager");
 
-// src/core/options.ts
+// src/JellyCommands/options.ts
 import Joi2 from "joi";
 var defaults2 = {
   ignoreBots: true,
@@ -133,7 +133,7 @@ var schema2 = Joi2.object({
   perGuildPrefix: Joi2.bool().required()
 });
 
-// src/core/JellyCommands.ts
+// src/JellyCommands/JellyCommands.ts
 var JellyCommands = class {
   #client;
   #options;
