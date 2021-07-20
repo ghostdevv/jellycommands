@@ -6,3 +6,4 @@ export type { JellyCommandsOptions } from './JellyCommands/options';
 export { createEvent } from './JellyCommands/events/Event';
 
 // Export command related
+export { createCommand } from './JellyCommands/commands/Command';
