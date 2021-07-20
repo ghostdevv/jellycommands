@@ -1,4 +1,4 @@
-import { EventManager } from './events/EventManager';
+import { EventManager } from './managers/EventManager';
 import { defaults, schema } from './options';
 
 import type { JellyCommandsOptions } from './options';

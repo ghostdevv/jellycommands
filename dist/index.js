@@ -29,8 +29,10 @@ __export(exports, {
   createEvent: () => createEvent
 });
 
-// src/util/fs.ts
+// src/JellyCommands/managers/BaseManager.ts
 var import_ghoststools = __toModule(require("ghoststools"));
+
+// src/util/fs.ts
 var import_path = __toModule(require("path"));
 var resolveImport = /* @__PURE__ */ __name((imp) => {
   imp = Object.assign({}, imp);
@@ -43,21 +45,37 @@ var readJSFile = /* @__PURE__ */ __name(async (path) => {
   const data = await import((0, import_path.resolve)(path));
   return resolveImport(data);
 }, "readJSFile");
-var readdirJSFiles = /* @__PURE__ */ __name(async (path) => {
-  const files = (0, import_ghoststools.readdirRecursive)(path);
-  const mapped = [];
-  for (const path2 of files) {
-    const { ext } = (0, import_path.parse)(path2);
-    if (![".js", ".mjs", ".cjs"].includes(ext))
-      continue;
-    const data = await readJSFile(path2);
-    mapped.push({
-      path: path2,
-      data
-    });
+
+// src/JellyCommands/managers/BaseManager.ts
+var import_path2 = __toModule(require("path"));
+var import_fs2 = __toModule(require("fs"));
+var BaseManager = class {
+  constructor() {
   }
-  return mapped;
-}, "readdirJSFiles");
+  load(path) {
+    path = (0, import_path2.resolve)((0, import_ghoststools.posixify)(path));
+    const isDirectory = (0, import_fs2.lstatSync)(path).isDirectory();
+    return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
+  }
+  async loadFile(path) {
+    const { ext } = (0, import_path2.parse)(path);
+    if (![".js", ".mjs", ".cjs"].includes(ext))
+      throw new Error(`${path} is not a JS file`);
+    const item = await readJSFile(path);
+    this.add(item, path);
+    return item;
+  }
+  async loadDirectory(path) {
+    const paths = (0, import_ghoststools.readdirRecursive)(path);
+    const items = [];
+    for (const path2 of paths) {
+      const item = await this.loadFile(path2);
+      items.push(item);
+    }
+    return items;
+  }
+};
+__name(BaseManager, "BaseManager");
 
 // src/JellyCommands/events/options.ts
 var import_joi = __toModule(require("joi"));
@@ -92,58 +110,25 @@ var createEvent = /* @__PURE__ */ __name((name, options) => {
   return new Event(name, options.run, (0, import_ghoststools2.removeKeys)(options, "run"));
 }, "createEvent");
 
-// src/JellyCommands/events/EventManager.ts
-var import_fs2 = __toModule(require("fs"));
-var import_path2 = __toModule(require("path"));
-var EventManager = class {
+// src/JellyCommands/managers/EventManager.ts
+var EventManager = class extends BaseManager {
   constructor(jelly) {
+    super();
     this.loadedPaths = new Set();
     this.jelly = jelly;
     this.client = jelly.client;
   }
-  add(event) {
+  add(event, path) {
+    if (this.loadedPaths.has(path))
+      throw new Error(`The path ${path} has already been loaded, therefore can not be loaded again`);
+    this.loadedPaths.add(path);
+    if (!(event instanceof Event))
+      throw new Error(`Expected instance of Event, recieved ${typeof event}`);
     const cb = /* @__PURE__ */ __name((...ctx) => event.run(...ctx, { client: this.client, jelly: this.jelly }), "cb");
     if (event.options.once)
       this.client.once(event.name, cb);
     else
       this.client.on(event.name, cb);
-  }
-  addPath(path) {
-    if (this.loadedPaths.has(path))
-      throw new Error(`The path ${path} has already been loaded, please do not attempt to load it twice`);
-    else
-      this.loadedPaths.add(path);
-  }
-  load(path) {
-    const isDirectory = (0, import_fs2.lstatSync)(path).isDirectory();
-    return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
-  }
-  async loadFile(path) {
-    const { ext } = (0, import_path2.parse)(path);
-    if (![".js", ".mjs", ".cjs"].includes(ext))
-      throw new Error(`${path} is not a JS file`);
-    const event = await readJSFile(path);
-    if (!(event instanceof Event))
-      throw new TypeError(`Expected instance of Event for ${path}, recieved ${typeof event}`);
-    if (event.options.disabled)
-      return;
-    this.addPath(path);
-    this.add(event);
-    return event;
-  }
-  async loadDirectory(path) {
-    const paths = await readdirJSFiles(path);
-    const events = [];
-    for (const { path: path2, data: event } of paths) {
-      if (!(event instanceof Event))
-        throw new TypeError(`Expected instance of Event for ${path2}, recieved ${typeof event}`);
-      if (event.options.disabled)
-        continue;
-      this.addPath(path2);
-      this.add(event);
-      events.push(event);
-    }
-    return events;
   }
 };
 __name(EventManager, "EventManager");

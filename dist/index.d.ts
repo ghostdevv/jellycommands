@@ -1,5 +1,13 @@
 import { ClientEvents, Client } from 'discord.js';
 
+declare abstract class BaseManager<ManagerTarget> {
+    constructor();
+    protected abstract add(item: ManagerTarget, path: string): void;
+    load(path: string): Promise<ManagerTarget[]> | Promise<ManagerTarget>;
+    loadFile(path: string): Promise<ManagerTarget>;
+    loadDirectory(path: string): Promise<ManagerTarget[]>;
+}
+
 declare const defaults$1: {
     disabled: boolean;
     once: boolean;
@@ -21,16 +29,12 @@ declare const createEvent: <K extends keyof ClientEvents>(name: K, options: Part
     }, ...args: ClientEvents[K]) => void | any;
 }) => Event;
 
-declare class EventManager {
+declare class EventManager extends BaseManager<Event> {
     private client;
     private jelly;
     private loadedPaths;
     constructor(jelly: JellyCommands);
-    private add;
-    private addPath;
-    load(path: string): Promise<Event[]> | Promise<Event | undefined>;
-    loadFile(path: string): Promise<Event | undefined>;
-    loadDirectory(path: string): Promise<Event[]>;
+    protected add(event: Event, path: string): void;
 }
 
 declare const defaults: {

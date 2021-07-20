@@ -1,9 +1,11 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
+// src/JellyCommands/managers/BaseManager.ts
+import { readdirRecursive, posixify } from "ghoststools";
+
 // src/util/fs.ts
-import { readdirRecursive } from "ghoststools";
-import { resolve, parse } from "path";
+import { resolve } from "path";
 var resolveImport = /* @__PURE__ */ __name((imp) => {
   imp = Object.assign({}, imp);
   if (imp.default && Object.keys(imp).length == 1)
@@ -15,21 +17,37 @@ var readJSFile = /* @__PURE__ */ __name(async (path) => {
   const data = await import(resolve(path));
   return resolveImport(data);
 }, "readJSFile");
-var readdirJSFiles = /* @__PURE__ */ __name(async (path) => {
-  const files = readdirRecursive(path);
-  const mapped = [];
-  for (const path2 of files) {
-    const { ext } = parse(path2);
-    if (![".js", ".mjs", ".cjs"].includes(ext))
-      continue;
-    const data = await readJSFile(path2);
-    mapped.push({
-      path: path2,
-      data
-    });
+
+// src/JellyCommands/managers/BaseManager.ts
+import { parse, resolve as resolve2 } from "path";
+import { lstatSync } from "fs";
+var BaseManager = class {
+  constructor() {
   }
-  return mapped;
-}, "readdirJSFiles");
+  load(path) {
+    path = resolve2(posixify(path));
+    const isDirectory = lstatSync(path).isDirectory();
+    return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
+  }
+  async loadFile(path) {
+    const { ext } = parse(path);
+    if (![".js", ".mjs", ".cjs"].includes(ext))
+      throw new Error(`${path} is not a JS file`);
+    const item = await readJSFile(path);
+    this.add(item, path);
+    return item;
+  }
+  async loadDirectory(path) {
+    const paths = readdirRecursive(path);
+    const items = [];
+    for (const path2 of paths) {
+      const item = await this.loadFile(path2);
+      items.push(item);
+    }
+    return items;
+  }
+};
+__name(BaseManager, "BaseManager");
 
 // src/JellyCommands/events/options.ts
 import Joi from "joi";
@@ -64,58 +82,25 @@ var createEvent = /* @__PURE__ */ __name((name, options) => {
   return new Event(name, options.run, removeKeys(options, "run"));
 }, "createEvent");
 
-// src/JellyCommands/events/EventManager.ts
-import { lstatSync } from "fs";
-import { parse as parse2 } from "path";
-var EventManager = class {
+// src/JellyCommands/managers/EventManager.ts
+var EventManager = class extends BaseManager {
   constructor(jelly) {
+    super();
     this.loadedPaths = new Set();
     this.jelly = jelly;
     this.client = jelly.client;
   }
-  add(event) {
+  add(event, path) {
+    if (this.loadedPaths.has(path))
+      throw new Error(`The path ${path} has already been loaded, therefore can not be loaded again`);
+    this.loadedPaths.add(path);
+    if (!(event instanceof Event))
+      throw new Error(`Expected instance of Event, recieved ${typeof event}`);
     const cb = /* @__PURE__ */ __name((...ctx) => event.run(...ctx, { client: this.client, jelly: this.jelly }), "cb");
     if (event.options.once)
       this.client.once(event.name, cb);
     else
       this.client.on(event.name, cb);
-  }
-  addPath(path) {
-    if (this.loadedPaths.has(path))
-      throw new Error(`The path ${path} has already been loaded, please do not attempt to load it twice`);
-    else
-      this.loadedPaths.add(path);
-  }
-  load(path) {
-    const isDirectory = lstatSync(path).isDirectory();
-    return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
-  }
-  async loadFile(path) {
-    const { ext } = parse2(path);
-    if (![".js", ".mjs", ".cjs"].includes(ext))
-      throw new Error(`${path} is not a JS file`);
-    const event = await readJSFile(path);
-    if (!(event instanceof Event))
-      throw new TypeError(`Expected instance of Event for ${path}, recieved ${typeof event}`);
-    if (event.options.disabled)
-      return;
-    this.addPath(path);
-    this.add(event);
-    return event;
-  }
-  async loadDirectory(path) {
-    const paths = await readdirJSFiles(path);
-    const events = [];
-    for (const { path: path2, data: event } of paths) {
-      if (!(event instanceof Event))
-        throw new TypeError(`Expected instance of Event for ${path2}, recieved ${typeof event}`);
-      if (event.options.disabled)
-        continue;
-      this.addPath(path2);
-      this.add(event);
-      events.push(event);
-    }
-    return events;
   }
 };
 __name(EventManager, "EventManager");
