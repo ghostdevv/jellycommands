@@ -13,7 +13,7 @@ declare const defaults$2: {
 };
 
 declare class Command {
-    private readonly name;
+    readonly name: string;
     readonly run: Function;
     readonly options: typeof defaults$2;
     constructor(name: string, run: Function, options: Partial<typeof defaults$2>);
@@ -25,8 +25,10 @@ declare const createCommand: (name: string, options: Partial<typeof defaults$2> 
 declare class CommandManager extends BaseManager<Command> {
     private client;
     private jelly;
+    private commands;
     private loadedPaths;
     constructor(jelly: JellyCommands);
+    private onMessage;
     protected add(command: Command, path: string): void;
 }
 

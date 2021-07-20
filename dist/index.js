@@ -119,9 +119,14 @@ var createCommand = /* @__PURE__ */ __name((name, options) => {
 var CommandManager = class extends BaseManager {
   constructor(jelly) {
     super();
+    this.commands = new Map();
     this.loadedPaths = new Set();
     this.jelly = jelly;
     this.client = jelly.client;
+    this.client.on("message", this.onMessage);
+  }
+  onMessage(message) {
+    console.log(message.content);
   }
   add(command, path) {
     if (this.loadedPaths.has(path))
@@ -131,6 +136,7 @@ var CommandManager = class extends BaseManager {
       throw new Error(`Expected instance of Command, recieved ${typeof command}`);
     if (command.options.disabled)
       return;
+    this.commands.set(command.name, command);
   }
 };
 __name(CommandManager, "CommandManager");

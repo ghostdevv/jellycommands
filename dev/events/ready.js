@@ -1,6 +1,6 @@
 import { createEvent } from 'jellycommands';
 
-export default createEvent('ready', {
+export default createEvent('guildMemberAdd', {
     once: true,
 
     run: () => {
