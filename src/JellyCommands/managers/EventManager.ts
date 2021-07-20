@@ -4,7 +4,7 @@ import { Event } from '../events/Event';
 import type { JellyCommands } from '../JellyCommands';
 import type { Client } from 'discord.js';
 
-export class EventManager extends BaseManager<Event> {
+export default class EventManager extends BaseManager<Event> {
     private client: Client;
     private jelly: JellyCommands;
 
