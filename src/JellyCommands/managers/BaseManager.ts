@@ -1,7 +1,7 @@
 import { readdirRecursive, posixify } from 'ghoststools';
+import { lstatSync, existsSync } from 'fs';
 import { readJSFile } from '../../util/fs';
 import { parse, resolve } from 'path';
-import { lstatSync } from 'fs';
 
 export default abstract class BaseManager<ManagerTarget> {
     constructor() {}
@@ -11,11 +11,15 @@ export default abstract class BaseManager<ManagerTarget> {
     load(path: string) {
         path = resolve(posixify(path));
 
+        if (!existsSync(path)) throw new Error(`Path ${path} does not exist`);
+
         const isDirectory = lstatSync(path).isDirectory();
         return isDirectory ? this.loadDirectory(path) : this.loadFile(path);
     }
 
     async loadFile(path: string): Promise<ManagerTarget> {
+        if (!existsSync(path)) throw new Error(`File ${path} does not exist`);
+
         const { ext } = parse(path);
         if (!['.js', '.mjs', '.cjs'].includes(ext))
             throw new Error(`${path} is not a JS file`);
@@ -28,6 +32,9 @@ export default abstract class BaseManager<ManagerTarget> {
     }
 
     async loadDirectory(path: string): Promise<ManagerTarget[]> {
+        if (!existsSync(path))
+            throw new Error(`Directory ${path} does not exist`);
+
         const paths = readdirRecursive(path);
         const items = [];
 
