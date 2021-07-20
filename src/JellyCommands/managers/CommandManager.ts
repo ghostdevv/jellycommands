@@ -2,12 +2,13 @@ import BaseManager from './BaseManager';
 import { Command } from '../commands/Command';
 
 import type { JellyCommands } from '../JellyCommands';
-import type { Client } from 'discord.js';
+import type { Client, Message } from 'discord.js';
 
 export default class CommandManager extends BaseManager<Command> {
     private client: Client;
     private jelly: JellyCommands;
 
+    private commands = new Map<string, Command>();
     private loadedPaths = new Set<string>();
 
     constructor(jelly: JellyCommands) {
@@ -15,6 +16,12 @@ export default class CommandManager extends BaseManager<Command> {
 
         this.jelly = jelly;
         this.client = jelly.client;
+
+        this.client.on('message', this.onMessage);
+    }
+
+    private onMessage(message: Message) {
+        console.log(message.content);
     }
 
     protected add(command: Command, path: string) {
@@ -31,5 +38,7 @@ export default class CommandManager extends BaseManager<Command> {
             );
 
         if (command.options.disabled) return;
+
+        this.commands.set(command.name, command);
     }
 }
