@@ -1,4 +1,4 @@
-import { ClientEvents, Client } from 'discord.js';
+import { Message, ClientEvents, Client } from 'discord.js';
 
 declare abstract class BaseManager<ManagerTarget> {
     constructor();
@@ -10,6 +10,7 @@ declare abstract class BaseManager<ManagerTarget> {
 
 declare const defaults$2: {
     disabled: boolean;
+    allowDM: boolean;
 };
 
 declare class Command {
@@ -17,6 +18,7 @@ declare class Command {
     readonly run: Function;
     readonly options: typeof defaults$2;
     constructor(name: string, run: Function, options: Partial<typeof defaults$2>);
+    check(message: Message): boolean;
 }
 declare const createCommand: (name: string, options: Partial<typeof defaults$2> & {
     run: () => void | any;
@@ -63,24 +65,17 @@ declare class EventManager extends BaseManager<Event> {
 
 declare const defaults: {
     ignoreBots: boolean;
-    defaultPrefix: string;
-    perGuildPrefix: boolean;
+    prefix: string;
 };
-declare type JellyCommandsOptions = Partial<typeof defaults>;
 
 declare class JellyCommands {
-    #private;
+    readonly client: Client;
+    readonly options: typeof defaults;
     private eventManager;
     private commandManager;
-    constructor(client: Client, options?: JellyCommandsOptions);
-    get client(): Client;
-    get options(): Readonly<{
-        ignoreBots?: boolean | undefined;
-        defaultPrefix?: string | undefined;
-        perGuildPrefix?: boolean | undefined;
-    }>;
+    constructor(client: Client, options?: Partial<typeof defaults>);
     get events(): EventManager;
     get commands(): CommandManager;
 }
 
-export { JellyCommands, JellyCommandsOptions, createCommand, createEvent };
+export { JellyCommands, createCommand, createEvent };
