@@ -1,5 +1,5 @@
-import type { JellyCommands } from '../JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
+import type { JellyCommands } from '../JellyCommands';
 import { defaults, schema } from './options';
 import { removeKeys } from 'ghoststools';
 
