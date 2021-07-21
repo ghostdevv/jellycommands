@@ -26,8 +26,8 @@ export default class CommandManager extends BaseManager<Command> {
         if (!message.content.startsWith(prefix)) return;
 
         const commandWord = message.content
-            .split(' ')[0]
             .slice(prefix.length)
+            .split(' ')[0]
             .trim();
 
         // @todo Unkown command message
