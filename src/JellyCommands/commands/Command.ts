@@ -2,12 +2,23 @@ import { defaults, schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 import { Message } from 'discord.js';
 
+import type { JellyCommands } from '../JellyCommands';
+import type { Client } from 'discord.js';
+
 export class Command {
-    public readonly name: string;
-    public readonly run: Function;
+    public readonly name;
+    public readonly run;
     public readonly options: Required<CommandOptions>;
 
-    constructor(name: string, run: Function, options: CommandOptions) {
+    constructor(
+        name: string,
+        run: ({}: {
+            message: Message;
+            jelly: JellyCommands;
+            client: Client;
+        }) => void | any,
+        options: CommandOptions,
+    ) {
         this.name = name;
 
         if (!name || typeof name != 'string')
@@ -47,7 +58,9 @@ export class Command {
 
 export const createCommand = (
     name: string,
-    options: CommandOptions & { run: () => void | any },
+    options: CommandOptions & {
+        run: Command['run'];
+    },
 ) => {
     return new Command(name, options.run, removeKeys(options, 'run'));
 };

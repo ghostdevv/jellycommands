@@ -37,7 +37,13 @@ export default class CommandManager extends BaseManager<Command> {
         if (!command) return;
 
         const check = command.check(message);
-        if (check) command.run();
+
+        if (check)
+            command.run({
+                message,
+                jelly: this.jelly,
+                client: this.client,
+            });
     }
 
     protected add(command: Command, path: string) {
