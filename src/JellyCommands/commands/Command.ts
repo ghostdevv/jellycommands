@@ -1,5 +1,6 @@
 import { defaults, schema } from './options';
 import { removeKeys } from 'ghoststools';
+import { Message } from 'discord.js';
 
 export class Command {
     public readonly name: string;
@@ -31,6 +32,20 @@ export class Command {
 
         if (error) throw error.annotate();
         else this.options = value;
+    }
+
+    public check(message: Message): boolean {
+        if (!message || !(message instanceof Message))
+            throw new TypeError(
+                `Expected type Message, recieved ${typeof message}`,
+            );
+
+        const opt = this.options;
+
+        if (opt.disabled) return false;
+        if (opt.allowDM === false && message.channel.type == 'dm') return false;
+
+        return true;
     }
 }
 

@@ -17,11 +17,27 @@ export default class CommandManager extends BaseManager<Command> {
         this.jelly = jelly;
         this.client = jelly.client;
 
-        this.client.on('message', this.onMessage);
+        this.client.on('message', this.onMessage.bind(this));
     }
 
     private onMessage(message: Message) {
-        console.log(message.content);
+        const { prefix } = this.jelly.options;
+
+        if (!message.content.startsWith(prefix)) return;
+
+        const commandWord = message.content
+            .split(' ')[0]
+            .slice(prefix.length)
+            .trim();
+
+        // @todo Unkown command message
+        if (commandWord.length == 0) return;
+
+        const command = this.commands.get(commandWord);
+        if (!command) return;
+
+        const check = command.check(message);
+        if (check) command.run();
     }
 
     protected add(command: Command, path: string) {
