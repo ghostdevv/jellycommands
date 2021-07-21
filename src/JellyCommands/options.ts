@@ -8,14 +8,6 @@ export const defaults = {
      * Default prefix for the bot.
      */
     defaultPrefix: '!',
-    /**
-     * Set the prefix to global (false) or per guild (true).
-     *
-     * Global prefix means that the same prefix is used in all guilds.
-     *
-     * Per Guild means that each guild can have a different prefix.
-     */
-    perGuildPrefix: false,
 };
 
 export type JellyCommandsOptions = Partial<typeof defaults>;
