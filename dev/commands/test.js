@@ -1,5 +1,9 @@
 import { createCommand } from 'jellycommands';
 
 export default createCommand('test', {
-    run: () => {},
+    allowDM: false,
+
+    run: () => {
+        console.log('hello');
+    },
 });
