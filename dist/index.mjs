@@ -113,7 +113,7 @@ var CommandManager = class extends BaseManager {
     const { prefix } = this.jelly.options;
     if (!message.content.startsWith(prefix))
       return;
-    const commandWord = message.content.split(" ")[0].slice(prefix.length).trim();
+    const commandWord = message.content.slice(prefix.length).split(" ")[0].trim();
     if (commandWord.length == 0)
       return;
     const command = this.commands.get(commandWord);
