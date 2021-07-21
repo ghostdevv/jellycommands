@@ -1,4 +1,4 @@
-import { Message, ClientEvents, Client } from 'discord.js';
+import { Message, Client, ClientEvents } from 'discord.js';
 
 declare const defaults$2: {
     ignoreBots: boolean;
@@ -22,13 +22,21 @@ declare type CommandOptions = Partial<typeof defaults$1>;
 
 declare class Command {
     readonly name: string;
-    readonly run: Function;
+    readonly run: ({}: {
+        message: Message;
+        jelly: JellyCommands;
+        client: Client;
+    }) => void | any;
     readonly options: Required<CommandOptions>;
-    constructor(name: string, run: Function, options: CommandOptions);
+    constructor(name: string, run: ({}: {
+        message: Message;
+        jelly: JellyCommands;
+        client: Client;
+    }) => void | any, options: CommandOptions);
     check(message: Message): boolean;
 }
 declare const createCommand: (name: string, options: CommandOptions & {
-    run: () => void | any;
+    run: Command['run'];
 }) => Command;
 
 declare class CommandManager extends BaseManager<Command> {

@@ -161,7 +161,11 @@ var CommandManager = class extends BaseManager {
       return;
     const check = command.check(message);
     if (check)
-      command.run();
+      command.run({
+        message,
+        jelly: this.jelly,
+        client: this.client
+      });
   }
   add(command, path) {
     if (this.loadedPaths.has(path))
