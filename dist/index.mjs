@@ -174,7 +174,7 @@ __name(EventManager, "EventManager");
 import Joi3 from "joi";
 var defaults3 = {
   ignoreBots: true,
-  defaultPrefix: "?",
+  defaultPrefix: "!",
   perGuildPrefix: false
 };
 var schema3 = Joi3.object({

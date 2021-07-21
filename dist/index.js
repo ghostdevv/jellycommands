@@ -203,7 +203,7 @@ __name(EventManager, "EventManager");
 var import_joi3 = __toModule(require("joi"));
 var defaults3 = {
   ignoreBots: true,
-  defaultPrefix: "?",
+  defaultPrefix: "!",
   perGuildPrefix: false
 };
 var schema3 = import_joi3.default.object({

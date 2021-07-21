@@ -7,7 +7,7 @@ export const defaults = {
     /**
      * Default prefix for the bot.
      */
-    defaultPrefix: '?',
+    defaultPrefix: '!',
     /**
      * Set the prefix to global (false) or per guild (true).
      *
