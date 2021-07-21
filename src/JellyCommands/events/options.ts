@@ -10,6 +10,8 @@ export const defaults = {
     once: false,
 };
 
+export type EventOptions = Partial<typeof defaults>;
+
 import Joi from 'joi';
 
 export const schema = Joi.object({

@@ -1,17 +1,17 @@
+import { defaults, schema, JellyCommandsOptions } from './options';
 import CommandManager from './managers/CommandManager';
 import EventManager from './managers/EventManager';
-import { defaults, schema } from './options';
 
 import type { Client } from 'discord.js';
 
 export class JellyCommands {
     public readonly client: Client;
-    public readonly options: typeof defaults;
+    public readonly options: Required<JellyCommandsOptions>;
 
     private eventManager: EventManager;
     private commandManager: CommandManager;
 
-    constructor(client: Client, options: Partial<typeof defaults> = {}) {
+    constructor(client: Client, options: JellyCommandsOptions = {}) {
         if (!client)
             throw new SyntaxError(
                 'Expected a instance of Discord.Client, recieved none',

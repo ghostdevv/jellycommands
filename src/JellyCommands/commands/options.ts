@@ -10,6 +10,8 @@ export const defaults = {
     allowDM: false,
 };
 
+export type CommandOptions = Partial<typeof defaults>;
+
 import Joi from 'joi';
 
 export const schema = Joi.object({

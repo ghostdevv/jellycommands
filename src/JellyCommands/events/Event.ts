@@ -1,17 +1,17 @@
+import { defaults, schema, EventOptions } from './options';
 import type { Client, ClientEvents } from 'discord.js';
 import type { JellyCommands } from '../JellyCommands';
-import { defaults, schema } from './options';
 import { removeKeys } from 'ghoststools';
 
 export class Event {
     public readonly name: keyof ClientEvents;
     public readonly run: Function;
-    public readonly options: typeof defaults;
+    public readonly options: Required<EventOptions>;
 
     constructor(
         name: keyof ClientEvents,
         run: Function,
-        options: Partial<typeof defaults>,
+        options: EventOptions,
     ) {
         this.name = name;
 
@@ -38,7 +38,7 @@ export class Event {
 
 export const createEvent = <K extends keyof ClientEvents>(
     name: K,
-    options: Partial<typeof defaults> & {
+    options: EventOptions & {
         run: (
             instance: { client: Client; jelly: JellyCommands },
             ...args: ClientEvents[K]

@@ -10,6 +10,8 @@ export const defaults = {
     prefix: '!',
 };
 
+export type JellyCommandsOptions = Partial<typeof defaults>;
+
 import Joi from 'joi';
 
 export const schema = Joi.object({

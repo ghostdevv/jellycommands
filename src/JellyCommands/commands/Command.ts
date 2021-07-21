@@ -1,17 +1,13 @@
-import { defaults, schema } from './options';
+import { defaults, schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 import { Message } from 'discord.js';
 
 export class Command {
     public readonly name: string;
     public readonly run: Function;
-    public readonly options: typeof defaults;
+    public readonly options: Required<CommandOptions>;
 
-    constructor(
-        name: string,
-        run: Function,
-        options: Partial<typeof defaults>,
-    ) {
+    constructor(name: string, run: Function, options: CommandOptions) {
         this.name = name;
 
         if (!name || typeof name != 'string')
@@ -51,7 +47,7 @@ export class Command {
 
 export const createCommand = (
     name: string,
-    options: Partial<typeof defaults> & { run: () => void | any },
+    options: CommandOptions & { run: () => void | any },
 ) => {
     return new Command(name, options.run, removeKeys(options, 'run'));
 };
