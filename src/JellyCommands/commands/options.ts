@@ -14,4 +14,5 @@ import Joi from 'joi';
 
 export const schema = Joi.object({
     disabled: Joi.bool().required(),
+    allowDM: Joi.bool().required(),
 });
