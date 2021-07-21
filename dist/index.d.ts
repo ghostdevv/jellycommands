@@ -1,5 +1,11 @@
 import { Message, ClientEvents, Client } from 'discord.js';
 
+declare const defaults$2: {
+    ignoreBots: boolean;
+    prefix: string;
+};
+declare type JellyCommandsOptions = Partial<typeof defaults$2>;
+
 declare abstract class BaseManager<ManagerTarget> {
     constructor();
     protected abstract add(item: ManagerTarget, path: string): void;
@@ -8,19 +14,20 @@ declare abstract class BaseManager<ManagerTarget> {
     loadDirectory(path: string): Promise<ManagerTarget[]>;
 }
 
-declare const defaults$2: {
+declare const defaults$1: {
     disabled: boolean;
     allowDM: boolean;
 };
+declare type CommandOptions = Partial<typeof defaults$1>;
 
 declare class Command {
     readonly name: string;
     readonly run: Function;
-    readonly options: typeof defaults$2;
-    constructor(name: string, run: Function, options: Partial<typeof defaults$2>);
+    readonly options: Required<CommandOptions>;
+    constructor(name: string, run: Function, options: CommandOptions);
     check(message: Message): boolean;
 }
-declare const createCommand: (name: string, options: Partial<typeof defaults$2> & {
+declare const createCommand: (name: string, options: CommandOptions & {
     run: () => void | any;
 }) => Command;
 
@@ -34,16 +41,17 @@ declare class CommandManager extends BaseManager<Command> {
     protected add(command: Command, path: string): void;
 }
 
-declare const defaults$1: {
+declare const defaults: {
     disabled: boolean;
     once: boolean;
 };
+declare type EventOptions = Partial<typeof defaults>;
 
 declare class Event {
     readonly name: keyof ClientEvents;
     readonly run: Function;
-    readonly options: typeof defaults$1;
-    constructor(name: keyof ClientEvents, run: Function, options: Partial<typeof defaults$1>);
+    readonly options: Required<EventOptions>;
+    constructor(name: keyof ClientEvents, run: Function, options: EventOptions);
 }
 declare const createEvent: <K extends keyof ClientEvents>(name: K, options: Partial<{
     disabled: boolean;
@@ -63,19 +71,14 @@ declare class EventManager extends BaseManager<Event> {
     protected add(event: Event, path: string): void;
 }
 
-declare const defaults: {
-    ignoreBots: boolean;
-    prefix: string;
-};
-
 declare class JellyCommands {
     readonly client: Client;
-    readonly options: typeof defaults;
+    readonly options: Required<JellyCommandsOptions>;
     private eventManager;
     private commandManager;
-    constructor(client: Client, options?: Partial<typeof defaults>);
+    constructor(client: Client, options?: JellyCommandsOptions);
     get events(): EventManager;
     get commands(): CommandManager;
 }
 
-export { JellyCommands, createCommand, createEvent };
+export { CommandOptions, EventOptions, JellyCommands, JellyCommandsOptions, createCommand, createEvent };

@@ -30,6 +30,17 @@ __export(exports, {
   createEvent: () => createEvent
 });
 
+// src/JellyCommands/options.ts
+var import_joi = __toModule(require("joi"));
+var defaults = {
+  ignoreBots: true,
+  prefix: "!"
+};
+var schema = import_joi.default.object({
+  ignoreBots: import_joi.default.bool().required(),
+  prefix: import_joi.default.string().min(1).max(64).required()
+});
+
 // src/JellyCommands/managers/BaseManager.ts
 var import_ghoststools = __toModule(require("ghoststools"));
 var import_fs = __toModule(require("fs"));
@@ -85,14 +96,14 @@ var BaseManager = class {
 __name(BaseManager, "BaseManager");
 
 // src/JellyCommands/commands/options.ts
-var import_joi = __toModule(require("joi"));
-var defaults = {
+var import_joi2 = __toModule(require("joi"));
+var defaults2 = {
   disabled: false,
   allowDM: false
 };
-var schema = import_joi.default.object({
-  disabled: import_joi.default.bool().required(),
-  allowDM: import_joi.default.bool().required()
+var schema2 = import_joi2.default.object({
+  disabled: import_joi2.default.bool().required(),
+  allowDM: import_joi2.default.bool().required()
 });
 
 // src/JellyCommands/commands/Command.ts
@@ -106,7 +117,7 @@ var Command = class {
     this.run = run;
     if (!run || typeof run != "function")
       throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema.validate(Object.assign(defaults, options));
+    const { error, value } = schema2.validate(Object.assign(defaults2, options));
     if (error)
       throw error.annotate();
     else
@@ -166,14 +177,14 @@ var CommandManager = class extends BaseManager {
 __name(CommandManager, "CommandManager");
 
 // src/JellyCommands/events/options.ts
-var import_joi2 = __toModule(require("joi"));
-var defaults2 = {
+var import_joi3 = __toModule(require("joi"));
+var defaults3 = {
   disabled: false,
   once: false
 };
-var schema2 = import_joi2.default.object({
-  disabled: import_joi2.default.bool().required(),
-  once: import_joi2.default.bool().required()
+var schema3 = import_joi3.default.object({
+  disabled: import_joi3.default.bool().required(),
+  once: import_joi3.default.bool().required()
 });
 
 // src/JellyCommands/events/Event.ts
@@ -186,7 +197,7 @@ var Event = class {
     this.run = run;
     if (!run || typeof run != "function")
       throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema2.validate(Object.assign(defaults2, options));
+    const { error, value } = schema3.validate(Object.assign(defaults3, options));
     if (error)
       throw error.annotate();
     else
@@ -223,24 +234,13 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
-// src/JellyCommands/options.ts
-var import_joi3 = __toModule(require("joi"));
-var defaults3 = {
-  ignoreBots: true,
-  prefix: "!"
-};
-var schema3 = import_joi3.default.object({
-  ignoreBots: import_joi3.default.bool().required(),
-  prefix: import_joi3.default.string().min(1).max(64).required()
-});
-
 // src/JellyCommands/JellyCommands.ts
 var JellyCommands = class {
   constructor(client, options = {}) {
     if (!client)
       throw new SyntaxError("Expected a instance of Discord.Client, recieved none");
     this.client = client;
-    const { error, value } = schema3.validate(Object.assign(defaults3, options));
+    const { error, value } = schema.validate(Object.assign(defaults, options));
     if (error)
       throw error.annotate();
     else

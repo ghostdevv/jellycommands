@@ -1,6 +1,17 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
+// src/JellyCommands/options.ts
+import Joi from "joi";
+var defaults = {
+  ignoreBots: true,
+  prefix: "!"
+};
+var schema = Joi.object({
+  ignoreBots: Joi.bool().required(),
+  prefix: Joi.string().min(1).max(64).required()
+});
+
 // src/JellyCommands/managers/BaseManager.ts
 import { readdirRecursive, posixify } from "ghoststools";
 import { lstatSync, existsSync } from "fs";
@@ -56,14 +67,14 @@ var BaseManager = class {
 __name(BaseManager, "BaseManager");
 
 // src/JellyCommands/commands/options.ts
-import Joi from "joi";
-var defaults = {
+import Joi2 from "joi";
+var defaults2 = {
   disabled: false,
   allowDM: false
 };
-var schema = Joi.object({
-  disabled: Joi.bool().required(),
-  allowDM: Joi.bool().required()
+var schema2 = Joi2.object({
+  disabled: Joi2.bool().required(),
+  allowDM: Joi2.bool().required()
 });
 
 // src/JellyCommands/commands/Command.ts
@@ -77,7 +88,7 @@ var Command = class {
     this.run = run;
     if (!run || typeof run != "function")
       throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema.validate(Object.assign(defaults, options));
+    const { error, value } = schema2.validate(Object.assign(defaults2, options));
     if (error)
       throw error.annotate();
     else
@@ -137,14 +148,14 @@ var CommandManager = class extends BaseManager {
 __name(CommandManager, "CommandManager");
 
 // src/JellyCommands/events/options.ts
-import Joi2 from "joi";
-var defaults2 = {
+import Joi3 from "joi";
+var defaults3 = {
   disabled: false,
   once: false
 };
-var schema2 = Joi2.object({
-  disabled: Joi2.bool().required(),
-  once: Joi2.bool().required()
+var schema3 = Joi3.object({
+  disabled: Joi3.bool().required(),
+  once: Joi3.bool().required()
 });
 
 // src/JellyCommands/events/Event.ts
@@ -157,7 +168,7 @@ var Event = class {
     this.run = run;
     if (!run || typeof run != "function")
       throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema2.validate(Object.assign(defaults2, options));
+    const { error, value } = schema3.validate(Object.assign(defaults3, options));
     if (error)
       throw error.annotate();
     else
@@ -194,24 +205,13 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
-// src/JellyCommands/options.ts
-import Joi3 from "joi";
-var defaults3 = {
-  ignoreBots: true,
-  prefix: "!"
-};
-var schema3 = Joi3.object({
-  ignoreBots: Joi3.bool().required(),
-  prefix: Joi3.string().min(1).max(64).required()
-});
-
 // src/JellyCommands/JellyCommands.ts
 var JellyCommands = class {
   constructor(client, options = {}) {
     if (!client)
       throw new SyntaxError("Expected a instance of Discord.Client, recieved none");
     this.client = client;
-    const { error, value } = schema3.validate(Object.assign(defaults3, options));
+    const { error, value } = schema.validate(Object.assign(defaults, options));
     if (error)
       throw error.annotate();
     else
