@@ -7,12 +7,12 @@ export const defaults = {
     /**
      * Default prefix for the bot.
      */
-    defaultPrefix: '!',
+    prefix: '!',
 };
 
 import Joi from 'joi';
 
 export const schema = Joi.object({
     ignoreBots: Joi.bool().required(),
-    defaultPrefix: Joi.string().min(1).max(64).required(),
+    prefix: Joi.string().min(1).max(64).required(),
 });
