@@ -25,11 +25,6 @@ export default class EventManager extends BaseManager<Event> {
 
         this.loadedPaths.add(path);
 
-        if (!(event instanceof Event))
-            throw new Error(
-                `Expected instance of Event, recieved ${typeof event}`,
-            );
-
         if (event.options.disabled) return;
 
         const cb = (...ctx: any[]) =>
