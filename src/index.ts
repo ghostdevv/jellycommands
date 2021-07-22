@@ -3,6 +3,7 @@ export { JellyCommands } from './JellyCommands/JellyCommands';
 export type {
     JellyCommandsOptions,
     JellyCommandsOptionsMessage,
+    FullJellyCommandsOptions,
 } from './JellyCommands/options';
 
 // Export event related
