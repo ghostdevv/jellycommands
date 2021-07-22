@@ -118,7 +118,7 @@ var CommandManager = class extends BaseManager {
       return;
     const command = this.commands.get(commandWord);
     if (!command)
-      return message.channel.send(JellyCommands.resolveMessageObject(messages.unkownCommand.message));
+      return message.channel.send(JellyCommands.resolveMessageObject(messages.unkownCommand));
     const check = command.check(message);
     if (check)
       command.run({
@@ -206,18 +206,12 @@ var defaults3 = {
   prefix: "!",
   messages: {
     unkownCommand: {
-      reply: false,
-      message: {
-        description: "Unkown Command",
-        color: "#A8A7A7"
-      }
+      description: "Unkown Command",
+      color: "#A8A7A7"
     }
   }
 };
-var messageSchema = Joi3.object({
-  reply: Joi3.bool().required(),
-  message: Joi3.alternatives().try(Joi3.string(), Joi3.object().instance(MessageEmbed), Joi3.object())
-});
+var messageSchema = Joi3.alternatives().try(Joi3.string(), Joi3.object().instance(MessageEmbed), Joi3.object());
 var schema3 = Joi3.object({
   ignoreBots: Joi3.bool().required(),
   prefix: Joi3.string().min(1).max(64).required(),

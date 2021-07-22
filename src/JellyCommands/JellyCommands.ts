@@ -34,7 +34,7 @@ export class JellyCommands {
     }
 
     static resolveMessageObject(
-        item: JellyCommandsOptionsMessage['message'],
+        item: JellyCommandsOptionsMessage,
     ): MessageOptions {
         if (typeof item == 'string') return { content: item };
         if (item instanceof MessageEmbed) return { embed: item };

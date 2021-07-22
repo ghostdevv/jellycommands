@@ -81,10 +81,7 @@ declare const defaults: {
     };
 };
 declare type FullJellyCommandsOptions = typeof defaults;
-interface JellyCommandsOptionsMessage {
-    reply?: boolean;
-    message: string | MessageEmbed | MessageEmbedOptions;
-}
+declare type JellyCommandsOptionsMessage = string | MessageEmbed | MessageEmbedOptions;
 interface JellyCommandsOptions {
     ignoreBots?: boolean;
     prefix?: string;
@@ -99,7 +96,7 @@ declare class JellyCommands {
     private eventManager;
     private commandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
-    static resolveMessageObject(item: JellyCommandsOptionsMessage['message']): MessageOptions;
+    static resolveMessageObject(item: JellyCommandsOptionsMessage): MessageOptions;
     get events(): EventManager;
     get commands(): CommandManager;
 }
