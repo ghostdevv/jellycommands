@@ -76,6 +76,7 @@ declare class EventManager extends BaseManager<Event> {
 declare const defaults: {
     ignoreBots: boolean;
     prefix: string;
+    baseEmbed: MessageEmbed | MessageEmbedOptions;
     messages: {
         unkownCommand: Required<JellyCommandsOptionsMessage>;
     };
@@ -85,6 +86,7 @@ declare type JellyCommandsOptionsMessage = string | MessageEmbed | MessageEmbedO
 interface JellyCommandsOptions {
     ignoreBots?: boolean;
     prefix?: string;
+    baseEmbed?: MessageEmbed | MessageEmbedOptions;
     messages?: {
         unkownCommand?: JellyCommandsOptionsMessage;
     };

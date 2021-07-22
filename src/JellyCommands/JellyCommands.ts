@@ -27,7 +27,20 @@ export class JellyCommands {
         );
 
         if (error) throw error.annotate();
-        else this.options = value;
+
+        const opt: FullJellyCommandsOptions = value;
+
+        for (const [key, value] of Object.entries(opt.messages)) {
+            if (typeof value == 'object') {
+                // @ts-ignore
+                opt.messages[key] = {
+                    ...(value as object),
+                    ...opt.baseEmbed,
+                };
+            }
+        }
+
+        this.options = opt;
 
         this.eventManager = new EventManager(this);
         this.commandManager = new CommandManager(this);

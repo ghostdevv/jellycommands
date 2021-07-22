@@ -12,6 +12,13 @@ export const defaults = {
     prefix: '!',
 
     /**
+     * The base embed will be applied to all embeds so you don't have to customise it every time
+     */
+    baseEmbed: {
+        color: 'RANDOM',
+    } as MessageEmbed | MessageEmbedOptions,
+
+    /**
      * Customisable responses
      */
     messages: {
@@ -20,7 +27,6 @@ export const defaults = {
          */
         unkownCommand: {
             description: 'Unkown Command',
-            color: '#A8A7A7',
         } as Required<JellyCommandsOptionsMessage>,
     },
 };
@@ -35,6 +41,8 @@ export type JellyCommandsOptionsMessage =
 export interface JellyCommandsOptions {
     ignoreBots?: boolean;
     prefix?: string;
+
+    baseEmbed?: MessageEmbed | MessageEmbedOptions;
 
     messages?: {
         unkownCommand?: JellyCommandsOptionsMessage;
@@ -52,6 +60,11 @@ const messageSchema = Joi.alternatives().try(
 export const schema = Joi.object({
     ignoreBots: Joi.bool().required(),
     prefix: Joi.string().min(1).max(64).required(),
+
+    baseEmbed: Joi.alternatives().try(
+        Joi.object().instance(MessageEmbed),
+        Joi.object(),
+    ),
 
     messages: Joi.object({
         unkownCommand: messageSchema.required(),

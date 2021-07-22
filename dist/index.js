@@ -235,10 +235,12 @@ var import_joi3 = __toModule(require("joi"));
 var defaults3 = {
   ignoreBots: true,
   prefix: "!",
+  baseEmbed: {
+    color: "RANDOM"
+  },
   messages: {
     unkownCommand: {
-      description: "Unkown Command",
-      color: "#A8A7A7"
+      description: "Unkown Command"
     }
   }
 };
@@ -246,6 +248,7 @@ var messageSchema = import_joi3.default.alternatives().try(import_joi3.default.s
 var schema3 = import_joi3.default.object({
   ignoreBots: import_joi3.default.bool().required(),
   prefix: import_joi3.default.string().min(1).max(64).required(),
+  baseEmbed: import_joi3.default.alternatives().try(import_joi3.default.object().instance(import_discord2.MessageEmbed), import_joi3.default.object()),
   messages: import_joi3.default.object({
     unkownCommand: messageSchema.required()
   }).required()
@@ -261,8 +264,16 @@ var JellyCommands = class {
     const { error, value } = schema3.validate(Object.assign(defaults3, options));
     if (error)
       throw error.annotate();
-    else
-      this.options = value;
+    const opt = value;
+    for (const [key, value2] of Object.entries(opt.messages)) {
+      if (typeof value2 == "object") {
+        opt.messages[key] = {
+          ...value2,
+          ...opt.baseEmbed
+        };
+      }
+    }
+    this.options = opt;
     this.eventManager = new EventManager(this);
     this.commandManager = new CommandManager(this);
   }

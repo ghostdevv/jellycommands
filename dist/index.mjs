@@ -204,10 +204,12 @@ import Joi3 from "joi";
 var defaults3 = {
   ignoreBots: true,
   prefix: "!",
+  baseEmbed: {
+    color: "RANDOM"
+  },
   messages: {
     unkownCommand: {
-      description: "Unkown Command",
-      color: "#A8A7A7"
+      description: "Unkown Command"
     }
   }
 };
@@ -215,6 +217,7 @@ var messageSchema = Joi3.alternatives().try(Joi3.string(), Joi3.object().instanc
 var schema3 = Joi3.object({
   ignoreBots: Joi3.bool().required(),
   prefix: Joi3.string().min(1).max(64).required(),
+  baseEmbed: Joi3.alternatives().try(Joi3.object().instance(MessageEmbed), Joi3.object()),
   messages: Joi3.object({
     unkownCommand: messageSchema.required()
   }).required()
@@ -230,8 +233,16 @@ var JellyCommands = class {
     const { error, value } = schema3.validate(Object.assign(defaults3, options));
     if (error)
       throw error.annotate();
-    else
-      this.options = value;
+    const opt = value;
+    for (const [key, value2] of Object.entries(opt.messages)) {
+      if (typeof value2 == "object") {
+        opt.messages[key] = {
+          ...value2,
+          ...opt.baseEmbed
+        };
+      }
+    }
+    this.options = opt;
     this.eventManager = new EventManager(this);
     this.commandManager = new CommandManager(this);
   }
