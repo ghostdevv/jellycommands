@@ -245,7 +245,7 @@ var JellyCommands = class {
     const baseEmbed = this.options.baseEmbed;
     if (typeof item == "string")
       return { content: item };
-    else if (item instanceof MessageEmbed2)
+    if (item instanceof MessageEmbed2)
       return {
         embed: new MessageEmbed2({
           ...baseEmbed,
