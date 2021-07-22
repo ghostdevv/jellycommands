@@ -98,7 +98,7 @@ declare class JellyCommands {
     readonly events: EventManager;
     readonly commands: CommandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
-    static resolveMessageObject(item: JellyCommandsOptionsMessage): MessageOptions;
+    resolveMessageOptions(item: JellyCommandsOptionsMessage): MessageOptions;
 }
 
 export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, JellyCommandsOptionsMessage, createCommand, createEvent };

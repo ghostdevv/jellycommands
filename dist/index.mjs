@@ -107,7 +107,7 @@ var CommandManager = class extends BaseManager {
     this.loadedPaths = new Set();
     this.jelly = jelly;
     this.client = jelly.client;
-    this.client.on("message", this.onMessage.bind(this));
+    this.client.on("message", (m) => this.onMessage(m));
   }
   onMessage(message) {
     const { prefix, messages } = this.jelly.options;
@@ -118,7 +118,7 @@ var CommandManager = class extends BaseManager {
       return;
     const command = this.commands.get(commandWord);
     if (!command)
-      return message.channel.send(JellyCommands.resolveMessageObject(messages.unkownCommand));
+      return message.channel.send(this.jelly.resolveMessageOptions(messages.unkownCommand));
     const check = command.check(message);
     if (check)
       command.run({
@@ -241,12 +241,18 @@ var JellyCommands = class {
     this.events = new EventManager(this);
     this.commands = new CommandManager(this);
   }
-  static resolveMessageObject(item) {
+  resolveMessageOptions(item) {
+    const baseEmbed = this.options.baseEmbed;
     if (typeof item == "string")
       return { content: item };
-    if (item instanceof MessageEmbed2)
-      return { embed: item };
-    return { embed: item };
+    else if (item instanceof MessageEmbed2)
+      return {
+        embed: new MessageEmbed2({
+          ...baseEmbed,
+          ...item.toJSON()
+        })
+      };
+    return { embed: { ...baseEmbed, ...item } };
   }
 };
 __name(JellyCommands, "JellyCommands");
