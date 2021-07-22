@@ -84,7 +84,7 @@ var import_fs = __toModule(require("fs"));
 var import_path = __toModule(require("path"));
 var resolveImport = /* @__PURE__ */ __name((imp) => {
   imp = Object.assign({}, imp);
-  if (imp.default && Object.keys(imp).length == 1)
+  if (imp?.__esmodule || imp.default && Object.keys(imp).length == 1)
     return imp.default;
   delete imp.default;
   return imp;

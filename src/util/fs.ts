@@ -4,7 +4,11 @@ import { resolve } from 'path';
 export const resolveImport = (imp: { default?: any }) => {
     imp = Object.assign({}, imp);
 
-    if (imp.default && Object.keys(imp).length == 1) return imp.default;
+    if (
+        (imp as { __esmodule?: boolean })?.__esmodule ||
+        (imp.default && Object.keys(imp).length == 1)
+    )
+        return imp.default;
 
     delete imp.default;
     return imp;
