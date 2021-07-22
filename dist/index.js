@@ -119,7 +119,7 @@ var BaseManager = class {
   async loadDirectory(path) {
     if (!(0, import_fs.existsSync)(path))
       throw new Error(`Directory ${path} does not exist`);
-    const paths = (0, import_ghoststools2.readdirRecursive)(path);
+    const paths = (0, import_ghoststools2.readdirRecursive)(path).filter((p) => [".js", ".mjs", ".cjs"].includes((0, import_path2.parse)(p).ext));
     const items = [];
     for (const path2 of paths) {
       const item = await this.loadFile(path2);

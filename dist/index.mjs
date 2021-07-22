@@ -88,7 +88,7 @@ var BaseManager = class {
   async loadDirectory(path) {
     if (!existsSync(path))
       throw new Error(`Directory ${path} does not exist`);
-    const paths = readdirRecursive(path);
+    const paths = readdirRecursive(path).filter((p) => [".js", ".mjs", ".cjs"].includes(parse(p).ext));
     const items = [];
     for (const path2 of paths) {
       const item = await this.loadFile(path2);
