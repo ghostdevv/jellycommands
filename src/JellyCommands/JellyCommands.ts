@@ -33,7 +33,7 @@ export class JellyCommands {
         this.commands = new CommandManager(this);
     }
 
-    static resolveMessageObject(
+    static resolveMessageOptions(
         item: JellyCommandsOptionsMessage,
     ): MessageOptions {
         if (typeof item == 'string') return { content: item };
