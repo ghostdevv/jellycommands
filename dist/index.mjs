@@ -140,6 +140,39 @@ var CommandManager = class extends BaseManager {
 };
 __name(CommandManager, "CommandManager");
 
+// src/JellyCommands/events/options.ts
+import Joi2 from "joi";
+var defaults2 = {
+  disabled: false,
+  once: false
+};
+var schema2 = Joi2.object({
+  disabled: Joi2.bool().required(),
+  once: Joi2.bool().required()
+});
+
+// src/JellyCommands/events/Event.ts
+import { removeKeys as removeKeys2 } from "ghoststools";
+var Event = class {
+  constructor(name, run, options) {
+    this.name = name;
+    if (!name || typeof name != "string")
+      throw new TypeError(`Expected type string for name, recieved ${typeof name}`);
+    this.run = run;
+    if (!run || typeof run != "function")
+      throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
+    const { error, value } = schema2.validate(Object.assign(defaults2, options));
+    if (error)
+      throw error.annotate();
+    else
+      this.options = value;
+  }
+};
+__name(Event, "Event");
+var createEvent = /* @__PURE__ */ __name((name, options) => {
+  return new Event(name, options.run, removeKeys2(options, "run"));
+}, "createEvent");
+
 // src/JellyCommands/managers/EventManager.ts
 var EventManager = class extends BaseManager {
   constructor(jelly) {
@@ -152,6 +185,8 @@ var EventManager = class extends BaseManager {
     if (this.loadedPaths.has(path))
       throw new Error(`The path ${path} has already been loaded, therefore can not be loaded again`);
     this.loadedPaths.add(path);
+    if (!(event instanceof Event))
+      throw new Error(`Expected instance of Event, recieved ${typeof event}`);
     if (event.options.disabled)
       return;
     const cb = /* @__PURE__ */ __name((...ctx) => event.run(...ctx, { client: this.client, jelly: this.jelly }), "cb");
@@ -165,8 +200,8 @@ __name(EventManager, "EventManager");
 
 // src/JellyCommands/options.ts
 import { MessageEmbed } from "discord.js";
-import Joi2 from "joi";
-var defaults2 = {
+import Joi3 from "joi";
+var defaults3 = {
   ignoreBots: true,
   prefix: "!",
   messages: {
@@ -179,14 +214,14 @@ var defaults2 = {
     }
   }
 };
-var messageSchema = Joi2.object({
-  reply: Joi2.bool().required(),
-  message: Joi2.alternatives().try(Joi2.string(), Joi2.object().instance(MessageEmbed), Joi2.object())
+var messageSchema = Joi3.object({
+  reply: Joi3.bool().required(),
+  message: Joi3.alternatives().try(Joi3.string(), Joi3.object().instance(MessageEmbed), Joi3.object())
 });
-var schema2 = Joi2.object({
-  ignoreBots: Joi2.bool().required(),
-  prefix: Joi2.string().min(1).max(64).required(),
-  messages: Joi2.object({
+var schema3 = Joi3.object({
+  ignoreBots: Joi3.bool().required(),
+  prefix: Joi3.string().min(1).max(64).required(),
+  messages: Joi3.object({
     unkownCommand: messageSchema.required()
   }).required()
 });
@@ -198,7 +233,7 @@ var JellyCommands = class {
     if (!client)
       throw new SyntaxError("Expected a instance of Discord.Client, recieved none");
     this.client = client;
-    const { error, value } = schema2.validate(Object.assign(defaults2, options));
+    const { error, value } = schema3.validate(Object.assign(defaults3, options));
     if (error)
       throw error.annotate();
     else
@@ -221,39 +256,6 @@ var JellyCommands = class {
   }
 };
 __name(JellyCommands, "JellyCommands");
-
-// src/JellyCommands/events/options.ts
-import Joi3 from "joi";
-var defaults3 = {
-  disabled: false,
-  once: false
-};
-var schema3 = Joi3.object({
-  disabled: Joi3.bool().required(),
-  once: Joi3.bool().required()
-});
-
-// src/JellyCommands/events/Event.ts
-import { removeKeys as removeKeys2 } from "ghoststools";
-var Event = class {
-  constructor(name, run, options) {
-    this.name = name;
-    if (!name || typeof name != "string")
-      throw new TypeError(`Expected type string for name, recieved ${typeof name}`);
-    this.run = run;
-    if (!run || typeof run != "function")
-      throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema3.validate(Object.assign(defaults3, options));
-    if (error)
-      throw error.annotate();
-    else
-      this.options = value;
-  }
-};
-__name(Event, "Event");
-var createEvent = /* @__PURE__ */ __name((name, options) => {
-  return new Event(name, options.run, removeKeys2(options, "run"));
-}, "createEvent");
 export {
   Command,
   Event,
