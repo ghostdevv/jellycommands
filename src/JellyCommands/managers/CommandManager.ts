@@ -36,7 +36,7 @@ export default class CommandManager extends BaseManager<Command> {
 
         if (!command)
             return message.channel.send(
-                JellyCommands.resolveMessageOptions(messages.unkownCommand),
+                this.jelly.resolveMessageOptions(messages.unkownCommand),
             );
 
         const check = command.check(message);

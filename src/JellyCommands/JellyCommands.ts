@@ -33,11 +33,20 @@ export class JellyCommands {
         this.commands = new CommandManager(this);
     }
 
-    static resolveMessageOptions(
+    public resolveMessageOptions(
         item: JellyCommandsOptionsMessage,
     ): MessageOptions {
+        const baseEmbed = this.options.baseEmbed;
+
         if (typeof item == 'string') return { content: item };
-        if (item instanceof MessageEmbed) return { embed: item };
-        return { embed: item as MessageEmbedOptions };
+        else if (item instanceof MessageEmbed)
+            return {
+                embed: new MessageEmbed({
+                    ...baseEmbed,
+                    ...item.toJSON(),
+                } as MessageEmbedOptions),
+            };
+
+        return { embed: { ...baseEmbed, ...item } as MessageEmbedOptions };
     }
 }
