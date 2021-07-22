@@ -35,7 +35,10 @@ export default abstract class BaseManager<ManagerTarget> {
         if (!existsSync(path))
             throw new Error(`Directory ${path} does not exist`);
 
-        const paths = readdirRecursive(path);
+        const paths = readdirRecursive(path).filter((p: string) =>
+            ['.js', '.mjs', '.cjs'].includes(parse(p).ext),
+        );
+
         const items = [];
 
         for (const path of paths) {
