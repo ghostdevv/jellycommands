@@ -257,6 +257,8 @@ var JellyCommands = class {
 };
 __name(JellyCommands, "JellyCommands");
 export {
+  Command,
+  Event,
   JellyCommands,
   createCommand,
   createEvent

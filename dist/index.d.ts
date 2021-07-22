@@ -104,4 +104,4 @@ declare class JellyCommands {
     get commands(): CommandManager;
 }
 
-export { CommandOptions, EventOptions, JellyCommands, JellyCommandsOptions, JellyCommandsOptionsMessage, createCommand, createEvent };
+export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, JellyCommandsOptionsMessage, createCommand, createEvent };

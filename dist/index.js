@@ -25,6 +25,8 @@ var __toModule = (module2) => {
 
 // src/index.ts
 __export(exports, {
+  Command: () => Command,
+  Event: () => Event,
   JellyCommands: () => JellyCommands,
   createCommand: () => createCommand,
   createEvent: () => createEvent
@@ -287,6 +289,8 @@ var JellyCommands = class {
 __name(JellyCommands, "JellyCommands");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  Command,
+  Event,
   JellyCommands,
   createCommand,
   createEvent
