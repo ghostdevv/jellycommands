@@ -39,7 +39,8 @@ export class JellyCommands {
         const baseEmbed = this.options.baseEmbed;
 
         if (typeof item == 'string') return { content: item };
-        else if (item instanceof MessageEmbed)
+
+        if (item instanceof MessageEmbed)
             return {
                 embed: new MessageEmbed({
                     ...baseEmbed,
