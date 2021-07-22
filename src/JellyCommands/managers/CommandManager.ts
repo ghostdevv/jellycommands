@@ -17,7 +17,7 @@ export default class CommandManager extends BaseManager<Command> {
         this.jelly = jelly;
         this.client = jelly.client;
 
-        this.client.on('message', this.onMessage.bind(this));
+        this.client.on('message', (m) => this.onMessage(m));
     }
 
     private onMessage(message: Message): any {
