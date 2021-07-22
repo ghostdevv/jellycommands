@@ -51,20 +51,18 @@ export interface JellyCommandsOptions {
 
 import Joi from 'joi';
 
-const messageSchema = Joi.alternatives().try(
-    Joi.string(),
+const embedSchema = Joi.alternatives().try(
     Joi.object().instance(MessageEmbed),
     Joi.object(),
 );
+
+const messageSchema = Joi.alternatives().try(Joi.string(), embedSchema);
 
 export const schema = Joi.object({
     ignoreBots: Joi.bool().required(),
     prefix: Joi.string().min(1).max(64).required(),
 
-    baseEmbed: Joi.alternatives().try(
-        Joi.object().instance(MessageEmbed),
-        Joi.object(),
-    ),
+    baseEmbed: embedSchema.required(),
 
     messages: Joi.object({
         unkownCommand: messageSchema.required(),
