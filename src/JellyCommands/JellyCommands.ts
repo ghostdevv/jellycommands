@@ -1,10 +1,10 @@
 import CommandManager from './managers/CommandManager';
 import EventManager from './managers/EventManager';
+import { MessageEmbed, Client } from 'discord.js';
 import { defaults, schema } from './options';
-import { MessageEmbed } from 'discord.js';
 
 import type { JellyCommandsOptions, FullJellyCommandsOptions } from './options';
-import type { Client, MessageOptions, MessageEmbedOptions } from 'discord.js';
+import type { MessageOptions, MessageEmbedOptions } from 'discord.js';
 import type { JellyCommandsOptionsMessage } from './options';
 
 export class JellyCommands {
@@ -15,9 +15,9 @@ export class JellyCommands {
     private commandManager: CommandManager;
 
     constructor(client: Client, options: JellyCommandsOptions = {}) {
-        if (!client)
+        if (!client || !(client instanceof Client))
             throw new SyntaxError(
-                'Expected a instance of Discord.Client, recieved none',
+                `Expected a instance of Discord.Client, recieved ${typeof client}`,
             );
 
         this.client = client;
