@@ -229,6 +229,9 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
+// src/JellyCommands/JellyCommands.ts
+var import_discord3 = __toModule(require("discord.js"));
+
 // src/JellyCommands/options.ts
 var import_discord2 = __toModule(require("discord.js"));
 var import_joi3 = __toModule(require("joi"));
@@ -244,38 +247,30 @@ var defaults3 = {
     }
   }
 };
-var messageSchema = import_joi3.default.alternatives().try(import_joi3.default.string(), import_joi3.default.object().instance(import_discord2.MessageEmbed), import_joi3.default.object());
+var embedSchema = import_joi3.default.alternatives().try(import_joi3.default.object().instance(import_discord2.MessageEmbed), import_joi3.default.object());
+var messageSchema = import_joi3.default.alternatives().try(import_joi3.default.string(), embedSchema);
 var schema3 = import_joi3.default.object({
   ignoreBots: import_joi3.default.bool().required(),
   prefix: import_joi3.default.string().min(1).max(64).required(),
-  baseEmbed: import_joi3.default.alternatives().try(import_joi3.default.object().instance(import_discord2.MessageEmbed), import_joi3.default.object()),
+  baseEmbed: embedSchema.required(),
   messages: import_joi3.default.object({
     unkownCommand: messageSchema.required()
   }).required()
 });
 
 // src/JellyCommands/JellyCommands.ts
-var import_discord3 = __toModule(require("discord.js"));
 var JellyCommands = class {
   constructor(client, options = {}) {
-    if (!client)
-      throw new SyntaxError("Expected a instance of Discord.Client, recieved none");
+    if (!client || !(client instanceof import_discord3.Client))
+      throw new SyntaxError(`Expected a instance of Discord.Client, recieved ${typeof client}`);
     this.client = client;
     const { error, value } = schema3.validate(Object.assign(defaults3, options));
     if (error)
       throw error.annotate();
-    const opt = value;
-    for (const [key, value2] of Object.entries(opt.messages)) {
-      if (typeof value2 == "object") {
-        opt.messages[key] = {
-          ...value2,
-          ...opt.baseEmbed
-        };
-      }
-    }
-    this.options = opt;
-    this.eventManager = new EventManager(this);
-    this.commandManager = new CommandManager(this);
+    else
+      this.options = value;
+    this.events = new EventManager(this);
+    this.commands = new CommandManager(this);
   }
   static resolveMessageObject(item) {
     if (typeof item == "string")
@@ -283,12 +278,6 @@ var JellyCommands = class {
     if (item instanceof import_discord3.MessageEmbed)
       return { embed: item };
     return { embed: item };
-  }
-  get events() {
-    return this.eventManager;
-  }
-  get commands() {
-    return this.commandManager;
   }
 };
 __name(JellyCommands, "JellyCommands");

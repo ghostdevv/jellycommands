@@ -95,12 +95,10 @@ interface JellyCommandsOptions {
 declare class JellyCommands {
     readonly client: Client;
     readonly options: FullJellyCommandsOptions;
-    private eventManager;
-    private commandManager;
+    readonly events: EventManager;
+    readonly commands: CommandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
     static resolveMessageObject(item: JellyCommandsOptionsMessage): MessageOptions;
-    get events(): EventManager;
-    get commands(): CommandManager;
 }
 
 export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, JellyCommandsOptionsMessage, createCommand, createEvent };

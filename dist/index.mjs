@@ -198,6 +198,9 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
+// src/JellyCommands/JellyCommands.ts
+import { MessageEmbed as MessageEmbed2, Client } from "discord.js";
+
 // src/JellyCommands/options.ts
 import { MessageEmbed } from "discord.js";
 import Joi3 from "joi";
@@ -213,38 +216,30 @@ var defaults3 = {
     }
   }
 };
-var messageSchema = Joi3.alternatives().try(Joi3.string(), Joi3.object().instance(MessageEmbed), Joi3.object());
+var embedSchema = Joi3.alternatives().try(Joi3.object().instance(MessageEmbed), Joi3.object());
+var messageSchema = Joi3.alternatives().try(Joi3.string(), embedSchema);
 var schema3 = Joi3.object({
   ignoreBots: Joi3.bool().required(),
   prefix: Joi3.string().min(1).max(64).required(),
-  baseEmbed: Joi3.alternatives().try(Joi3.object().instance(MessageEmbed), Joi3.object()),
+  baseEmbed: embedSchema.required(),
   messages: Joi3.object({
     unkownCommand: messageSchema.required()
   }).required()
 });
 
 // src/JellyCommands/JellyCommands.ts
-import { MessageEmbed as MessageEmbed2 } from "discord.js";
 var JellyCommands = class {
   constructor(client, options = {}) {
-    if (!client)
-      throw new SyntaxError("Expected a instance of Discord.Client, recieved none");
+    if (!client || !(client instanceof Client))
+      throw new SyntaxError(`Expected a instance of Discord.Client, recieved ${typeof client}`);
     this.client = client;
     const { error, value } = schema3.validate(Object.assign(defaults3, options));
     if (error)
       throw error.annotate();
-    const opt = value;
-    for (const [key, value2] of Object.entries(opt.messages)) {
-      if (typeof value2 == "object") {
-        opt.messages[key] = {
-          ...value2,
-          ...opt.baseEmbed
-        };
-      }
-    }
-    this.options = opt;
-    this.eventManager = new EventManager(this);
-    this.commandManager = new CommandManager(this);
+    else
+      this.options = value;
+    this.events = new EventManager(this);
+    this.commands = new CommandManager(this);
   }
   static resolveMessageObject(item) {
     if (typeof item == "string")
@@ -252,12 +247,6 @@ var JellyCommands = class {
     if (item instanceof MessageEmbed2)
       return { embed: item };
     return { embed: item };
-  }
-  get events() {
-    return this.eventManager;
-  }
-  get commands() {
-    return this.commandManager;
   }
 };
 __name(JellyCommands, "JellyCommands");
