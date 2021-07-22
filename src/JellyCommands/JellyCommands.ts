@@ -11,8 +11,8 @@ export class JellyCommands {
     public readonly client: Client;
     public readonly options: FullJellyCommandsOptions;
 
-    private eventManager: EventManager;
-    private commandManager: CommandManager;
+    public readonly events: EventManager;
+    public readonly commands: CommandManager;
 
     constructor(client: Client, options: JellyCommandsOptions = {}) {
         if (!client || !(client instanceof Client))
@@ -29,8 +29,8 @@ export class JellyCommands {
         if (error) throw error.annotate();
         else this.options = value;
 
-        this.eventManager = new EventManager(this);
-        this.commandManager = new CommandManager(this);
+        this.events = new EventManager(this);
+        this.commands = new CommandManager(this);
     }
 
     static resolveMessageObject(
@@ -39,13 +39,5 @@ export class JellyCommands {
         if (typeof item == 'string') return { content: item };
         if (item instanceof MessageEmbed) return { embed: item };
         return { embed: item as MessageEmbedOptions };
-    }
-
-    get events() {
-        return this.eventManager;
-    }
-
-    get commands() {
-        return this.commandManager;
     }
 }
