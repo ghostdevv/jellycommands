@@ -1,7 +1,7 @@
-import BaseManager from './BaseManager';
+import { JellyCommands } from '../JellyCommands';
 import { Command } from '../commands/Command';
+import BaseManager from './BaseManager';
 
-import type { JellyCommands } from '../JellyCommands';
 import type { Client, Message } from 'discord.js';
 
 export default class CommandManager extends BaseManager<Command> {
@@ -20,8 +20,8 @@ export default class CommandManager extends BaseManager<Command> {
         this.client.on('message', this.onMessage.bind(this));
     }
 
-    private onMessage(message: Message) {
-        const { prefix } = this.jelly.options;
+    private onMessage(message: Message): any {
+        const { prefix, messages } = this.jelly.options;
 
         if (!message.content.startsWith(prefix)) return;
 
@@ -30,11 +30,16 @@ export default class CommandManager extends BaseManager<Command> {
             .split(' ')[0]
             .trim();
 
-        // @todo Unkown command message
         if (commandWord.length == 0) return;
 
         const command = this.commands.get(commandWord);
-        if (!command) return;
+
+        if (!command)
+            return message.channel.send(
+                JellyCommands.resolveMessageObject(
+                    messages.unkownCommand.message,
+                ),
+            );
 
         const check = command.check(message);
 

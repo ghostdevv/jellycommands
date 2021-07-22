@@ -1,16 +1,49 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
-// src/JellyCommands/options.ts
+// src/JellyCommands/commands/options.ts
 import Joi from "joi";
 var defaults = {
-  ignoreBots: true,
-  prefix: "!"
+  disabled: false,
+  allowDM: false
 };
 var schema = Joi.object({
-  ignoreBots: Joi.bool().required(),
-  prefix: Joi.string().min(1).max(64).required()
+  disabled: Joi.bool().required(),
+  allowDM: Joi.bool().required()
 });
+
+// src/JellyCommands/commands/Command.ts
+import { removeKeys } from "ghoststools";
+import { Message } from "discord.js";
+var Command = class {
+  constructor(name, run, options) {
+    this.name = name;
+    if (!name || typeof name != "string")
+      throw new TypeError(`Expected type string for name, recieved ${typeof name}`);
+    this.run = run;
+    if (!run || typeof run != "function")
+      throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
+    const { error, value } = schema.validate(Object.assign(defaults, options));
+    if (error)
+      throw error.annotate();
+    else
+      this.options = value;
+  }
+  check(message) {
+    if (!message || !(message instanceof Message))
+      throw new TypeError(`Expected type Message, recieved ${typeof message}`);
+    const opt = this.options;
+    if (opt.disabled)
+      return false;
+    if (opt.allowDM === false && message.channel.type == "dm")
+      return false;
+    return true;
+  }
+};
+__name(Command, "Command");
+var createCommand = /* @__PURE__ */ __name((name, options) => {
+  return new Command(name, options.run, removeKeys(options, "run"));
+}, "createCommand");
 
 // src/JellyCommands/managers/BaseManager.ts
 import { readdirRecursive, posixify } from "ghoststools";
@@ -66,50 +99,6 @@ var BaseManager = class {
 };
 __name(BaseManager, "BaseManager");
 
-// src/JellyCommands/commands/options.ts
-import Joi2 from "joi";
-var defaults2 = {
-  disabled: false,
-  allowDM: false
-};
-var schema2 = Joi2.object({
-  disabled: Joi2.bool().required(),
-  allowDM: Joi2.bool().required()
-});
-
-// src/JellyCommands/commands/Command.ts
-import { removeKeys } from "ghoststools";
-import { Message } from "discord.js";
-var Command = class {
-  constructor(name, run, options) {
-    this.name = name;
-    if (!name || typeof name != "string")
-      throw new TypeError(`Expected type string for name, recieved ${typeof name}`);
-    this.run = run;
-    if (!run || typeof run != "function")
-      throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema2.validate(Object.assign(defaults2, options));
-    if (error)
-      throw error.annotate();
-    else
-      this.options = value;
-  }
-  check(message) {
-    if (!message || !(message instanceof Message))
-      throw new TypeError(`Expected type Message, recieved ${typeof message}`);
-    const opt = this.options;
-    if (opt.disabled)
-      return false;
-    if (opt.allowDM === false && message.channel.type == "dm")
-      return false;
-    return true;
-  }
-};
-__name(Command, "Command");
-var createCommand = /* @__PURE__ */ __name((name, options) => {
-  return new Command(name, options.run, removeKeys(options, "run"));
-}, "createCommand");
-
 // src/JellyCommands/managers/CommandManager.ts
 var CommandManager = class extends BaseManager {
   constructor(jelly) {
@@ -121,7 +110,7 @@ var CommandManager = class extends BaseManager {
     this.client.on("message", this.onMessage.bind(this));
   }
   onMessage(message) {
-    const { prefix } = this.jelly.options;
+    const { prefix, messages } = this.jelly.options;
     if (!message.content.startsWith(prefix))
       return;
     const commandWord = message.content.slice(prefix.length).split(" ")[0].trim();
@@ -129,7 +118,7 @@ var CommandManager = class extends BaseManager {
       return;
     const command = this.commands.get(commandWord);
     if (!command)
-      return;
+      return message.channel.send(JellyCommands.resolveMessageObject(messages.unkownCommand.message));
     const check = command.check(message);
     if (check)
       command.run({
@@ -152,14 +141,14 @@ var CommandManager = class extends BaseManager {
 __name(CommandManager, "CommandManager");
 
 // src/JellyCommands/events/options.ts
-import Joi3 from "joi";
-var defaults3 = {
+import Joi2 from "joi";
+var defaults2 = {
   disabled: false,
   once: false
 };
-var schema3 = Joi3.object({
-  disabled: Joi3.bool().required(),
-  once: Joi3.bool().required()
+var schema2 = Joi2.object({
+  disabled: Joi2.bool().required(),
+  once: Joi2.bool().required()
 });
 
 // src/JellyCommands/events/Event.ts
@@ -172,7 +161,7 @@ var Event = class {
     this.run = run;
     if (!run || typeof run != "function")
       throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema3.validate(Object.assign(defaults3, options));
+    const { error, value } = schema2.validate(Object.assign(defaults2, options));
     if (error)
       throw error.annotate();
     else
@@ -209,19 +198,55 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
+// src/JellyCommands/options.ts
+import { MessageEmbed } from "discord.js";
+import Joi3 from "joi";
+var defaults3 = {
+  ignoreBots: true,
+  prefix: "!",
+  messages: {
+    unkownCommand: {
+      reply: false,
+      message: {
+        description: "Unkown Command",
+        color: "#A8A7A7"
+      }
+    }
+  }
+};
+var messageSchema = Joi3.object({
+  reply: Joi3.bool().required(),
+  message: Joi3.alternatives().try(Joi3.string(), Joi3.object().instance(MessageEmbed), Joi3.object())
+});
+var schema3 = Joi3.object({
+  ignoreBots: Joi3.bool().required(),
+  prefix: Joi3.string().min(1).max(64).required(),
+  messages: Joi3.object({
+    unkownCommand: messageSchema.required()
+  }).required()
+});
+
 // src/JellyCommands/JellyCommands.ts
+import { MessageEmbed as MessageEmbed2 } from "discord.js";
 var JellyCommands = class {
   constructor(client, options = {}) {
     if (!client)
       throw new SyntaxError("Expected a instance of Discord.Client, recieved none");
     this.client = client;
-    const { error, value } = schema.validate(Object.assign(defaults, options));
+    const { error, value } = schema3.validate(Object.assign(defaults3, options));
     if (error)
       throw error.annotate();
     else
       this.options = value;
     this.eventManager = new EventManager(this);
     this.commandManager = new CommandManager(this);
+  }
+  static resolveMessageObject(item) {
+    if (typeof item == "string")
+      return { content: item };
+    if (item instanceof MessageEmbed2)
+      return { embed: item };
+    return { embed: item };
   }
   get events() {
     return this.eventManager;
