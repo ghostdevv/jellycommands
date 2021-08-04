@@ -1,4 +1,4 @@
-import { Message, Client, ClientEvents, MessageEmbed, MessageEmbedOptions, MessageOptions } from 'discord.js';
+import { Message, Client, ClientEvents, MessagePayload, MessageOptions } from 'discord.js';
 
 declare const defaults$2: {
     disabled: boolean;
@@ -76,17 +76,15 @@ declare class EventManager extends BaseManager<Event> {
 declare const defaults: {
     ignoreBots: boolean;
     prefix: string;
-    baseEmbed: MessageEmbed | MessageEmbedOptions;
     messages: {
-        unkownCommand: Required<JellyCommandsOptionsMessage>;
+        unkownCommand: JellyCommandsOptionsMessage;
     };
 };
 declare type FullJellyCommandsOptions = typeof defaults;
-declare type JellyCommandsOptionsMessage = string | MessageEmbed | MessageEmbedOptions;
+declare type JellyCommandsOptionsMessage = string | MessagePayload | MessageOptions;
 interface JellyCommandsOptions {
     ignoreBots?: boolean;
     prefix?: string;
-    baseEmbed?: MessageEmbed | MessageEmbedOptions;
     messages?: {
         unkownCommand?: JellyCommandsOptionsMessage;
     };
@@ -98,7 +96,6 @@ declare class JellyCommands {
     readonly events: EventManager;
     readonly commands: CommandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
-    resolveMessageOptions(item: JellyCommandsOptionsMessage): MessageOptions;
 }
 
 export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, JellyCommandsOptionsMessage, createCommand, createEvent };

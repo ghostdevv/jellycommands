@@ -1,4 +1,5 @@
-import { MessageEmbed, MessageEmbedOptions } from 'discord.js';
+import type { MessagePayload, MessageOptions } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 
 export const defaults = {
     /**
@@ -12,13 +13,6 @@ export const defaults = {
     prefix: '!',
 
     /**
-     * The base embed will be applied to all embeds so you don't have to customise it every time
-     */
-    baseEmbed: {
-        color: 'RANDOM',
-    } as MessageEmbed | MessageEmbedOptions,
-
-    /**
      * Customisable responses
      */
     messages: {
@@ -26,8 +20,13 @@ export const defaults = {
          * This is sent when a unkown command is given
          */
         unkownCommand: {
-            description: 'Unkown Command',
-        } as Required<JellyCommandsOptionsMessage>,
+            embeds: [
+                {
+                    description: 'Unkown Command',
+                    color: 'RANDOM',
+                },
+            ],
+        } as JellyCommandsOptionsMessage,
     },
 };
 
@@ -35,14 +34,12 @@ export type FullJellyCommandsOptions = typeof defaults;
 
 export type JellyCommandsOptionsMessage =
     | string
-    | MessageEmbed
-    | MessageEmbedOptions;
+    | MessagePayload
+    | MessageOptions;
 
 export interface JellyCommandsOptions {
     ignoreBots?: boolean;
     prefix?: string;
-
-    baseEmbed?: MessageEmbed | MessageEmbedOptions;
 
     messages?: {
         unkownCommand?: JellyCommandsOptionsMessage;
@@ -51,18 +48,11 @@ export interface JellyCommandsOptions {
 
 import Joi from 'joi';
 
-const embedSchema = Joi.alternatives().try(
-    Joi.object().instance(MessageEmbed),
-    Joi.object(),
-);
-
-const messageSchema = Joi.alternatives().try(Joi.string(), embedSchema);
+const messageSchema = Joi.alternatives().try(Joi.string(), Joi.object());
 
 export const schema = Joi.object({
     ignoreBots: Joi.bool().required(),
     prefix: Joi.string().min(1).max(64).required(),
-
-    baseEmbed: embedSchema.required(),
 
     messages: Joi.object({
         unkownCommand: messageSchema.required(),

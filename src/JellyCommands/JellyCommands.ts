@@ -1,11 +1,9 @@
 import CommandManager from './managers/CommandManager';
 import EventManager from './managers/EventManager';
-import { MessageEmbed, Client } from 'discord.js';
 import { defaults, schema } from './options';
+import { Client } from 'discord.js';
 
 import type { JellyCommandsOptions, FullJellyCommandsOptions } from './options';
-import type { MessageOptions, MessageEmbedOptions } from 'discord.js';
-import type { JellyCommandsOptionsMessage } from './options';
 
 export class JellyCommands {
     public readonly client: Client;
@@ -31,23 +29,5 @@ export class JellyCommands {
 
         this.events = new EventManager(this);
         this.commands = new CommandManager(this);
-    }
-
-    public resolveMessageOptions(
-        item: JellyCommandsOptionsMessage,
-    ): MessageOptions {
-        const baseEmbed = this.options.baseEmbed;
-
-        if (typeof item == 'string') return { content: item };
-
-        if (item instanceof MessageEmbed)
-            return {
-                embed: new MessageEmbed({
-                    ...baseEmbed,
-                    ...item.toJSON(),
-                } as MessageEmbedOptions),
-            };
-
-        return { embed: { ...baseEmbed, ...item } as MessageEmbedOptions };
     }
 }

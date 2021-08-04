@@ -17,7 +17,7 @@ export default class CommandManager extends BaseManager<Command> {
         this.jelly = jelly;
         this.client = jelly.client;
 
-        this.client.on('message', (m) => this.onMessage(m));
+        this.client.on('messageCreate', (m) => this.onMessage(m));
     }
 
     private onMessage(message: Message): any {
@@ -34,10 +34,7 @@ export default class CommandManager extends BaseManager<Command> {
 
         const command = this.commands.get(commandWord);
 
-        if (!command)
-            return message.channel.send(
-                this.jelly.resolveMessageOptions(messages.unkownCommand),
-            );
+        if (!command) return message.channel.send(messages.unkownCommand);
 
         const check = command.check(message);
 

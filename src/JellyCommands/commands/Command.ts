@@ -50,7 +50,7 @@ export class Command {
         const opt = this.options;
 
         if (opt.disabled) return false;
-        if (opt.allowDM === false && message.channel.type == 'dm') return false;
+        if (opt.allowDM === false && message.channel.type == 'DM') return false;
 
         return true;
     }

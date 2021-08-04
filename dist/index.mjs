@@ -35,7 +35,7 @@ var Command = class {
     const opt = this.options;
     if (opt.disabled)
       return false;
-    if (opt.allowDM === false && message.channel.type == "dm")
+    if (opt.allowDM === false && message.channel.type == "DM")
       return false;
     return true;
   }
@@ -107,7 +107,7 @@ var CommandManager = class extends BaseManager {
     this.loadedPaths = new Set();
     this.jelly = jelly;
     this.client = jelly.client;
-    this.client.on("message", (m) => this.onMessage(m));
+    this.client.on("messageCreate", (m) => this.onMessage(m));
   }
   onMessage(message) {
     const { prefix, messages } = this.jelly.options;
@@ -118,7 +118,7 @@ var CommandManager = class extends BaseManager {
       return;
     const command = this.commands.get(commandWord);
     if (!command)
-      return message.channel.send(this.jelly.resolveMessageOptions(messages.unkownCommand));
+      return message.channel.send(messages.unkownCommand);
     const check = command.check(message);
     if (check)
       command.run({
@@ -198,36 +198,33 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
-// src/JellyCommands/JellyCommands.ts
-import { MessageEmbed as MessageEmbed2, Client } from "discord.js";
-
 // src/JellyCommands/options.ts
-import { MessageEmbed } from "discord.js";
 import Joi3 from "joi";
 var defaults3 = {
   ignoreBots: true,
   prefix: "!",
-  baseEmbed: {
-    color: "RANDOM"
-  },
   messages: {
     unkownCommand: {
-      description: "Unkown Command"
+      embeds: [
+        {
+          description: "Unkown Command",
+          color: "RANDOM"
+        }
+      ]
     }
   }
 };
-var embedSchema = Joi3.alternatives().try(Joi3.object().instance(MessageEmbed), Joi3.object());
-var messageSchema = Joi3.alternatives().try(Joi3.string(), embedSchema);
+var messageSchema = Joi3.alternatives().try(Joi3.string(), Joi3.object());
 var schema3 = Joi3.object({
   ignoreBots: Joi3.bool().required(),
   prefix: Joi3.string().min(1).max(64).required(),
-  baseEmbed: embedSchema.required(),
   messages: Joi3.object({
     unkownCommand: messageSchema.required()
   }).required()
 });
 
 // src/JellyCommands/JellyCommands.ts
+import { Client } from "discord.js";
 var JellyCommands = class {
   constructor(client, options = {}) {
     if (!client || !(client instanceof Client))
@@ -240,19 +237,6 @@ var JellyCommands = class {
       this.options = value;
     this.events = new EventManager(this);
     this.commands = new CommandManager(this);
-  }
-  resolveMessageOptions(item) {
-    const baseEmbed = this.options.baseEmbed;
-    if (typeof item == "string")
-      return { content: item };
-    if (item instanceof MessageEmbed2)
-      return {
-        embed: new MessageEmbed2({
-          ...baseEmbed,
-          ...item.toJSON()
-        })
-      };
-    return { embed: { ...baseEmbed, ...item } };
   }
 };
 __name(JellyCommands, "JellyCommands");

@@ -66,7 +66,7 @@ var Command = class {
     const opt = this.options;
     if (opt.disabled)
       return false;
-    if (opt.allowDM === false && message.channel.type == "dm")
+    if (opt.allowDM === false && message.channel.type == "DM")
       return false;
     return true;
   }
@@ -138,7 +138,7 @@ var CommandManager = class extends BaseManager {
     this.loadedPaths = new Set();
     this.jelly = jelly;
     this.client = jelly.client;
-    this.client.on("message", (m) => this.onMessage(m));
+    this.client.on("messageCreate", (m) => this.onMessage(m));
   }
   onMessage(message) {
     const { prefix, messages } = this.jelly.options;
@@ -149,7 +149,7 @@ var CommandManager = class extends BaseManager {
       return;
     const command = this.commands.get(commandWord);
     if (!command)
-      return message.channel.send(this.jelly.resolveMessageOptions(messages.unkownCommand));
+      return message.channel.send(messages.unkownCommand);
     const check = command.check(message);
     if (check)
       command.run({
@@ -229,39 +229,36 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
-// src/JellyCommands/JellyCommands.ts
-var import_discord3 = __toModule(require("discord.js"));
-
 // src/JellyCommands/options.ts
-var import_discord2 = __toModule(require("discord.js"));
 var import_joi3 = __toModule(require("joi"));
 var defaults3 = {
   ignoreBots: true,
   prefix: "!",
-  baseEmbed: {
-    color: "RANDOM"
-  },
   messages: {
     unkownCommand: {
-      description: "Unkown Command"
+      embeds: [
+        {
+          description: "Unkown Command",
+          color: "RANDOM"
+        }
+      ]
     }
   }
 };
-var embedSchema = import_joi3.default.alternatives().try(import_joi3.default.object().instance(import_discord2.MessageEmbed), import_joi3.default.object());
-var messageSchema = import_joi3.default.alternatives().try(import_joi3.default.string(), embedSchema);
+var messageSchema = import_joi3.default.alternatives().try(import_joi3.default.string(), import_joi3.default.object());
 var schema3 = import_joi3.default.object({
   ignoreBots: import_joi3.default.bool().required(),
   prefix: import_joi3.default.string().min(1).max(64).required(),
-  baseEmbed: embedSchema.required(),
   messages: import_joi3.default.object({
     unkownCommand: messageSchema.required()
   }).required()
 });
 
 // src/JellyCommands/JellyCommands.ts
+var import_discord2 = __toModule(require("discord.js"));
 var JellyCommands = class {
   constructor(client, options = {}) {
-    if (!client || !(client instanceof import_discord3.Client))
+    if (!client || !(client instanceof import_discord2.Client))
       throw new SyntaxError(`Expected a instance of Discord.Client, recieved ${typeof client}`);
     this.client = client;
     const { error, value } = schema3.validate(Object.assign(defaults3, options));
@@ -271,19 +268,6 @@ var JellyCommands = class {
       this.options = value;
     this.events = new EventManager(this);
     this.commands = new CommandManager(this);
-  }
-  resolveMessageOptions(item) {
-    const baseEmbed = this.options.baseEmbed;
-    if (typeof item == "string")
-      return { content: item };
-    if (item instanceof import_discord3.MessageEmbed)
-      return {
-        embed: new import_discord3.MessageEmbed({
-          ...baseEmbed,
-          ...item.toJSON()
-        })
-      };
-    return { embed: { ...baseEmbed, ...item } };
   }
 };
 __name(JellyCommands, "JellyCommands");
