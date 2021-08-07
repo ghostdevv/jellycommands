@@ -36,8 +36,8 @@ export default class CommandManager extends BaseManager<Command> {
 
         if (!command)
             return (
-                messages.unkownCommand &&
-                message.channel.send(messages.unkownCommand)
+                messages.unknownCommand &&
+                message.channel.send(messages.unknownCommand)
             );
 
         const check = command.check(message);
