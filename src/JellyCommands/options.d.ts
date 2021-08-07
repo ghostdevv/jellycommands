@@ -18,6 +18,6 @@ export interface FullJellyCommandsOptions {
     guards: {};
 
     messages: {
-        unkownCommand?: string | MessagePayload | MessageOptions;
+        unknownCommand?: string | MessagePayload | MessageOptions;
     };
 }
