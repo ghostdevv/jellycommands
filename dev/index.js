@@ -10,10 +10,6 @@ const client = new Client({
 
 const jelly = new JellyCommands(client, {
     prefix: '-',
-
-    messages: {
-        unknownCommand: undefined,
-    },
 });
 
 jelly.events.load('dev/events');
