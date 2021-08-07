@@ -17,6 +17,10 @@ export interface CommandOptions {
          * Only allows users that have their id in the array to use command
          */
         allowedUsers?: string[];
+
+        /**
+         * If a user is in this array they won't be able to use the command
+         */
         blockedUsers?: string[];
     };
 }
