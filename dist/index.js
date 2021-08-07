@@ -181,7 +181,7 @@ __name(CommandManager, "CommandManager");
 var import_joi2 = __toModule(require("joi"));
 var schema2 = import_joi2.default.object({
   disabled: import_joi2.default.bool().default(false),
-  once: import_joi2.default.bool().required().default(false)
+  once: import_joi2.default.bool().default(false)
 });
 
 // src/JellyCommands/events/Event.ts

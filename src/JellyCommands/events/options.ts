@@ -14,5 +14,5 @@ import Joi from 'joi';
 
 export const schema = Joi.object({
     disabled: Joi.bool().default(false),
-    once: Joi.bool().required().default(false),
+    once: Joi.bool().default(false),
 });

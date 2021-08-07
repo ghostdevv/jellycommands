@@ -150,7 +150,7 @@ __name(CommandManager, "CommandManager");
 import Joi2 from "joi";
 var schema2 = Joi2.object({
   disabled: Joi2.bool().default(false),
-  once: Joi2.bool().required().default(false)
+  once: Joi2.bool().default(false)
 });
 
 // src/JellyCommands/events/Event.ts
