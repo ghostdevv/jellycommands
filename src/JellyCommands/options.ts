@@ -31,5 +31,5 @@ export const schema = Joi.object({
                 },
             ],
         }),
-    }),
+    }).default(),
 });
