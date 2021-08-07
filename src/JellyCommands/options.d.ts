@@ -4,8 +4,6 @@ export interface JellyCommandsOptions {
     ignoreBots?: boolean;
     prefix?: string;
 
-    guards?: {};
-
     messages?: {
         unknownCommand?: string | MessagePayload | MessageOptions;
     };
@@ -14,8 +12,6 @@ export interface JellyCommandsOptions {
 export interface FullJellyCommandsOptions {
     ignoreBots: boolean;
     prefix: string;
-
-    guards: {};
 
     messages: {
         unknownCommand?: string | MessagePayload | MessageOptions;
