@@ -3,6 +3,10 @@ import { Message, Client, ClientEvents, MessagePayload, MessageOptions } from 'd
 interface CommandOptions {
     disabled: boolean;
     allowDM: boolean;
+    guards?: {
+        allowedUsers?: string[];
+        blockedUsers?: string[];
+    };
 }
 
 declare class Command {
@@ -72,8 +76,6 @@ interface JellyCommandsOptions {
     ignoreBots?: boolean;
     prefix?: string;
 
-    guards?: {};
-
     messages?: {
         unknownCommand?: string | MessagePayload | MessageOptions;
     };
@@ -83,10 +85,8 @@ interface FullJellyCommandsOptions {
     ignoreBots: boolean;
     prefix: string;
 
-    guards: {};
-
     messages: {
-        unkownCommand?: string | MessagePayload | MessageOptions;
+        unknownCommand?: string | MessagePayload | MessageOptions;
     };
 }
 

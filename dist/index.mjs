@@ -5,7 +5,11 @@ var __name = (target, value) => __defProp(target, "name", { value, configurable:
 import Joi from "joi";
 var schema = Joi.object({
   disabled: Joi.bool().default(false),
-  allowDM: Joi.bool().default(false)
+  allowDM: Joi.bool().default(false),
+  guards: Joi.object({
+    allowedUsers: Joi.array().items(Joi.string().length(18)).optional(),
+    blockedUsers: Joi.array().items(Joi.string().length(18)).optional()
+  }).default()
 });
 
 // src/JellyCommands/commands/Command.ts
@@ -115,6 +119,11 @@ var CommandManager = class extends BaseManager {
     const command = this.commands.get(commandWord);
     if (!command)
       return messages.unknownCommand && message2.channel.send(messages.unknownCommand);
+    const { allowedUsers, blockedUsers } = command.options.guards;
+    if (allowedUsers && !allowedUsers.includes(message2.author.id))
+      return;
+    if (blockedUsers && blockedUsers.includes(message2.author.id))
+      return;
     const check = command.check(message2);
     if (check)
       command.run({
@@ -201,7 +210,7 @@ var schema3 = Joi3.object({
   ignoreBots: Joi3.bool().default(true),
   prefix: Joi3.string().min(1).max(64).default("!"),
   messages: Joi3.object({
-    unkownCommand: message.default({
+    unknownCommand: message.default({
       embeds: [
         {
           description: "Unkown Command",
@@ -209,7 +218,7 @@ var schema3 = Joi3.object({
         }
       ]
     })
-  })
+  }).default()
 });
 
 // src/JellyCommands/JellyCommands.ts
