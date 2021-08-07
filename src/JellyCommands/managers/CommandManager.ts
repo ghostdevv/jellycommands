@@ -34,6 +34,9 @@ export default class CommandManager extends BaseManager<Command> {
 
         const command = this.commands.get(commandWord);
 
+        /**
+         * Check if the command exists, if it doesn't and there is a unkownCommand embed it sends it
+         */
         if (!command)
             return (
                 messages.unknownCommand &&
@@ -42,11 +45,24 @@ export default class CommandManager extends BaseManager<Command> {
 
         const { allowedUsers, blockedUsers } = command.options.guards;
 
+        /**
+         * Check if there is a allowedUsers array, if so check if the user is on it
+         */
         if (allowedUsers && !allowedUsers.includes(message.author.id)) return;
+
+        /**
+         * Check if there is a blockedUsers array, if so check if the user is on it
+         */
         if (blockedUsers && blockedUsers.includes(message.author.id)) return;
 
+        /**
+         * Check that the command is able to be ran
+         */
         const check = command.check(message);
 
+        /**
+         * Run the command if it passed the check
+         */
         if (check)
             command.run({
                 message,
