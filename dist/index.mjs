@@ -50,6 +50,7 @@ import { readdirRecursive, posixify } from "ghoststools";
 import { lstatSync, existsSync } from "fs";
 
 // src/util/fs.ts
+import { pathToFileURL } from "url";
 import { resolve } from "path";
 var resolveImport = /* @__PURE__ */ __name((imp) => {
   if (imp.__esModule)
@@ -59,7 +60,7 @@ var resolveImport = /* @__PURE__ */ __name((imp) => {
   return imp;
 }, "resolveImport");
 var readJSFile = /* @__PURE__ */ __name(async (path) => {
-  const data = await import(resolve(path));
+  const data = await import(pathToFileURL(resolve(path)).href);
   return resolveImport(data);
 }, "readJSFile");
 

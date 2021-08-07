@@ -81,6 +81,7 @@ var import_ghoststools2 = __toModule(require("ghoststools"));
 var import_fs = __toModule(require("fs"));
 
 // src/util/fs.ts
+var import_url = __toModule(require("url"));
 var import_path = __toModule(require("path"));
 var resolveImport = /* @__PURE__ */ __name((imp) => {
   if (imp.__esModule)
@@ -90,7 +91,7 @@ var resolveImport = /* @__PURE__ */ __name((imp) => {
   return imp;
 }, "resolveImport");
 var readJSFile = /* @__PURE__ */ __name(async (path) => {
-  const data = await import((0, import_path.resolve)(path));
+  const data = await import((0, import_url.pathToFileURL)((0, import_path.resolve)(path)).href);
   return resolveImport(data);
 }, "readJSFile");
 
