@@ -1,5 +1,4 @@
 import type { MessagePayload, MessageOptions } from 'discord.js';
-import { MessageEmbed } from 'discord.js';
 
 export const defaults = {
     /**
