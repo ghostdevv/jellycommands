@@ -2,12 +2,12 @@ export interface EventOptions {
     /**
      * Whether or not the event should be loaded
      */
-    disabled: boolean;
+    disabled?: boolean;
 
     /**
      * Should the event be ran once or every time it's recieved
      */
-    once: boolean;
+    once?: boolean;
 }
 
 import Joi from 'joi';

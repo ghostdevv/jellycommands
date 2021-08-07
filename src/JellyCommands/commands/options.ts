@@ -2,12 +2,12 @@ export interface CommandOptions {
     /**
      * Whether or not the command should be loaded
      */
-    disabled: boolean;
+    disabled?: boolean;
 
     /**
      * Should the command work in dms
      */
-    allowDM: boolean;
+    allowDM?: boolean;
 
     /**
      * Guards allow you to only allow people who meet certain criteria use the command
