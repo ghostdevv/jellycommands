@@ -1,4 +1,4 @@
-import { defaults, schema, EventOptions } from './options';
+import { schema, EventOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
 import type { Client, ClientEvents } from 'discord.js';
@@ -28,9 +28,7 @@ export class Event {
                 `Expected type function for run, recieved ${typeof run}`,
             );
 
-        const { error, value } = schema.validate(
-            Object.assign(defaults, options),
-        );
+        const { error, value } = schema.validate(options);
 
         if (error) throw error.annotate();
         else this.options = value;
@@ -46,5 +44,9 @@ export const createEvent = <K extends keyof ClientEvents>(
         ) => void | any;
     },
 ) => {
-    return new Event(name, options.run, removeKeys(options, 'run'));
+    return new Event(
+        name,
+        options.run,
+        removeKeys(options, 'run') as EventOptions,
+    );
 };

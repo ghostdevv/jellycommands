@@ -1,20 +1,18 @@
-export const defaults = {
+export interface CommandOptions {
     /**
      * Whether or not the command should be loaded
      */
-    disabled: false,
+    disabled: boolean;
 
     /**
      * Should the command work in dms
      */
-    allowDM: false,
-};
-
-export type CommandOptions = Partial<typeof defaults>;
+    allowDM: boolean;
+}
 
 import Joi from 'joi';
 
 export const schema = Joi.object({
-    disabled: Joi.bool().required(),
-    allowDM: Joi.bool().required(),
+    disabled: Joi.bool().default(false),
+    allowDM: Joi.bool().default(false),
 });

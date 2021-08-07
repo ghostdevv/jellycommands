@@ -1,4 +1,4 @@
-import { defaults, schema, CommandOptions } from './options';
+import { schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 import { Message } from 'discord.js';
 
@@ -33,9 +33,7 @@ export class Command {
                 `Expected type function for run, recieved ${typeof run}`,
             );
 
-        const { error, value } = schema.validate(
-            Object.assign(defaults, options),
-        );
+        const { error, value } = schema.validate(options);
 
         if (error) throw error.annotate();
         else this.options = value;
@@ -62,5 +60,9 @@ export const createCommand = (
         run: Command['run'];
     },
 ) => {
-    return new Command(name, options.run, removeKeys(options, 'run'));
+    return new Command(
+        name,
+        options.run,
+        removeKeys(options, 'run') as CommandOptions,
+    );
 };

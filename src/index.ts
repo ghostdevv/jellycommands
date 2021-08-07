@@ -1,10 +1,6 @@
 // Export JellyCommands related
 export { JellyCommands } from './JellyCommands/JellyCommands';
-export type {
-    JellyCommandsOptions,
-    JellyCommandsOptionsMessage,
-    FullJellyCommandsOptions,
-} from './JellyCommands/options';
+export * from './JellyCommands/options.d';
 
 // Export event related
 export { createEvent, Event } from './JellyCommands/events/Event';

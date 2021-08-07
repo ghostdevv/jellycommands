@@ -1,10 +1,9 @@
 import { Message, Client, ClientEvents, MessagePayload, MessageOptions } from 'discord.js';
 
-declare const defaults$2: {
+interface CommandOptions {
     disabled: boolean;
     allowDM: boolean;
-};
-declare type CommandOptions = Partial<typeof defaults$2>;
+}
 
 declare class Command {
     readonly name: string;
@@ -43,11 +42,10 @@ declare class CommandManager extends BaseManager<Command> {
     protected add(command: Command, path: string): void;
 }
 
-declare const defaults$1: {
+interface EventOptions {
     disabled: boolean;
     once: boolean;
-};
-declare type EventOptions = Partial<typeof defaults$1>;
+}
 
 declare class Event {
     readonly name: keyof ClientEvents;
@@ -55,10 +53,7 @@ declare class Event {
     readonly options: Required<EventOptions>;
     constructor(name: keyof ClientEvents, run: Function, options: EventOptions);
 }
-declare const createEvent: <K extends keyof ClientEvents>(name: K, options: Partial<{
-    disabled: boolean;
-    once: boolean;
-}> & {
+declare const createEvent: <K extends keyof ClientEvents>(name: K, options: EventOptions & {
     run: (instance: {
         client: Client;
         jelly: JellyCommands;
@@ -73,20 +68,25 @@ declare class EventManager extends BaseManager<Event> {
     protected add(event: Event, path: string): void;
 }
 
-declare const defaults: {
-    ignoreBots: boolean;
-    prefix: string;
-    messages: {
-        unkownCommand: JellyCommandsOptionsMessage;
-    };
-};
-declare type FullJellyCommandsOptions = typeof defaults;
-declare type JellyCommandsOptionsMessage = string | MessagePayload | MessageOptions;
 interface JellyCommandsOptions {
     ignoreBots?: boolean;
     prefix?: string;
+
+    guards?: {};
+
     messages?: {
-        unkownCommand?: JellyCommandsOptionsMessage;
+        unknownCommand: undefined | (string | MessagePayload | MessageOptions);
+    };
+}
+
+interface FullJellyCommandsOptions {
+    ignoreBots: boolean;
+    prefix: string;
+
+    guards: {};
+
+    messages: {
+        unknownCommand: undefined | (string | MessagePayload | MessageOptions);
     };
 }
 
@@ -98,4 +98,4 @@ declare class JellyCommands {
     constructor(client: Client, options?: JellyCommandsOptions);
 }
 
-export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, JellyCommandsOptionsMessage, createCommand, createEvent };
+export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, createCommand, createEvent };

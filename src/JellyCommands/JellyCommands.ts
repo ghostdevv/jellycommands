@@ -1,9 +1,12 @@
 import CommandManager from './managers/CommandManager';
 import EventManager from './managers/EventManager';
-import { defaults, schema } from './options';
 import { Client } from 'discord.js';
+import { schema } from './options';
 
-import type { JellyCommandsOptions, FullJellyCommandsOptions } from './options';
+import type {
+    JellyCommandsOptions,
+    FullJellyCommandsOptions,
+} from './options.d';
 
 export class JellyCommands {
     public readonly client: Client;
@@ -20,9 +23,7 @@ export class JellyCommands {
 
         this.client = client;
 
-        const { error, value } = schema.validate(
-            Object.assign(defaults, options),
-        );
+        const { error, value } = schema.validate(options);
 
         if (error) throw error.annotate();
         else this.options = value;
