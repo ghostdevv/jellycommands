@@ -1,8 +1,8 @@
 import { Message, Client, ClientEvents, MessagePayload, MessageOptions } from 'discord.js';
 
 interface CommandOptions {
-    disabled: boolean;
-    allowDM: boolean;
+    disabled?: boolean;
+    allowDM?: boolean;
     guards?: {
         allowedUsers?: string[];
         blockedUsers?: string[];
@@ -47,8 +47,8 @@ declare class CommandManager extends BaseManager<Command> {
 }
 
 interface EventOptions {
-    disabled: boolean;
-    once: boolean;
+    disabled?: boolean;
+    once?: boolean;
 }
 
 declare class Event {
