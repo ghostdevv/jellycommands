@@ -40,6 +40,11 @@ export default class CommandManager extends BaseManager<Command> {
                 message.channel.send(messages.unknownCommand)
             );
 
+        const { allowedUsers, blockedUsers } = command.options.guards;
+
+        if (allowedUsers && !allowedUsers.includes(message.author.id)) return;
+        if (blockedUsers && blockedUsers.includes(message.author.id)) return;
+
         const check = command.check(message);
 
         if (check)
