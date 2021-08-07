@@ -10,3 +10,12 @@ body:
       placeholder: I want x because...
     validations:
       required: false
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Describe the feature
+      description: Some examples of where this featue can be seen in the wild.
+      placeholder: Command handler x has this because y...
+    validations:
+      required: false
