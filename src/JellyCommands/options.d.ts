@@ -7,7 +7,7 @@ export interface JellyCommandsOptions {
     guards?: {};
 
     messages?: {
-        unknownCommand: undefined | (string | MessagePayload | MessageOptions);
+        unknownCommand?: string | MessagePayload | MessageOptions;
     };
 }
 
@@ -18,6 +18,6 @@ export interface FullJellyCommandsOptions {
     guards: {};
 
     messages: {
-        unknownCommand: undefined | (string | MessagePayload | MessageOptions);
+        unkownCommand?: string | MessagePayload | MessageOptions;
     };
 }
