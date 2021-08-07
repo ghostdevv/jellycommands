@@ -1,10 +1,6 @@
 import { MessagePayload } from 'discord.js';
 import Joi from 'joi';
 
-const message = Joi.alternatives()
-    .try(Joi.string(), Joi.object().instance(MessagePayload), Joi.object())
-    .optional();
-
 export const schema = Joi.object({
     /**
      * Set to ignore messages from other discord bots or not.
@@ -23,6 +19,10 @@ export const schema = Joi.object({
         /**
          * This is sent when a unkown command is given
          */
-        unknownCommand: message,
+        unknownCommand: [
+            Joi.string(),
+            Joi.object().instance(MessagePayload),
+            Joi.object(),
+        ],
     }).default(),
 });

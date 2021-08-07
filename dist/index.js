@@ -60,13 +60,13 @@ var Command = class {
     else
       this.options = value;
   }
-  check(message2) {
-    if (!message2 || !(message2 instanceof import_discord.Message))
-      throw new TypeError(`Expected type Message, recieved ${typeof message2}`);
+  check(message) {
+    if (!message || !(message instanceof import_discord.Message))
+      throw new TypeError(`Expected type Message, recieved ${typeof message}`);
     const opt = this.options;
     if (opt.disabled)
       return false;
-    if (opt.allowDM === false && message2.channel.type == "DM")
+    if (opt.allowDM === false && message.channel.type == "DM")
       return false;
     return true;
   }
@@ -141,25 +141,25 @@ var CommandManager = class extends BaseManager {
     this.client = jelly.client;
     this.client.on("messageCreate", (m) => this.onMessage(m));
   }
-  onMessage(message2) {
+  onMessage(message) {
     const { prefix, messages } = this.jelly.options;
-    if (!message2.content.startsWith(prefix))
+    if (!message.content.startsWith(prefix))
       return;
-    const commandWord = message2.content.slice(prefix.length).split(" ")[0].trim();
+    const commandWord = message.content.slice(prefix.length).split(" ")[0].trim();
     if (commandWord.length == 0)
       return;
     const command = this.commands.get(commandWord);
     if (!command)
-      return messages.unknownCommand && message2.channel.send(messages.unknownCommand);
+      return messages.unknownCommand && message.channel.send(messages.unknownCommand);
     const { allowedUsers, blockedUsers } = command.options.guards;
-    if (allowedUsers && !allowedUsers.includes(message2.author.id))
+    if (allowedUsers && !allowedUsers.includes(message.author.id))
       return;
-    if (blockedUsers && blockedUsers.includes(message2.author.id))
+    if (blockedUsers && blockedUsers.includes(message.author.id))
       return;
-    const check = command.check(message2);
+    const check = command.check(message);
     if (check)
       command.run({
-        message: message2,
+        message,
         jelly: this.jelly,
         client: this.client
       });
@@ -237,12 +237,15 @@ var import_discord3 = __toModule(require("discord.js"));
 // src/JellyCommands/options.ts
 var import_discord2 = __toModule(require("discord.js"));
 var import_joi3 = __toModule(require("joi"));
-var message = import_joi3.default.alternatives().try(import_joi3.default.string(), import_joi3.default.object().instance(import_discord2.MessagePayload), import_joi3.default.object()).optional();
 var schema3 = import_joi3.default.object({
   ignoreBots: import_joi3.default.bool().default(true),
   prefix: import_joi3.default.string().min(1).max(64).default("!"),
   messages: import_joi3.default.object({
-    unknownCommand: message
+    unknownCommand: [
+      import_joi3.default.string(),
+      import_joi3.default.object().instance(import_discord2.MessagePayload),
+      import_joi3.default.object()
+    ]
   }).default()
 });
 
