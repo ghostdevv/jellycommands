@@ -8,7 +8,9 @@ const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
-const jelly = new JellyCommands(client);
+const jelly = new JellyCommands(client, {
+    prefix: '-',
+});
 
 jelly.events.load('dev/events');
 jelly.commands.load('dev/commands');
