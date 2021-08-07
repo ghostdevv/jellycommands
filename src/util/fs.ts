@@ -1,3 +1,4 @@
+import { pathToFileURL } from 'url';
 import { resolve } from 'path';
 
 // If there is a default it returns it, if there is a default but other properties it strips the default
@@ -11,6 +12,6 @@ export const resolveImport = (imp: { default?: any }) => {
 };
 
 export const readJSFile = async (path: string) => {
-    const data = await import(resolve(path));
+    const data = await import(pathToFileURL(resolve(path)).href);
     return resolveImport(data);
 };
