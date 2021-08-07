@@ -211,14 +211,7 @@ var schema3 = Joi3.object({
   ignoreBots: Joi3.bool().default(true),
   prefix: Joi3.string().min(1).max(64).default("!"),
   messages: Joi3.object({
-    unknownCommand: message.default({
-      embeds: [
-        {
-          description: "Unkown Command",
-          color: "RANDOM"
-        }
-      ]
-    })
+    unknownCommand: message
   }).default()
 });
 

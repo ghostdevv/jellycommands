@@ -242,14 +242,7 @@ var schema3 = import_joi3.default.object({
   ignoreBots: import_joi3.default.bool().default(true),
   prefix: import_joi3.default.string().min(1).max(64).default("!"),
   messages: import_joi3.default.object({
-    unknownCommand: message.default({
-      embeds: [
-        {
-          description: "Unkown Command",
-          color: "RANDOM"
-        }
-      ]
-    })
+    unknownCommand: message
   }).default()
 });
 

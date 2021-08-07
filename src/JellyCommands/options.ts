@@ -23,13 +23,6 @@ export const schema = Joi.object({
         /**
          * This is sent when a unkown command is given
          */
-        unknownCommand: message.default({
-            embeds: [
-                {
-                    description: 'Unkown Command',
-                    color: 'RANDOM',
-                },
-            ],
-        }),
+        unknownCommand: message,
     }).default(),
 });
