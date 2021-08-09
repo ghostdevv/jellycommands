@@ -22,6 +22,16 @@ export interface CommandOptions {
          * If a user is in this array they won't be able to use the command
          */
         blockedUsers?: string[];
+
+        /**
+         * Only users who have a role that is in this array can use the command
+         */
+        allowedRoles?: string[];
+
+        /**
+         * If a user has a role that is in this array they won't be able to use the command
+         */
+        blockedRoles?: string[];
     };
 }
 
@@ -36,5 +46,8 @@ export const schema = Joi.object({
     guards: Joi.object({
         allowedUsers: snowflakeSchema(),
         blockedUsers: snowflakeSchema(),
+
+        allowedRoles: snowflakeSchema(),
+        blockedRoles: snowflakeSchema(),
     }).default(),
 });
