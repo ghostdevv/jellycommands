@@ -250,8 +250,8 @@ var createSlashCommand = /* @__PURE__ */ __name((name, options) => {
   return new SlashCommand(name, options.run, removeKeys3(options, "run"));
 }, "createSlashCommand");
 
-// src/JellyCommands/managers/SlashManager.ts
-var SlashManager = class extends BaseManager {
+// src/JellyCommands/managers/SlashCommandManager.ts
+var SlashCommandManager = class extends BaseManager {
   constructor(jelly) {
     super();
     this.commands = new Map();
@@ -313,7 +313,7 @@ var SlashManager = class extends BaseManager {
     this.commands.set(command.name, command);
   }
 };
-__name(SlashManager, "SlashManager");
+__name(SlashCommandManager, "SlashCommandManager");
 
 // src/JellyCommands/JellyCommands.ts
 import { Client } from "discord.js";
@@ -346,7 +346,7 @@ var JellyCommands = class {
       this.options = value;
     this.events = new EventManager(this);
     this.commands = new CommandManager(this);
-    this.slashCommands = new SlashManager(this);
+    this.slashCommands = new SlashCommandManager(this);
   }
 };
 __name(JellyCommands, "JellyCommands");

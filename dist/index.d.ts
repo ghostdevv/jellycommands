@@ -103,7 +103,7 @@ declare const createSlashCommand: (name: string, options: SlashCommandOptions & 
     run: SlashCommand['run'];
 }) => SlashCommand;
 
-declare class SlashManager extends BaseManager<SlashCommand> {
+declare class SlashCommandManager extends BaseManager<SlashCommand> {
     private client;
     private jelly;
     private commands;
@@ -140,7 +140,7 @@ declare class JellyCommands {
     readonly options: FullJellyCommandsOptions;
     readonly events: EventManager;
     readonly commands: CommandManager;
-    readonly slashCommands: SlashManager;
+    readonly slashCommands: SlashCommandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
 }
 

@@ -5,7 +5,7 @@ import BaseManager from './BaseManager';
 import type { Client, CommandInteraction } from 'discord.js';
 import type { ApplicationCommandData } from 'discord.js';
 
-export default class SlashManager extends BaseManager<SlashCommand> {
+export default class SlashCommandManager extends BaseManager<SlashCommand> {
     private client: Client;
     private jelly: JellyCommands;
 

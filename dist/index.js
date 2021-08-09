@@ -283,8 +283,8 @@ var createSlashCommand = /* @__PURE__ */ __name((name, options) => {
   return new SlashCommand(name, options.run, (0, import_ghoststools4.removeKeys)(options, "run"));
 }, "createSlashCommand");
 
-// src/JellyCommands/managers/SlashManager.ts
-var SlashManager = class extends BaseManager {
+// src/JellyCommands/managers/SlashCommandManager.ts
+var SlashCommandManager = class extends BaseManager {
   constructor(jelly) {
     super();
     this.commands = new Map();
@@ -346,7 +346,7 @@ var SlashManager = class extends BaseManager {
     this.commands.set(command.name, command);
   }
 };
-__name(SlashManager, "SlashManager");
+__name(SlashCommandManager, "SlashCommandManager");
 
 // src/JellyCommands/JellyCommands.ts
 var import_discord3 = __toModule(require("discord.js"));
@@ -379,7 +379,7 @@ var JellyCommands = class {
       this.options = value;
     this.events = new EventManager(this);
     this.commands = new CommandManager(this);
-    this.slashCommands = new SlashManager(this);
+    this.slashCommands = new SlashCommandManager(this);
   }
 };
 __name(JellyCommands, "JellyCommands");
