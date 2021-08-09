@@ -5,7 +5,6 @@ export default createSlashCommand('guildtest', {
 
     guilds: ['663140687591768074'],
 
-    run: () => {
-        console.log('Test');
-    },
+    run: ({ interaction }) =>
+        interaction.reply({ embeds: [{ description: 'as' }] }),
 });
