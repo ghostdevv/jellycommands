@@ -1,5 +1,6 @@
 import CommandManager from './managers/CommandManager';
 import EventManager from './managers/EventManager';
+import SlashManager from './managers/SlashManager';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
@@ -14,6 +15,7 @@ export class JellyCommands {
 
     public readonly events: EventManager;
     public readonly commands: CommandManager;
+    public readonly slashCommands: SlashManager;
 
     constructor(client: Client, options: JellyCommandsOptions = {}) {
         if (!client || !(client instanceof Client))
@@ -30,5 +32,6 @@ export class JellyCommands {
 
         this.events = new EventManager(this);
         this.commands = new CommandManager(this);
+        this.slashCommands = new SlashManager(this);
     }
 }
