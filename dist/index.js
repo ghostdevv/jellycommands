@@ -28,8 +28,10 @@ __export(exports, {
   Command: () => Command,
   Event: () => Event,
   JellyCommands: () => JellyCommands,
+  SlashCommand: () => SlashCommand,
   createCommand: () => createCommand,
-  createEvent: () => createEvent
+  createEvent: () => createEvent,
+  createSlashCommand: () => createSlashCommand
 });
 
 // src/JellyCommands/commands/options.ts
@@ -240,20 +242,126 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
+// src/JellyCommands/slash/options.ts
+var import_joi3 = __toModule(require("joi"));
+var snowflakeSchema2 = /* @__PURE__ */ __name(() => import_joi3.default.array().items(import_joi3.default.string().length(18)), "snowflakeSchema");
+var schema3 = import_joi3.default.object({
+  description: import_joi3.default.string().required(),
+  options: import_joi3.default.array(),
+  defer: [
+    import_joi3.default.bool(),
+    import_joi3.default.object({
+      ephemeral: import_joi3.default.bool(),
+      fetchReply: import_joi3.default.bool()
+    })
+  ],
+  defaultPermission: import_joi3.default.bool(),
+  guilds: snowflakeSchema2(),
+  global: import_joi3.default.bool().default(false),
+  disabled: import_joi3.default.bool().default(false)
+});
+
+// src/JellyCommands/slash/SlashCommand.ts
+var import_ghoststools4 = __toModule(require("ghoststools"));
+var SlashCommand = class {
+  constructor(name, run, options) {
+    this.name = name;
+    if (!name || typeof name != "string")
+      throw new TypeError(`Expected type string for name, recieved ${typeof name}`);
+    this.run = run;
+    if (!run || typeof run != "function")
+      throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
+    const { error, value } = schema3.validate(options);
+    if (error)
+      throw error.annotate();
+    else
+      this.options = value;
+  }
+};
+__name(SlashCommand, "SlashCommand");
+var createSlashCommand = /* @__PURE__ */ __name((name, options) => {
+  return new SlashCommand(name, options.run, (0, import_ghoststools4.removeKeys)(options, "run"));
+}, "createSlashCommand");
+
+// src/JellyCommands/managers/SlashManager.ts
+var SlashManager = class extends BaseManager {
+  constructor(jelly) {
+    super();
+    this.commands = new Map();
+    this.loadedPaths = new Set();
+    this.globalCommands = new Map();
+    this.guildCommands = new Map();
+    this.jelly = jelly;
+    this.client = jelly.client;
+    this.client.on("interactionCreate", (i) => {
+      i.isCommand() && this.onCommand(i);
+    });
+  }
+  async onCommand(interaction) {
+    const command = this.commands.get(interaction.commandName);
+    if (!command)
+      return this.jelly.options.messages.unknownCommand && interaction.reply(this.jelly.options.messages.unknownCommand);
+    const options = command.options;
+    if (options.defer)
+      await interaction.deferReply(typeof options.defer == "object" ? options.defer : {});
+    command.run({
+      jelly: this.jelly,
+      client: this.client,
+      interaction
+    });
+  }
+  resolveApplicationCommandData(command) {
+    return {
+      name: command.name,
+      description: command.options.description,
+      options: command.options.options,
+      defaultPermission: command.options.defaultPermission
+    };
+  }
+  async register() {
+    if (!this.client.isReady())
+      throw new Error(`Client is not ready, only call register after client is ready`);
+    await this.client.application?.commands.set([...this.globalCommands.values()].map((command) => this.resolveApplicationCommandData(command)));
+    for (const [guild, commands] of this.guildCommands.entries()) {
+      const resovledCommands = commands.map((command) => this.resolveApplicationCommandData(command));
+      await this.client.application?.commands.set(resovledCommands, guild);
+    }
+    return new Map(this.commands);
+  }
+  add(command, path) {
+    if (this.loadedPaths.has(path))
+      throw new Error(`The path ${path} has already been loaded, therefore can not be loaded again`);
+    this.loadedPaths.add(path);
+    if (!(command instanceof SlashCommand))
+      throw new Error(`Expected instance of SlashCommand, recieved ${typeof command}`);
+    if (command.options.disabled)
+      return;
+    if (command.options.global)
+      this.globalCommands.set(command.name, command);
+    for (const guild of command.options.guilds || [])
+      this.guildCommands.set(guild, [
+        ...this.guildCommands.get(guild) || [],
+        command
+      ]);
+    this.commands.set(command.name, command);
+  }
+};
+__name(SlashManager, "SlashManager");
+
 // src/JellyCommands/JellyCommands.ts
 var import_discord3 = __toModule(require("discord.js"));
 
 // src/JellyCommands/options.ts
 var import_discord2 = __toModule(require("discord.js"));
-var import_joi3 = __toModule(require("joi"));
-var schema3 = import_joi3.default.object({
-  ignoreBots: import_joi3.default.bool().default(true),
-  prefix: import_joi3.default.string().min(1).max(64).default("!"),
-  messages: import_joi3.default.object({
+var import_joi4 = __toModule(require("joi"));
+var schema4 = import_joi4.default.object({
+  ignoreBots: import_joi4.default.bool().default(true),
+  prefix: import_joi4.default.string().min(1).max(64).default("!"),
+  messages: import_joi4.default.object({
     unknownCommand: [
-      import_joi3.default.string(),
-      import_joi3.default.object().instance(import_discord2.MessagePayload),
-      import_joi3.default.object()
+      import_joi4.default.string(),
+      import_joi4.default.object().instance(import_discord2.MessagePayload),
+      import_joi4.default.object()
     ]
   }).default()
 });
@@ -264,13 +372,14 @@ var JellyCommands = class {
     if (!client || !(client instanceof import_discord3.Client))
       throw new SyntaxError(`Expected a instance of Discord.Client, recieved ${typeof client}`);
     this.client = client;
-    const { error, value } = schema3.validate(options);
+    const { error, value } = schema4.validate(options);
     if (error)
       throw error.annotate();
     else
       this.options = value;
     this.events = new EventManager(this);
     this.commands = new CommandManager(this);
+    this.slashCommands = new SlashManager(this);
   }
 };
 __name(JellyCommands, "JellyCommands");
@@ -279,6 +388,8 @@ __name(JellyCommands, "JellyCommands");
   Command,
   Event,
   JellyCommands,
+  SlashCommand,
   createCommand,
-  createEvent
+  createEvent,
+  createSlashCommand
 });
