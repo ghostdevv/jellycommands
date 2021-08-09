@@ -6,7 +6,10 @@ import { parse, resolve } from 'path';
 export default abstract class BaseManager<ManagerTarget> {
     constructor() {}
 
-    protected abstract add(item: ManagerTarget, path: string): void;
+    protected abstract add(
+        item: ManagerTarget,
+        path: string,
+    ): void | Promise<void>;
 
     load(path: string) {
         path = resolve(posixify(path));
@@ -26,7 +29,7 @@ export default abstract class BaseManager<ManagerTarget> {
 
         const item = await readJSFile(path);
 
-        this.add(item, path);
+        await this.add(item, path);
 
         return item;
     }
