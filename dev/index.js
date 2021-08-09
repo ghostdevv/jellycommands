@@ -10,9 +10,18 @@ const client = new Client({
 
 const jelly = new JellyCommands(client, {
     prefix: '-',
+
+    messages: {
+        unknownCommand: {
+            embeds: [{ description: 'Unknown Command' }],
+        },
+    },
 });
 
 jelly.events.load('dev/events');
 jelly.commands.load('dev/commands');
+jelly.slashCommands.load('dev/slashCommands');
 
 client.login(process.env.TOKEN);
+
+client.on('ready', () => jelly.slashCommands.register());
