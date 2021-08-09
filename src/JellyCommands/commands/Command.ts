@@ -39,7 +39,30 @@ export class Command {
         else this.options = value;
     }
 
-    public check(message: Message): boolean {
+    public permissionCheck(message: Message): boolean {
+        if (!message || !(message instanceof Message))
+            throw new TypeError(
+                `Expected type Message, recieved ${typeof message}`,
+            );
+
+        const { allowedUsers, blockedUsers } = this.options.guards;
+
+        /**
+         * Check if there is a allowedUsers array, if so check if the user is on it
+         */
+        if (allowedUsers && !allowedUsers.includes(message.author.id))
+            return false;
+
+        /**
+         * Check if there is a blockedUsers array, if so check if the user is on it
+         */
+        if (blockedUsers && blockedUsers.includes(message.author.id))
+            return false;
+
+        return true;
+    }
+
+    public contextCheck(message: Message): boolean {
         if (!message || !(message instanceof Message))
             throw new TypeError(
                 `Expected type Message, recieved ${typeof message}`,
@@ -47,7 +70,6 @@ export class Command {
 
         const opt = this.options;
 
-        if (opt.disabled) return false;
         if (opt.allowDM === false && message.channel.type == 'DM') return false;
 
         return true;

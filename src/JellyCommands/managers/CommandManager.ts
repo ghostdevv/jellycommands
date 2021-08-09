@@ -37,33 +37,27 @@ export default class CommandManager extends BaseManager<Command> {
         /**
          * Check if the command exists, if it doesn't and there is a unkownCommand embed it sends it
          */
-        if (!command)
+        if (!command || command.options.disabled)
             return (
                 messages.unknownCommand &&
                 message.channel.send(messages.unknownCommand)
             );
 
-        const { allowedUsers, blockedUsers } = command.options.guards;
-
         /**
-         * Check if there is a allowedUsers array, if so check if the user is on it
+         * Check the user has the permissions to use the command
          */
-        if (allowedUsers && !allowedUsers.includes(message.author.id)) return;
-
-        /**
-         * Check if there is a blockedUsers array, if so check if the user is on it
-         */
-        if (blockedUsers && blockedUsers.includes(message.author.id)) return;
+        const permissionCheck = command.permissionCheck(message);
+        if (!permissionCheck) return;
 
         /**
          * Check that the command is able to be ran
          */
-        const check = command.check(message);
+        const contextCheck = command.contextCheck(message);
 
         /**
-         * Run the command if it passed the check
+         * Run the command if it passed the context check
          */
-        if (check)
+        if (contextCheck)
             command.run({
                 message,
                 jelly: this.jelly,
