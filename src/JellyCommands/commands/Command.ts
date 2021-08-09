@@ -70,6 +70,9 @@ export class Command {
 
         const opt = this.options;
 
+        /**
+         * If allowing DM is set to false, check fails
+         */
         if (opt.allowDM === false && message.channel.type == 'DM') return false;
 
         return true;
