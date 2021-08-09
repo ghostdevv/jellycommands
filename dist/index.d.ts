@@ -6,6 +6,8 @@ interface CommandOptions {
     guards?: {
         allowedUsers?: string[];
         blockedUsers?: string[];
+        allowedRoles?: string[];
+        blockedRoles?: string[];
     };
 }
 
@@ -22,7 +24,8 @@ declare class Command {
         jelly: JellyCommands;
         client: Client;
     }) => void | any, options: CommandOptions);
-    check(message: Message): boolean;
+    permissionCheck(message: Message): boolean;
+    contextCheck(message: Message): boolean;
 }
 declare const createCommand: (name: string, options: CommandOptions & {
     run: Command['run'];

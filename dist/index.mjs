@@ -3,12 +3,15 @@ var __name = (target, value) => __defProp(target, "name", { value, configurable:
 
 // src/JellyCommands/commands/options.ts
 import Joi from "joi";
+var snowflakeSchema = /* @__PURE__ */ __name(() => Joi.array().items(Joi.string().length(18)), "snowflakeSchema");
 var schema = Joi.object({
   disabled: Joi.bool().default(false),
   allowDM: Joi.bool().default(false),
   guards: Joi.object({
-    allowedUsers: Joi.array().items(Joi.string().length(18)).optional(),
-    blockedUsers: Joi.array().items(Joi.string().length(18)).optional()
+    allowedUsers: snowflakeSchema(),
+    blockedUsers: snowflakeSchema(),
+    allowedRoles: snowflakeSchema(),
+    blockedRoles: snowflakeSchema()
   }).default()
 });
 
@@ -29,12 +32,20 @@ var Command = class {
     else
       this.options = value;
   }
-  check(message) {
+  permissionCheck(message) {
+    if (!message || !(message instanceof Message))
+      throw new TypeError(`Expected type Message, recieved ${typeof message}`);
+    const { allowedUsers, blockedUsers } = this.options.guards;
+    if (allowedUsers && !allowedUsers.includes(message.author.id))
+      return false;
+    if (blockedUsers && blockedUsers.includes(message.author.id))
+      return false;
+    return true;
+  }
+  contextCheck(message) {
     if (!message || !(message instanceof Message))
       throw new TypeError(`Expected type Message, recieved ${typeof message}`);
     const opt = this.options;
-    if (opt.disabled)
-      return false;
     if (opt.allowDM === false && message.channel.type == "DM")
       return false;
     return true;
@@ -118,15 +129,13 @@ var CommandManager = class extends BaseManager {
     if (commandWord.length == 0)
       return;
     const command = this.commands.get(commandWord);
-    if (!command)
+    if (!command || command.options.disabled)
       return messages.unknownCommand && message.channel.send(messages.unknownCommand);
-    const { allowedUsers, blockedUsers } = command.options.guards;
-    if (allowedUsers && !allowedUsers.includes(message.author.id))
+    const permissionCheck = command.permissionCheck(message);
+    if (!permissionCheck)
       return;
-    if (blockedUsers && blockedUsers.includes(message.author.id))
-      return;
-    const check = command.check(message);
-    if (check)
+    const contextCheck = command.contextCheck(message);
+    if (contextCheck)
       command.run({
         message,
         jelly: this.jelly,

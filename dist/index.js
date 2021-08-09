@@ -34,12 +34,15 @@ __export(exports, {
 
 // src/JellyCommands/commands/options.ts
 var import_joi = __toModule(require("joi"));
+var snowflakeSchema = /* @__PURE__ */ __name(() => import_joi.default.array().items(import_joi.default.string().length(18)), "snowflakeSchema");
 var schema = import_joi.default.object({
   disabled: import_joi.default.bool().default(false),
   allowDM: import_joi.default.bool().default(false),
   guards: import_joi.default.object({
-    allowedUsers: import_joi.default.array().items(import_joi.default.string().length(18)).optional(),
-    blockedUsers: import_joi.default.array().items(import_joi.default.string().length(18)).optional()
+    allowedUsers: snowflakeSchema(),
+    blockedUsers: snowflakeSchema(),
+    allowedRoles: snowflakeSchema(),
+    blockedRoles: snowflakeSchema()
   }).default()
 });
 
@@ -60,12 +63,20 @@ var Command = class {
     else
       this.options = value;
   }
-  check(message) {
+  permissionCheck(message) {
+    if (!message || !(message instanceof import_discord.Message))
+      throw new TypeError(`Expected type Message, recieved ${typeof message}`);
+    const { allowedUsers, blockedUsers } = this.options.guards;
+    if (allowedUsers && !allowedUsers.includes(message.author.id))
+      return false;
+    if (blockedUsers && blockedUsers.includes(message.author.id))
+      return false;
+    return true;
+  }
+  contextCheck(message) {
     if (!message || !(message instanceof import_discord.Message))
       throw new TypeError(`Expected type Message, recieved ${typeof message}`);
     const opt = this.options;
-    if (opt.disabled)
-      return false;
     if (opt.allowDM === false && message.channel.type == "DM")
       return false;
     return true;
@@ -149,15 +160,13 @@ var CommandManager = class extends BaseManager {
     if (commandWord.length == 0)
       return;
     const command = this.commands.get(commandWord);
-    if (!command)
+    if (!command || command.options.disabled)
       return messages.unknownCommand && message.channel.send(messages.unknownCommand);
-    const { allowedUsers, blockedUsers } = command.options.guards;
-    if (allowedUsers && !allowedUsers.includes(message.author.id))
+    const permissionCheck = command.permissionCheck(message);
+    if (!permissionCheck)
       return;
-    if (blockedUsers && blockedUsers.includes(message.author.id))
-      return;
-    const check = command.check(message);
-    if (check)
+    const contextCheck = command.contextCheck(message);
+    if (contextCheck)
       command.run({
         message,
         jelly: this.jelly,
