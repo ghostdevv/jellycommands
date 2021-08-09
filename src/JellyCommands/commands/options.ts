@@ -27,12 +27,14 @@ export interface CommandOptions {
 
 import Joi from 'joi';
 
+const snowflakeSchema = () => Joi.array().items(Joi.string().length(18));
+
 export const schema = Joi.object({
     disabled: Joi.bool().default(false),
     allowDM: Joi.bool().default(false),
 
     guards: Joi.object({
-        allowedUsers: Joi.array().items(Joi.string().length(18)).optional(),
-        blockedUsers: Joi.array().items(Joi.string().length(18)).optional(),
+        allowedUsers: snowflakeSchema(),
+        blockedUsers: snowflakeSchema(),
     }).default(),
 });
