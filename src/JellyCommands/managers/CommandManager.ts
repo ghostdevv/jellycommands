@@ -1,8 +1,9 @@
-import { JellyCommands } from '../JellyCommands';
 import { Command } from '../commands/Command';
+import { JellyCommands } from '../JellyCommands';
 import BaseManager from './BaseManager';
 
-import type { Client, Message } from 'discord.js';
+import type { Client, CommandInteraction } from 'discord.js';
+import type { ApplicationCommandData } from 'discord.js';
 
 export default class CommandManager extends BaseManager<Command> {
     private client: Client;
@@ -11,58 +12,93 @@ export default class CommandManager extends BaseManager<Command> {
     private commands = new Map<string, Command>();
     private loadedPaths = new Set<string>();
 
+    private globalCommands = new Map<string, Command>();
+    private guildCommands = new Map<string, Command[]>();
+
     constructor(jelly: JellyCommands) {
         super();
 
         this.jelly = jelly;
         this.client = jelly.client;
 
-        this.client.on('messageCreate', (m) => this.onMessage(m));
+        this.client.on('interactionCreate', (i) => {
+            i.isCommand() && this.onCommand(i);
+        });
     }
 
-    private onMessage(message: Message): any {
-        const { prefix, messages } = this.jelly.options;
-
-        if (!message.content.startsWith(prefix)) return;
-
-        const commandWord = message.content
-            .slice(prefix.length)
-            .split(' ')[0]
-            .trim();
-
-        if (commandWord.length == 0) return;
-
-        const command = this.commands.get(commandWord);
+    private async onCommand(interaction: CommandInteraction): Promise<any> {
+        const command = this.commands.get(interaction.commandName);
 
         /**
-         * Check if the command exists, if it doesn't and there is a unkownCommand embed it sends it
+         * If command is not found return - if unknownCommand message send
          */
-        if (!command || command.options.disabled)
+        if (!command)
             return (
-                messages.unknownCommand &&
-                message.channel.send(messages.unknownCommand)
+                this.jelly.options.messages.unknownCommand &&
+                interaction.reply(this.jelly.options.messages.unknownCommand)
+            );
+
+        const options = command.options;
+
+        /**
+         * If defer, defer
+         */
+        if (options.defer)
+            await interaction.deferReply(
+                typeof options.defer == 'object' ? options.defer : {},
             );
 
         /**
-         * Check the user has the permissions to use the command
+         * Run the command
          */
-        const permissionCheck = command.permissionCheck(message);
-        if (!permissionCheck) return;
+        command.run({
+            jelly: this.jelly,
+            client: this.client,
+            interaction,
+        });
+    }
+
+    private resolveApplicationCommandData(
+        command: Command,
+    ): ApplicationCommandData {
+        return {
+            name: command.name,
+            description: command.options.description,
+            options: command.options.options,
+            defaultPermission: command.options.defaultPermission,
+        };
+    }
+
+    public async register(): Promise<Map<string, Command>> {
+        if (!this.client.isReady())
+            throw new Error(
+                `Client is not ready, only call register after client is ready`,
+            );
 
         /**
-         * Check that the command is able to be ran
+         * Register the global commands
          */
-        const contextCheck = command.contextCheck(message);
+        await this.client.application?.commands.set(
+            [...this.globalCommands.values()].map((command) =>
+                this.resolveApplicationCommandData(command),
+            ),
+        );
 
         /**
-         * Run the command if it passed the context check
+         * Register the guild commands
          */
-        if (contextCheck)
-            command.run({
-                message,
-                jelly: this.jelly,
-                client: this.client,
-            });
+        for (const [guild, commands] of this.guildCommands.entries()) {
+            const resovledCommands = commands.map((command) =>
+                this.resolveApplicationCommandData(command),
+            );
+
+            await this.client.application?.commands.set(
+                resovledCommands,
+                guild,
+            );
+        }
+
+        return new Map<string, Command>(this.commands);
     }
 
     protected add(command: Command, path: string) {
@@ -80,6 +116,24 @@ export default class CommandManager extends BaseManager<Command> {
 
         if (command.options.disabled) return;
 
+        /**
+         * If global command add to global commands map
+         */
+        if (command.options.global)
+            this.globalCommands.set(command.name, command);
+
+        /**
+         * Add every guild to guildCommands map
+         */
+        for (const guild of command.options.guilds || [])
+            this.guildCommands.set(guild, [
+                ...(this.guildCommands.get(guild) || []),
+                command,
+            ]);
+
+        /**
+         * Add to commands map
+         */
         this.commands.set(command.name, command);
     }
 }

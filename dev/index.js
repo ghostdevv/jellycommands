@@ -20,8 +20,8 @@ const jelly = new JellyCommands(client, {
 
 jelly.events.load('dev/events');
 jelly.commands.load('dev/commands');
-jelly.slashCommands.load('dev/slashCommands');
+jelly.commands.load('dev/commands');
 
 client.login(process.env.TOKEN);
 
-client.on('ready', () => jelly.slashCommands.register());
+client.on('ready', () => jelly.commands.register());

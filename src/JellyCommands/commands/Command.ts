@@ -2,18 +2,18 @@ import { schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 import { Message } from 'discord.js';
 
+import type { Client, CommandInteraction } from 'discord.js';
 import type { JellyCommands } from '../JellyCommands';
-import type { Client } from 'discord.js';
 
 export class Command {
     public readonly name;
     public readonly run;
-    public readonly options: Required<CommandOptions>;
+    public readonly options: CommandOptions;
 
     constructor(
         name: string,
         run: ({}: {
-            message: Message;
+            interaction: CommandInteraction;
             jelly: JellyCommands;
             client: Client;
         }) => void | any,
@@ -37,45 +37,6 @@ export class Command {
 
         if (error) throw error.annotate();
         else this.options = value;
-    }
-
-    public permissionCheck(message: Message): boolean {
-        if (!message || !(message instanceof Message))
-            throw new TypeError(
-                `Expected type Message, recieved ${typeof message}`,
-            );
-
-        const { allowedUsers, blockedUsers } = this.options.guards;
-
-        /**
-         * Check if there is a allowedUsers array, if so check if the user is on it
-         */
-        if (allowedUsers && !allowedUsers.includes(message.author.id))
-            return false;
-
-        /**
-         * Check if there is a blockedUsers array, if so check if the user is on it
-         */
-        if (blockedUsers && blockedUsers.includes(message.author.id))
-            return false;
-
-        return true;
-    }
-
-    public contextCheck(message: Message): boolean {
-        if (!message || !(message instanceof Message))
-            throw new TypeError(
-                `Expected type Message, recieved ${typeof message}`,
-            );
-
-        const opt = this.options;
-
-        /**
-         * If allowing DM is set to false, check fails
-         */
-        if (opt.allowDM === false && message.channel.type == 'DM') return false;
-
-        return true;
     }
 }
 

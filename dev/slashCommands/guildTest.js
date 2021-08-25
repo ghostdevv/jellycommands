@@ -1,6 +1,6 @@
-import { createSlashCommand } from 'jellycommands';
+import { createCommand } from 'jellycommands';
 
-export default createSlashCommand('guildtest', {
+export default createCommand('guildtest', {
     description: 'A testing command bound to guild not global',
 
     guilds: ['663140687591768074'],

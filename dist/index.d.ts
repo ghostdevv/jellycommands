@@ -1,35 +1,4 @@
-import { Message, Client, ClientEvents, ApplicationCommandOptionData, InteractionDeferReplyOptions, CommandInteraction, MessagePayload, MessageOptions } from 'discord.js';
-
-interface CommandOptions {
-    disabled?: boolean;
-    allowDM?: boolean;
-    guards?: {
-        allowedUsers?: string[];
-        blockedUsers?: string[];
-        allowedRoles?: string[];
-        blockedRoles?: string[];
-    };
-}
-
-declare class Command {
-    readonly name: string;
-    readonly run: ({}: {
-        message: Message;
-        jelly: JellyCommands;
-        client: Client;
-    }) => void | any;
-    readonly options: Required<CommandOptions>;
-    constructor(name: string, run: ({}: {
-        message: Message;
-        jelly: JellyCommands;
-        client: Client;
-    }) => void | any, options: CommandOptions);
-    permissionCheck(message: Message): boolean;
-    contextCheck(message: Message): boolean;
-}
-declare const createCommand: (name: string, options: CommandOptions & {
-    run: Command['run'];
-}) => Command;
+import { ClientEvents, Client, ApplicationCommandOptionData, InteractionDeferReplyOptions, CommandInteraction, MessagePayload, MessageOptions } from 'discord.js';
 
 declare abstract class BaseManager<ManagerTarget> {
     constructor();
@@ -37,16 +6,6 @@ declare abstract class BaseManager<ManagerTarget> {
     load(path: string): Promise<ManagerTarget[]> | Promise<ManagerTarget>;
     loadFile(path: string): Promise<ManagerTarget>;
     loadDirectory(path: string): Promise<ManagerTarget[]>;
-}
-
-declare class CommandManager extends BaseManager<Command> {
-    private client;
-    private jelly;
-    private commands;
-    private loadedPaths;
-    constructor(jelly: JellyCommands);
-    private onMessage;
-    protected add(command: Command, path: string): void;
 }
 
 interface EventOptions {
@@ -75,7 +34,7 @@ declare class EventManager extends BaseManager<Event> {
     protected add(event: Event, path: string): void;
 }
 
-interface SlashCommandOptions {
+interface CommandOptions {
     description: string;
     options?: ApplicationCommandOptionData[];
     defer?: boolean | InteractionDeferReplyOptions;
@@ -85,25 +44,25 @@ interface SlashCommandOptions {
     disabled?: boolean;
 }
 
-declare class SlashCommand {
+declare class Command {
     readonly name: string;
     readonly run: ({}: {
         interaction: CommandInteraction;
         jelly: JellyCommands;
         client: Client;
     }) => void | any;
-    readonly options: SlashCommandOptions;
+    readonly options: CommandOptions;
     constructor(name: string, run: ({}: {
         interaction: CommandInteraction;
         jelly: JellyCommands;
         client: Client;
-    }) => void | any, options: SlashCommandOptions);
+    }) => void | any, options: CommandOptions);
 }
-declare const createSlashCommand: (name: string, options: SlashCommandOptions & {
-    run: SlashCommand['run'];
-}) => SlashCommand;
+declare const createCommand: (name: string, options: CommandOptions & {
+    run: Command['run'];
+}) => Command;
 
-declare class SlashCommandManager extends BaseManager<SlashCommand> {
+declare class CommandManager extends BaseManager<Command> {
     private client;
     private jelly;
     private commands;
@@ -113,8 +72,8 @@ declare class SlashCommandManager extends BaseManager<SlashCommand> {
     constructor(jelly: JellyCommands);
     private onCommand;
     private resolveApplicationCommandData;
-    register(): Promise<Map<string, SlashCommand>>;
-    protected add(command: SlashCommand, path: string): void;
+    register(): Promise<Map<string, Command>>;
+    protected add(command: Command, path: string): void;
 }
 
 interface JellyCommandsOptions {
@@ -140,8 +99,7 @@ declare class JellyCommands {
     readonly options: FullJellyCommandsOptions;
     readonly events: EventManager;
     readonly commands: CommandManager;
-    readonly slashCommands: SlashCommandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
 }
 
-export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, SlashCommand, SlashCommandOptions, createCommand, createEvent, createSlashCommand };
+export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, createCommand, createEvent };

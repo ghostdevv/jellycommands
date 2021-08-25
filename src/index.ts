@@ -6,14 +6,7 @@ export * from './JellyCommands/options.d';
 export { createEvent, Event } from './JellyCommands/events/Event';
 export type { EventOptions } from './JellyCommands/events/options';
 
-// Export command related
-export { createCommand, Command } from './JellyCommands/commands/Command';
-export type { CommandOptions } from './JellyCommands/commands/options';
-
 // Export slash command related
-export {
-    createSlashCommand,
-    SlashCommand,
-} from './JellyCommands/slash/SlashCommand';
+export { createCommand, Command } from './JellyCommands/commands/Command';
 
-export type { SlashCommandOptions } from './JellyCommands/slash/options';
+export type { CommandOptions } from './JellyCommands/commands/options';

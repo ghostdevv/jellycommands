@@ -28,69 +28,12 @@ __export(exports, {
   Command: () => Command,
   Event: () => Event,
   JellyCommands: () => JellyCommands,
-  SlashCommand: () => SlashCommand,
   createCommand: () => createCommand,
-  createEvent: () => createEvent,
-  createSlashCommand: () => createSlashCommand
+  createEvent: () => createEvent
 });
-
-// src/JellyCommands/commands/options.ts
-var import_joi = __toModule(require("joi"));
-var snowflakeSchema = /* @__PURE__ */ __name(() => import_joi.default.array().items(import_joi.default.string().length(18)), "snowflakeSchema");
-var schema = import_joi.default.object({
-  disabled: import_joi.default.bool().default(false),
-  allowDM: import_joi.default.bool().default(false),
-  guards: import_joi.default.object({
-    allowedUsers: snowflakeSchema(),
-    blockedUsers: snowflakeSchema(),
-    allowedRoles: snowflakeSchema(),
-    blockedRoles: snowflakeSchema()
-  }).default()
-});
-
-// src/JellyCommands/commands/Command.ts
-var import_ghoststools = __toModule(require("ghoststools"));
-var import_discord = __toModule(require("discord.js"));
-var Command = class {
-  constructor(name, run, options) {
-    this.name = name;
-    if (!name || typeof name != "string")
-      throw new TypeError(`Expected type string for name, recieved ${typeof name}`);
-    this.run = run;
-    if (!run || typeof run != "function")
-      throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema.validate(options);
-    if (error)
-      throw error.annotate();
-    else
-      this.options = value;
-  }
-  permissionCheck(message) {
-    if (!message || !(message instanceof import_discord.Message))
-      throw new TypeError(`Expected type Message, recieved ${typeof message}`);
-    const { allowedUsers, blockedUsers } = this.options.guards;
-    if (allowedUsers && !allowedUsers.includes(message.author.id))
-      return false;
-    if (blockedUsers && blockedUsers.includes(message.author.id))
-      return false;
-    return true;
-  }
-  contextCheck(message) {
-    if (!message || !(message instanceof import_discord.Message))
-      throw new TypeError(`Expected type Message, recieved ${typeof message}`);
-    const opt = this.options;
-    if (opt.allowDM === false && message.channel.type == "DM")
-      return false;
-    return true;
-  }
-};
-__name(Command, "Command");
-var createCommand = /* @__PURE__ */ __name((name, options) => {
-  return new Command(name, options.run, (0, import_ghoststools.removeKeys)(options, "run"));
-}, "createCommand");
 
 // src/JellyCommands/managers/BaseManager.ts
-var import_ghoststools2 = __toModule(require("ghoststools"));
+var import_ghoststools = __toModule(require("ghoststools"));
 var import_fs = __toModule(require("fs"));
 
 // src/util/fs.ts
@@ -114,7 +57,7 @@ var BaseManager = class {
   constructor() {
   }
   load(path) {
-    path = (0, import_path2.resolve)((0, import_ghoststools2.posixify)(path));
+    path = (0, import_path2.resolve)((0, import_ghoststools.posixify)(path));
     if (!(0, import_fs.existsSync)(path))
       throw new Error(`Path ${path} does not exist`);
     const isDirectory = (0, import_fs.lstatSync)(path).isDirectory();
@@ -133,7 +76,7 @@ var BaseManager = class {
   async loadDirectory(path) {
     if (!(0, import_fs.existsSync)(path))
       throw new Error(`Directory ${path} does not exist`);
-    const paths = (0, import_ghoststools2.readdirRecursive)(path).filter((p) => [".js", ".mjs", ".cjs"].includes((0, import_path2.parse)(p).ext));
+    const paths = (0, import_ghoststools.readdirRecursive)(path).filter((p) => [".js", ".mjs", ".cjs"].includes((0, import_path2.parse)(p).ext));
     const items = [];
     for (const path2 of paths) {
       const item = await this.loadFile(path2);
@@ -144,59 +87,15 @@ var BaseManager = class {
 };
 __name(BaseManager, "BaseManager");
 
-// src/JellyCommands/managers/CommandManager.ts
-var CommandManager = class extends BaseManager {
-  constructor(jelly) {
-    super();
-    this.commands = new Map();
-    this.loadedPaths = new Set();
-    this.jelly = jelly;
-    this.client = jelly.client;
-    this.client.on("messageCreate", (m) => this.onMessage(m));
-  }
-  onMessage(message) {
-    const { prefix, messages } = this.jelly.options;
-    if (!message.content.startsWith(prefix))
-      return;
-    const commandWord = message.content.slice(prefix.length).split(" ")[0].trim();
-    if (commandWord.length == 0)
-      return;
-    const command = this.commands.get(commandWord);
-    if (!command || command.options.disabled)
-      return messages.unknownCommand && message.channel.send(messages.unknownCommand);
-    const permissionCheck = command.permissionCheck(message);
-    if (!permissionCheck)
-      return;
-    const contextCheck = command.contextCheck(message);
-    if (contextCheck)
-      command.run({
-        message,
-        jelly: this.jelly,
-        client: this.client
-      });
-  }
-  add(command, path) {
-    if (this.loadedPaths.has(path))
-      throw new Error(`The path ${path} has already been loaded, therefore can not be loaded again`);
-    this.loadedPaths.add(path);
-    if (!(command instanceof Command))
-      throw new Error(`Expected instance of Command, recieved ${typeof command}`);
-    if (command.options.disabled)
-      return;
-    this.commands.set(command.name, command);
-  }
-};
-__name(CommandManager, "CommandManager");
-
 // src/JellyCommands/events/options.ts
-var import_joi2 = __toModule(require("joi"));
-var schema2 = import_joi2.default.object({
-  disabled: import_joi2.default.bool().default(false),
-  once: import_joi2.default.bool().default(false)
+var import_joi = __toModule(require("joi"));
+var schema = import_joi.default.object({
+  disabled: import_joi.default.bool().default(false),
+  once: import_joi.default.bool().default(false)
 });
 
 // src/JellyCommands/events/Event.ts
-var import_ghoststools3 = __toModule(require("ghoststools"));
+var import_ghoststools2 = __toModule(require("ghoststools"));
 var Event = class {
   constructor(name, run, options) {
     this.name = name;
@@ -205,7 +104,7 @@ var Event = class {
     this.run = run;
     if (!run || typeof run != "function")
       throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema2.validate(options);
+    const { error, value } = schema.validate(options);
     if (error)
       throw error.annotate();
     else
@@ -214,7 +113,7 @@ var Event = class {
 };
 __name(Event, "Event");
 var createEvent = /* @__PURE__ */ __name((name, options) => {
-  return new Event(name, options.run, (0, import_ghoststools3.removeKeys)(options, "run"));
+  return new Event(name, options.run, (0, import_ghoststools2.removeKeys)(options, "run"));
 }, "createEvent");
 
 // src/JellyCommands/managers/EventManager.ts
@@ -242,28 +141,28 @@ var EventManager = class extends BaseManager {
 };
 __name(EventManager, "EventManager");
 
-// src/JellyCommands/slash/options.ts
-var import_joi3 = __toModule(require("joi"));
-var snowflakeSchema2 = /* @__PURE__ */ __name(() => import_joi3.default.array().items(import_joi3.default.string().length(18)), "snowflakeSchema");
-var schema3 = import_joi3.default.object({
-  description: import_joi3.default.string().required(),
-  options: import_joi3.default.array(),
+// src/JellyCommands/commands/options.ts
+var import_joi2 = __toModule(require("joi"));
+var snowflakeSchema = /* @__PURE__ */ __name(() => import_joi2.default.array().items(import_joi2.default.string().length(18)), "snowflakeSchema");
+var schema2 = import_joi2.default.object({
+  description: import_joi2.default.string().required(),
+  options: import_joi2.default.array(),
   defer: [
-    import_joi3.default.bool(),
-    import_joi3.default.object({
-      ephemeral: import_joi3.default.bool(),
-      fetchReply: import_joi3.default.bool()
+    import_joi2.default.bool(),
+    import_joi2.default.object({
+      ephemeral: import_joi2.default.bool(),
+      fetchReply: import_joi2.default.bool()
     })
   ],
-  defaultPermission: import_joi3.default.bool(),
-  guilds: snowflakeSchema2(),
-  global: import_joi3.default.bool().default(false),
-  disabled: import_joi3.default.bool().default(false)
+  defaultPermission: import_joi2.default.bool(),
+  guilds: snowflakeSchema(),
+  global: import_joi2.default.bool().default(false),
+  disabled: import_joi2.default.bool().default(false)
 });
 
-// src/JellyCommands/slash/SlashCommand.ts
-var import_ghoststools4 = __toModule(require("ghoststools"));
-var SlashCommand = class {
+// src/JellyCommands/commands/Command.ts
+var import_ghoststools3 = __toModule(require("ghoststools"));
+var Command = class {
   constructor(name, run, options) {
     this.name = name;
     if (!name || typeof name != "string")
@@ -271,20 +170,20 @@ var SlashCommand = class {
     this.run = run;
     if (!run || typeof run != "function")
       throw new TypeError(`Expected type function for run, recieved ${typeof run}`);
-    const { error, value } = schema3.validate(options);
+    const { error, value } = schema2.validate(options);
     if (error)
       throw error.annotate();
     else
       this.options = value;
   }
 };
-__name(SlashCommand, "SlashCommand");
-var createSlashCommand = /* @__PURE__ */ __name((name, options) => {
-  return new SlashCommand(name, options.run, (0, import_ghoststools4.removeKeys)(options, "run"));
-}, "createSlashCommand");
+__name(Command, "Command");
+var createCommand = /* @__PURE__ */ __name((name, options) => {
+  return new Command(name, options.run, (0, import_ghoststools3.removeKeys)(options, "run"));
+}, "createCommand");
 
-// src/JellyCommands/managers/SlashCommandManager.ts
-var SlashCommandManager = class extends BaseManager {
+// src/JellyCommands/managers/CommandManager.ts
+var CommandManager = class extends BaseManager {
   constructor(jelly) {
     super();
     this.commands = new Map();
@@ -332,8 +231,8 @@ var SlashCommandManager = class extends BaseManager {
     if (this.loadedPaths.has(path))
       throw new Error(`The path ${path} has already been loaded, therefore can not be loaded again`);
     this.loadedPaths.add(path);
-    if (!(command instanceof SlashCommand))
-      throw new Error(`Expected instance of SlashCommand, recieved ${typeof command}`);
+    if (!(command instanceof Command))
+      throw new Error(`Expected instance of Command, recieved ${typeof command}`);
     if (command.options.disabled)
       return;
     if (command.options.global)
@@ -346,22 +245,22 @@ var SlashCommandManager = class extends BaseManager {
     this.commands.set(command.name, command);
   }
 };
-__name(SlashCommandManager, "SlashCommandManager");
+__name(CommandManager, "CommandManager");
 
 // src/JellyCommands/JellyCommands.ts
-var import_discord3 = __toModule(require("discord.js"));
+var import_discord2 = __toModule(require("discord.js"));
 
 // src/JellyCommands/options.ts
-var import_discord2 = __toModule(require("discord.js"));
-var import_joi4 = __toModule(require("joi"));
-var schema4 = import_joi4.default.object({
-  ignoreBots: import_joi4.default.bool().default(true),
-  prefix: import_joi4.default.string().min(1).max(64).default("!"),
-  messages: import_joi4.default.object({
+var import_discord = __toModule(require("discord.js"));
+var import_joi3 = __toModule(require("joi"));
+var schema3 = import_joi3.default.object({
+  ignoreBots: import_joi3.default.bool().default(true),
+  prefix: import_joi3.default.string().min(1).max(64).default("!"),
+  messages: import_joi3.default.object({
     unknownCommand: [
-      import_joi4.default.string(),
-      import_joi4.default.object().instance(import_discord2.MessagePayload),
-      import_joi4.default.object()
+      import_joi3.default.string(),
+      import_joi3.default.object().instance(import_discord.MessagePayload),
+      import_joi3.default.object()
     ]
   }).default()
 });
@@ -369,17 +268,16 @@ var schema4 = import_joi4.default.object({
 // src/JellyCommands/JellyCommands.ts
 var JellyCommands = class {
   constructor(client, options = {}) {
-    if (!client || !(client instanceof import_discord3.Client))
+    if (!client || !(client instanceof import_discord2.Client))
       throw new SyntaxError(`Expected a instance of Discord.Client, recieved ${typeof client}`);
     this.client = client;
-    const { error, value } = schema4.validate(options);
+    const { error, value } = schema3.validate(options);
     if (error)
       throw error.annotate();
     else
       this.options = value;
     this.events = new EventManager(this);
     this.commands = new CommandManager(this);
-    this.slashCommands = new SlashCommandManager(this);
   }
 };
 __name(JellyCommands, "JellyCommands");
@@ -388,8 +286,6 @@ __name(JellyCommands, "JellyCommands");
   Command,
   Event,
   JellyCommands,
-  SlashCommand,
   createCommand,
-  createEvent,
-  createSlashCommand
+  createEvent
 });
