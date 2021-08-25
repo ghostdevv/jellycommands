@@ -12,8 +12,8 @@ export class JellyCommands {
     public readonly client: Client;
     public readonly options: FullJellyCommandsOptions;
 
-    public readonly events: EventManager;
-    public readonly commands: CommandManager;
+    private readonly eventManager: EventManager;
+    private readonly commandManager: CommandManager;
 
     constructor(client: Client, options: JellyCommandsOptions = {}) {
         if (!client || !(client instanceof Client))
@@ -28,7 +28,15 @@ export class JellyCommands {
         if (error) throw error.annotate();
         else this.options = value;
 
-        this.events = new EventManager(this);
-        this.commands = new CommandManager(this);
+        this.eventManager = new EventManager(this);
+        this.commandManager = new CommandManager(this);
+    }
+
+    get events() {
+        return this.eventManager;
+    }
+
+    get commands() {
+        return this.commandManager;
     }
 }

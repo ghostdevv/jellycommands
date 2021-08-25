@@ -245,8 +245,14 @@ var JellyCommands = class {
       throw error.annotate();
     else
       this.options = value;
-    this.events = new EventManager(this);
-    this.commands = new CommandManager(this);
+    this.eventManager = new EventManager(this);
+    this.commandManager = new CommandManager(this);
+  }
+  get events() {
+    return this.eventManager;
+  }
+  get commands() {
+    return this.commandManager;
   }
 };
 __name(JellyCommands, "JellyCommands");

@@ -97,9 +97,11 @@ interface FullJellyCommandsOptions {
 declare class JellyCommands {
     readonly client: Client;
     readonly options: FullJellyCommandsOptions;
-    readonly events: EventManager;
-    readonly commands: CommandManager;
+    private readonly eventManager;
+    private readonly commandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
+    get events(): EventManager;
+    get commands(): CommandManager;
 }
 
 export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, createCommand, createEvent };
