@@ -9,8 +9,6 @@ const client = new Client({
 });
 
 const jelly = new JellyCommands(client, {
-    prefix: '-',
-
     messages: {
         unknownCommand: {
             embeds: [{ description: 'Unknown Command' }],

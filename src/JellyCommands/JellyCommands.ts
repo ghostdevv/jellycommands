@@ -3,14 +3,11 @@ import CommandManager from './managers/CommandManager';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
-import type {
-    JellyCommandsOptions,
-    FullJellyCommandsOptions,
-} from './options.d';
+import type { JellyCommandsOptions } from './options.d';
 
 export class JellyCommands {
     public readonly client: Client;
-    public readonly options: FullJellyCommandsOptions;
+    public readonly options: JellyCommandsOptions;
 
     private readonly eventManager: EventManager;
     private readonly commandManager: CommandManager;

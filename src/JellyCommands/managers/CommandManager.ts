@@ -34,7 +34,7 @@ export default class CommandManager extends BaseManager<Command> {
          */
         if (!command)
             return (
-                this.jelly.options.messages.unknownCommand &&
+                this.jelly.options.messages?.unknownCommand &&
                 interaction.reply(this.jelly.options.messages.unknownCommand)
             );
 

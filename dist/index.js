@@ -199,7 +199,7 @@ var CommandManager = class extends BaseManager {
   async onCommand(interaction) {
     const command = this.commands.get(interaction.commandName);
     if (!command)
-      return this.jelly.options.messages.unknownCommand && interaction.reply(this.jelly.options.messages.unknownCommand);
+      return this.jelly.options.messages?.unknownCommand && interaction.reply(this.jelly.options.messages.unknownCommand);
     const options = command.options;
     if (options.defer)
       await interaction.deferReply(typeof options.defer == "object" ? options.defer : {});
@@ -254,8 +254,6 @@ var import_discord2 = __toModule(require("discord.js"));
 var import_discord = __toModule(require("discord.js"));
 var import_joi3 = __toModule(require("joi"));
 var schema3 = import_joi3.default.object({
-  ignoreBots: import_joi3.default.bool().default(true),
-  prefix: import_joi3.default.string().min(1).max(64).default("!"),
   messages: import_joi3.default.object({
     unknownCommand: [
       import_joi3.default.string(),

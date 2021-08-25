@@ -77,18 +77,12 @@ declare class CommandManager extends BaseManager<Command> {
 }
 
 interface JellyCommandsOptions {
-    ignoreBots?: boolean;
-    prefix?: string;
-
     messages?: {
         unknownCommand?: string | MessagePayload | MessageOptions;
     };
 }
 
 interface FullJellyCommandsOptions {
-    ignoreBots: boolean;
-    prefix: string;
-
     messages: {
         unknownCommand?: string | MessagePayload | MessageOptions;
     };
@@ -96,7 +90,7 @@ interface FullJellyCommandsOptions {
 
 declare class JellyCommands {
     readonly client: Client;
-    readonly options: FullJellyCommandsOptions;
+    readonly options: JellyCommandsOptions;
     private readonly eventManager;
     private readonly commandManager;
     constructor(client: Client, options?: JellyCommandsOptions);
