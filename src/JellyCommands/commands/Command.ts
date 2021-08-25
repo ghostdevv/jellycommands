@@ -1,6 +1,5 @@
 import { schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
-import { Message } from 'discord.js';
 
 import type { Client, CommandInteraction } from 'discord.js';
 import type { JellyCommands } from '../JellyCommands';
