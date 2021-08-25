@@ -123,7 +123,11 @@ var schema2 = Joi2.object({
       fetchReply: Joi2.bool()
     })
   ],
-  defaultPermission: Joi2.bool(),
+  guards: Joi2.object({
+    mode: Joi2.string().valid("whitelist", "blacklist").required(),
+    users: snowflakeSchema(),
+    roles: snowflakeSchema()
+  }),
   guilds: snowflakeSchema(),
   global: Joi2.bool().default(false),
   disabled: Joi2.bool().default(false)
@@ -179,20 +183,49 @@ var CommandManager = class extends BaseManager {
     });
   }
   resolveApplicationCommandData(command) {
+    const defaultPermission = command.options?.guards && command.options?.guards.mode == "blacklist";
     return {
       name: command.name,
       description: command.options.description,
       options: command.options.options,
-      defaultPermission: command.options.defaultPermission
+      defaultPermission
     };
+  }
+  resolveApplicationCommandPermissions(command) {
+    if (!command.options.guards)
+      return null;
+    const { mode, users, roles } = command.options.guards;
+    const permissions = [];
+    const permission = mode == "whitelist";
+    if (users)
+      permissions.push(users.map((id) => ({ id, type: "USER", permission })));
+    if (roles)
+      permissions.push(roles.map((id) => ({ id, type: "ROLE", permission })));
+    return permissions.flat();
   }
   async register() {
     if (!this.client.isReady())
       throw new Error(`Client is not ready, only call register after client is ready`);
     await this.client.application?.commands.set([...this.globalCommands.values()].map((command) => this.resolveApplicationCommandData(command)));
     for (const [guild, commands] of this.guildCommands.entries()) {
-      const resovledCommands = commands.map((command) => this.resolveApplicationCommandData(command));
-      await this.client.application?.commands.set(resovledCommands, guild);
+      const resolvedGuild = await this.client.guilds.fetch(guild);
+      const setCommands = new Map();
+      await resolvedGuild.commands.set([]);
+      for (const command of commands) {
+        const data = this.resolveApplicationCommandData(command);
+        const res = await resolvedGuild.commands.create(data);
+        setCommands.set(res.id, command);
+      }
+      const fullPermissions = [];
+      for (const [id, command] of setCommands) {
+        const permissions = this.resolveApplicationCommandPermissions(command);
+        if (permissions)
+          fullPermissions.push({
+            id,
+            permissions
+          });
+      }
+      await resolvedGuild.commands.permissions.set({ fullPermissions });
     }
     return new Map(this.commands);
   }

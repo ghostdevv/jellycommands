@@ -2,8 +2,13 @@ import { Command } from '../commands/Command';
 import { JellyCommands } from '../JellyCommands';
 import BaseManager from './BaseManager';
 
-import type { Client, CommandInteraction } from 'discord.js';
-import type { ApplicationCommandData } from 'discord.js';
+import type {
+    GuildApplicationCommandPermissionData,
+    ApplicationCommandPermissionData,
+    ApplicationCommandData,
+    CommandInteraction,
+    Client,
+} from 'discord.js';
 
 export default class CommandManager extends BaseManager<Command> {
     private client: Client;
@@ -61,12 +66,39 @@ export default class CommandManager extends BaseManager<Command> {
     private resolveApplicationCommandData(
         command: Command,
     ): ApplicationCommandData {
+        const defaultPermission =
+            command.options?.guards &&
+            command.options?.guards.mode == 'blacklist';
+
         return {
             name: command.name,
             description: command.options.description,
             options: command.options.options,
-            defaultPermission: command.options.defaultPermission,
+            defaultPermission,
         };
+    }
+
+    private resolveApplicationCommandPermissions(
+        command: Command,
+    ): ApplicationCommandPermissionData[] | null {
+        if (!command.options.guards) return null;
+
+        const { mode, users, roles } = command.options.guards;
+
+        const permissions: ApplicationCommandPermissionData[][] = [];
+        const permission = mode == 'whitelist';
+
+        if (users)
+            permissions.push(
+                users.map((id) => ({ id, type: 'USER', permission })),
+            );
+
+        if (roles)
+            permissions.push(
+                roles.map((id) => ({ id, type: 'ROLE', permission })),
+            );
+
+        return permissions.flat();
     }
 
     public async register(): Promise<Map<string, Command>> {
@@ -88,14 +120,41 @@ export default class CommandManager extends BaseManager<Command> {
          * Register the guild commands
          */
         for (const [guild, commands] of this.guildCommands.entries()) {
-            const resovledCommands = commands.map((command) =>
-                this.resolveApplicationCommandData(command),
-            );
+            const resolvedGuild = await this.client.guilds.fetch(guild);
+            const setCommands = new Map<string, Command>();
 
-            await this.client.application?.commands.set(
-                resovledCommands,
-                guild,
-            );
+            /**
+             * Clear guild commands
+             */
+            await resolvedGuild.commands.set([]);
+
+            /**
+             * Set guild commands
+             */
+            for (const command of commands) {
+                const data = this.resolveApplicationCommandData(command);
+                const res = await resolvedGuild.commands.create(data);
+
+                setCommands.set(res.id, command);
+            }
+
+            /**
+             * Set permissions
+             */
+            const fullPermissions: GuildApplicationCommandPermissionData[] = [];
+
+            for (const [id, command] of setCommands) {
+                const permissions =
+                    this.resolveApplicationCommandPermissions(command);
+
+                if (permissions)
+                    fullPermissions.push({
+                        id,
+                        permissions,
+                    });
+            }
+
+            await resolvedGuild.commands.permissions.set({ fullPermissions });
         }
 
         return new Map<string, Command>(this.commands);

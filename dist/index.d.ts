@@ -38,7 +38,11 @@ interface CommandOptions {
     description: string;
     options?: ApplicationCommandOptionData[];
     defer?: boolean | InteractionDeferReplyOptions;
-    defaultPermission?: boolean;
+    guards?: {
+        mode: 'whitelist' | 'blacklist';
+        users?: string[];
+        roles?: string[];
+    };
     guilds?: string[];
     global?: boolean;
     disabled?: boolean;
@@ -72,6 +76,7 @@ declare class CommandManager extends BaseManager<Command> {
     constructor(jelly: JellyCommands);
     private onCommand;
     private resolveApplicationCommandData;
+    private resolveApplicationCommandPermissions;
     register(): Promise<Map<string, Command>>;
     protected add(command: Command, path: string): void;
 }

@@ -20,9 +20,24 @@ export interface CommandOptions {
     defer?: boolean | InteractionDeferReplyOptions;
 
     /**
-     * Whether the command is enabled by default when the app is added to a guild
+     * Guards allow you to prevent/allow certain people/groups to your command
      */
-    defaultPermission?: boolean;
+    guards?: {
+        /**
+         * Should the guards act as a whitelist or blacklist
+         */
+        mode: 'whitelist' | 'blacklist';
+
+        /**
+         * Which users should be allowed only (whitelist) or should be blocked (blacklist)
+         */
+        users?: string[];
+
+        /**
+         * Which roles should be allowed only (whitelist) or should be blocked (blacklist)
+         */
+        roles?: string[];
+    };
 
     /**
      * The guilds to apply the slash command in
@@ -57,7 +72,11 @@ export const schema = Joi.object({
         }),
     ],
 
-    defaultPermission: Joi.bool(),
+    guards: Joi.object({
+        mode: Joi.string().valid('whitelist', 'blacklist').required(),
+        users: snowflakeSchema(),
+        roles: snowflakeSchema(),
+    }),
 
     guilds: snowflakeSchema(),
 
