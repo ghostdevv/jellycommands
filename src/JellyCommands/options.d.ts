@@ -5,9 +5,3 @@ export interface JellyCommandsOptions {
         unknownCommand?: string | MessagePayload | MessageOptions;
     };
 }
-
-export interface FullJellyCommandsOptions {
-    messages: {
-        unknownCommand?: string | MessagePayload | MessageOptions;
-    };
-}

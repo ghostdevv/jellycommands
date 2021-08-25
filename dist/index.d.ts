@@ -82,12 +82,6 @@ interface JellyCommandsOptions {
     };
 }
 
-interface FullJellyCommandsOptions {
-    messages: {
-        unknownCommand?: string | MessagePayload | MessageOptions;
-    };
-}
-
 declare class JellyCommands {
     readonly client: Client;
     readonly options: JellyCommandsOptions;
@@ -98,4 +92,4 @@ declare class JellyCommands {
     get commands(): CommandManager;
 }
 
-export { Command, CommandOptions, Event, EventOptions, FullJellyCommandsOptions, JellyCommands, JellyCommandsOptions, createCommand, createEvent };
+export { Command, CommandOptions, Event, EventOptions, JellyCommands, JellyCommandsOptions, createCommand, createEvent };
