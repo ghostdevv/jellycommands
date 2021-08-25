@@ -1,6 +1,6 @@
 import { createCommand } from 'jellycommands';
 
-export default createCommand('guildtest', {
+export default createCommand('globaltest', {
     description: 'A testing command bound to global',
 
     global: true,
