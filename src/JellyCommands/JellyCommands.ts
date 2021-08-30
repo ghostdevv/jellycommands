@@ -3,7 +3,7 @@ import CommandManager from './managers/CommandManager';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
-import type { JellyCommandsOptions } from './options.d';
+import type { JellyCommandsOptions } from './options';
 
 export class JellyCommands {
     public readonly client: Client;
