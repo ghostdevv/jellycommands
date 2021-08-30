@@ -11,7 +11,7 @@ export const resolveImport = (imp: { default?: any }) => {
     return imp;
 };
 
-export const readJSFile = async (path: string) => {
+export const readJSFile = async <T>(path: string): Promise<T> => {
     const data = await import(pathToFileURL(resolve(path)).href);
-    return resolveImport(data);
+    return resolveImport(data) as T;
 };
