@@ -1,10 +1,10 @@
 import { config } from 'dotenv';
 config({ path: 'dev/.env' });
 
-import { JellyClient } from 'jellycommands';
+import { JellyCommands } from 'jellycommands';
 import { Intents } from 'discord.js';
 
-const client = new JellyClient({
+const client = new JellyCommands({
     commands: 'dev/commands',
 
     clientOptions: {

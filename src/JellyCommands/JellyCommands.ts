@@ -3,7 +3,7 @@ import { loadCommands } from './commands';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
-export class JellyClient extends Client {
+export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;
 
     constructor(options: JellyCommandsOptions) {
