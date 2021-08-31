@@ -5,13 +5,17 @@ import { REST } from '@discordjs/rest';
 
 import type { ApplicationCommand } from 'discord.js';
 import type { Command } from './Command';
+import type { JellyClient } from '../JellyCommands';
 
-export async function loadCommands(
-    paths: string | string[],
-    token: string,
-    clientID: string,
-) {
-    const files = flattenPaths(paths);
+export async function loadCommands(client: JellyClient) {
+    if (!client.joptions.commands) throw new Error('No commands found');
+
+    const files = flattenPaths(client.joptions.commands);
+    const clientID = client.resolveClientId();
+    const token = client.resolveToken();
+
+    if (!token) throw new Error('No token found');
+    if (!clientID) throw new Error('No client id found');
 
     const rest = new REST({ version: '9' }).setToken(token);
 
