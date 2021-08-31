@@ -35,6 +35,10 @@ export class JellyClient extends Client {
 
         return Buffer.from(token.split('.')[0], 'base64').toString();
     }
+
+    login() {
+        return super.login(this.resolveToken() || undefined);
+    }
 }
 
 export async function jellyCommands(
@@ -53,7 +57,7 @@ export async function jellyCommands(
     /**
      * Login client
      */
-    client.login(client.resolveToken() || undefined);
+    client.login();
 
     return client;
 }
