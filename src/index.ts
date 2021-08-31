@@ -1,5 +1,5 @@
 // Export JellyCommands related
-export { jellyCommands } from './JellyCommands/JellyCommands';
+export { JellyClient } from './JellyCommands/JellyCommands';
 export type { JellyCommandsOptions } from './JellyCommands/options';
 
 // Export slash command related

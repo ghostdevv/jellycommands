@@ -19,12 +19,7 @@ export class JellyClient extends Client {
     }
 
     resolveToken(): string | null {
-        if (this.token) return this.token;
-
-        const token = this.joptions.token || process.env?.DISCORD_TOKEN;
-        if (token) return token;
-
-        return null;
+        return this.token || process.env?.DISCORD_TOKEN || null;
     }
 
     resolveClientId(): string | null {
@@ -36,28 +31,11 @@ export class JellyClient extends Client {
         return Buffer.from(token.split('.')[0], 'base64').toString();
     }
 
-    login() {
+    async login(token?: string) {
+        if (token) this.token = token;
+
+        if (this.joptions.commands) await loadCommands(this);
+
         return super.login(this.resolveToken() || undefined);
     }
-}
-
-export async function jellyCommands(
-    options: JellyCommandsOptions,
-): Promise<JellyClient> {
-    /**
-     * Create Client
-     */
-    const client = new JellyClient(options);
-
-    /**
-     * If commands load commands
-     */
-    if (client.joptions.commands) await loadCommands(client);
-
-    /**
-     * Login client
-     */
-    client.login();
-
-    return client;
 }
