@@ -4,8 +4,8 @@ import { readJSFile } from '../../util/fs';
 import { REST } from '@discordjs/rest';
 
 import type { ApplicationCommand } from 'discord.js';
-import type { Command } from './Command';
 import type { JellyClient } from '../JellyCommands';
+import type { Command } from './Command';
 
 export async function loadCommands(client: JellyClient) {
     if (!client.joptions.commands) throw new Error('No commands found');
