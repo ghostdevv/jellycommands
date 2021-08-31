@@ -1,8 +1,25 @@
-import type { MessageOptions } from 'discord.js';
+import type { MessageOptions, ClientOptions } from 'discord.js';
 import { MessagePayload } from 'discord.js';
 import Joi from 'joi';
 
+const pathsSchema = () => [Joi.string(), Joi.array().items(Joi.string())];
+
 export const schema = Joi.object({
+    /**
+     * Array or single file/directory of command(s)
+     */
+    commands: pathsSchema(),
+
+    /**
+     * The discord bot token, can also be read from DISCORD_TOKEN environment variable
+     */
+    token: Joi.string(),
+
+    /**
+     * Base discord.js client options
+     */
+    clientOptions: Joi.object().required(),
+
     /**
      * Customisable responses
      */
@@ -19,6 +36,11 @@ export const schema = Joi.object({
 });
 
 export interface JellyCommandsOptions {
+    commands?: string | string[];
+
+    token?: string;
+    clientOptions: ClientOptions;
+
     messages?: {
         unknownCommand?: string | MessagePayload | MessageOptions;
     };

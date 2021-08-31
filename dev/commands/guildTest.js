@@ -1,6 +1,6 @@
-import { createCommand } from 'jellycommands';
+import { command } from 'jellycommands';
 
-export default createCommand('guildtest', {
+export default command('guildtest', {
     description: 'A testing command bound to guild not global',
 
     guilds: ['663140687591768074'],

@@ -1,39 +1,49 @@
-import EventManager from './managers/EventManager';
-import CommandManager from './managers/CommandManager';
+import type { JellyCommandsOptions } from './options';
+import { resolveClientId } from '../util/client';
+import { loadCommands } from './commands';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
-import type { JellyCommandsOptions } from './options';
-
-export class JellyCommands {
-    public readonly client: Client;
-    public readonly options: JellyCommandsOptions;
-
-    private readonly eventManager: EventManager;
-    private readonly commandManager: CommandManager;
-
-    constructor(client: Client, options: JellyCommandsOptions = {}) {
-        if (!client || !(client instanceof Client))
-            throw new SyntaxError(
-                `Expected a instance of Discord.Client, recieved ${typeof client}`,
-            );
-
-        this.client = client;
-
-        const { error, value } = schema.validate(options);
-
-        if (error) throw error.annotate();
-        else this.options = value;
-
-        this.eventManager = new EventManager(this);
-        this.commandManager = new CommandManager(this);
+class JellyClient extends Client {
+    constructor(options: JellyCommandsOptions) {
+        super(options.clientOptions);
     }
+}
 
-    get events() {
-        return this.eventManager;
-    }
+export async function jellyCommands(
+    options: JellyCommandsOptions,
+): Promise<JellyClient> {
+    /**
+     * Resolve token
+     */
+    const token = options.token || process.env?.DISCORD_TOKEN;
+    if (!token) throw new Error('No token provided');
 
-    get commands() {
-        return this.commandManager;
-    }
+    /**
+     * Resolve client ID
+     */
+    const clientID = resolveClientId(token);
+    if (!clientID) throw new Error('Invalid token provided');
+
+    /**
+     * Validate options with joi
+     */
+    const { error, value } = schema.validate(options);
+
+    if (error) throw error.annotate();
+    else options = value;
+
+    /**
+     * If commands load commands
+     */
+    if (options.commands) await loadCommands(options.commands, token, clientID);
+
+    /**
+     * Create and login client
+     */
+    const client = new JellyClient(options);
+
+    client.login(token);
+
+    return client;
 }

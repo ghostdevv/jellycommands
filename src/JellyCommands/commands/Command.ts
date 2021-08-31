@@ -2,7 +2,17 @@ import { schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
 import type { Client, CommandInteraction } from 'discord.js';
-import type { JellyCommands } from '../JellyCommands';
+
+enum PermissionType {
+    role = 1,
+    user = 2,
+}
+
+interface Permission {
+    id: string;
+    type: PermissionType;
+    permission: boolean;
+}
 
 export class Command {
     public readonly name;
@@ -13,7 +23,6 @@ export class Command {
         name: string,
         run: ({}: {
             interaction: CommandInteraction;
-            jelly: JellyCommands;
             client: Client;
         }) => void | any,
         options: CommandOptions,
@@ -37,9 +46,38 @@ export class Command {
         if (error) throw error.annotate();
         else this.options = value;
     }
+
+    get applicationCommandData() {
+        const default_permission =
+            this.options.guards && this.options.guards.mode == 'blacklist';
+
+        return {
+            name: this.name,
+            description: this.options.description,
+            options: this.options.options,
+            default_permission,
+        };
+    }
+
+    get applicationCommandPermissions(): Permission[] | null {
+        if (!this.options.guards) return null;
+
+        const { mode, users, roles } = this.options.guards;
+
+        const permissions: Permission[][] = [];
+        const permission = mode == 'whitelist';
+
+        if (users)
+            permissions.push(users.map((id) => ({ id, type: 2, permission })));
+
+        if (roles)
+            permissions.push(roles.map((id) => ({ id, type: 1, permission })));
+
+        return permissions.flat();
+    }
 }
 
-export const createCommand = (
+export const command = (
     name: string,
     options: CommandOptions & {
         run: Command['run'];
