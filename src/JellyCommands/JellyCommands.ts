@@ -9,9 +9,6 @@ export class JellyCommands extends Client {
     constructor(options: JellyCommandsOptions) {
         super(options.clientOptions);
 
-        /**
-         * Validate options
-         */
         const { error, value } = schema.validate(options);
 
         if (error) throw error.annotate();
