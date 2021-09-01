@@ -1,24 +1,11 @@
+import { createRequest } from '../../util/request';
 import { Routes } from 'discord-api-types/v9';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../../util/fs';
-import axios from 'axios';
 
 import type { JellyCommands } from '../JellyCommands';
 import type { CommandInteraction } from 'discord.js';
 import type { Command } from './Command';
-import type { Method } from 'axios';
-
-function rest(token: string) {
-    const req = axios.create({
-        baseURL: 'https://discord.com/api/v9/',
-        headers: {
-            Authorization: `Bot ${token}`,
-        },
-    });
-
-    return <T>(method: Method, route: string, data: any) =>
-        req(route, { method, data }).then((res) => res.data as T);
-}
 
 export class CommandManager {
     private client;
@@ -82,7 +69,7 @@ export class CommandManager {
         clientId: string,
     ) {
         const commands = new Map<string, Command>();
-        const request = rest(token);
+        const request = createRequest(token);
 
         for (const file of flattenPaths(paths)) {
             const command = await readJSFile<Command>(file);
