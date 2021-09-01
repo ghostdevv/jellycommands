@@ -11,11 +11,6 @@ export const schema = Joi.object({
     commands: pathsSchema(),
 
     /**
-     * The discord bot token, can also be read from DISCORD_TOKEN environment variable
-     */
-    token: Joi.string(),
-
-    /**
      * Base discord.js client options
      */
     clientOptions: Joi.object().required(),
@@ -38,7 +33,6 @@ export const schema = Joi.object({
 export interface JellyCommandsOptions {
     commands?: string | string[];
 
-    token?: string;
     clientOptions: ClientOptions;
 
     messages?: {
