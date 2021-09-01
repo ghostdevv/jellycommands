@@ -1,6 +1,7 @@
 import type { JellyCommandsOptions } from './options';
 import { CommandManager } from './commands/Manager';
-import { Client, Interaction } from 'discord.js';
+import { createRequest } from '../util/request';
+import { Client } from 'discord.js';
 import { schema } from './options';
 
 export class JellyCommands extends Client {
@@ -15,8 +16,16 @@ export class JellyCommands extends Client {
         else this.joptions = value;
     }
 
-    resolveToken(): string | null {
-        return this.token || process.env?.DISCORD_TOKEN || null;
+    cleanToken(token?: string): string | null {
+        return typeof token == 'string'
+            ? token.replace(/^(Bot|Bearer)\s*/i, '')
+            : null;
+    }
+
+    resolveToken(token?: string): string | null {
+        return this.cleanToken(
+            token || this.token || process.env?.DISCORD_TOKEN,
+        );
     }
 
     resolveClientId(): string | null {
@@ -28,8 +37,11 @@ export class JellyCommands extends Client {
         return Buffer.from(token.split('.')[0], 'base64').toString();
     }
 
-    async login(token?: string) {
-        if (token) this.token = token;
+    async login(potentialToken?: string) {
+        const token = this.resolveToken(potentialToken);
+        if (!token) throw new Error('No token found');
+
+        this.token = token;
 
         if (this.joptions.commands) {
             const commandManager = await CommandManager.create(
