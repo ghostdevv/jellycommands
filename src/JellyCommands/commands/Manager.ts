@@ -88,21 +88,6 @@ export class CommandManager {
             const command = await readJSFile<Command>(file);
             if (command.options.disabled) continue;
 
-            if (!command.options.guilds?.length && !command.options.global)
-                throw new Error(
-                    'Command must have at least one of guild or global',
-                );
-
-            if (
-                command.options.global &&
-                !command.options.guilds?.length &&
-                command.options.guards
-            ) {
-                throw new Error(
-                    'If using guards on a global command you must have a guilds array, guards can only be applied to guilds',
-                );
-            }
-
             /**
              * If the command has global: true then register as global
              */

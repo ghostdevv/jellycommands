@@ -45,6 +45,21 @@ export class Command {
 
         if (error) throw error.annotate();
         else this.options = value;
+
+        if (!this.options.guilds?.length && !this.options.global)
+            throw new Error(
+                'Command must have at least one of guild or global',
+            );
+
+        if (
+            this.options.global &&
+            !this.options.guilds?.length &&
+            this.options.guards
+        ) {
+            throw new Error(
+                'If using guards on a global command you must have a guilds array, guards can only be applied to guilds',
+            );
+        }
     }
 
     get applicationCommandData() {
