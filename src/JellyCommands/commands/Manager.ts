@@ -48,11 +48,7 @@ export class CommandManager {
     }
 
     static async create(client: JellyCommands, paths: string | string[]) {
-        const clientId = client.resolveClientId();
-        const token = client.resolveToken();
-
-        if (!token) throw new Error('No token found');
-        if (!clientId) throw new Error('No client id found');
+        const { clientId, token } = client.getAuthDetails();
 
         const commands = await CommandManager.registerCommands(
             paths,
