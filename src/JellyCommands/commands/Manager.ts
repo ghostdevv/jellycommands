@@ -16,14 +16,14 @@ export class CommandManager {
         this.commands = commands;
     }
 
-    public async respond(interaction: CommandInteraction) {
+    public async respond(interaction: CommandInteraction): Promise<void> {
         const command = this.commands.get(interaction.commandId);
 
         /**
          * If command is not found return - if unknownCommand message send
          */
         if (!command)
-            return (
+            return void (
                 this.client.joptions.messages?.unknownCommand &&
                 interaction.reply(this.client.joptions.messages.unknownCommand)
             );
