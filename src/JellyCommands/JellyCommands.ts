@@ -1,7 +1,5 @@
 import type { JellyCommandsOptions } from './options';
 import { CommandManager } from './commands/Manager';
-import { createRequest } from '../util/request';
-import { Routes } from 'discord-api-types/v9';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
@@ -48,13 +46,13 @@ export class JellyCommands extends Client {
         const token = known?.token || this.resolveToken();
 
         if (!token) throw new Error('No token found');
-        if (!clientId) throw new Error('No client id found');
+        if (!clientId) throw new Error('Invalid token provided');
 
         return { token: this.cleanToken(token) as string, clientId };
     }
 
     async login(potentialToken?: string) {
-        const { token, clientId } = this.getAuthDetails({
+        const { token } = this.getAuthDetails({
             token: potentialToken,
         });
 
