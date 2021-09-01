@@ -5,23 +5,11 @@ import Joi from 'joi';
 const pathsSchema = () => [Joi.string(), Joi.array().items(Joi.string())];
 
 export const schema = Joi.object({
-    /**
-     * Array or single file/directory of command(s)
-     */
     commands: pathsSchema(),
 
-    /**
-     * Base discord.js client options
-     */
     clientOptions: Joi.object().required(),
 
-    /**
-     * Customisable responses
-     */
     messages: Joi.object({
-        /**
-         * This is sent when a unknown command is given
-         */
         unknownCommand: [
             Joi.string(),
             Joi.object().instance(MessagePayload),
@@ -31,11 +19,23 @@ export const schema = Joi.object({
 });
 
 export interface JellyCommandsOptions {
+    /**
+     * Array or single file/directory of command(s)
+     */
     commands?: string | string[];
 
+    /**
+     * Base discord.js client options
+     */
     clientOptions: ClientOptions;
 
+    /**
+     * Customisable responses
+     */
     messages?: {
+        /**
+         * This is sent when a unknown command is given
+         */
         unknownCommand?: string | MessagePayload | MessageOptions;
     };
 }
