@@ -3,7 +3,7 @@ import { CommandManager } from './commands/Manager';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
-interface TokenClientId {
+interface AuthDetails {
     token: string;
     clientId: string;
 }
@@ -41,7 +41,7 @@ export class JellyCommands extends Client {
         return Buffer.from(token.split('.')[0], 'base64').toString();
     }
 
-    getAuthDetails(known?: Partial<TokenClientId>): TokenClientId {
+    getAuthDetails(known?: Partial<AuthDetails>): AuthDetails {
         const clientId = known?.clientId || this.resolveClientId();
         const token = known?.token || this.resolveToken();
 
