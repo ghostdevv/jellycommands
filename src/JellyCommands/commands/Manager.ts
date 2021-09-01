@@ -81,8 +81,8 @@ export class CommandManager {
         token: string,
         clientId: string,
     ) {
-        const request = rest(token);
         const commands = new Map<string, Command>();
+        const request = rest(token);
 
         for (const file of flattenPaths(paths)) {
             const command = await readJSFile<Command>(file);
