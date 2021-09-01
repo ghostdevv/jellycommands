@@ -7,8 +7,6 @@ export default command('pog', {
 
     run: ({ interaction }) =>
         interaction.reply({
-            embeds: [
-                { description: '🔥🔥🔥🔥 CCChaaaaaammmmmpppppppp 🔥🔥🔥🔥' },
-            ],
+            embeds: [{ description: '🔥🔥🔥🔥 CCChaaaaammmmpppppp 🔥🔥🔥🔥' }],
         }),
 });
