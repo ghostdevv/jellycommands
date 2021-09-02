@@ -1,5 +1,5 @@
 import type { JellyCommandsOptions } from './options';
-import { CommandManager } from './commands/Manager';
+import { CommandManager } from '../commands/Manager';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
