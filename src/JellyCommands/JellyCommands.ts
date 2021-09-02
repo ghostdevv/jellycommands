@@ -69,6 +69,6 @@ export class JellyCommands extends Client {
             });
         }
 
-        return super.login(this.resolveToken() || undefined);
+        return super.login(token);
     }
 }
