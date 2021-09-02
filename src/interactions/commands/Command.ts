@@ -68,6 +68,7 @@ export class Command {
 
         return {
             name: this.name,
+            type: 1,
             description: this.options.description,
             options: this.options.options,
             default_permission,
