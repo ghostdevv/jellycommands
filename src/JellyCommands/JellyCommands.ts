@@ -53,7 +53,7 @@ export class JellyCommands extends Client {
 
     async login(potentialToken?: string) {
         const { token } = this.getAuthDetails({
-            token: potentialToken,
+            token: this.cleanToken(potentialToken) || undefined,
         });
 
         this.token = token;
