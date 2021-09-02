@@ -10,11 +10,15 @@ export const schema = Joi.object({
     clientOptions: Joi.object().required(),
 
     messages: Joi.object({
-        unknownCommand: [
-            Joi.string(),
-            Joi.object().instance(MessagePayload),
-            Joi.object(),
-        ],
+        unknownCommand: Joi.alternatives()
+            .try(
+                Joi.string(),
+                Joi.object().instance(MessagePayload),
+                Joi.object(),
+            )
+            .default({
+                embeds: [{ description: 'Unknown Command' }],
+            }),
     }).default(),
 });
 
