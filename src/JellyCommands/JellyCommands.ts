@@ -48,7 +48,7 @@ export class JellyCommands extends Client {
         if (!token) throw new Error('No token found');
         if (!clientId) throw new Error('Invalid token provided');
 
-        return { token: this.cleanToken(token) as string, clientId };
+        return { token, clientId };
     }
 
     async login(potentialToken?: string) {
