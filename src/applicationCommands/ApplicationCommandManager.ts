@@ -4,9 +4,10 @@ import { BaseCommand } from './BaseCommand';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../util/fs';
 
-import type { JellyCommands } from '../JellyCommands/JellyCommands';
+import type { ApplicationCommandPermissions } from '../types/applicationCommands';
 import type { ApplicationCommand } from '../types/applicationCommands';
-import type { Interaction } from 'discord.js';
+import type { JellyCommands } from '../JellyCommands/JellyCommands';
+import type { Base, Interaction } from 'discord.js';
 
 export class ApplicationCommandManager {
     private client;
@@ -50,110 +51,111 @@ export class ApplicationCommandManager {
         });
     }
 
-    static async create(client: JellyCommands, paths: string | string[]) {
-        const { clientId, token } = client.getAuthDetails();
-        const request = createRequest(token);
-
-        const commands = new Map<string, BaseCommand>();
-        const seenGuilds = new Set<string>();
+    static async getCommandFiles(paths: string | string[]) {
+        const guildCommands = new Map<string, BaseCommand[]>();
+        const globalCommands = new Set<BaseCommand>();
 
         for (const file of flattenPaths(paths)) {
             const command = await readJSFile<BaseCommand>(file);
             if (command.options?.disabled) continue;
 
             /**
-             * If the command has global: true then register as global
+             * If global add to global
              */
-            if (command.options.global) {
-                const res = await request<{ id: string }>(
-                    'post',
-                    Routes.applicationCommands(clientId),
-                    command.applicationCommandData,
-                );
-
-                commands.set(res.id, command);
-            }
+            if (command.options?.global) globalCommands.add(command);
 
             /**
-             * If the command has a guilds array, and is not a global command, register in each guild
+             * If the command is not global set to guild commands
              */
-            if (!command.options.global)
-                for (const guild of command.options.guilds || []) {
-                    const res = await request<{ id: string }>(
-                        'post',
-                        Routes.applicationGuildCommands(clientId, guild),
-                        command.applicationCommandData,
-                    );
-
-                    commands.set(res.id, command);
-                }
-
-            /**
-             * Update seen guilds
-             */
-            if (command.options.guilds)
+            if (command.options?.guilds && !command.options?.global)
                 for (const guildId of command.options.guilds)
-                    seenGuilds.add(guildId);
+                    guildCommands.set(guildId, [
+                        ...(guildCommands.get(guildId) || []),
+                        command,
+                    ]);
         }
 
-        /**
-         * For every registered command, and every guild in that command's guild array set permissions
-         */
-        for (const guildId of seenGuilds) {
-            const permissions = [...commands.entries()]
-                .filter(
-                    ([, command]) =>
-                        command.options?.guards &&
-                        command.options?.guilds?.includes(guildId),
-                )
-                .map(([commandId, command]) => ({
-                    id: commandId,
-                    permissions: command.applicationCommandPermissions,
-                }));
+        return {
+            guildCommands,
+            globalCommands,
+        };
+    }
 
-            await request(
-                'put',
-                Routes.guildApplicationCommandsPermissions(clientId, guildId),
-                permissions,
-            );
-        }
+    static async create(client: JellyCommands, paths: string | string[]) {
+        const { clientId, token } = client.getAuthDetails();
+        const request = createRequest(token);
+
+        const { guildCommands, globalCommands } =
+            await ApplicationCommandManager.getCommandFiles(paths);
+
+        const commands = new Map<string, BaseCommand>();
 
         /**
-         * Fetch global commands
+         * Register global commands
          */
-        const existingGlobal = await request<ApplicationCommand[]>(
-            'get',
+        const registeredGlobalCommands = await request<ApplicationCommand[]>(
+            'put',
             Routes.applicationCommands(clientId),
+            [...globalCommands].map((c) => c.applicationCommandData),
         );
 
         /**
-         * Delete old global commands
+         * Map returned command ids to their corresponding command
          */
-        for (const { id } of existingGlobal) {
-            if (!commands.has(id))
-                await request(
-                    'delete',
-                    Routes.applicationCommand(clientId, id),
-                );
-        }
+        registeredGlobalCommands.forEach((c, i) =>
+            commands.set(c.id, [...globalCommands][i]),
+        );
 
-        for (const guildId of seenGuilds) {
-            const existingCommands = await request<ApplicationCommand[]>(
-                'get',
+        /**
+         * Register guild commands
+         */
+        for (const [guildId, gcommands] of guildCommands) {
+            const res = await request<ApplicationCommand[]>(
+                'put',
                 Routes.applicationGuildCommands(clientId, guildId),
+                gcommands.map((c) => c.applicationCommandData),
             );
 
             /**
-             * Delete old guild commands
+             * Map returned command ids to their corresponding command
              */
-            for (const { id } of existingCommands) {
-                if (!commands.has(id))
-                    await request(
-                        'delete',
-                        Routes.applicationGuildCommand(clientId, guildId, id),
-                    );
-            }
+            res.forEach((c, i) => commands.set(c.id, gcommands[i]));
         }
+
+        interface PermissionData {
+            id: string;
+            permissions: ApplicationCommandPermissions[];
+        }
+
+        /**
+         * A permissions map of guildId to permission data
+         */
+        const permissions = new Map<string, PermissionData[]>();
+
+        /**
+         * Add all commands to the permissions Map
+         */
+        for (const [commandId, command] of commands) {
+            if (command.applicationCommandPermissions)
+                for (const guildId of command.options.guilds || [])
+                    permissions.set(guildId, [
+                        ...(permissions.get(guildId) || []),
+                        {
+                            id: commandId,
+                            permissions: command.applicationCommandPermissions,
+                        },
+                    ]);
+        }
+
+        /**
+         * Set the permissions
+         */
+        for (const [guildId, permissionData] of permissions)
+            await request(
+                'put',
+                Routes.guildApplicationCommandsPermissions(clientId, guildId),
+                permissionData,
+            );
 
         return new ApplicationCommandManager(client, commands);
     }
