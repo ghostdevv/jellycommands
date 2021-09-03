@@ -26,8 +26,8 @@ export class Props {
                 `Expected to recieve a value, recieved ${typeof value}`,
             );
 
-        if (this.#props.has(key))
-            throw new Error('Unable to overwrite key in readonly map');
+        if (this.has(key))
+            throw new Error(`Unable to overwrite the readonly prop: ${key}`);
 
         this.#props.set(key, value);
     }
@@ -39,7 +39,7 @@ export class Props {
             );
 
         if (!this.#props.has(key))
-            throw new Error(`Unable to find prop with key: ${key}`);
+            throw new Error(`Unable to find prop: ${key}`);
 
         return this.#props.get(key);
     }
