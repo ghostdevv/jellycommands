@@ -99,7 +99,6 @@ export class ApplicationCommandManager {
         /**
          * For every registered command, and every guild in that command's guild array set permissions
          */
-        console.time();
         for (const guildId of seenGuilds) {
             const permissions = [...commands.entries()]
                 .filter(
@@ -118,7 +117,6 @@ export class ApplicationCommandManager {
                 permissions,
             );
         }
-        console.timeEnd();
 
         /**
          * Fetch global commands
