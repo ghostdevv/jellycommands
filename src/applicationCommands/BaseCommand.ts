@@ -74,13 +74,21 @@ export interface RunOptions {
     client: JellyCommands;
 }
 
-export abstract class BaseCommand {
-    abstract options: BaseOptions;
+export interface OptionsOptions<OptionsType> {
+    options: OptionsType;
+    schema: Joi.ObjectSchema<any>;
+}
 
+export abstract class BaseCommand<OptionsType extends BaseOptions> {
     public readonly name;
+    public readonly options;
     public readonly run: ({}: RunOptions) => void | any;
 
-    constructor(name: string, run: BaseCommand['run']) {
+    constructor(
+        name: string,
+        run: BaseCommand<OptionsType>['run'],
+        { options, schema }: OptionsOptions<OptionsType>,
+    ) {
         this.name = name;
 
         if (!name || typeof name != 'string')
@@ -94,6 +102,27 @@ export abstract class BaseCommand {
             throw new TypeError(
                 `Expected type function for run, recieved ${typeof run}`,
             );
+
+        const { error, value } = schema.validate(options);
+
+        if (error) throw error.annotate();
+
+        this.options = value as typeof options;
+
+        if (!this.options.guilds?.length && !this.options.global)
+            throw new Error(
+                'Command must have at least one of guild or global',
+            );
+
+        if (
+            this.options.global &&
+            !this.options.guilds?.length &&
+            this.options.guards
+        ) {
+            throw new Error(
+                'If using guards on a global command you must have a guilds array, guards can only be applied to guilds',
+            );
+        }
     }
 
     abstract get applicationCommandData(): ApplicationCommandData;

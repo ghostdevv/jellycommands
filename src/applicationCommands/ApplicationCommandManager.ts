@@ -1,6 +1,6 @@
+import { BaseCommand, BaseOptions } from './BaseCommand';
 import { createRequest } from '../util/request';
 import { Routes } from 'discord-api-types/v9';
-import { BaseCommand } from './BaseCommand';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../util/fs';
 
@@ -13,7 +13,10 @@ export class ApplicationCommandManager {
     private client;
     private commands;
 
-    constructor(client: JellyCommands, commands: Map<string, BaseCommand>) {
+    constructor(
+        client: JellyCommands,
+        commands: Map<string, BaseCommand<BaseOptions>>,
+    ) {
         this.client = client;
         this.commands = commands;
     }
@@ -52,11 +55,11 @@ export class ApplicationCommandManager {
     }
 
     static async getCommandFiles(paths: string | string[]) {
-        const guildCommands = new Map<string, BaseCommand[]>();
-        const globalCommands = new Set<BaseCommand>();
+        const guildCommands = new Map<string, BaseCommand<BaseOptions>[]>();
+        const globalCommands = new Set<BaseCommand<BaseOptions>>();
 
         for (const file of flattenPaths(paths)) {
-            const command = await readJSFile<BaseCommand>(file);
+            const command = await readJSFile<BaseCommand<BaseOptions>>(file);
             if (command.options?.disabled) continue;
 
             /**
@@ -88,7 +91,7 @@ export class ApplicationCommandManager {
         const { guildCommands, globalCommands } =
             await ApplicationCommandManager.getCommandFiles(paths);
 
-        const commands = new Map<string, BaseCommand>();
+        const commands = new Map<string, BaseCommand<BaseOptions>>();
 
         /**
          * Register global commands

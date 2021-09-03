@@ -2,35 +2,13 @@ import { schema, UserCommandOptions } from './options';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
 
-export class UserCommand extends BaseCommand {
-    public readonly options: UserCommandOptions;
-
+export class UserCommand extends BaseCommand<UserCommandOptions> {
     constructor(
         name: string,
-        run: BaseCommand['run'],
+        run: BaseCommand<UserCommandOptions>['run'],
         options: UserCommandOptions,
     ) {
-        super(name, run);
-
-        const { error, value } = schema.validate(options);
-
-        if (error) throw error.annotate();
-        else this.options = value;
-
-        if (!this.options.guilds?.length && !this.options.global)
-            throw new Error(
-                'Command must have at least one of guild or global',
-            );
-
-        if (
-            this.options.global &&
-            !this.options.guilds?.length &&
-            this.options.guards
-        ) {
-            throw new Error(
-                'If using guards on a global command you must have a guilds array, guards can only be applied to guilds',
-            );
-        }
+        super(name, run, { options, schema });
     }
 
     get applicationCommandData() {
@@ -50,7 +28,7 @@ export class UserCommand extends BaseCommand {
 export const userCommand = (
     name: string,
     options: UserCommandOptions & {
-        run: BaseCommand['run'];
+        run: BaseCommand<UserCommandOptions>['run'];
     },
 ) => {
     return new UserCommand(
