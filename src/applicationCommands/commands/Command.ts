@@ -1,4 +1,4 @@
-import type { ApplicationCommandPermissions } from '../commands';
+import type { ApplicationCommandPermissions } from '../../types/applicationCommands';
 import { schema, CommandOptions } from './options';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';

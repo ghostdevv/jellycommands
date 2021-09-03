@@ -5,7 +5,7 @@ import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../util/fs';
 
 import type { JellyCommands } from '../JellyCommands/JellyCommands';
-import type { ApplicationCommand } from './commands';
+import type { ApplicationCommand } from '../types/applicationCommands';
 import type { Interaction } from 'discord.js';
 
 export class ApplicationCommandManager {

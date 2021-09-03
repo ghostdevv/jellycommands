@@ -1,7 +1,7 @@
 import type { JellyCommands } from '../JellyCommands/JellyCommands';
-import type { ApplicationCommandPermissions } from './commands';
+import type { ApplicationCommandPermissions } from '../types/applicationCommands';
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import type { ApplicationCommandData } from './commands';
+import type { ApplicationCommandData } from '../types/applicationCommands';
 import type { CommandInteraction } from 'discord.js';
 
 import { snowflakeArray } from '../util/joi';
