@@ -99,20 +99,26 @@ export class ApplicationCommandManager {
         /**
          * For every registered command, and every guild in that command's guild array set permissions
          */
-        for (const [commandID, command] of commands) {
-            if (!command.options.guards || !command.options.guilds) continue;
+        console.time();
+        for (const guildId of seenGuilds) {
+            const permissions = [...commands.entries()]
+                .filter(
+                    ([, command]) =>
+                        command.options?.guards &&
+                        command.options?.guilds?.includes(guildId),
+                )
+                .map(([commandId, command]) => ({
+                    id: commandId,
+                    permissions: command.applicationCommandPermissions,
+                }));
 
-            for (const guild of command.options.guilds)
-                await request(
-                    'put',
-                    Routes.applicationCommandPermissions(
-                        clientId,
-                        guild,
-                        commandID,
-                    ),
-                    { permissions: command.applicationCommandPermissions },
-                );
+            await request(
+                'put',
+                Routes.guildApplicationCommandsPermissions(clientId, guildId),
+                permissions,
+            );
         }
+        console.timeEnd();
 
         /**
          * Fetch global commands
