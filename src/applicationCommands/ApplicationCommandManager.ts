@@ -7,7 +7,7 @@ import { readJSFile } from '../util/fs';
 import type { ApplicationCommandPermissions } from '../types/applicationCommands';
 import type { ApplicationCommand } from '../types/applicationCommands';
 import type { JellyCommands } from '../JellyCommands/JellyCommands';
-import type { Base, Interaction } from 'discord.js';
+import type { Interaction } from 'discord.js';
 
 export class ApplicationCommandManager {
     private client;
