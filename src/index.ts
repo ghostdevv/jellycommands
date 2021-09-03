@@ -11,6 +11,11 @@ export { MessageCommand } from './applicationCommands/messageCommands/MessageCom
 export { messageCommand } from './applicationCommands/messageCommands/MessageCommand';
 export type { MessageCommandOptions } from './applicationCommands/messageCommands/options';
 
+// Export user command related
+export { UserCommand } from './applicationCommands/userCommands/UserCommand';
+export { userCommand } from './applicationCommands/userCommands/UserCommand';
+export type { UserCommandOptions } from './applicationCommands/userCommands/options';
+
 // Export event related
 export { event, Event } from './events/Event';
 export type { EventOptions } from './events/options';
