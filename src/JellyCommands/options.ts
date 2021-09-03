@@ -9,6 +9,8 @@ export const schema = Joi.object({
 
     clientOptions: Joi.object().required(),
 
+    props: Joi.object().default({}),
+
     messages: Joi.object({
         unknownCommand: Joi.alternatives()
             .try(
@@ -37,6 +39,11 @@ export interface JellyCommandsOptions {
      * Base discord.js client options
      */
     clientOptions: ClientOptions;
+
+    /**
+     * Inital props to pass to props api
+     */
+    props?: Record<string, any>;
 
     /**
      * Customisable responses

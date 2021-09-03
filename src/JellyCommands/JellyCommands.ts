@@ -1,6 +1,7 @@
 import { ApplicationCommandManager } from './applicationCommands/ApplicationCommandManager';
 import type { JellyCommandsOptions } from './options';
 import { EventManager } from './events/EventManager';
+import { Props } from './props/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
@@ -11,6 +12,7 @@ interface AuthDetails {
 
 export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;
+    public readonly props: Props;
 
     constructor(options: JellyCommandsOptions) {
         super(options.clientOptions);
@@ -19,6 +21,8 @@ export class JellyCommands extends Client {
 
         if (error) throw error.annotate();
         else this.joptions = value;
+
+        this.props = new Props(options.props);
     }
 
     cleanToken(token?: string): string | null {
