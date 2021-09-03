@@ -1,8 +1,7 @@
 import type { MessageOptions, ClientOptions } from 'discord.js';
 import { MessagePayload } from 'discord.js';
+import { pathsSchema } from '../util/joi';
 import Joi from 'joi';
-
-const pathsSchema = () => [Joi.string(), Joi.array().items(Joi.string())];
 
 export const schema = Joi.object({
     commands: pathsSchema(),
