@@ -3,8 +3,6 @@ import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
 
 export class Command extends BaseCommand {
-    public readonly name;
-    public readonly run;
     public readonly options: CommandOptions;
 
     constructor(
@@ -12,21 +10,7 @@ export class Command extends BaseCommand {
         run: BaseCommand['run'],
         options: CommandOptions,
     ) {
-        super();
-
-        this.name = name;
-
-        if (!name || typeof name != 'string')
-            throw new TypeError(
-                `Expected type string for name, recieved ${typeof name}`,
-            );
-
-        this.run = run;
-
-        if (!run || typeof run != 'function')
-            throw new TypeError(
-                `Expected type function for run, recieved ${typeof run}`,
-            );
+        super(name, run);
 
         const { error, value } = schema.validate(options);
 

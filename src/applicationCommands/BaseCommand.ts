@@ -77,11 +77,26 @@ export interface RunOptions {
 export abstract class BaseCommand {
     abstract options: BaseOptions;
 
-    constructor() {}
+    public readonly name;
+    public readonly run: ({}: RunOptions) => void | any;
+
+    constructor(name: string, run: BaseCommand['run']) {
+        this.name = name;
+
+        if (!name || typeof name != 'string')
+            throw new TypeError(
+                `Expected type string for name, recieved ${typeof name}`,
+            );
+
+        this.run = run;
+
+        if (!run || typeof run != 'function')
+            throw new TypeError(
+                `Expected type function for run, recieved ${typeof run}`,
+            );
+    }
 
     abstract get applicationCommandData(): ApplicationCommandData;
-
-    abstract run({}: RunOptions): void | any;
 
     get applicationCommandPermissions() {
         if (!this.options.guards) return null;
