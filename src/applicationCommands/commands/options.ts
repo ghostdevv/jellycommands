@@ -1,6 +1,5 @@
 import type { ApplicationCommandOptionData } from 'discord.js';
 import type { BaseOptions } from '../BaseCommand';
-import { snowflakeArray } from '../../util/joi';
 import { baseSchema } from '../BaseCommand';
 
 export interface CommandOptions extends BaseOptions {
