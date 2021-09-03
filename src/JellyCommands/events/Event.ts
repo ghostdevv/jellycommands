@@ -1,7 +1,7 @@
 import { schema, EventOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
-import type { JellyCommands } from '../JellyCommands/JellyCommands';
+import type { JellyCommands } from '../JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
 
 export class Event {

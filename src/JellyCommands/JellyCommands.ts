@@ -1,6 +1,6 @@
-import { ApplicationCommandManager } from '../applicationCommands/ApplicationCommandManager';
+import { ApplicationCommandManager } from './applicationCommands/ApplicationCommandManager';
 import type { JellyCommandsOptions } from './options';
-import { EventManager } from '../events/EventManager';
+import { EventManager } from './events/EventManager';
 import { Client } from 'discord.js';
 import { schema } from './options';
 

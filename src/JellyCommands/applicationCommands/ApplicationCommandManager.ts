@@ -1,12 +1,12 @@
 import { BaseCommand, BaseOptions } from './BaseCommand';
-import { createRequest } from '../util/request';
+import { createRequest } from '../../util/request';
 import { Routes } from 'discord-api-types/v9';
 import { flattenPaths } from 'ghoststools';
-import { readJSFile } from '../util/fs';
+import { readJSFile } from '../../util/fs';
 
-import type { GuildApplicationPermissionData } from '../types/applicationCommands';
-import type { ApplicationCommand } from '../types/applicationCommands';
-import type { JellyCommands } from '../JellyCommands/JellyCommands';
+import type { GuildApplicationPermissionData } from '../../types/applicationCommands';
+import type { ApplicationCommand } from '../../types/applicationCommands';
+import type { JellyCommands } from '../JellyCommands';
 import type { Interaction } from 'discord.js';
 
 export class ApplicationCommandManager {

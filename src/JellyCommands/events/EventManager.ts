@@ -1,6 +1,6 @@
-import type { JellyCommands } from '../JellyCommands/JellyCommands';
+import type { JellyCommands } from '../JellyCommands';
 import { flattenPaths } from 'ghoststools';
-import { readJSFile } from '../util/fs';
+import { readJSFile } from '../../util/fs';
 import type { Event } from './Event';
 
 export class EventManager {

@@ -1,10 +1,10 @@
-import type { JellyCommands } from '../JellyCommands/JellyCommands';
-import type { ApplicationCommandPermissions } from '../types/applicationCommands';
+import type { ApplicationCommandPermissions } from '../../types/applicationCommands';
+import type { ApplicationCommandData } from '../../types/applicationCommands';
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import type { ApplicationCommandData } from '../types/applicationCommands';
+import type { JellyCommands } from '../JellyCommands';
 import type { CommandInteraction } from 'discord.js';
 
-import { snowflakeArray } from '../util/joi';
+import { snowflakeArray } from '../../util/joi';
 import Joi from 'joi';
 
 export interface BaseOptions {
