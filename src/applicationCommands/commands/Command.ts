@@ -1,20 +1,6 @@
-import type { ApplicationCommandPermissions } from '../../types/applicationCommands';
 import { schema, CommandOptions } from './options';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
-
-import type { Base, Client, CommandInteraction } from 'discord.js';
-
-enum PermissionType {
-    role = 1,
-    user = 2,
-}
-
-interface Permission {
-    id: string;
-    type: PermissionType;
-    permission: boolean;
-}
 
 export class Command extends BaseCommand {
     public readonly name;
