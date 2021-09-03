@@ -35,3 +35,8 @@ export interface ApplicationCommandPermissions {
     type: ApplicationCommandPermissionType;
     permission: boolean;
 }
+
+export interface GuildApplicationPermissionData {
+    id: string;
+    permissions: ApplicationCommandPermissions[];
+}

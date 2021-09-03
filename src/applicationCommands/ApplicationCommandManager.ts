@@ -4,7 +4,7 @@ import { BaseCommand } from './BaseCommand';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../util/fs';
 
-import type { ApplicationCommandPermissions } from '../types/applicationCommands';
+import type { GuildApplicationPermissionData } from '../types/applicationCommands';
 import type { ApplicationCommand } from '../types/applicationCommands';
 import type { JellyCommands } from '../JellyCommands/JellyCommands';
 import type { Interaction } from 'discord.js';
@@ -122,15 +122,10 @@ export class ApplicationCommandManager {
             res.forEach((c, i) => commands.set(c.id, gcommands[i]));
         }
 
-        interface PermissionData {
-            id: string;
-            permissions: ApplicationCommandPermissions[];
-        }
-
         /**
          * A permissions map of guildId to permission data
          */
-        const permissions = new Map<string, PermissionData[]>();
+        const permissions = new Map<string, GuildApplicationPermissionData[]>();
 
         /**
          * Add all commands to the permissions Map
