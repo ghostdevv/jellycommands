@@ -86,9 +86,14 @@ export class ApplicationCommandManager {
                     );
 
                     commands.set(res.id, command);
-
-                    seenGuilds.add(guild);
                 }
+
+            /**
+             * Update seen guilds
+             */
+            if (command.options.guilds)
+                for (const guildId of command.options.guilds)
+                    seenGuilds.add(guildId);
         }
 
         /**
