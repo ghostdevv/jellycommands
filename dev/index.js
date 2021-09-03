@@ -11,6 +11,12 @@ const client = new JellyCommands({
     clientOptions: {
         intents: [Intents.FLAGS.GUILDS],
     },
+
+    messages: {
+        unknownCommand: {
+            embeds: [{ description: 'Unknown Command', color: 'RANDOM' }],
+        },
+    },
 });
 
 client.login();
