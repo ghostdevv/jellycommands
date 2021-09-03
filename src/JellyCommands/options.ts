@@ -5,6 +5,7 @@ import Joi from 'joi';
 
 export const schema = Joi.object({
     commands: pathsSchema(),
+    events: pathsSchema(),
 
     clientOptions: Joi.object().required(),
 
@@ -26,6 +27,11 @@ export interface JellyCommandsOptions {
      * Array or single file/directory of command(s)
      */
     commands?: string | string[];
+
+    /**
+     * Array or single file/directory of events(s)
+     */
+    events: string | string[];
 
     /**
      * Base discord.js client options

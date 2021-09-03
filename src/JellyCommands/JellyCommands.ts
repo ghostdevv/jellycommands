@@ -1,5 +1,6 @@
 import { ApplicationCommandManager } from '../applicationCommands/ApplicationCommandManager';
 import type { JellyCommandsOptions } from './options';
+import { EventManager } from '../events/EventManager';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
@@ -69,6 +70,9 @@ export class JellyCommands extends Client {
                 applicationCommandManager.respond(i),
             );
         }
+
+        if (this.joptions?.events)
+            await EventManager.loadEvents(this, this.joptions.events);
 
         return super.login(token);
     }
