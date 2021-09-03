@@ -3,7 +3,7 @@ export class Props {
 
     constructor(init?: Record<string, any>) {
         for (const [key, value] of Object.entries(init || {}))
-            this.#props.set(key, value);
+            this.set(key, value);
     }
 
     has(key: string): boolean {
