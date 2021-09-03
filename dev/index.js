@@ -5,7 +5,7 @@ import { JellyCommands } from 'jellycommands';
 import { Intents } from 'discord.js';
 
 const client = new JellyCommands({
-    // commands: 'dev/commands',
+    commands: 'dev/commands',
     events: 'dev/events',
 
     clientOptions: {
