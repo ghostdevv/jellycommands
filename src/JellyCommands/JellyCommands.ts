@@ -1,5 +1,5 @@
+import { ApplicationCommandManager } from '../applicationCommands/ApplicationCommandManager';
 import type { JellyCommandsOptions } from './options';
-import { CommandManager } from '../commands/Manager';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
@@ -59,14 +59,15 @@ export class JellyCommands extends Client {
         this.token = token;
 
         if (this.joptions.commands) {
-            const commandManager = await CommandManager.create(
-                this,
-                this.joptions.commands,
-            );
+            const applicationCommandManager =
+                await ApplicationCommandManager.create(
+                    this,
+                    this.joptions.commands,
+                );
 
-            this.on('interactionCreate', (interaction) => {
-                interaction.isCommand() && commandManager.respond(interaction);
-            });
+            this.on('interactionCreate', (i) =>
+                applicationCommandManager.respond(i),
+            );
         }
 
         return super.login(token);

@@ -1,7 +1,9 @@
+import type { ApplicationCommandPermissions } from '../commands';
 import { schema, CommandOptions } from './options';
+import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
 
-import type { Client, CommandInteraction } from 'discord.js';
+import type { Base, Client, CommandInteraction } from 'discord.js';
 
 enum PermissionType {
     role = 1,
@@ -14,19 +16,18 @@ interface Permission {
     permission: boolean;
 }
 
-export class Command {
+export class Command extends BaseCommand {
     public readonly name;
     public readonly run;
     public readonly options: CommandOptions;
 
     constructor(
         name: string,
-        run: ({}: {
-            interaction: CommandInteraction;
-            client: Client;
-        }) => void | any,
+        run: BaseCommand['run'],
         options: CommandOptions,
     ) {
+        super();
+
         this.name = name;
 
         if (!name || typeof name != 'string')
@@ -63,8 +64,9 @@ export class Command {
     }
 
     get applicationCommandData() {
-        const default_permission =
-            this.options.guards && this.options.guards.mode == 'blacklist';
+        const default_permission = this.options.guards
+            ? this.options.guards.mode == 'blacklist'
+            : true;
 
         return {
             name: this.name,
@@ -74,29 +76,12 @@ export class Command {
             default_permission,
         };
     }
-
-    get applicationCommandPermissions(): Permission[] | null {
-        if (!this.options.guards) return null;
-
-        const { mode, users, roles } = this.options.guards;
-
-        const permissions: Permission[][] = [];
-        const permission = mode == 'whitelist';
-
-        if (users)
-            permissions.push(users.map((id) => ({ id, type: 2, permission })));
-
-        if (roles)
-            permissions.push(roles.map((id) => ({ id, type: 1, permission })));
-
-        return permissions.flat();
-    }
 }
 
 export const command = (
     name: string,
     options: CommandOptions & {
-        run: Command['run'];
+        run: BaseCommand['run'];
     },
 ) => {
     return new Command(
