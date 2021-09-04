@@ -1,6 +1,5 @@
 {
   "name": "jellycommands",
-  "private": true,
   "version": "0.0.1-0",
   "author": "GHOST",
   "license": "MIT",
@@ -22,9 +21,7 @@
     "dev:ts": "tsup-node --watch src",
     "dev:nodemon": "nodemon dev/index.js",
     "build": "tsup-node",
-    "publish": "run-s publish:*",
-    "publish:build": "npm run build",
-    "publish:np": "np --no-tests --branch main"
+    "publish": "npm run build && npm publish --tag=next"
   },
   "devDependencies": {
     "@types/node": "^16.7.1",
