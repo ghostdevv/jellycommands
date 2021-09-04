@@ -26,8 +26,8 @@ export interface ApplicationCommand {
 }
 
 export enum ApplicationCommandPermissionType {
-    role = 1,
-    user = 2,
+    ROLE = 1,
+    USER = 2,
 }
 
 export interface ApplicationCommandPermissions {
