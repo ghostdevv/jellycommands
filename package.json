@@ -24,7 +24,7 @@
     "build": "tsup-node",
     "publish": "run-s publish:*",
     "publish:build": "npm run build",
-    "publish:np": "np --no-tests --branch main --no-tag"
+    "publish:np": "np --no-tests --branch main"
   },
   "devDependencies": {
     "@types/node": "^16.7.1",
