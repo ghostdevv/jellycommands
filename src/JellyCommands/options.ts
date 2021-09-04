@@ -33,7 +33,7 @@ export interface JellyCommandsOptions {
     /**
      * Array or single file/directory of events(s)
      */
-    events: string | string[];
+    events?: string | string[];
 
     /**
      * Base discord.js client options
