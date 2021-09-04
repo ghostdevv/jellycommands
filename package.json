@@ -20,8 +20,7 @@
     "dev": "run-p dev:*",
     "dev:ts": "tsup-node --watch src",
     "dev:nodemon": "nodemon dev/index.js",
-    "build": "tsup-node",
-    "publish": "npm run build && npm publish --tag=dev"
+    "build": "tsup-node"
   },
   "devDependencies": {
     "@types/node": "^16.7.1",
