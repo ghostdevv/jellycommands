@@ -1,3 +1,4 @@
+import { ApplicationCommandType } from '../../../types/applicationCommands';
 import { schema, MessageCommandOptions } from './options';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
@@ -18,7 +19,7 @@ export class MessageCommand extends BaseCommand<MessageCommandOptions> {
 
         return {
             name: this.name,
-            type: 3,
+            type: ApplicationCommandType.MESSAGE,
             description: '',
             default_permission,
         };

@@ -1,3 +1,4 @@
+import { ApplicationCommandType } from '../../../types/applicationCommands';
 import { schema, CommandOptions } from './options';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
@@ -18,7 +19,7 @@ export class Command extends BaseCommand<CommandOptions> {
 
         return {
             name: this.name,
-            type: 1,
+            type: ApplicationCommandType.CHAT_INPUT,
             description: this.options.description,
             options: this.options.options,
             default_permission,

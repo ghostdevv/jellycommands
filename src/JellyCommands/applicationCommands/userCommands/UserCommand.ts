@@ -1,3 +1,4 @@
+import { ApplicationCommandType } from '../../../types/applicationCommands';
 import { schema, UserCommandOptions } from './options';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
@@ -18,7 +19,7 @@ export class UserCommand extends BaseCommand<UserCommandOptions> {
 
         return {
             name: this.name,
-            type: 2,
+            type: ApplicationCommandType.USER,
             description: '',
             default_permission,
         };

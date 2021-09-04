@@ -1,4 +1,5 @@
 import type { ApplicationCommandPermissions } from '../../types/applicationCommands';
+import { ApplicationCommandPermissionType } from '../../types/applicationCommands';
 import type { ApplicationCommandData } from '../../types/applicationCommands';
 import type { InteractionDeferReplyOptions } from 'discord.js';
 import type { JellyCommands } from '../JellyCommands';
@@ -136,10 +137,22 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
         const permission = mode == 'whitelist';
 
         if (users)
-            permissions.push(users.map((id) => ({ id, type: 2, permission })));
+            permissions.push(
+                users.map((id) => ({
+                    id,
+                    type: ApplicationCommandPermissionType.USER,
+                    permission,
+                })),
+            );
 
         if (roles)
-            permissions.push(roles.map((id) => ({ id, type: 1, permission })));
+            permissions.push(
+                roles.map((id) => ({
+                    id,
+                    type: ApplicationCommandPermissionType.ROLE,
+                    permission,
+                })),
+            );
 
         return permissions.flat();
     }
