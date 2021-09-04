@@ -1,6 +1,6 @@
-import type { ApplicationCommandPermissions } from '../../types/applicationCommands';
-import { ApplicationCommandPermissionType } from '../../types/applicationCommands';
-import type { ApplicationCommandData } from '../../types/applicationCommands';
+import type { ApplicationCommandPermissions } from '../../types/applicationCommands.d';
+import { ApplicationCommandPermissionType } from '../../types/applicationCommands.d';
+import type { ApplicationCommandData } from '../../types/applicationCommands.d';
 import type { InteractionDeferReplyOptions } from 'discord.js';
 import type { JellyCommands } from '../JellyCommands';
 import type { CommandInteraction } from 'discord.js';

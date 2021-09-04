@@ -4,8 +4,8 @@ import { Routes } from 'discord-api-types/v9';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../../util/fs';
 
-import type { GuildApplicationPermissionData } from '../../types/applicationCommands';
-import type { ApplicationCommand } from '../../types/applicationCommands';
+import type { GuildApplicationPermissionData } from '../../types/applicationCommands.d';
+import type { ApplicationCommand } from '../../types/applicationCommands.d';
 import type { JellyCommands } from '../JellyCommands';
 import type { Interaction } from 'discord.js';
 
