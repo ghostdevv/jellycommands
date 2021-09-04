@@ -1,39 +1,83 @@
-import EventManager from './managers/EventManager';
-import CommandManager from './managers/CommandManager';
+import { ApplicationCommandManager } from './applicationCommands/ApplicationCommandManager';
+import type { JellyCommandsOptions } from './options';
+import { EventManager } from './events/EventManager';
+import { Props } from './props/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
-import type { JellyCommandsOptions } from './options.d';
+interface AuthDetails {
+    token: string;
+    clientId: string;
+}
 
-export class JellyCommands {
-    public readonly client: Client;
-    public readonly options: JellyCommandsOptions;
+export class JellyCommands extends Client {
+    public readonly joptions: JellyCommandsOptions;
+    public readonly props: Props;
 
-    private readonly eventManager: EventManager;
-    private readonly commandManager: CommandManager;
-
-    constructor(client: Client, options: JellyCommandsOptions = {}) {
-        if (!client || !(client instanceof Client))
-            throw new SyntaxError(
-                `Expected a instance of Discord.Client, recieved ${typeof client}`,
-            );
-
-        this.client = client;
+    constructor(options: JellyCommandsOptions) {
+        super(options.clientOptions);
 
         const { error, value } = schema.validate(options);
 
         if (error) throw error.annotate();
-        else this.options = value;
+        else this.joptions = value;
 
-        this.eventManager = new EventManager(this);
-        this.commandManager = new CommandManager(this);
+        this.props = new Props(options.props);
     }
 
-    get events() {
-        return this.eventManager;
+    cleanToken(token?: string): string | null {
+        return typeof token == 'string'
+            ? token.replace(/^(Bot|Bearer)\s*/i, '')
+            : null;
     }
 
-    get commands() {
-        return this.commandManager;
+    resolveToken(token?: string): string | null {
+        return this.cleanToken(
+            token || this.token || process.env?.DISCORD_TOKEN,
+        );
+    }
+
+    resolveClientId(): string | null {
+        if (this.user?.id) return this.user?.id;
+
+        const token = this.resolveToken();
+        if (!token) return null;
+
+        return Buffer.from(token.split('.')[0], 'base64').toString();
+    }
+
+    getAuthDetails(known?: Partial<AuthDetails>): AuthDetails {
+        const clientId = known?.clientId || this.resolveClientId();
+        const token = known?.token || this.resolveToken();
+
+        if (!token) throw new Error('No token found');
+        if (!clientId) throw new Error('Invalid token provided');
+
+        return { token, clientId };
+    }
+
+    async login(potentialToken?: string) {
+        const { token } = this.getAuthDetails({
+            token: this.cleanToken(potentialToken) || undefined,
+        });
+
+        this.token = token;
+
+        if (this.joptions.commands) {
+            const applicationCommandManager =
+                await ApplicationCommandManager.create(
+                    this,
+                    this.joptions.commands,
+                );
+
+            this.on('interactionCreate', (i) =>
+                applicationCommandManager.respond(i),
+            );
+        }
+
+        if (this.joptions?.events)
+            await EventManager.loadEvents(this, this.joptions.events);
+
+        return super.login(token);
     }
 }

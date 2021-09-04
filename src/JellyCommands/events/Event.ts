@@ -1,8 +1,8 @@
 import { schema, EventOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
-import type { Client, ClientEvents } from 'discord.js';
 import type { JellyCommands } from '../JellyCommands';
+import type { Client, ClientEvents } from 'discord.js';
 
 export class Event {
     public readonly name: keyof ClientEvents;
@@ -35,7 +35,7 @@ export class Event {
     }
 }
 
-export const createEvent = <K extends keyof ClientEvents>(
+export const event = <K extends keyof ClientEvents>(
     name: K,
     options: EventOptions & {
         run: (

@@ -1,6 +1,6 @@
-import { createEvent } from 'jellycommands';
+import { event } from 'jellycommands';
 
-export default createEvent('ready', {
+export default event('ready', {
     once: true,
 
     run: () => {

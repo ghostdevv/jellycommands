@@ -1,24 +1,22 @@
 import { config } from 'dotenv';
 config({ path: 'dev/.env' });
 
-import { Client, Intents } from 'discord.js';
 import { JellyCommands } from 'jellycommands';
+import { Intents } from 'discord.js';
 
-const client = new Client({
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-});
+const client = new JellyCommands({
+    commands: 'dev/commands',
+    events: 'dev/events',
 
-const jelly = new JellyCommands(client, {
+    clientOptions: {
+        intents: [Intents.FLAGS.GUILDS],
+    },
+
     messages: {
         unknownCommand: {
-            embeds: [{ description: 'Unknown Command' }],
+            embeds: [{ description: 'Unknown Command', color: 'RANDOM' }],
         },
     },
 });
 
-jelly.events.load('dev/events');
-jelly.commands.load('dev/commands');
-
-client.login(process.env.TOKEN);
-
-client.on('ready', () => jelly.commands.register());
+client.login();

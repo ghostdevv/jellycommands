@@ -1,5 +1,6 @@
 {
   "name": "jellycommands",
+  "private": true,
   "version": "0.0.0-reserve",
   "author": "GHOST",
   "license": "MIT",
@@ -31,7 +32,9 @@
     "typescript": "^4.3.2"
   },
   "dependencies": {
-    "ghoststools": "^0.1.0",
+    "axios": "^0.21.1",
+    "discord-api-types": "^0.22.0",
+    "ghoststools": "^0.3.1",
     "joi": "^17.4.0"
   },
   "repository": {
