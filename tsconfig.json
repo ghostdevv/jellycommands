@@ -7,7 +7,6 @@
 
         "strict": true,
         "declaration": true,
-        "removeComments": true,
         "strictNullChecks": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
