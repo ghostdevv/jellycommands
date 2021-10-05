@@ -156,4 +156,11 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
 
         return permissions.flat();
     }
+
+    toCachable() {
+        return {
+            name: this.name,
+            options: this.options,
+        };
+    }
 }
