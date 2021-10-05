@@ -100,21 +100,16 @@ export class ApplicationCommandManager {
 
     static async create(client: JellyCommands, paths: string | string[]) {
         const { clientId, token } = client.getAuthDetails();
-        const request = createRequest(token);
-
         const cache = new ApplicationCommandCache();
+        const request = createRequest(token);
 
         const { guildCommands, globalCommands, commandsList } =
             await ApplicationCommandManager.getCommandFiles(paths);
 
-        // const string = cache.stringify(
-        //     cache.toCommandPair({ guildCommands, globalCommands }),
-        // );
-        // const parsed = cache.parse(string);
-
-        // const pair = cache.toCommandPair({ guildCommands, globalCommands });
-
-        // return {};
+        if (cache.validate({ guildCommands, globalCommands })) {
+            console.log('a');
+            return {};
+        }
 
         /**
          * Register global commands
@@ -168,9 +163,14 @@ export class ApplicationCommandManager {
             );
         }
 
-        const commandsMap =
-            ApplicationCommandManager.toCommandsMap(commandsList);
+        /**
+         * Update the cache
+         */
+        cache.set({ guildCommands, globalCommands });
 
-        return new ApplicationCommandManager(client, commandsMap);
+        return new ApplicationCommandManager(
+            client,
+            ApplicationCommandManager.toCommandsMap(commandsList),
+        );
     }
 }
