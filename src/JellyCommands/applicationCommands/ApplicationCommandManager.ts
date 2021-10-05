@@ -1,3 +1,4 @@
+import { ApplicationCommandCache } from './ApplicationCommandCache';
 import { BaseCommand, BaseOptions } from './BaseCommand';
 import { createRequest } from '../../util/request';
 import { Routes } from 'discord-api-types/v9';
@@ -88,10 +89,21 @@ export class ApplicationCommandManager {
         const { clientId, token } = client.getAuthDetails();
         const request = createRequest(token);
 
+        const cache = new ApplicationCommandCache();
+
         const { guildCommands, globalCommands } =
             await ApplicationCommandManager.getCommandFiles(paths);
 
         const commands = new Map<string, BaseCommand<BaseOptions>>();
+
+        // const string = cache.stringify(
+        //     cache.toCommandPair({ guildCommands, globalCommands }),
+        // );
+        // const parsed = cache.parse(string);
+
+        // const pair = cache.toCommandPair({ guildCommands, globalCommands });
+
+        // return {};
 
         /**
          * Register global commands
@@ -131,9 +143,8 @@ export class ApplicationCommandManager {
         const permissions = new Map<string, GuildApplicationPermissionData[]>();
 
         /**
-         * Add all commands to the permissions Map
-         */
-        for (const [commandId, command] of commands) {
+            null,
+            4,) {
             if (command.applicationCommandPermissions)
                 for (const guildId of command.options.guilds || [])
                     permissions.set(guildId, [
