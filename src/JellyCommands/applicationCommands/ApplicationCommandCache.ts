@@ -32,7 +32,12 @@ interface RuntimeCommandPair {
 export class ApplicationCommandCache {
     constructor() {}
 
-    set(commandPair: CommandPair) {}
+    set(runtimeCommandPair: RuntimeCommandPair) {
+        const commandPair = this.toCommandPair(runtimeCommandPair);
+        const json = JSON.stringify(commandPair);
+
+        writeFileSync(cacheFile, json, 'utf-8');
+    }
 
     get(): CommandPair | null {
         const json = readFileSync(cacheFile, 'utf-8');
