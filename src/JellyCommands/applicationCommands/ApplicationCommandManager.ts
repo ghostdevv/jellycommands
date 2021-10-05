@@ -148,6 +148,9 @@ export class ApplicationCommandManager {
             res.forEach((c, i) => (gcommands[i].id = c.id));
         }
 
+        /**
+         * For each guild command set permissions
+         */
         for (const [guildId, commands] of guildCommands) {
             const permissionData: GuildApplicationPermissionData[] = [];
 
