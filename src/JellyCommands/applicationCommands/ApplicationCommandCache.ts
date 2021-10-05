@@ -34,7 +34,7 @@ export class ApplicationCommandCache {
 
     set(runtimeCommandPair: RuntimeCommandPair) {
         const commandPair = this.toCommandPair(runtimeCommandPair);
-        const json = JSON.stringify(commandPair);
+        const json = JSON.stringify(commandPair, null, 4);
 
         writeFileSync(cacheFile, json, 'utf-8');
     }
@@ -67,10 +67,6 @@ export class ApplicationCommandCache {
         } catch {
             return false;
         }
-    }
-
-    stringify(commandPair: CommandPair) {
-        return JSON.stringify(commandPair, null, 4);
     }
 
     toCommandPair({
