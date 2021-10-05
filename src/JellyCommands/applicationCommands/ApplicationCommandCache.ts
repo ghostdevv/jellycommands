@@ -11,6 +11,7 @@ const cacheFile = join(cachePath, 'applicationCommandCache.json');
 
 interface Command {
     name: string;
+    id?: string;
     options: BaseOptions;
 }
 
@@ -39,12 +40,21 @@ export class ApplicationCommandCache {
         writeFileSync(cacheFile, json, 'utf-8');
     }
 
-    get(): CommandPair | null {
+    get(ids = true): CommandPair | null {
         const json = readFileSync(cacheFile, 'utf-8');
 
         try {
             const obj: CommandPair = JSON.parse(json);
             if (!obj?.globalCommands || !obj?.guildCommands) return null;
+
+            if (!ids) {
+                // Guild Commands
+                for (const item of obj.guildCommands)
+                    item.commands.forEach((c) => (c.id = undefined));
+
+                for (const command of obj.globalCommands)
+                    command.id = undefined;
+            }
 
             return obj;
         } catch {
@@ -56,8 +66,8 @@ export class ApplicationCommandCache {
      * This function checks if the cache is valid or not
      */
     validate(commands: RuntimeCommandPair) {
-        const commandPair = this.toCommandPair(commands);
-        const cachedCommandPair = this.get();
+        const commandPair = this.toCommandPair(commands, false);
+        const cachedCommandPair = this.get(false);
 
         if (!cachedCommandPair) return false;
 
@@ -69,22 +79,22 @@ export class ApplicationCommandCache {
         }
     }
 
-    toCommandPair({
-        guildCommands,
-        globalCommands,
-    }: RuntimeCommandPair): CommandPair {
+    toCommandPair(
+        { guildCommands, globalCommands }: RuntimeCommandPair,
+        ids = true,
+    ): CommandPair {
         const guildCommandGroup: GuildCommandGroup[] = [];
 
         for (const [guildId, commands] of guildCommands)
             guildCommandGroup.push({
                 guildId,
-                commands: commands.map((c) => c.toCachable()),
+                commands: commands.map((c) => c.toCachable(ids)),
             });
 
         const globalCommandsArray: Command[] = [];
 
         for (const command of globalCommands)
-            globalCommandsArray.push(command.toCachable());
+            globalCommandsArray.push(command.toCachable(ids));
 
         return {
             guildCommands: guildCommandGroup,
