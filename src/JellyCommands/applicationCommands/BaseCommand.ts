@@ -85,6 +85,8 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
     public readonly options;
     public readonly run: ({}: RunOptions) => void | any;
 
+    public id?: string;
+
     constructor(
         name: string,
         run: BaseCommand<OptionsType>['run'],
@@ -160,6 +162,7 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
     toCachable() {
         return {
             name: this.name,
+            id: this.id as string,
             options: this.options,
         };
     }

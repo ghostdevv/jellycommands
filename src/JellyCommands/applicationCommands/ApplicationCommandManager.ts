@@ -8,7 +8,7 @@ import { readJSFile } from '../../util/fs';
 import type { GuildApplicationPermissionData } from '../../types/applicationCommands.d';
 import type { ApplicationCommand } from '../../types/applicationCommands.d';
 import type { JellyCommands } from '../JellyCommands';
-import type { Interaction } from 'discord.js';
+import type { Guild, Interaction } from 'discord.js';
 
 export class ApplicationCommandManager {
     private client;
@@ -58,6 +58,7 @@ export class ApplicationCommandManager {
     static async getCommandFiles(paths: string | string[]) {
         const guildCommands = new Map<string, BaseCommand<BaseOptions>[]>();
         const globalCommands = new Set<BaseCommand<BaseOptions>>();
+        const commandsList = new Set<BaseCommand<BaseOptions>>();
 
         for (const file of flattenPaths(paths)) {
             const command = await readJSFile<BaseCommand<BaseOptions>>(file);
@@ -77,12 +78,24 @@ export class ApplicationCommandManager {
                         ...(guildCommands.get(guildId) || []),
                         command,
                     ]);
+
+            commandsList.add(command);
         }
 
         return {
             guildCommands,
             globalCommands,
+            commandsList,
         };
+    }
+
+    static toCommandsMap(commandsList: Set<BaseCommand<BaseOptions>>) {
+        const commandsMap = new Map<string, BaseCommand<BaseOptions>>();
+
+        for (const command of commandsList)
+            commandsMap.set(command.id || '', command);
+
+        return commandsMap;
     }
 
     static async create(client: JellyCommands, paths: string | string[]) {
@@ -91,10 +104,8 @@ export class ApplicationCommandManager {
 
         const cache = new ApplicationCommandCache();
 
-        const { guildCommands, globalCommands } =
+        const { guildCommands, globalCommands, commandsList } =
             await ApplicationCommandManager.getCommandFiles(paths);
-
-        const commands = new Map<string, BaseCommand<BaseOptions>>();
 
         // const string = cache.stringify(
         //     cache.toCommandPair({ guildCommands, globalCommands }),
@@ -117,8 +128,8 @@ export class ApplicationCommandManager {
         /**
          * Map returned command ids to their corresponding command
          */
-        registeredGlobalCommands.forEach((c, i) =>
-            commands.set(c.id, [...globalCommands][i]),
+        registeredGlobalCommands.forEach(
+            (c, i) => ([...globalCommands][i].id = c.id),
         );
 
         /**
@@ -134,39 +145,29 @@ export class ApplicationCommandManager {
             /**
              * Map returned command ids to their corresponding command
              */
-            res.forEach((c, i) => commands.set(c.id, gcommands[i]));
+            res.forEach((c, i) => (gcommands[i].id = c.id));
         }
 
-        /**
-         * A permissions map of guildId to permission data
-         */
-        const permissions = new Map<string, GuildApplicationPermissionData[]>();
+        for (const [guildId, commands] of guildCommands) {
+            const permissionData: GuildApplicationPermissionData[] = [];
 
-        /**
-         * Add all commands to the permissions Map
-         */
-        for (const [commandId, command] of commands) {
-            if (command.applicationCommandPermissions)
-                for (const guildId of command.options.guilds || [])
-                    permissions.set(guildId, [
-                        ...(permissions.get(guildId) || []),
-                        {
-                            id: commandId,
-                            permissions: command.applicationCommandPermissions,
-                        },
-                    ]);
-        }
+            for (const command of commands)
+                if (command.applicationCommandPermissions)
+                    permissionData.push({
+                        id: command.id || '',
+                        permissions: command.applicationCommandPermissions,
+                    });
 
-        /**
-         * Set the permissions
-         */
-        for (const [guildId, permissionData] of permissions)
             await request(
                 'put',
                 Routes.guildApplicationCommandsPermissions(clientId, guildId),
                 permissionData,
             );
+        }
 
-        return new ApplicationCommandManager(client, commands);
+        const commandsMap =
+            ApplicationCommandManager.toCommandsMap(commandsList);
+
+        return new ApplicationCommandManager(client, commandsMap);
     }
 }
