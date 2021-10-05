@@ -159,10 +159,10 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
         return permissions.flat();
     }
 
-    toCachable() {
+    toCachable(ids = false) {
         return {
             name: this.name,
-            id: this.id as string,
+            id: ids ? (this.id as string) : undefined,
             options: this.options,
         };
     }
