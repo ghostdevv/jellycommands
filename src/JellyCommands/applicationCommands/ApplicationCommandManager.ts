@@ -143,8 +143,9 @@ export class ApplicationCommandManager {
         const permissions = new Map<string, GuildApplicationPermissionData[]>();
 
         /**
-            null,
-            4,) {
+         * Add all commands to the permissions Map
+         */
+        for (const [commandId, command] of commands) {
             if (command.applicationCommandPermissions)
                 for (const guildId of command.options.guilds || [])
                     permissions.set(guildId, [
