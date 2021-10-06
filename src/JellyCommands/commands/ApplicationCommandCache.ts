@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, write } from 'fs';
-import type { BaseCommand, BaseOptions } from './BaseCommand';
+import type { BaseCommand } from './base/BaseCommand';
+import type { BaseOptions } from './base/options';
 import { fileURLToPath } from 'url';
 import { deepEqual } from 'assert';
 import { join } from 'path';

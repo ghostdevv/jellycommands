@@ -1,6 +1,6 @@
 import { ApplicationCommandType } from '../../../../types/applicationCommands.d';
 import { schema, MessageCommandOptions } from './options';
-import { BaseCommand } from '../../BaseCommand';
+import { BaseCommand } from '../../base/BaseCommand';
 import { removeKeys } from 'ghoststools';
 
 export class MessageCommand extends BaseCommand<MessageCommandOptions> {
