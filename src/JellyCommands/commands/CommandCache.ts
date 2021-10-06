@@ -8,7 +8,7 @@ import { join } from 'path';
 const cachePath = join(fileURLToPath(import.meta.url), '../../.jellycommands');
 if (!existsSync(cachePath)) mkdirSync(cachePath);
 
-const cacheFile = join(cachePath, 'applicationCommandCache.json');
+const cacheFile = join(cachePath, 'commandCache.json');
 if (!existsSync(cacheFile)) writeFileSync(cacheFile, '{}', 'utf-8');
 
 export interface CacheableCommand {
