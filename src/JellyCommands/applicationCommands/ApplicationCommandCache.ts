@@ -12,12 +12,8 @@ if (!existsSync(cacheFile)) writeFileSync(cacheFile, '{}', 'utf-8');
 
 export interface CommandCache {
     name: string;
+    filePath: string;
     options: BaseOptions;
-
-    cacheData?: {
-        id: string;
-        filePath: string;
-    };
 }
 
 export interface GuildCommandGroup {
@@ -45,21 +41,12 @@ export class ApplicationCommandCache {
         writeFileSync(cacheFile, json, 'utf-8');
     }
 
-    get(cacheData = false): CommandPair | null {
+    get(): CommandPair | null {
         const json = readFileSync(cacheFile, 'utf-8');
 
         try {
             const obj: CommandPair = JSON.parse(json);
             if (!obj?.globalCommands || !obj?.guildCommands) return null;
-
-            if (!cacheData) {
-                // Guild Commands
-                for (const item of obj.guildCommands)
-                    item.commands.forEach((c) => (c.cacheData = undefined));
-
-                for (const command of obj.globalCommands)
-                    command.cacheData = undefined;
-            }
 
             return obj;
         } catch {
@@ -71,8 +58,8 @@ export class ApplicationCommandCache {
      * This function checks if the cache is valid or not
      */
     validate(commands: RuntimeCommandPair) {
-        const commandPair = this.toCommandPair(commands, false);
-        const cachedCommandPair = this.get(false);
+        const commandPair = this.toCommandPair(commands);
+        const cachedCommandPair = this.get();
 
         if (!cachedCommandPair) return false;
 
@@ -84,22 +71,22 @@ export class ApplicationCommandCache {
         }
     }
 
-    toCommandPair(
-        { guildCommands, globalCommands }: RuntimeCommandPair,
-        cacheData = true,
-    ): CommandPair {
+    toCommandPair({
+        guildCommands,
+        globalCommands,
+    }: RuntimeCommandPair): CommandPair {
         const guildCommandGroup: GuildCommandGroup[] = [];
 
         for (const [guildId, commands] of guildCommands)
             guildCommandGroup.push({
                 guildId,
-                commands: commands.map((c) => c.toCachable(cacheData)),
+                commands: commands.map((c) => c.toCachable()),
             });
 
         const globalCommandsArray: CommandCache[] = [];
 
         for (const command of globalCommands)
-            globalCommandsArray.push(command.toCachable(cacheData));
+            globalCommandsArray.push(command.toCachable());
 
         return {
             guildCommands: guildCommandGroup,

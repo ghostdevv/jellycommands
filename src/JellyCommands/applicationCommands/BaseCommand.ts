@@ -161,17 +161,12 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
         return permissions.flat();
     }
 
-    toCachable(cacheData = false): CommandCache {
+    toCachable(): CommandCache {
         return {
             name: this.name,
             options: this.options,
 
-            cacheData: cacheData
-                ? {
-                      id: this.id as string,
-                      filePath: this.filePath as string,
-                  }
-                : undefined,
+            filePath: this.filePath as string,
         };
     }
 }
