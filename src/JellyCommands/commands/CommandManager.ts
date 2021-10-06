@@ -9,7 +9,7 @@ import { readJSFile } from '../../util/fs';
 import type { GuildApplicationPermissionData } from '../../types/applicationCommands';
 import type { ApplicationCommand } from '../../types/applicationCommands';
 import type { JellyCommands } from '../JellyCommands';
-import type { Guild, Interaction } from 'discord.js';
+import type { Interaction } from 'discord.js';
 
 export class CommandManager {
     private client;

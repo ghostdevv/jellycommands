@@ -1,4 +1,4 @@
-import type { Method, AxiosError } from 'axios';
+import type { Method } from 'axios';
 import axios from 'axios';
 
 export function createRequest(token: string) {
