@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, write } from 'fs';
 import type { BaseCommand, BaseOptions } from './BaseCommand';
 import { fileURLToPath } from 'url';
 import { deepEqual } from 'assert';
@@ -8,6 +8,7 @@ const cachePath = join(fileURLToPath(import.meta.url), '../../.jellycommands');
 if (!existsSync(cachePath)) mkdirSync(cachePath);
 
 const cacheFile = join(cachePath, 'applicationCommandCache.json');
+if (!existsSync(cacheFile)) writeFileSync(cacheFile, '{}', 'utf-8');
 
 interface Command {
     name: string;
