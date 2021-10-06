@@ -1,6 +1,6 @@
 import type { ApplicationCommandOptionData } from 'discord.js';
-import type { BaseOptions } from '../BaseCommand';
-import { baseSchema } from '../BaseCommand';
+import type { BaseOptions } from '../../BaseCommand';
+import { baseSchema } from '../../BaseCommand';
 
 export interface CommandOptions extends BaseOptions {
     /**

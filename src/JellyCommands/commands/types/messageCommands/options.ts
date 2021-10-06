@@ -1,5 +1,5 @@
-import type { BaseOptions } from '../BaseCommand';
-import { baseSchema } from '../BaseCommand';
+import type { BaseOptions } from '../../BaseCommand';
+import { baseSchema } from '../../BaseCommand';
 
 export interface MessageCommandOptions extends BaseOptions {}
 
