@@ -112,7 +112,7 @@ export class ApplicationCommandManager {
             await ApplicationCommandManager.getCommandFiles(paths);
 
         if (cache.validate({ guildCommands, globalCommands })) {
-            console.log('a');
+            console.log('Cache is valid');
             return {};
         }
 
