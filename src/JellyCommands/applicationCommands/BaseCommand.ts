@@ -2,6 +2,7 @@ import type { ApplicationCommandPermissions } from '../../types/applicationComma
 import { ApplicationCommandPermissionType } from '../../types/applicationCommands.d';
 import type { ApplicationCommandData } from '../../types/applicationCommands.d';
 import type { InteractionDeferReplyOptions } from 'discord.js';
+import type { CommandCache } from './ApplicationCommandCache';
 import type { JellyCommands } from '../JellyCommands';
 import type { CommandInteraction } from 'discord.js';
 
@@ -86,6 +87,7 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
     public readonly run: ({}: RunOptions) => void | any;
 
     public id?: string;
+    public filePath?: string;
 
     constructor(
         name: string,
@@ -159,11 +161,17 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
         return permissions.flat();
     }
 
-    toCachable(ids = false) {
+    toCachable(cacheData = false): CommandCache {
         return {
             name: this.name,
-            id: ids ? (this.id as string) : undefined,
             options: this.options,
+
+            cacheData: cacheData
+                ? {
+                      id: this.id as string,
+                      filePath: this.filePath as string,
+                  }
+                : undefined,
         };
     }
 }

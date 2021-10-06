@@ -65,6 +65,11 @@ export class ApplicationCommandManager {
             if (command.options?.disabled) continue;
 
             /**
+             * Set the command path
+             */
+            command.filePath = file;
+
+            /**
              * If global add to global
              */
             if (command.options?.global) globalCommands.add(command);
