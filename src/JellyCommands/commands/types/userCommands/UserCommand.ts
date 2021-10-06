@@ -1,6 +1,6 @@
-import { ApplicationCommandType } from '../../../types/applicationCommands.d';
+import { ApplicationCommandType } from '../../../../types/applicationCommands';
 import { schema, UserCommandOptions } from './options';
-import { BaseCommand } from '../BaseCommand';
+import { BaseCommand } from '../../BaseCommand';
 import { removeKeys } from 'ghoststools';
 
 export class UserCommand extends BaseCommand<UserCommandOptions> {
