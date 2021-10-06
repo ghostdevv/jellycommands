@@ -12,12 +12,13 @@
 
 <br />
 
+> Docs will be made available soon, join [the discord](https://discord.com/invite/2Vd4wAjJnm) and ask if you want more updates
+
+<!-- 
 > # All our docs are located [here](https://ghostdevbusiness.gitbook.io/jellycommands/)
 
-# Beta Installation
-```bash
-npm install https://github.com/ghostdevv/jellycommands
-```
+-->
+
 
 # Running in dev mode
 Requirements:
