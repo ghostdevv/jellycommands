@@ -6,12 +6,12 @@ import { Routes } from 'discord-api-types/v9';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../../util/fs';
 
-import type { GuildApplicationPermissionData } from '../../types/applicationCommands.d';
-import type { ApplicationCommand } from '../../types/applicationCommands.d';
+import type { GuildApplicationPermissionData } from '../../types/applicationCommands';
+import type { ApplicationCommand } from '../../types/applicationCommands';
 import type { JellyCommands } from '../JellyCommands';
 import type { Guild, Interaction } from 'discord.js';
 
-export class ApplicationCommandManager {
+export class CommandManager {
     private client;
     private commands;
 
@@ -110,7 +110,7 @@ export class ApplicationCommandManager {
         const cache = new CommandCache();
 
         const { guildCommands, globalCommands, commandsList } =
-            await ApplicationCommandManager.getCommandFiles(paths);
+            await CommandManager.getCommandFiles(paths);
 
         // if (cache.validate({ guildCommands, globalCommands })) {
         //     console.log('Cache is valid');
@@ -174,9 +174,9 @@ export class ApplicationCommandManager {
          */
         cache.set({ guildCommands, globalCommands });
 
-        return new ApplicationCommandManager(
+        return new CommandManager(
             client,
-            ApplicationCommandManager.toCommandsMap(commandsList),
+            CommandManager.toCommandsMap(commandsList),
         );
     }
 }
