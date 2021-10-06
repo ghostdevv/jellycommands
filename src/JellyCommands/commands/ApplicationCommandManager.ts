@@ -1,6 +1,7 @@
-import { ApplicationCommandCache } from './ApplicationCommandCache';
-import { BaseCommand, BaseOptions } from './BaseCommand';
 import { createRequest } from '../../util/request';
+import type { BaseOptions } from './base/options';
+import { BaseCommand } from './base/BaseCommand';
+import { CommandCache } from './CommandCache';
 import { Routes } from 'discord-api-types/v9';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../../util/fs';
@@ -105,8 +106,8 @@ export class ApplicationCommandManager {
 
     static async create(client: JellyCommands, paths: string | string[]) {
         const { clientId, token } = client.getAuthDetails();
-        const cache = new ApplicationCommandCache();
         const request = createRequest(token);
+        const cache = new CommandCache();
 
         const { guildCommands, globalCommands, commandsList } =
             await ApplicationCommandManager.getCommandFiles(paths);

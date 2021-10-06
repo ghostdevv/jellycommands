@@ -11,19 +11,19 @@ if (!existsSync(cachePath)) mkdirSync(cachePath);
 const cacheFile = join(cachePath, 'applicationCommandCache.json');
 if (!existsSync(cacheFile)) writeFileSync(cacheFile, '{}', 'utf-8');
 
-export interface CommandCache {
+export interface CacheableCommand {
     options: BaseOptions;
     filePath: string;
 }
 
 export interface GuildCommandGroup {
     guildId: string;
-    commands: CommandCache[];
+    commands: CacheableCommand[];
 }
 
 export interface CommandPair {
     guildCommands: GuildCommandGroup[];
-    globalCommands: CommandCache[];
+    globalCommands: CacheableCommand[];
 }
 
 export interface RuntimeCommandPair {
@@ -31,7 +31,7 @@ export interface RuntimeCommandPair {
     globalCommands: Set<BaseCommand<BaseOptions>>;
 }
 
-export class ApplicationCommandCache {
+export class CommandCache {
     constructor() {}
 
     set(runtimeCommandPair: RuntimeCommandPair) {
@@ -83,7 +83,7 @@ export class ApplicationCommandCache {
                 commands: commands.map((c) => c.toCachable()),
             });
 
-        const globalCommandsArray: CommandCache[] = [];
+        const globalCommandsArray: CacheableCommand[] = [];
 
         for (const command of globalCommands)
             globalCommandsArray.push(command.toCachable());

@@ -1,7 +1,7 @@
 import type { ApplicationCommandPermissions } from '../../../types/applicationCommands.d';
 import { ApplicationCommandPermissionType } from '../../../types/applicationCommands.d';
 import type { ApplicationCommandData } from '../../../types/applicationCommands';
-import type { CommandCache } from '../ApplicationCommandCache';
+import type { CacheableCommand } from '../CommandCache';
 import type { JellyCommands } from '../../JellyCommands';
 import type { CommandInteraction } from 'discord.js';
 import { BaseOptions } from './options';
@@ -88,7 +88,7 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
         return permissions.flat();
     }
 
-    toCachable(): CommandCache {
+    toCachable(): CacheableCommand {
         return {
             options: this.options,
             filePath: this.filePath as string,
