@@ -3,19 +3,19 @@ export { JellyCommands } from './JellyCommands/JellyCommands';
 export type { JellyCommandsOptions } from './JellyCommands/options';
 
 // Export slash command related
-export { Command } from './JellyCommands/applicationCommands/commands/Command';
-export { command } from './JellyCommands/applicationCommands/commands/Command';
-export type { CommandOptions } from './JellyCommands/applicationCommands/commands/options';
+export { Command } from './JellyCommands/commands/commands/Command';
+export { command } from './JellyCommands/commands/commands/Command';
+export type { CommandOptions } from './JellyCommands/commands/commands/options';
 
 // Export message command related
-export { MessageCommand } from './JellyCommands/applicationCommands/messageCommands/MessageCommand';
-export { messageCommand } from './JellyCommands/applicationCommands/messageCommands/MessageCommand';
-export type { MessageCommandOptions } from './JellyCommands/applicationCommands/messageCommands/options';
+export { MessageCommand } from './JellyCommands/commands/messageCommands/MessageCommand';
+export { messageCommand } from './JellyCommands/commands/messageCommands/MessageCommand';
+export type { MessageCommandOptions } from './JellyCommands/commands/messageCommands/options';
 
 // Export user command related
-export { UserCommand } from './JellyCommands/applicationCommands/userCommands/UserCommand';
-export { userCommand } from './JellyCommands/applicationCommands/userCommands/UserCommand';
-export type { UserCommandOptions } from './JellyCommands/applicationCommands/userCommands/options';
+export { UserCommand } from './JellyCommands/commands/userCommands/UserCommand';
+export { userCommand } from './JellyCommands/commands/userCommands/UserCommand';
+export type { UserCommandOptions } from './JellyCommands/commands/userCommands/options';
 
 // Export event related
 export { event, Event } from './JellyCommands/events/Event';

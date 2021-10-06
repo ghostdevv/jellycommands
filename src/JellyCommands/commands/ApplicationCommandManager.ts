@@ -111,10 +111,10 @@ export class ApplicationCommandManager {
         const { guildCommands, globalCommands, commandsList } =
             await ApplicationCommandManager.getCommandFiles(paths);
 
-        if (cache.validate({ guildCommands, globalCommands })) {
-            console.log('Cache is valid');
-            return {};
-        }
+        // if (cache.validate({ guildCommands, globalCommands })) {
+        //     console.log('Cache is valid');
+        //     return {};
+        // }
 
         /**
          * Register global commands

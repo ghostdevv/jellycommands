@@ -1,4 +1,4 @@
-import { ApplicationCommandManager } from './applicationCommands/ApplicationCommandManager';
+import { ApplicationCommandManager } from './commands/ApplicationCommandManager';
 import type { JellyCommandsOptions } from './options';
 import { EventManager } from './events/EventManager';
 import { Props } from './props/Props';
