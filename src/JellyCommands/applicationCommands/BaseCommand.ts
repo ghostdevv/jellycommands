@@ -11,6 +11,11 @@ import Joi from 'joi';
 
 export interface BaseOptions {
     /**
+     * The name of the command
+     */
+    name: string;
+
+    /**
      * Should the interaction be defered?
      */
     defer?: boolean | InteractionDeferReplyOptions;
@@ -52,6 +57,8 @@ export interface BaseOptions {
 }
 
 export const baseSchema = Joi.object({
+    name: Joi.string().required(),
+
     defer: [
         Joi.bool(),
         Joi.object({
@@ -82,7 +89,6 @@ export interface OptionsOptions<OptionsType> {
 }
 
 export abstract class BaseCommand<OptionsType extends BaseOptions> {
-    public readonly name;
     public readonly options;
     public readonly run: ({}: RunOptions) => void | any;
 
@@ -90,17 +96,9 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
     public filePath?: string;
 
     constructor(
-        name: string,
         run: BaseCommand<OptionsType>['run'],
         { options, schema }: OptionsOptions<OptionsType>,
     ) {
-        this.name = name;
-
-        if (!name || typeof name != 'string')
-            throw new TypeError(
-                `Expected type string for name, recieved ${typeof name}`,
-            );
-
         this.run = run;
 
         if (!run || typeof run != 'function')
@@ -163,9 +161,7 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
 
     toCachable(): CommandCache {
         return {
-            name: this.name,
             options: this.options,
-
             filePath: this.filePath as string,
         };
     }

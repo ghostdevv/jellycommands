@@ -11,9 +11,8 @@ const cacheFile = join(cachePath, 'applicationCommandCache.json');
 if (!existsSync(cacheFile)) writeFileSync(cacheFile, '{}', 'utf-8');
 
 export interface CommandCache {
-    name: string;
-    filePath: string;
     options: BaseOptions;
+    filePath: string;
 }
 
 export interface GuildCommandGroup {
