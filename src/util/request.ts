@@ -9,7 +9,7 @@ export function createRequest(token: string) {
         },
     });
 
-    return <T>(method: Method, route: string, data?: any) =>
+    return <T>(method: Method, route: string, data?: any): Promise<T> =>
         req(route, { method, data })
             .then((res) => res.data as T)
             .catch((e) => {
