@@ -64,14 +64,12 @@ export class JellyCommands extends Client {
         this.token = token;
 
         if (this.joptions.commands) {
-            const applicationCommandManager = await CommandManager.create(
+            const commandManager = await CommandManager.create(
                 this,
                 this.joptions.commands,
             );
 
-            this.on('interactionCreate', (i) =>
-                applicationCommandManager.respond(i),
-            );
+            this.on('interactionCreate', (i) => commandManager.respond(i));
         }
 
         if (this.joptions?.events)
