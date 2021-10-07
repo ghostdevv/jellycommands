@@ -2,6 +2,7 @@ import { createRequest } from '../../util/request';
 import type { BaseOptions } from './base/options';
 import { BaseCommand } from './base/BaseCommand';
 import { CommandCache } from './CommandCache';
+import { CommandIdMap } from './CommandIdMap';
 import { Routes } from 'discord-api-types/v9';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../../util/fs';
@@ -9,7 +10,7 @@ import { readJSFile } from '../../util/fs';
 import type { GuildApplicationPermissionData } from '../../types/applicationCommands';
 import type { ApplicationCommand } from '../../types/applicationCommands';
 import type { JellyCommands } from '../JellyCommands';
-import type { Interaction } from 'discord.js';
+import { Interaction } from 'discord.js';
 
 export class CommandManager {
     private client;
@@ -111,14 +112,17 @@ export class CommandManager {
         const { clientId, token } = client.getAuthDetails();
         const request = createRequest(token);
         const cache = new CommandCache();
+        const idMap = new CommandIdMap();
 
         const { guildCommands, globalCommands, commandsList } =
             await CommandManager.getCommandFiles(paths);
 
-        // if (cache.validate({ guildCommands, globalCommands })) {
-        //     console.log('Cache is valid');
-        //     return {};
-        // }
+        if (cache.validate({ guildCommands, globalCommands })) {
+            client.debug('Cache is valid');
+
+            const commandMap = idMap.get(commandsList);
+            return new CommandManager(client, commandMap);
+        }
 
         /**
          * Register global commands
@@ -173,9 +177,13 @@ export class CommandManager {
         }
 
         /**
-         * Update the cache
+         * Update the cache & id map
          */
         cache.set({ guildCommands, globalCommands });
+        idMap.set(commandsList);
+
+        client.debug('Cache has been updated');
+        client.debug('Id Map has been updated');
 
         return new CommandManager(
             client,
