@@ -18,6 +18,10 @@ const client = new JellyCommands({
         },
     },
 
+    dev: {
+        guilds: ['663140687591768074'],
+    },
+
     debug: true,
 });
 

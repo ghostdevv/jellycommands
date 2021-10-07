@@ -3,7 +3,9 @@ import { messageCommand } from 'jellycommands';
 export default messageCommand({
     name: 'test',
 
-    guilds: ['663140687591768074'],
+    global: true,
+
+    dev: true,
 
     run: ({ interaction }) => {
         interaction.reply({ content: 'Hello World :o' });
