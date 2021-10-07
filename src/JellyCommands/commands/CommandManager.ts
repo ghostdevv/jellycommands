@@ -61,7 +61,7 @@ export class CommandManager {
         paths: string | string[],
         devGuilds: string[] = [],
     ) {
-        const guildCommands = new Map<string, BaseCommand<BaseOptions>[]>();
+        const guildCommands = new Map<string, Set<BaseCommand<BaseOptions>>>();
         const globalCommands = new Set<BaseCommand<BaseOptions>>();
         const commandsList = new Set<BaseCommand<BaseOptions>>();
 
@@ -93,11 +93,15 @@ export class CommandManager {
              * If the command is not global set to guild commands
              */
             if (command.options?.guilds && !command.options?.global)
-                for (const guildId of command.options.guilds)
-                    guildCommands.set(guildId, [
-                        ...(guildCommands.get(guildId) || []),
-                        command,
-                    ]);
+                for (const guildId of command.options.guilds) {
+                    const existing =
+                        guildCommands.get(guildId) ||
+                        new Set<BaseCommand<BaseOptions>>();
+
+                    existing.add(command);
+
+                    guildCommands.set(guildId, existing);
+                }
 
             /**
              * Add to main commandlist
@@ -163,13 +167,13 @@ export class CommandManager {
             const res = await request<ApplicationCommand[]>(
                 'put',
                 Routes.applicationGuildCommands(clientId, guildId),
-                gcommands.map((c) => c.applicationCommandData),
+                [...gcommands].map((c) => c.applicationCommandData),
             );
 
             /**
              * Map returned command ids to their corresponding command
              */
-            res.forEach((c, i) => (gcommands[i].id = c.id));
+            res.forEach((c, i) => ([...gcommands][i].id = c.id));
         }
 
         /**

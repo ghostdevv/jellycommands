@@ -19,7 +19,7 @@ export interface CommandPair {
 }
 
 export interface RuntimeCommandPair {
-    guildCommands: Map<string, BaseCommand<BaseOptions>[]>;
+    guildCommands: Map<string, Set<BaseCommand<BaseOptions>>>;
     globalCommands: Set<BaseCommand<BaseOptions>>;
 }
 
@@ -68,7 +68,7 @@ export class CommandCache {
         for (const [guildId, commands] of guildCommands)
             guildCommandGroup.push({
                 guildId,
-                commands: commands.map((c) => c.toCachable()),
+                commands: [...commands].map((c) => c.toCachable()),
             });
 
         const globalCommandsArray: CacheableCommand[] = [];
