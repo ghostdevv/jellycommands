@@ -60,5 +60,5 @@ export interface JellyCommandsOptions {
     /**
      * Whether jelly should emit debug messages
      */
-    debug: boolean;
+    debug?: boolean;
 }
