@@ -1,15 +1,7 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync, write } from 'fs';
 import type { BaseCommand } from './base/BaseCommand';
 import type { BaseOptions } from './base/options';
-import { fileURLToPath } from 'url';
+import { Cache } from '../../util/Cache';
 import { deepEqual } from 'assert';
-import { join } from 'path';
-
-const cachePath = join(fileURLToPath(import.meta.url), '../../.jellycommands');
-if (!existsSync(cachePath)) mkdirSync(cachePath);
-
-const cacheFile = join(cachePath, 'commandCache.json');
-if (!existsSync(cacheFile)) writeFileSync(cacheFile, '{}', 'utf-8');
 
 export interface CacheableCommand {
     options: BaseOptions;
@@ -32,26 +24,22 @@ export interface RuntimeCommandPair {
 }
 
 export class CommandCache {
+    private readonly commandCache = new Cache('commandCache');
+
     constructor() {}
 
     set(runtimeCommandPair: RuntimeCommandPair) {
         const commandPair = this.toCommandPair(runtimeCommandPair);
-        const json = JSON.stringify(commandPair, null, 4);
-
-        writeFileSync(cacheFile, json, 'utf-8');
+        this.commandCache.set(commandPair);
     }
 
     get(): CommandPair | null {
-        const json = readFileSync(cacheFile, 'utf-8');
+        const data = this.commandCache.get<CommandPair>();
 
-        try {
-            const obj: CommandPair = JSON.parse(json);
-            if (!obj?.globalCommands || !obj?.guildCommands) return null;
+        if (!data) return null;
+        if (!data?.globalCommands || !data?.guildCommands) return null;
 
-            return obj;
-        } catch {
-            return null;
-        }
+        return data;
     }
 
     /**
