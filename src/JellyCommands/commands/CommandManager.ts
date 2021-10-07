@@ -85,6 +85,9 @@ export class CommandManager {
                         command,
                     ]);
 
+            /**
+             * Add to main commandlist
+             */
             commandsList.add(command);
         }
 
