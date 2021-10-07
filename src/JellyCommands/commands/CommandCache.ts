@@ -5,6 +5,7 @@ import { deepEqual } from 'assert';
 
 export interface CacheableCommand {
     options: BaseOptions;
+    filePath: string;
 }
 
 export interface GuildCommandGroup {

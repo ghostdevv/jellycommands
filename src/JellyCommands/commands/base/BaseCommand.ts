@@ -91,6 +91,7 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
     toCachable(): CacheableCommand {
         return {
             options: this.options,
+            filePath: this.filePath as string,
         };
     }
 }
