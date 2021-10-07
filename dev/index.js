@@ -17,6 +17,8 @@ const client = new JellyCommands({
             embeds: [{ description: 'Unknown Command', color: 'RANDOM' }],
         },
     },
+
+    debug: true,
 });
 
 client.login();

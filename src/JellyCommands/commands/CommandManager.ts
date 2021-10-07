@@ -1,15 +1,18 @@
-import { BaseCommand, BaseOptions } from './BaseCommand';
 import { createRequest } from '../../util/request';
+import type { BaseOptions } from './base/options';
+import { BaseCommand } from './base/BaseCommand';
+import { CommandCache } from './CommandCache';
+import { CommandIdMap } from './CommandIdMap';
 import { Routes } from 'discord-api-types/v9';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../../util/fs';
 
-import type { GuildApplicationPermissionData } from '../../types/applicationCommands.d';
-import type { ApplicationCommand } from '../../types/applicationCommands.d';
+import type { GuildApplicationPermissionData } from '../../types/applicationCommands';
+import type { ApplicationCommand } from '../../types/applicationCommands';
 import type { JellyCommands } from '../JellyCommands';
-import type { Interaction } from 'discord.js';
+import { Interaction } from 'discord.js';
 
-export class ApplicationCommandManager {
+export class CommandManager {
     private client;
     private commands;
 
@@ -57,10 +60,16 @@ export class ApplicationCommandManager {
     static async getCommandFiles(paths: string | string[]) {
         const guildCommands = new Map<string, BaseCommand<BaseOptions>[]>();
         const globalCommands = new Set<BaseCommand<BaseOptions>>();
+        const commandsList = new Set<BaseCommand<BaseOptions>>();
 
         for (const file of flattenPaths(paths)) {
             const command = await readJSFile<BaseCommand<BaseOptions>>(file);
             if (command.options?.disabled) continue;
+
+            /**
+             * Set the command path
+             */
+            command.filePath = file;
 
             /**
              * If global add to global
@@ -76,22 +85,44 @@ export class ApplicationCommandManager {
                         ...(guildCommands.get(guildId) || []),
                         command,
                     ]);
+
+            /**
+             * Add to main commandlist
+             */
+            commandsList.add(command);
         }
 
         return {
             guildCommands,
             globalCommands,
+            commandsList,
         };
+    }
+
+    static toCommandsMap(commandsList: Set<BaseCommand<BaseOptions>>) {
+        const commandsMap = new Map<string, BaseCommand<BaseOptions>>();
+
+        for (const command of commandsList)
+            commandsMap.set(command.id || '', command);
+
+        return commandsMap;
     }
 
     static async create(client: JellyCommands, paths: string | string[]) {
         const { clientId, token } = client.getAuthDetails();
         const request = createRequest(token);
+        const cache = new CommandCache();
+        const idMap = new CommandIdMap();
 
-        const { guildCommands, globalCommands } =
-            await ApplicationCommandManager.getCommandFiles(paths);
+        const { guildCommands, globalCommands, commandsList } =
+            await CommandManager.getCommandFiles(paths);
 
-        const commands = new Map<string, BaseCommand<BaseOptions>>();
+        if (cache.validate({ guildCommands, globalCommands })) {
+            client.debug('Cache is valid');
+
+            const commandMap = idMap.get(commandsList);
+            return new CommandManager(client, commandMap);
+        }
 
         /**
          * Register global commands
@@ -105,8 +136,8 @@ export class ApplicationCommandManager {
         /**
          * Map returned command ids to their corresponding command
          */
-        registeredGlobalCommands.forEach((c, i) =>
-            commands.set(c.id, [...globalCommands][i]),
+        registeredGlobalCommands.forEach(
+            (c, i) => ([...globalCommands][i].id = c.id),
         );
 
         /**
@@ -122,39 +153,41 @@ export class ApplicationCommandManager {
             /**
              * Map returned command ids to their corresponding command
              */
-            res.forEach((c, i) => commands.set(c.id, gcommands[i]));
+            res.forEach((c, i) => (gcommands[i].id = c.id));
         }
 
         /**
-         * A permissions map of guildId to permission data
+         * For each guild command set permissions
          */
-        const permissions = new Map<string, GuildApplicationPermissionData[]>();
+        for (const [guildId, commands] of guildCommands) {
+            const permissionData: GuildApplicationPermissionData[] = [];
 
-        /**
-         * Add all commands to the permissions Map
-         */
-        for (const [commandId, command] of commands) {
-            if (command.applicationCommandPermissions)
-                for (const guildId of command.options.guilds || [])
-                    permissions.set(guildId, [
-                        ...(permissions.get(guildId) || []),
-                        {
-                            id: commandId,
-                            permissions: command.applicationCommandPermissions,
-                        },
-                    ]);
-        }
+            for (const command of commands)
+                if (command.applicationCommandPermissions)
+                    permissionData.push({
+                        id: command.id || '',
+                        permissions: command.applicationCommandPermissions,
+                    });
 
-        /**
-         * Set the permissions
-         */
-        for (const [guildId, permissionData] of permissions)
             await request(
                 'put',
                 Routes.guildApplicationCommandsPermissions(clientId, guildId),
                 permissionData,
             );
+        }
 
-        return new ApplicationCommandManager(client, commands);
+        /**
+         * Update the cache & id map
+         */
+        cache.set({ guildCommands, globalCommands });
+        idMap.set(commandsList);
+
+        client.debug('Cache has been updated');
+        client.debug('Id Map has been updated');
+
+        return new CommandManager(
+            client,
+            CommandManager.toCommandsMap(commandsList),
+        );
     }
 }

@@ -1,4 +1,4 @@
-import { ApplicationCommandManager } from './applicationCommands/ApplicationCommandManager';
+import { CommandManager } from './commands/CommandManager';
 import type { JellyCommandsOptions } from './options';
 import { EventManager } from './events/EventManager';
 import { Props } from './props/Props';
@@ -64,20 +64,22 @@ export class JellyCommands extends Client {
         this.token = token;
 
         if (this.joptions.commands) {
-            const applicationCommandManager =
-                await ApplicationCommandManager.create(
-                    this,
-                    this.joptions.commands,
-                );
-
-            this.on('interactionCreate', (i) =>
-                applicationCommandManager.respond(i),
+            const commandManager = await CommandManager.create(
+                this,
+                this.joptions.commands,
             );
+
+            this.on('interactionCreate', (i) => commandManager.respond(i));
         }
 
         if (this.joptions?.events)
             await EventManager.loadEvents(this, this.joptions.events);
 
         return super.login(token);
+    }
+
+    debug(message: string) {
+        if (this.joptions.debug)
+            console.debug(`\x1b[1m\x1b[35m[DEBUG]\x1b[22m\x1b[39m ${message}`);
     }
 }

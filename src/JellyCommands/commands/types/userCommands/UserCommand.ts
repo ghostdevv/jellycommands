@@ -1,15 +1,14 @@
-import { ApplicationCommandType } from '../../../types/applicationCommands.d';
+import { ApplicationCommandType } from '../../../../types/applicationCommands.d';
 import { schema, UserCommandOptions } from './options';
-import { BaseCommand } from '../BaseCommand';
+import { BaseCommand } from '../../base/BaseCommand';
 import { removeKeys } from 'ghoststools';
 
 export class UserCommand extends BaseCommand<UserCommandOptions> {
     constructor(
-        name: string,
         run: BaseCommand<UserCommandOptions>['run'],
         options: UserCommandOptions,
     ) {
-        super(name, run, { options, schema });
+        super(run, { options, schema });
     }
 
     get applicationCommandData() {
@@ -18,7 +17,7 @@ export class UserCommand extends BaseCommand<UserCommandOptions> {
             : true;
 
         return {
-            name: this.name,
+            name: this.options.name,
             type: ApplicationCommandType.USER,
             description: '',
             default_permission,
@@ -27,13 +26,11 @@ export class UserCommand extends BaseCommand<UserCommandOptions> {
 }
 
 export const userCommand = (
-    name: string,
     options: UserCommandOptions & {
         run: BaseCommand<UserCommandOptions>['run'];
     },
 ) => {
     return new UserCommand(
-        name,
         options.run,
         removeKeys(options, 'run') as UserCommandOptions,
     );

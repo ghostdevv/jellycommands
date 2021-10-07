@@ -1,15 +1,14 @@
-import { ApplicationCommandType } from '../../../types/applicationCommands.d';
+import { ApplicationCommandType } from '../../../../types/applicationCommands.d';
 import { schema, MessageCommandOptions } from './options';
-import { BaseCommand } from '../BaseCommand';
+import { BaseCommand } from '../../base/BaseCommand';
 import { removeKeys } from 'ghoststools';
 
 export class MessageCommand extends BaseCommand<MessageCommandOptions> {
     constructor(
-        name: string,
         run: BaseCommand<MessageCommandOptions>['run'],
         options: MessageCommandOptions,
     ) {
-        super(name, run, { options, schema });
+        super(run, { options, schema });
     }
 
     get applicationCommandData() {
@@ -18,7 +17,7 @@ export class MessageCommand extends BaseCommand<MessageCommandOptions> {
             : true;
 
         return {
-            name: this.name,
+            name: this.options.name,
             type: ApplicationCommandType.MESSAGE,
             description: '',
             default_permission,
@@ -27,13 +26,11 @@ export class MessageCommand extends BaseCommand<MessageCommandOptions> {
 }
 
 export const messageCommand = (
-    name: string,
     options: MessageCommandOptions & {
         run: BaseCommand<MessageCommandOptions>['run'];
     },
 ) => {
     return new MessageCommand(
-        name,
         options.run,
         removeKeys(options, 'run') as MessageCommandOptions,
     );

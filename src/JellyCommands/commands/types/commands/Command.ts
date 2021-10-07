@@ -1,15 +1,14 @@
-import { ApplicationCommandType } from '../../../types/applicationCommands.d';
+import { ApplicationCommandType } from '../../../../types/applicationCommands.d';
 import { schema, CommandOptions } from './options';
-import { BaseCommand } from '../BaseCommand';
+import { BaseCommand } from '../../base/BaseCommand';
 import { removeKeys } from 'ghoststools';
 
 export class Command extends BaseCommand<CommandOptions> {
     constructor(
-        name: string,
         run: BaseCommand<CommandOptions>['run'],
         options: CommandOptions,
     ) {
-        super(name, run, { options, schema });
+        super(run, { options, schema });
     }
 
     get applicationCommandData() {
@@ -18,7 +17,7 @@ export class Command extends BaseCommand<CommandOptions> {
             : true;
 
         return {
-            name: this.name,
+            name: this.options.name,
             type: ApplicationCommandType.CHAT_INPUT,
             description: this.options.description,
             options: this.options.options,
@@ -28,13 +27,11 @@ export class Command extends BaseCommand<CommandOptions> {
 }
 
 export const command = (
-    name: string,
     options: CommandOptions & {
         run: BaseCommand<CommandOptions>['run'];
     },
 ) => {
     return new Command(
-        name,
         options.run,
         removeKeys(options, 'run') as CommandOptions,
     );

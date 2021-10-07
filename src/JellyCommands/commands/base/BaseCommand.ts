@@ -1,74 +1,11 @@
-import type { ApplicationCommandPermissions } from '../../types/applicationCommands.d';
-import { ApplicationCommandPermissionType } from '../../types/applicationCommands.d';
-import type { ApplicationCommandData } from '../../types/applicationCommands.d';
-import type { InteractionDeferReplyOptions } from 'discord.js';
-import type { JellyCommands } from '../JellyCommands';
+import type { ApplicationCommandPermissions } from '../../../types/applicationCommands.d';
+import { ApplicationCommandPermissionType } from '../../../types/applicationCommands.d';
+import type { ApplicationCommandData } from '../../../types/applicationCommands';
+import type { CacheableCommand } from '../CommandCache';
+import type { JellyCommands } from '../../JellyCommands';
 import type { CommandInteraction } from 'discord.js';
-
-import { snowflakeArray } from '../../util/joi';
+import { BaseOptions } from './options';
 import Joi from 'joi';
-
-export interface BaseOptions {
-    /**
-     * Should the interaction be defered?
-     */
-    defer?: boolean | InteractionDeferReplyOptions;
-
-    /**
-     * Guards allow you to prevent/allow certain people/groups to your command
-     */
-    guards?: {
-        /**
-         * Should the guards act as a whitelist or blacklist
-         */
-        mode: 'whitelist' | 'blacklist';
-
-        /**
-         * Which users should be allowed only (whitelist) or should be blocked (blacklist)
-         */
-        users?: string[];
-
-        /**
-         * Which roles should be allowed only (whitelist) or should be blocked (blacklist)
-         */
-        roles?: string[];
-    };
-
-    /**
-     * The guilds to apply the slash command in
-     */
-    guilds?: string[];
-
-    /**
-     * Should the slash command be global across all guilds
-     */
-    global?: boolean;
-
-    /**
-     * Whether or not the slash command should be loaded
-     */
-    disabled?: boolean;
-}
-
-export const baseSchema = Joi.object({
-    defer: [
-        Joi.bool(),
-        Joi.object({
-            ephemeral: Joi.bool(),
-            fetchReply: Joi.bool(),
-        }),
-    ],
-
-    guards: Joi.object({
-        mode: Joi.string().valid('whitelist', 'blacklist').required(),
-        users: snowflakeArray(),
-        roles: snowflakeArray(),
-    }),
-
-    guilds: snowflakeArray(),
-    global: Joi.bool().default(false),
-    disabled: Joi.bool().default(false),
-});
 
 export interface RunOptions {
     interaction: CommandInteraction;
@@ -81,22 +18,16 @@ export interface OptionsOptions<OptionsType> {
 }
 
 export abstract class BaseCommand<OptionsType extends BaseOptions> {
-    public readonly name;
     public readonly options;
     public readonly run: ({}: RunOptions) => void | any;
 
+    public id?: string;
+    public filePath?: string;
+
     constructor(
-        name: string,
         run: BaseCommand<OptionsType>['run'],
         { options, schema }: OptionsOptions<OptionsType>,
     ) {
-        this.name = name;
-
-        if (!name || typeof name != 'string')
-            throw new TypeError(
-                `Expected type string for name, recieved ${typeof name}`,
-            );
-
         this.run = run;
 
         if (!run || typeof run != 'function')
@@ -155,5 +86,12 @@ export abstract class BaseCommand<OptionsType extends BaseOptions> {
             );
 
         return permissions.flat();
+    }
+
+    toCachable(): CacheableCommand {
+        return {
+            options: this.options,
+            filePath: this.filePath as string,
+        };
     }
 }

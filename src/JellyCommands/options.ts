@@ -22,6 +22,8 @@ export const schema = Joi.object({
                 embeds: [{ description: 'Unknown Command' }],
             }),
     }).default(),
+
+    debug: Joi.bool().default(false),
 });
 
 export interface JellyCommandsOptions {
@@ -54,4 +56,9 @@ export interface JellyCommandsOptions {
          */
         unknownCommand?: string | MessagePayload | MessageOptions;
     };
+
+    /**
+     * Whether jelly should emit debug messages
+     */
+    debug: boolean;
 }

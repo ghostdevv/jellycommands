@@ -1,6 +1,7 @@
 import { command } from 'jellycommands';
 
-export default command('pog', {
+export default command({
+    name: 'pog',
     description: 'champ',
 
     guilds: ['663140687591768074'],
