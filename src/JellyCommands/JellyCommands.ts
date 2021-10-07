@@ -79,4 +79,9 @@ export class JellyCommands extends Client {
 
         return super.login(token);
     }
+
+    debug(message: string) {
+        if (this.joptions.debug)
+            console.debug(`\x1b[1m\x1b[35m[DEBUG]\x1b[22m\x1b[39m ${message}`);
+    }
 }
