@@ -9,6 +9,11 @@ export interface BaseOptions {
     name: string;
 
     /**
+     * Is the command in dev mode or not
+     */
+    dev?: boolean;
+
+    /**
      * Should the interaction be defered?
      */
     defer?: boolean | InteractionDeferReplyOptions;
@@ -51,6 +56,8 @@ export interface BaseOptions {
 
 export const baseSchema = Joi.object({
     name: Joi.string().required(),
+
+    dev: Joi.bool().default(false),
 
     defer: [
         Joi.bool(),

@@ -57,7 +57,10 @@ export class CommandManager {
         });
     }
 
-    static async getCommandFiles(paths: string | string[]) {
+    static async getCommandFiles(
+        paths: string | string[],
+        devGuilds: string[] = [],
+    ) {
         const guildCommands = new Map<string, BaseCommand<BaseOptions>[]>();
         const globalCommands = new Set<BaseCommand<BaseOptions>>();
         const commandsList = new Set<BaseCommand<BaseOptions>>();
@@ -67,14 +70,24 @@ export class CommandManager {
             if (command.options?.disabled) continue;
 
             /**
+             * If in dev mode update guilds
+             */
+            if (command.options.dev)
+                command.options.guilds = [
+                    ...(command.options.guilds || []),
+                    ...devGuilds,
+                ];
+
+            /**
              * Set the command path
              */
             command.filePath = file;
 
             /**
-             * If global add to global
+             * If global and not in dev mode add to global
              */
-            if (command.options?.global) globalCommands.add(command);
+            if (command.options?.global && !command.options.dev)
+                globalCommands.add(command);
 
             /**
              * If the command is not global set to guild commands
@@ -115,7 +128,10 @@ export class CommandManager {
         const idMap = new CommandIdMap();
 
         const { guildCommands, globalCommands, commandsList } =
-            await CommandManager.getCommandFiles(paths);
+            await CommandManager.getCommandFiles(
+                paths,
+                client.joptions.dev?.guilds,
+            );
 
         if (cache.validate({ guildCommands, globalCommands })) {
             client.debug('Cache is valid');

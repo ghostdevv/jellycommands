@@ -1,6 +1,6 @@
 import type { MessageOptions, ClientOptions } from 'discord.js';
+import { pathsSchema, snowflakeArray } from '../util/joi';
 import { MessagePayload } from 'discord.js';
-import { pathsSchema } from '../util/joi';
 import Joi from 'joi';
 
 export const schema = Joi.object({
@@ -21,6 +21,10 @@ export const schema = Joi.object({
             .default({
                 embeds: [{ description: 'Unknown Command' }],
             }),
+    }).default(),
+
+    dev: Joi.object({
+        guilds: snowflakeArray(),
     }).default(),
 
     debug: Joi.bool().default(false),
@@ -55,6 +59,16 @@ export interface JellyCommandsOptions {
          * This is sent when a unknown command is given
          */
         unknownCommand?: string | MessagePayload | MessageOptions;
+    };
+
+    /**
+     * Developer mode options
+     */
+    dev?: {
+        /**
+         * The guilds to run dev mode commands in
+         */
+        guilds?: string[];
     };
 
     /**
