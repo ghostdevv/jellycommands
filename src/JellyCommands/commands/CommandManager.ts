@@ -72,9 +72,9 @@ export class CommandManager {
             /**
              * If in dev mode update guilds
              */
-            if (command.options.dev)
+            if (command.options?.dev)
                 command.options.guilds = [
-                    ...(command.options.guilds || []),
+                    ...(command.options?.guilds || []),
                     ...devGuilds,
                 ];
 
