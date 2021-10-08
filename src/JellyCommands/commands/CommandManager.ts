@@ -7,6 +7,13 @@ import { Routes } from 'discord-api-types/v9';
 import { flattenPaths } from 'ghoststools';
 import { readJSFile } from '../../util/fs';
 
+import type {
+    commandsList,
+    guildCommands,
+    commandIdMap,
+    globalCommands,
+} from '../../types/commands.d';
+
 import type { GuildApplicationPermissionData } from '../../types/rawCommands.d';
 import type { ApplicationCommand } from '../../types/rawCommands';
 import type { JellyCommands } from '../JellyCommands';
@@ -16,10 +23,7 @@ export class CommandManager {
     private client;
     private commands;
 
-    constructor(
-        client: JellyCommands,
-        commands: Map<string, BaseCommand<BaseOptions>>,
-    ) {
+    constructor(client: JellyCommands, commands: commandIdMap) {
         this.client = client;
         this.commands = commands;
     }
@@ -61,9 +65,9 @@ export class CommandManager {
         paths: string | string[],
         devGuilds: string[] = [],
     ) {
-        const guildCommands = new Map<string, Set<BaseCommand<BaseOptions>>>();
-        const globalCommands = new Set<BaseCommand<BaseOptions>>();
-        const commandsList = new Set<BaseCommand<BaseOptions>>();
+        const guildCommands: guildCommands = new Map();
+        const globalCommands: globalCommands = new Set();
+        const commandsList: commandsList = new Set();
 
         for (const file of flattenPaths(paths)) {
             const command = await readJSFile<BaseCommand<BaseOptions>>(file);
@@ -94,9 +98,8 @@ export class CommandManager {
              */
             if (command.options?.guilds && !command.options?.global)
                 for (const guildId of command.options.guilds) {
-                    const existing =
-                        guildCommands.get(guildId) ||
-                        new Set<BaseCommand<BaseOptions>>();
+                    const existing: commandsList =
+                        guildCommands.get(guildId) || new Set();
 
                     existing.add(command);
 
@@ -116,8 +119,8 @@ export class CommandManager {
         };
     }
 
-    static toCommandsMap(commandsList: Set<BaseCommand<BaseOptions>>) {
-        const commandsMap = new Map<string, BaseCommand<BaseOptions>>();
+    static toCommandsMap(commandsList: commandsList) {
+        const commandsMap: commandIdMap = new Map();
 
         for (const command of commandsList)
             commandsMap.set(command.id || '', command);

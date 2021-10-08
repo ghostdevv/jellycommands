@@ -1,27 +1,12 @@
-import type { BaseCommand } from './base/BaseCommand';
-import type { BaseOptions } from './base/options';
 import { Cache } from '../../util/Cache';
 import { deepEqual } from 'assert';
 
-export interface CacheableCommand {
-    options: BaseOptions;
-    filePath: string;
-}
-
-export interface GuildCommandGroup {
-    guildId: string;
-    commands: CacheableCommand[];
-}
-
-export interface CommandPair {
-    guildCommands: GuildCommandGroup[];
-    globalCommands: CacheableCommand[];
-}
-
-export interface RuntimeCommandPair {
-    guildCommands: Map<string, Set<BaseCommand<BaseOptions>>>;
-    globalCommands: Set<BaseCommand<BaseOptions>>;
-}
+import type {
+    CacheableCommand,
+    RuntimeCommandPair,
+    CommandPair,
+    GuildCommandGroup,
+} from '../../types/commandCache.d';
 
 export class CommandCache {
     private readonly commandCache = new Cache('commandCache');

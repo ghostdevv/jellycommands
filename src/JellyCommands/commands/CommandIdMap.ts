@@ -1,17 +1,13 @@
-import type { BaseOptions } from './base/options';
-import { BaseCommand } from './base/BaseCommand';
+import type { commandsList, commandIdMap } from '../../types/commands.d';
 import { Cache } from '../../util/Cache';
-
-type idMap = Map<string, BaseCommand<BaseOptions>>;
-type commandsList = Set<BaseCommand<BaseOptions>>;
 
 export class CommandIdMap {
     private readonly save = new Cache('commandIdMap');
 
     constructor() {}
 
-    get(commandsList: commandsList): idMap {
-        const commands: idMap = new Map();
+    get(commandsList: commandsList): commandIdMap {
+        const commands: commandIdMap = new Map();
 
         const data = this.save.get<Record<string, string>>();
         if (!data) throw new Error('Command id map is null');
