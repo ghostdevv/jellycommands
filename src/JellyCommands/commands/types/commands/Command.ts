@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from '../../../../types/applicationCommands.d';
+import { ApplicationCommandType } from '../../../../types/rawCommands.d';
 import { schema, CommandOptions } from './options';
 import { BaseCommand } from '../../base/BaseCommand';
 import { removeKeys } from 'ghoststools';
