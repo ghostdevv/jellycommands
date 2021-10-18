@@ -6,6 +6,15 @@ export default command({
 
     global: true,
 
+    options: [
+        {
+            type: 'CHANNEL',
+            name: 'channel',
+            description: 'Channel to pog',
+            required: true,
+        },
+    ],
+
     dev: true,
 
     run: ({ interaction }) =>
