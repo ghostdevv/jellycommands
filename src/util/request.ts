@@ -11,22 +11,30 @@ export function createRequest(token: string) {
 
     interface ResponseObject {
         message?: string;
-        _errors?: { code: string; message: string }[];
+        errors?: { code: string; message: string }[];
+        _errors?: ResponseObject['errors'];
     }
 
     return <T>(method: Method, route: string, data?: any): Promise<T> =>
         req(route, { method, data })
             .then((res) => res.data as T)
             .catch((e) => {
-                if (!axios.isAxiosError(e)) return e;
+                if (!axios.isAxiosError(e)) throw e;
 
-                const { message, _errors } = (e?.response?.data ||
+                const { message, errors, _errors } = (e?.response?.data ||
                     {}) as ResponseObject;
 
-                if (_errors) console.error(`[DISCORD API ERROR] ${_errors}`);
+                if (errors || _errors)
+                    console.error(
+                        `[DISCORD API ERROR] ${JSON.stringify(
+                            errors || _errors,
+                            null,
+                            4,
+                        )}`,
+                    );
 
                 const error = message
-                    ? `[DISCORD API ERROR] ${message} - Try again in ${message}s`
+                    ? `[DISCORD API ERROR] ${message}`
                     : e.message;
 
                 throw new Error(error);
