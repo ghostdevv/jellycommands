@@ -34,7 +34,7 @@
     "axios": "^0.24.0",
     "discord-api-types": "^0.25.0",
     "ghoststools": "^0.5.3",
-    "joi": "^17.4.0"
+    "joi": "^17.5.0"
   },
   "repository": {
     "type": "git",
