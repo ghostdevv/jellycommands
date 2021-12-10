@@ -6,7 +6,7 @@ import type { Event } from './Event';
 export class EventManager {
     static async loadEvents(client: JellyCommands, paths: string | string[]) {
         for (const file of flattenPaths(paths)) {
-            const event = await readJSFile<Event>(file);
+            const event = await readJSFile<InstanceType<typeof Event>>(file);
             if (event.options.disabled) continue;
 
             const cb = (...ctx: any[]) => event.run(...ctx, { client });
