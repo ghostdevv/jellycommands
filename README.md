@@ -12,12 +12,9 @@
 
 <br />
 
-> Docs will be made available soon, join [the discord](https://discord.com/invite/2Vd4wAjJnm) and ask if you want more updates
 
-<!-- 
-> # All our docs are located [here](https://ghostdevbusiness.gitbook.io/jellycommands/)
 
--->
+# [Read the docs](https://ghostdevbusiness.gitbook.io/jellycommands/)
 
 
 # Running in dev mode
