@@ -38,7 +38,7 @@ export class Event<T extends keyof ClientEvents> {
 export const event = <K extends keyof ClientEvents>(
     options: EventOptions<K> & {
         run: (
-            instance: { client: Client; jelly: JellyCommands },
+            instance: { client: JellyCommands },
             ...args: ClientEvents[K]
         ) => void | any;
     },

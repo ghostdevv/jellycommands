@@ -9,7 +9,7 @@ export class EventManager {
             const event = await readJSFile<InstanceType<typeof Event>>(file);
             if (event.options.disabled) continue;
 
-            const cb = (...ctx: any[]) => event.run(...ctx, { client });
+            const cb = (...ctx: any[]) => event.run({ client }, ...ctx);
 
             if (event.options.once) client.once(event.name, cb);
             else client.on(event.name, cb);
