@@ -4,15 +4,15 @@ import { removeKeys } from 'ghoststools';
 import type { JellyCommands } from '../JellyCommands';
 import type { Client, ClientEvents } from 'discord.js';
 
-export class Event {
+export class Event<T extends keyof ClientEvents> {
     public readonly name: keyof ClientEvents;
     public readonly run: Function;
-    public readonly options: Required<EventOptions>;
+    public readonly options: Required<EventOptions<T>>;
 
     constructor(
         name: keyof ClientEvents,
         run: Function,
-        options: EventOptions,
+        options: EventOptions<T>,
     ) {
         this.name = name;
 
@@ -36,17 +36,16 @@ export class Event {
 }
 
 export const event = <K extends keyof ClientEvents>(
-    name: K,
-    options: EventOptions & {
+    options: EventOptions<K> & {
         run: (
             instance: { client: Client; jelly: JellyCommands },
             ...args: ClientEvents[K]
         ) => void | any;
     },
 ) => {
-    return new Event(
-        name,
+    return new Event<K>(
+        options.name,
         options.run,
-        removeKeys(options, 'run') as EventOptions,
+        removeKeys(options, 'run') as EventOptions<K>,
     );
 };
