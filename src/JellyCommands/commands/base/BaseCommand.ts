@@ -19,7 +19,7 @@ export interface OptionsOptions<OptionsType> {
 
 export abstract class BaseCommand<
     OptionsType extends BaseOptions,
-    InteractionType extends Interaction,
+    InteractionType extends Interaction = Interaction,
 > {
     public readonly options;
     public readonly run: ({}: RunOptions<InteractionType>) => void | any;
