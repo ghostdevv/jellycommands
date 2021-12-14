@@ -2,13 +2,14 @@ import type { ApplicationCommandPermissions } from '../../../types/rawCommands.d
 import { ApplicationCommandPermissionType } from '../../../types/rawCommands.d';
 import type { ApplicationCommandData } from '../../../types/rawCommands';
 import type { CacheableCommand } from '../../../types/commandCache';
+import type { CommandInteraction, Interaction } from 'discord.js';
+import type { ContextMenuInteraction } from 'discord.js';
 import type { JellyCommands } from '../../JellyCommands';
-import type { CommandInteraction } from 'discord.js';
 import { BaseOptions } from './options';
 import Joi from 'joi';
 
-export interface RunOptions {
-    interaction: CommandInteraction;
+export interface RunOptions<InteractionType extends Interaction> {
+    interaction: InteractionType;
     client: JellyCommands;
 }
 
@@ -17,15 +18,18 @@ export interface OptionsOptions<OptionsType> {
     schema: Joi.ObjectSchema<any>;
 }
 
-export abstract class BaseCommand<OptionsType extends BaseOptions> {
+export abstract class BaseCommand<
+    OptionsType extends BaseOptions,
+    InteractionType extends Interaction,
+> {
     public readonly options;
-    public readonly run: ({}: RunOptions) => void | any;
+    public readonly run: ({}: RunOptions<InteractionType>) => void | any;
 
     public id?: string;
     public filePath?: string;
 
     constructor(
-        run: BaseCommand<OptionsType>['run'],
+        run: BaseCommand<OptionsType, InteractionType>['run'],
         { options, schema }: OptionsOptions<OptionsType>,
     ) {
         this.run = run;

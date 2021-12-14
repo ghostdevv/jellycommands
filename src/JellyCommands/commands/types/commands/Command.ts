@@ -1,11 +1,12 @@
 import { ApplicationCommandType } from '../../../../types/rawCommands.d';
-import { schema, CommandOptions } from './options';
 import { BaseCommand } from '../../base/BaseCommand';
+import type { CommandInteraction } from 'discord.js';
+import { schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
-export class Command extends BaseCommand<CommandOptions> {
+export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
     constructor(
-        run: BaseCommand<CommandOptions>['run'],
+        run: BaseCommand<CommandOptions, CommandInteraction>['run'],
         options: CommandOptions,
     ) {
         super(run, { options, schema });
@@ -28,7 +29,7 @@ export class Command extends BaseCommand<CommandOptions> {
 
 export const command = (
     options: CommandOptions & {
-        run: BaseCommand<CommandOptions>['run'];
+        run: BaseCommand<CommandOptions, CommandInteraction>['run'];
     },
 ) => {
     return new Command(

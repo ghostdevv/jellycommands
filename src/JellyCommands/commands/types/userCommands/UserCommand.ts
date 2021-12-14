@@ -1,11 +1,15 @@
 import { ApplicationCommandType } from '../../../../types/rawCommands.d';
+import type { ContextMenuInteraction } from 'discord.js';
 import { schema, UserCommandOptions } from './options';
 import { BaseCommand } from '../../base/BaseCommand';
 import { removeKeys } from 'ghoststools';
 
-export class UserCommand extends BaseCommand<UserCommandOptions> {
+export class UserCommand extends BaseCommand<
+    UserCommandOptions,
+    ContextMenuInteraction
+> {
     constructor(
-        run: BaseCommand<UserCommandOptions>['run'],
+        run: BaseCommand<UserCommandOptions, ContextMenuInteraction>['run'],
         options: UserCommandOptions,
     ) {
         super(run, { options, schema });
@@ -27,7 +31,7 @@ export class UserCommand extends BaseCommand<UserCommandOptions> {
 
 export const userCommand = (
     options: UserCommandOptions & {
-        run: BaseCommand<UserCommandOptions>['run'];
+        run: BaseCommand<UserCommandOptions, ContextMenuInteraction>['run'];
     },
 ) => {
     return new UserCommand(
