@@ -18,7 +18,7 @@ export interface OptionsOptions<OptionsType> {
 }
 
 export abstract class BaseCommand<
-    OptionsType extends BaseOptions,
+    OptionsType extends BaseOptions = BaseOptions,
     InteractionType extends Interaction = Interaction,
 > {
     public readonly options;

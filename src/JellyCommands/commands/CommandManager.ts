@@ -1,5 +1,4 @@
 import { createRequest } from '../../util/request';
-import type { BaseOptions } from './base/options';
 import { BaseCommand } from './base/BaseCommand';
 import { CommandCache } from './CommandCache';
 import { CommandIdMap } from './CommandIdMap';
@@ -70,7 +69,7 @@ export class CommandManager {
         const commandsList: commandsList = new Set();
 
         for (const file of flattenPaths(paths)) {
-            const command = await readJSFile<BaseCommand<BaseOptions>>(file);
+            const command = await readJSFile<BaseCommand>(file);
             if (command.options?.disabled) continue;
 
             /**
