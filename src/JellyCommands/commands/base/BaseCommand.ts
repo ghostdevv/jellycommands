@@ -2,9 +2,8 @@ import type { ApplicationCommandPermissions } from '../../../types/rawCommands.d
 import { ApplicationCommandPermissionType } from '../../../types/rawCommands.d';
 import type { ApplicationCommandData } from '../../../types/rawCommands';
 import type { CacheableCommand } from '../../../types/commandCache';
-import type { CommandInteraction, Interaction } from 'discord.js';
-import type { ContextMenuInteraction } from 'discord.js';
 import type { JellyCommands } from '../../JellyCommands';
+import type { Interaction } from 'discord.js';
 import { BaseOptions } from './options';
 import Joi from 'joi';
 
