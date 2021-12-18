@@ -1,10 +1,9 @@
+import { readJSFile, readFiles } from '../../util/fs';
 import { createRequest } from '../../util/request';
 import { BaseCommand } from './base/BaseCommand';
 import { CommandCache } from './CommandCache';
 import { CommandIdMap } from './CommandIdMap';
 import { Routes } from 'discord-api-types/v9';
-import { flattenPaths } from 'ghoststools';
-import { readJSFile } from '../../util/fs';
 
 import type {
     commandsList,
@@ -68,7 +67,7 @@ export class CommandManager {
         const globalCommands: globalCommands = new Set();
         const commandsList: commandsList = new Set();
 
-        for (const file of flattenPaths(paths)) {
+        for (const file of readFiles(paths)) {
             const command = await readJSFile<BaseCommand>(file);
             if (command.options?.disabled) continue;
 
