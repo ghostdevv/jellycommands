@@ -1,48 +1,25 @@
 {
-  "name": "jellycommands",
-  "version": "1.0.0-14",
-  "author": "GHOST",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    }
-  },
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
-  "scripts": {
-    "dev": "run-p dev:*",
-    "dev:ts": "tsup-node --watch src",
-    "dev:nodemon": "nodemon dev/index.js",
-    "build": "tsup-node"
-  },
-  "devDependencies": {
-    "@types/node": "^16.11.19",
-    "discord.js": "^13.5.0",
-    "nodemon": "^2.0.15",
-    "npm-run-all": "^4.1.5",
-    "tsup": "^5.11.10",
-    "typescript": "^4.5.4"
-  },
-  "dependencies": {
-    "axios": "^0.24.0",
-    "discord-api-types": "^0.25.2",
-    "ghoststools": "^0.6.3",
-    "joi": "^17.5.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ghostdevv/jellycommands.git"
-  },
-  "keywords": [],
-  "bugs": {
-    "url": "https://github.com/ghostdevv/jellycommands/issues"
-  },
-  "homepage": "https://github.com/ghostdevv/jellycommands#readme"
+    "name": "jellycommands-monorepo",
+    "private": true,
+    "license": "MIT",
+    "packageManager": "pnpm@6.24.1",
+    "devDependencies": {
+        "@types/node": "^16.11.19",
+        "nodemon": "^2.0.15",
+        "tsup": "^5.11.10",
+        "typescript": "^4.5.4"
+      },
+    "engines": {
+        "pnpm": "^6.7.0",
+        "npm": "forbidden, use pnpm",
+        "node": ">= 12"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ghostdevv/jellycommands.git"
+      },
+      "bugs": {
+        "url": "https://github.com/ghostdevv/jellycommands/issues"
+      },
+      "homepage": "https://github.com/ghostdevv/jellycommands#readme"
 }

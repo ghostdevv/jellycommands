@@ -1,0 +1,41 @@
+{
+  "name": "jellycommands",
+  "version": "1.0.0-14",
+  "author": "GHOST",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "tsup-node --watch src",
+    "build": "tsup-node"
+  },
+  "devDependencies": {
+    "discord.js": "^13.5.0"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "discord-api-types": "^0.25.2",
+    "ghoststools": "^0.6.3",
+    "joi": "^17.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghostdevv/jellycommands.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/ghostdevv/jellycommands/issues"
+  },
+  "homepage": "https://github.com/ghostdevv/jellycommands#readme"
+}
