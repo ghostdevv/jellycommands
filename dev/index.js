@@ -1,6 +1,4 @@
-import { config } from 'dotenv';
-config({ path: 'dev/.env' });
-
+import 'dotenv/config.js';
 import { JellyCommands } from 'jellycommands';
 import { Intents } from 'discord.js';
 
