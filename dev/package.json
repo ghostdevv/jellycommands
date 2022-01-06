@@ -2,9 +2,6 @@
     "name": "dev",
     "type": "module",
     "main": "index.js",
-    "workspaces": [
-        ".."
-    ],
     "scripts": {
         "dev": "nodemon ."
     },
