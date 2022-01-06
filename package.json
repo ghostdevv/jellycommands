@@ -11,6 +11,8 @@
     },
     "scripts": {
         "dev": "pnpm -r dev --parallel",
+        "dev-build": "pnpm dev --parallel --filter \\!dev",
+        "dev-dev": "pnpm dev --filter dev",
         "build": "pnpm -r build",
         "publish": "pnpm build && pnpm publish -r --access public --tag=next"
     },
