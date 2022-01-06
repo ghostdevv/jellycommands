@@ -44,9 +44,13 @@ export abstract class BaseCommand<
 
         this.options = value as typeof options;
 
-        if (!this.options.guilds?.length && !this.options.global)
+        if (
+            !this.options.guilds?.length &&
+            !this.options.global &&
+            !this.options.dev
+        )
             throw new Error(
-                'Command must have at least one of guild or global',
+                'Command must have at least one of guild, global, or dev',
             );
 
         if (
