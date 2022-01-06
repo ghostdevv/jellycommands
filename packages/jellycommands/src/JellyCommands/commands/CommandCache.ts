@@ -1,4 +1,4 @@
-import { Cache } from '../../util/Cache';
+import { Cache } from '../structures/Cache';
 import { deepEqual } from 'assert';
 
 import type {

@@ -1,7 +1,7 @@
 import { CommandManager } from './commands/CommandManager';
 import type { JellyCommandsOptions } from './options';
 import { EventManager } from './events/EventManager';
-import { Props } from './props/Props';
+import { Props } from './structures/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
 

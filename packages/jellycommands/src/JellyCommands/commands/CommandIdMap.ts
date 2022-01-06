@@ -1,5 +1,5 @@
 import type { commandsList, commandIdMap } from '../../types/commands.d';
-import { Cache } from '../../util/Cache';
+import { Cache } from '../structures/Cache';
 
 export class CommandIdMap {
     private readonly save = new Cache('commandIdMap');
