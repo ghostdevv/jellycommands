@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from '../../../../types/rawCommands.d';
+import { ApplicationCommandType } from 'discord-api-types';
 import { schema, MessageCommandOptions } from './options';
 import type { ContextMenuInteraction } from 'discord.js';
 import { BaseCommand } from '../../base/BaseCommand';
@@ -22,7 +22,7 @@ export class MessageCommand extends BaseCommand<
 
         return {
             name: this.options.name,
-            type: ApplicationCommandType.MESSAGE,
+            type: ApplicationCommandType.Message,
             description: '',
             default_permission,
         };

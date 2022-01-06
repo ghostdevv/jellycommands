@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from '../../../../types/rawCommands.d';
+import { ApplicationCommandType } from 'discord-api-types';
 import { BaseCommand } from '../../base/BaseCommand';
 import type { CommandInteraction } from 'discord.js';
 import { schema, CommandOptions } from './options';
@@ -19,7 +19,7 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
 
         return {
             name: this.options.name,
-            type: ApplicationCommandType.CHAT_INPUT,
+            type: ApplicationCommandType.ChatInput,
             description: this.options.description,
             options: this.options.options,
             default_permission,

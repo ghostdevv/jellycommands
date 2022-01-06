@@ -1,10 +1,8 @@
 import type { ApplicationCommandOptionData } from 'discord.js';
-
-export enum ApplicationCommandType {
-    CHAT_INPUT = 1,
-    USER = 2,
-    MESSAGE = 3,
-}
+import {
+    ApplicationCommandType,
+    ApplicationCommandPermissionType,
+} from 'discord-api-types';
 
 export interface ApplicationCommandData {
     name: string;
@@ -23,11 +21,6 @@ export interface ApplicationCommand {
     description: string;
     options?: ApplicationCommandOptionData[];
     default_permission?: boolean;
-}
-
-export enum ApplicationCommandPermissionType {
-    ROLE = 1,
-    USER = 2,
 }
 
 export interface ApplicationCommandPermissions {

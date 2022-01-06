@@ -1,6 +1,6 @@
 import type { ApplicationCommandPermissions } from '../../../types/rawCommands.d';
-import { ApplicationCommandPermissionType } from '../../../types/rawCommands.d';
 import type { ApplicationCommandData } from '../../../types/rawCommands';
+import { ApplicationCommandPermissionType } from 'discord-api-types';
 import type { CacheableCommand } from '../../../types/commandCache';
 import type { JellyCommands } from '../../JellyCommands';
 import type { Interaction } from 'discord.js';
@@ -81,7 +81,7 @@ export abstract class BaseCommand<
             permissions.push(
                 users.map((id) => ({
                     id,
-                    type: ApplicationCommandPermissionType.USER,
+                    type: ApplicationCommandPermissionType.User,
                     permission,
                 })),
             );
@@ -90,7 +90,7 @@ export abstract class BaseCommand<
             permissions.push(
                 roles.map((id) => ({
                     id,
-                    type: ApplicationCommandPermissionType.ROLE,
+                    type: ApplicationCommandPermissionType.Role,
                     permission,
                 })),
             );

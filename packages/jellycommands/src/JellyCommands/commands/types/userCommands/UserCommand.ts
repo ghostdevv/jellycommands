@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from '../../../../types/rawCommands.d';
+import { ApplicationCommandType } from 'discord-api-types';
 import type { ContextMenuInteraction } from 'discord.js';
 import { schema, UserCommandOptions } from './options';
 import { BaseCommand } from '../../base/BaseCommand';
@@ -22,7 +22,7 @@ export class UserCommand extends BaseCommand<
 
         return {
             name: this.options.name,
-            type: ApplicationCommandType.USER,
+            type: ApplicationCommandType.User,
             description: '',
             default_permission,
         };
