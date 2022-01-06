@@ -8,7 +8,12 @@
         "nodemon": "^2.0.15",
         "tsup": "^5.11.10",
         "typescript": "^4.5.4"
-      },
+    },
+    "scripts": {
+        "dev": "pnpm -r dev --parallel",
+        "build": "pnpm -r build",
+        "publish": "pnpm build && pnpm publish -r --access public --tag=next"
+    },
     "engines": {
         "pnpm": "^6.7.0",
         "npm": "forbidden, use pnpm",
@@ -17,9 +22,9 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/ghostdevv/jellycommands.git"
-      },
-      "bugs": {
+    },
+    "bugs": {
         "url": "https://github.com/ghostdevv/jellycommands/issues"
-      },
-      "homepage": "https://github.com/ghostdevv/jellycommands#readme"
+    },
+    "homepage": "https://github.com/ghostdevv/jellycommands#readme"
 }
