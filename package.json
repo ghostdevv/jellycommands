@@ -1,6 +1,6 @@
 {
   "name": "jellycommands",
-  "version": "1.0.0-13",
+  "version": "1.0.0-14",
   "author": "GHOST",
   "license": "MIT",
   "main": "dist/index.js",
@@ -23,18 +23,18 @@
     "build": "tsup-node"
   },
   "devDependencies": {
-    "@types/node": "^16.11.10",
-    "discord.js": "^13.3.1",
+    "@types/node": "^16.11.19",
+    "discord.js": "^13.5.0",
     "nodemon": "^2.0.15",
     "npm-run-all": "^4.1.5",
-    "tsup": "^5.11.1",
-    "typescript": "^4.5.2"
+    "tsup": "^5.11.10",
+    "typescript": "^4.5.4"
   },
   "dependencies": {
     "axios": "^0.24.0",
-    "discord-api-types": "^0.25.0",
+    "discord-api-types": "^0.25.2",
     "ghoststools": "^0.6.3",
-    "joi": "^17.4.0"
+    "joi": "^17.5.0"
   },
   "repository": {
     "type": "git",
