@@ -73,6 +73,10 @@ export interface JellyCommandsOptions {
         guilds?: string[];
     };
 
+    /**
+     * Should jelly cache commands - highly recommended
+     * @default true
+     */
     cache?: boolean;
 
     /**
