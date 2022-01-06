@@ -31,24 +31,22 @@ export class JellyCommands extends Client {
             : null;
     }
 
-    resolveToken(token?: string): string | null {
-        return this.cleanToken(
-            token || this.token || process.env?.DISCORD_TOKEN,
-        );
+    resolveToken(): string | null {
+        return this.token || this.cleanToken(process.env?.DISCORD_TOKEN);
     }
 
-    resolveClientId(token?: string): string | null {
-        token = this.resolveToken(token) || undefined;
-
+    resolveClientId(): string | null {
         if (this.user?.id) return this.user?.id;
+
+        const token = this.resolveToken();
         if (!token) return null;
 
         return Buffer.from(token.split('.')[0], 'base64').toString();
     }
 
-    getAuthDetails(known?: Partial<AuthDetails>): AuthDetails {
-        const clientId = known?.clientId || this.resolveClientId(known?.token);
-        const token = known?.token || this.resolveToken();
+    getAuthDetails(): AuthDetails {
+        const clientId = this.resolveClientId();
+        const token = this.resolveToken();
 
         if (!token) throw new Error('No token found');
         if (!clientId) throw new Error('Invalid token provided');
@@ -57,11 +55,9 @@ export class JellyCommands extends Client {
     }
 
     async login(potentialToken?: string) {
-        const { token } = this.getAuthDetails({
-            token: potentialToken || undefined,
-        });
+        if (potentialToken) this.token = this.cleanToken(potentialToken);
 
-        this.token = token;
+        const { token } = this.getAuthDetails();
 
         if (this.joptions.commands) {
             const commandManager = await CommandManager.create(
