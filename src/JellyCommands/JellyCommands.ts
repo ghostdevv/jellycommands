@@ -37,10 +37,8 @@ export class JellyCommands extends Client {
         );
     }
 
-    resolveClientId(): string | null {
+    resolveClientId(token?: string): string | null {
         if (this.user?.id) return this.user?.id;
-
-        const token = this.resolveToken();
         if (!token) return null;
 
         return Buffer.from(token.split('.')[0], 'base64').toString();
@@ -58,7 +56,7 @@ export class JellyCommands extends Client {
 
     async login(potentialToken?: string) {
         const { token } = this.getAuthDetails({
-            token: this.cleanToken(potentialToken) || undefined,
+            token: potentialToken || undefined,
         });
 
         this.token = token;
