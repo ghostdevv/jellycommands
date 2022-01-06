@@ -38,6 +38,8 @@ export class JellyCommands extends Client {
     }
 
     resolveClientId(token?: string): string | null {
+        token = this.resolveToken(token) || undefined;
+
         if (this.user?.id) return this.user?.id;
         if (!token) return null;
 
@@ -45,7 +47,7 @@ export class JellyCommands extends Client {
     }
 
     getAuthDetails(known?: Partial<AuthDetails>): AuthDetails {
-        const clientId = known?.clientId || this.resolveClientId();
+        const clientId = known?.clientId || this.resolveClientId(known?.token);
         const token = known?.token || this.resolveToken();
 
         if (!token) throw new Error('No token found');
