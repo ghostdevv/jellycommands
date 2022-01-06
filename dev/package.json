@@ -1,8 +1,12 @@
 {
     "type": "module",
+    "main": "index.js",
     "workspaces": [
         ".."
     ],
+    "scripts": {
+        "dev": "nodemon ."
+    },
     "dependencies": {
         "dotenv": "^10.0.0"
     }
