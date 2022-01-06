@@ -1,19 +1,15 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 export class Cache {
-    private readonly name;
+    public readonly name;
 
+    private readonly cacheDirectory;
     private readonly cacheFile;
-
-    private readonly cacheDirectory = join(
-        fileURLToPath(import.meta.url),
-        '../../.jellycommands',
-    );
 
     constructor(name: string) {
         this.name = name;
+        this.cacheDirectory = resolve('.jellycommands');
 
         this.cacheFile = join(this.cacheDirectory, this.name + '.json');
 

@@ -27,6 +27,8 @@ export const schema = Joi.object({
         guilds: snowflakeArray(),
     }).default(),
 
+    cache: Joi.bool().default(true),
+
     debug: Joi.bool().default(false),
 });
 
@@ -70,6 +72,8 @@ export interface JellyCommandsOptions {
          */
         guilds?: string[];
     };
+
+    cache?: boolean;
 
     /**
      * Whether jelly should emit debug messages
