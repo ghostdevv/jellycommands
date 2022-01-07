@@ -1,0 +1,8 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "jellycommands": "1.0.0-14"
+  },
+  "changesets": []
+}
