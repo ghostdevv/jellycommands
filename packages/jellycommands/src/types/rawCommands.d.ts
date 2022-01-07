@@ -2,7 +2,7 @@ import type { ApplicationCommandOptionData } from 'discord.js';
 import {
     ApplicationCommandType,
     ApplicationCommandPermissionType,
-} from 'discord-api-types';
+} from 'discord-api-types/v9';
 
 export interface ApplicationCommandData {
     name: string;

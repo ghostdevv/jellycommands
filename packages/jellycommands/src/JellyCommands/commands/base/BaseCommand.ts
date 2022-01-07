@@ -1,6 +1,6 @@
 import type { ApplicationCommandPermissions } from '../../../types/rawCommands.d';
 import type { ApplicationCommandData } from '../../../types/rawCommands';
-import { ApplicationCommandPermissionType } from 'discord-api-types';
+import { ApplicationCommandPermissionType } from 'discord-api-types/v9';
 import type { CacheableCommand } from '../../../types/commandCache';
 import type { JellyCommands } from '../../JellyCommands';
 import type { Interaction } from 'discord.js';

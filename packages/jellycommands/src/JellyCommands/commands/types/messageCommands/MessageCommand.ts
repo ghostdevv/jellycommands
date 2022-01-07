@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from 'discord-api-types';
+import { ApplicationCommandType } from 'discord-api-types/v9';
 import { schema, MessageCommandOptions } from './options';
 import type { ContextMenuInteraction } from 'discord.js';
 import { BaseCommand } from '../../base/BaseCommand';

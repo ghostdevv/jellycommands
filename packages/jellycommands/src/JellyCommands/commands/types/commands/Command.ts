@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from 'discord-api-types';
+import { ApplicationCommandType } from 'discord-api-types/v9';
 import { BaseCommand } from '../../base/BaseCommand';
 import type { CommandInteraction } from 'discord.js';
 import { schema, CommandOptions } from './options';
