@@ -1,10 +1,17 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@1.6.3/schema.json",
-  "changelog": ["@changesets/cli/changelog", { "repo": "ghostdevv/jellycommands" }],
+  "changelog": [
+    "@changesets/cli/changelog",
+    {
+      "repo": "ghostdevv/jellycommands"
+    }
+  ],
   "commit": false,
   "linked": [],
-  "access": "restricted",
+  "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [
+    "dev"
+  ]
 }
