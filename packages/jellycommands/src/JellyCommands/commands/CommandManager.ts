@@ -138,11 +138,15 @@ export class CommandManager {
                 client.joptions.dev?.guilds,
             );
 
-        if (cache.validate({ guildCommands, globalCommands })) {
-            client.debug('Cache is valid');
+        if (client.joptions.cache) {
+            client.debug('Loading Cache');
 
-            const commandMap = idMap.get(commandsList);
-            return new CommandManager(client, commandMap);
+            if (cache.validate({ guildCommands, globalCommands })) {
+                client.debug('Cache is valid');
+
+                const commandMap = idMap.get(commandsList);
+                return new CommandManager(client, commandMap);
+            }
         }
 
         /**
@@ -200,11 +204,13 @@ export class CommandManager {
         /**
          * Update the cache & id map
          */
-        cache.set({ guildCommands, globalCommands });
-        idMap.set(commandsList);
+        if (client.joptions.cache) {
+            cache.set({ guildCommands, globalCommands });
+            idMap.set(commandsList);
 
-        client.debug('Cache has been updated');
-        client.debug('Id Map has been updated');
+            client.debug('Cache has been updated');
+            client.debug('Id Map has been updated');
+        }
 
         return new CommandManager(
             client,
