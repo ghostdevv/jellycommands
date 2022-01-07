@@ -2,6 +2,7 @@
     "name": "dev",
     "type": "module",
     "main": "index.js",
+    "private": true,
     "scripts": {
         "dev": "nodemon ."
     },
