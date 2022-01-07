@@ -12,7 +12,7 @@ import type {
     globalCommands,
 } from '../../types/commands.d';
 
-import type { GuildApplicationPermissionData } from '../../types/rawCommands.d';
+import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'discord-api-types';
 import type { ApplicationCommand } from '../../types/rawCommands';
 import type { JellyCommands } from '../JellyCommands';
 import { Interaction } from 'discord.js';
@@ -185,7 +185,8 @@ export class CommandManager {
          * For each guild command set permissions
          */
         for (const [guildId, commands] of guildCommands) {
-            const permissionData: GuildApplicationPermissionData[] = [];
+            const permissionData: RESTPutAPIGuildApplicationCommandsPermissionsJSONBody[] =
+                [];
 
             for (const command of commands)
                 if (command.applicationCommandPermissions)

@@ -1,4 +1,4 @@
-import type { ApplicationCommandPermissions } from '../../../types/rawCommands.d';
+import type { APIApplicationCommandPermission } from 'discord-api-types/v9';
 import type { ApplicationCommandData } from '../../../types/rawCommands';
 import { ApplicationCommandPermissionType } from 'discord-api-types/v9';
 import type { CacheableCommand } from '../../../types/commandCache';
@@ -74,7 +74,7 @@ export abstract class BaseCommand<
 
         const { mode, users, roles } = this.options.guards;
 
-        const permissions: ApplicationCommandPermissions[][] = [];
+        const permissions: APIApplicationCommandPermission[][] = [];
         const permission = mode == 'whitelist';
 
         if (users)
