@@ -12,10 +12,14 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         super(run, { options, schema });
     }
 
+    // @ts-ignore
     get applicationCommandData() {
         const default_permission = this.options.guards
             ? this.options.guards.mode == 'blacklist'
             : true;
+
+        // This needs to be transformed to the correct typings
+        const options = this.options.options;
 
         return {
             name: this.options.name,

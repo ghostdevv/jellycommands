@@ -185,7 +185,7 @@ export class CommandManager {
          * For each guild command set permissions
          */
         for (const [guildId, commands] of guildCommands) {
-            const permissionData: RESTPutAPIGuildApplicationCommandsPermissionsJSONBody[] =
+            const permissionData: RESTPutAPIGuildApplicationCommandsPermissionsJSONBody =
                 [];
 
             for (const command of commands)
