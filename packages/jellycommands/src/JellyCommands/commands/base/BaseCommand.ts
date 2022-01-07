@@ -1,5 +1,5 @@
+import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v9';
 import type { APIApplicationCommandPermission } from 'discord-api-types/v9';
-import type { ApplicationCommandData } from '../../../types/rawCommands';
 import { ApplicationCommandPermissionType } from 'discord-api-types/v9';
 import type { CacheableCommand } from '../../../types/commandCache';
 import type { JellyCommands } from '../../JellyCommands';
@@ -67,7 +67,7 @@ export abstract class BaseCommand<
         if (this.options.dev) this.options.global = false;
     }
 
-    abstract get applicationCommandData(): ApplicationCommandData;
+    abstract get applicationCommandData(): RESTPostAPIApplicationCommandsJSONBody;
 
     get applicationCommandPermissions() {
         if (!this.options.guards) return null;
