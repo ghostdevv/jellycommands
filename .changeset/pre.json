@@ -2,7 +2,11 @@
   "mode": "pre",
   "tag": "next",
   "initialVersions": {
-    "jellycommands": "1.0.0-next.14"
+    "jellycommands": "1.0.0-next.14",
+    "dev": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "happy-sloths-kick",
+    "mean-pandas-develop"
+  ]
 }
