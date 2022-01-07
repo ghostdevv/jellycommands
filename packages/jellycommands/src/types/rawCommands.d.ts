@@ -2,6 +2,9 @@ import type { ApplicationCommandOptionData } from 'discord.js';
 import {
     ApplicationCommandType,
     ApplicationCommandPermissionType,
+    APIApplicationCommandPermission,
+    APIGuildApplicationCommandPermissions,
+    RESTPutAPIGuildApplicationCommandsPermissionsJSONBody,
 } from 'discord-api-types/v9';
 
 export interface ApplicationCommandData {
@@ -21,12 +24,6 @@ export interface ApplicationCommand {
     description: string;
     options?: ApplicationCommandOptionData[];
     default_permission?: boolean;
-}
-
-export interface ApplicationCommandPermissions {
-    id: string;
-    type: ApplicationCommandPermissionType;
-    permission: boolean;
 }
 
 export interface GuildApplicationPermissionData {
