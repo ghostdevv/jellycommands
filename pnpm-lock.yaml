@@ -18,28 +18,28 @@ importers:
 
   dev:
     specifiers:
-      discord.js: ^13.5.0
+      discord.js: ^13.5.1
       dotenv: ^10.0.0
       jellycommands: workspace:*
     dependencies:
-      discord.js: 13.5.0
+      discord.js: 13.5.1
       dotenv: 10.0.0
       jellycommands: link:../packages/jellycommands
 
   packages/jellycommands:
     specifiers:
       axios: ^0.24.0
-      discord-api-types: ^0.25.2
-      discord.js: ^13.5.0
+      discord-api-types: ^0.26.1
+      discord.js: ^13.5.1
       ghoststools: ^0.6.3
       joi: ^17.5.0
     dependencies:
       axios: 0.24.0
-      discord-api-types: 0.25.2
+      discord-api-types: 0.26.1
       ghoststools: 0.6.3
       joi: 17.5.0
     devDependencies:
-      discord.js: 13.5.0
+      discord.js: 13.5.1
 
 packages:
 
@@ -246,7 +246,7 @@ packages:
     resolution: {integrity: sha512-ZTB8yJdJKrKlq44dpWkNUrAtEJEq0gqpb7ASdv4vmq6/mZal5kOv312hQ56I/vxwMre+VIkoHquNUAfnTbiYtg==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dependencies:
-      '@sindresorhus/is': 4.2.0
+      '@sindresorhus/is': 4.2.1
       discord-api-types: 0.26.1
       ts-mixer: 6.0.0
       tslib: 2.3.1
@@ -282,7 +282,7 @@ packages:
       '@changesets/types': 4.0.2
       '@manypkg/find-root': 1.1.0
       fs-extra: 8.1.0
-      globby: 11.0.4
+      globby: 11.1.0
       read-yaml-file: 1.1.0
     dev: true
 
@@ -330,8 +330,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /@sindresorhus/is/4.2.0:
-    resolution: {integrity: sha512-VkE3KLBmJwcCaVARtQpfuKcKv8gcBmUubrfHGF84dXuuW6jgsRYxPtzcIhPyK9WAPpRt2/xY6zkD9MnRaJzSyw==}
+  /@sindresorhus/is/4.2.1:
+    resolution: {integrity: sha512-BrzrgtaqEre0qfvI8sMTaEvx+bayuhPmfe2rfeUGPPHYr/PLxCOqkOe4TQTDPb+qcqgNcsAtXV/Ew74mcDIE8w==}
     engines: {node: '>=10'}
 
   /@szmarczak/http-timer/1.1.2:
@@ -354,7 +354,7 @@ packages:
   /@types/node-fetch/2.5.12:
     resolution: {integrity: sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==}
     dependencies:
-      '@types/node': 16.11.19
+      '@types/node': 17.0.8
       form-data: 3.0.1
 
   /@types/node/12.20.41:
@@ -363,6 +363,10 @@ packages:
 
   /@types/node/16.11.19:
     resolution: {integrity: sha512-BPAcfDPoHlRQNKktbsbnpACGdypPFBuX4xQlsWDE7B8XXcfII+SpOLay3/qZmCLb39kV5S1RTYwXdkx2lwLYng==}
+    dev: true
+
+  /@types/node/17.0.8:
+    resolution: {integrity: sha512-YofkM6fGv4gDJq78g4j0mMuGMkZVxZDgtU0JRdx6FgiJDG+0fY0GKVolOV8WqVmEhLCXkQRjwDdKyPxJp/uucg==}
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -375,7 +379,7 @@ packages:
   /@types/ws/8.2.2:
     resolution: {integrity: sha512-NOn5eIcgWLOo6qW8AcuLZ7G8PycXu0xTxxkS6Q18VWFxgPUSOwV0pBj2a/4viNZVu25i7RIB7GttdkAIUUXOOg==}
     dependencies:
-      '@types/node': 16.11.19
+      '@types/node': 17.0.8
 
   /abbrev/1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -816,17 +820,12 @@ packages:
       path-type: 4.0.0
     dev: true
 
-  /discord-api-types/0.25.2:
-    resolution: {integrity: sha512-O243LXxb5gLLxubu5zgoppYQuolapGVWPw3ll0acN0+O8TnPUE2kFp9Bt3sTRYodw8xFIknOVxjSeyWYBpVcEQ==}
-    engines: {node: '>=12'}
-    dev: false
-
   /discord-api-types/0.26.1:
     resolution: {integrity: sha512-T5PdMQ+Y1MEECYMV5wmyi9VEYPagEDEi4S0amgsszpWY0VB9JJ/hEvM6BgLhbdnKky4gfmZEXtEEtojN8ZKJQQ==}
     engines: {node: '>=12'}
 
-  /discord.js/13.5.0:
-    resolution: {integrity: sha512-K+ZcB0f+wA1ZzDhz3hlaAi4Ap7jSvVEUZ+U29T4DMoiNNUv22F4vu1byrOq8GyyLLDFiZ3iSudea0MvSHu3fQA==}
+  /discord.js/13.5.1:
+    resolution: {integrity: sha512-ejEG5MXzB0eda9Nt+VzqgdvDWVO5U/GynGzq6DRPLaCH1yyn2YRU9J+vCMl77pWA1rzYGX+b/9RI31x0wt3qXA==}
     engines: {node: '>=16.6.0', npm: '>=7.0.0'}
     dependencies:
       '@discordjs/builders': 0.11.0
@@ -1272,8 +1271,8 @@ packages:
       ini: 2.0.0
     dev: true
 
-  /globby/11.0.4:
-    resolution: {integrity: sha512-9O4MVG9ioZJ08ffbcyVYyLOJLk5JQ688pJ4eMGLpdWLHq/Wr1D9BlriLQyL0E+jbkuePVZXYFj47QM/v093wHg==}
+  /globby/11.1.0:
+    resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
     engines: {node: '>=10'}
     dependencies:
       array-union: 2.1.0
@@ -2463,7 +2462,7 @@ packages:
       debug: 4.3.3
       esbuild: 0.14.10
       execa: 5.1.1
-      globby: 11.0.4
+      globby: 11.1.0
       joycon: 3.1.1
       postcss-load-config: 3.1.1
       resolve-from: 5.0.0
