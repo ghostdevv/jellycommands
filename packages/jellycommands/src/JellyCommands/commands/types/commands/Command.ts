@@ -1,3 +1,6 @@
+import type { APIApplicationCommandOption } from 'discord-api-types/v9';
+import { ApplicationCommandOptionType } from 'discord-api-types/v9';
+import type { ApplicationCommandOptionData } from 'discord.js';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 import { BaseCommand } from '../../base/BaseCommand';
 import type { CommandInteraction } from 'discord.js';
@@ -10,6 +13,20 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         options: CommandOptions,
     ) {
         super(run, { options, schema });
+    }
+
+    static transformCommandOption(option: ApplicationCommandOptionData) {
+        const type =
+            typeof option.type == 'number'
+                ? option.type
+                : ApplicationCommandOptionType[option.type];
+
+        option.type;
+
+        // return {
+        //     ...command,
+        //     type,
+        // };
     }
 
     // @ts-ignore
