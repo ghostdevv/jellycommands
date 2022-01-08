@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
-    "discord-api-types": "^0.25.2",
+    "discord-api-types": "^0.26.1",
     "ghoststools": "^0.6.3",
     "joi": "^17.5.0"
   },

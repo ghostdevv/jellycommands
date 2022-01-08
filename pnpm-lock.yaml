@@ -29,13 +29,13 @@ importers:
   packages/jellycommands:
     specifiers:
       axios: ^0.24.0
-      discord-api-types: ^0.25.2
+      discord-api-types: ^0.26.1
       discord.js: ^13.5.1
       ghoststools: ^0.6.3
       joi: ^17.5.0
     dependencies:
       axios: 0.24.0
-      discord-api-types: 0.25.2
+      discord-api-types: 0.26.1
       ghoststools: 0.6.3
       joi: 17.5.0
     devDependencies:
@@ -819,11 +819,6 @@ packages:
     dependencies:
       path-type: 4.0.0
     dev: true
-
-  /discord-api-types/0.25.2:
-    resolution: {integrity: sha512-O243LXxb5gLLxubu5zgoppYQuolapGVWPw3ll0acN0+O8TnPUE2kFp9Bt3sTRYodw8xFIknOVxjSeyWYBpVcEQ==}
-    engines: {node: '>=12'}
-    dev: false
 
   /discord-api-types/0.26.1:
     resolution: {integrity: sha512-T5PdMQ+Y1MEECYMV5wmyi9VEYPagEDEi4S0amgsszpWY0VB9JJ/hEvM6BgLhbdnKky4gfmZEXtEEtojN8ZKJQQ==}
