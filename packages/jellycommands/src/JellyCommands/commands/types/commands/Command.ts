@@ -7,6 +7,19 @@ import type { CommandInteraction } from 'discord.js';
 import { schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
+enum ApplicationCommandOptionTypes {
+    SUB_COMMAND = 1,
+    SUB_COMMAND_GROUP = 2,
+    STRING = 3,
+    INTEGER = 4,
+    BOOLEAN = 5,
+    USER = 6,
+    CHANNEL = 7,
+    ROLE = 8,
+    MENTIONABLE = 9,
+    NUMBER = 10,
+}
+
 export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
     constructor(
         run: BaseCommand<CommandOptions, CommandInteraction>['run'],
@@ -15,18 +28,23 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         super(run, { options, schema });
     }
 
-    static transformCommandOption(option: ApplicationCommandOptionData) {
-        const type =
+    static transformOption(
+        option: ApplicationCommandOptionData,
+    ): APIApplicationCommandOption {
+        // @ts-ignore
+        const type: ApplicationCommandOptionType =
             typeof option.type == 'number'
                 ? option.type
-                : ApplicationCommandOptionType[option.type];
+                : ApplicationCommandOptionTypes[option.type];
 
-        option.type;
-
-        // return {
-        //     ...command,
-        //     type,
-        // };
+        return {
+            type,
+            name: option.name,
+            description: option.description,
+            autocomplete: option.autocomplete,
+            choices: option.choices,
+            options: option?.options?.map((o) => Command.transformOption(o)),
+        };
     }
 
     // @ts-ignore
@@ -37,6 +55,8 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
 
         // This needs to be transformed to the correct typings
         const options = this.options.options;
+
+        if (options) Command.transformOption(options[0]);
 
         return {
             name: this.options.name,
