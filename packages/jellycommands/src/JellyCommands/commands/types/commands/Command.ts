@@ -1,5 +1,5 @@
 import type { APIApplicationCommandOption } from 'discord-api-types/v9';
-import { ApplicationCommandOptionType } from 'discord-api-types/v9';
+import { APIApplicationCommandBasicOption } from 'discord-api-types/v9';
 import type { ApplicationCommandOptionData } from 'discord.js';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 import { BaseCommand } from '../../base/BaseCommand';
@@ -7,7 +7,7 @@ import type { CommandInteraction } from 'discord.js';
 import { schema, CommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
-enum ApplicationCommandOptionTypes {
+enum ProxyApplicationCommandOptionTypes {
     SUB_COMMAND = 1,
     SUB_COMMAND_GROUP = 2,
     STRING = 3,
@@ -32,14 +32,16 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         const type: number =
             typeof option.type == 'number'
                 ? option.type
-                : ApplicationCommandOptionTypes[option.type];
+                : ProxyApplicationCommandOptionTypes[option.type];
 
-        const data: APIApplicationCommandOption = {
+        const base: APIApplicationCommandBasicOption = {
             type,
             name: option.name,
             description: option.description,
-            autocomplete: option.autocomplete,
         };
+
+        // if (option.type == 'SUB_COMMAND' || option.type == 'SUB_COMMAND_GROUP')
+        //     data.options = option.options?.map(o => Command.transformOption(o))
     }
 
     // @ts-ignore
