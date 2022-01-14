@@ -28,22 +28,17 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         super(run, { options, schema });
     }
 
-    static transformOption(
-        option: ApplicationCommandOptionData,
-    ): APIApplicationCommandOption {
-        // @ts-ignore
-        const type: ApplicationCommandOptionType =
+    static transformOption(option: ApplicationCommandOptionData) {
+        const type: number =
             typeof option.type == 'number'
                 ? option.type
                 : ApplicationCommandOptionTypes[option.type];
 
-        return {
+        const data: APIApplicationCommandOption = {
             type,
             name: option.name,
             description: option.description,
             autocomplete: option.autocomplete,
-            choices: option.choices,
-            options: option?.options?.map((o) => Command.transformOption(o)),
         };
     }
 
