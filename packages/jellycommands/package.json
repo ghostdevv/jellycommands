@@ -22,7 +22,7 @@
     "build": "tsup-node"
   },
   "devDependencies": {
-    "discord.js": "^13.5.1"
+    "discord.js": "^13.6.0"
   },
   "dependencies": {
     "axios": "^0.24.0",
