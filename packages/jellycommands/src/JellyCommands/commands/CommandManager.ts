@@ -168,32 +168,34 @@ export class CommandManager {
         /**
          * Register guild commands
          */
-        for (const [guildId, gcommands] of guildCommands) {
+        for (const [guildId, commands] of guildCommands) {
+            const commandsArray = Array.from(commands);
+
             const res = await request<APIApplicationCommand[]>(
                 'put',
                 Routes.applicationGuildCommands(clientId, guildId),
-                [...gcommands].map((c) => c.applicationCommandData),
+                commandsArray.map((c) => c.applicationCommandData),
             );
 
-            /**
-             * Map returned command ids to their corresponding command
-             */
-            res.forEach((c, i) => ([...gcommands][i].id = c.id));
-        }
-
-        /**
-         * For each guild command set permissions
-         */
-        for (const [guildId, commands] of guildCommands) {
             const permissionData: RESTPutAPIGuildApplicationCommandsPermissionsJSONBody =
                 [];
 
-            for (const command of commands)
-                if (command.applicationCommandPermissions)
+            for (let i = 0; i < res.length; i++) {
+                const command = commandsArray[i];
+                const permissions = command.applicationCommandPermissions;
+
+                const apiCommand = res[i];
+
+                // Set the command id map
+                commandIdMap.set(apiCommand.id, command);
+
+                // Update permissions list
+                if (permissions)
                     permissionData.push({
-                        id: command.id || '',
-                        permissions: command.applicationCommandPermissions,
+                        id: apiCommand.id,
+                        permissions,
                     });
+            }
 
             await request(
                 'put',
