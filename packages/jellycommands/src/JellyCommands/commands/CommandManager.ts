@@ -15,7 +15,7 @@ import type {
 import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'discord-api-types/v9';
 import type { APIApplicationCommand } from 'discord-api-types/v9';
 import type { JellyCommands } from '../JellyCommands';
-import { Interaction } from 'discord.js';
+import type { Interaction } from 'discord.js';
 
 export class CommandManager {
     private client;
