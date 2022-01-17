@@ -12,10 +12,10 @@ import type {
     globalCommands,
 } from '../../types/commands.d';
 
-import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'discord-api-types';
-import type { ApplicationCommand } from '../../types/rawCommands';
+import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'discord-api-types/v9';
+import type { APIApplicationCommand } from 'discord-api-types/v9';
 import type { JellyCommands } from '../JellyCommands';
-import { Interaction } from 'discord.js';
+import type { Interaction } from 'discord.js';
 
 export class CommandManager {
     private client;
@@ -152,7 +152,7 @@ export class CommandManager {
         /**
          * Register global commands
          */
-        const registeredGlobalCommands = await request<ApplicationCommand[]>(
+        const registeredGlobalCommands = await request<APIApplicationCommand[]>(
             'put',
             Routes.applicationCommands(clientId),
             [...globalCommands].map((c) => c.applicationCommandData),
@@ -169,7 +169,7 @@ export class CommandManager {
          * Register guild commands
          */
         for (const [guildId, gcommands] of guildCommands) {
-            const res = await request<ApplicationCommand[]>(
+            const res = await request<APIApplicationCommand[]>(
                 'put',
                 Routes.applicationGuildCommands(clientId, guildId),
                 [...gcommands].map((c) => c.applicationCommandData),
