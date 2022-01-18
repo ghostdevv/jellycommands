@@ -28,9 +28,7 @@ export class CommandManager {
 
         const command = this.commands.get(interaction.commandId);
 
-        /**
-         * If command is not found return - if unknownCommand message send
-         */
+        // If command is not found return - if unknownCommand message send
         if (!command)
             return void (
                 this.client.joptions.messages?.unknownCommand &&
@@ -39,17 +37,13 @@ export class CommandManager {
 
         const options = command.options;
 
-        /**
-         * If defer, defer
-         */
+        // If defer, defer
         if (options.defer)
             await interaction.deferReply(
                 typeof options.defer == 'object' ? options.defer : {},
             );
 
-        /**
-         * Run the command
-         */
+        // Run the command
         command.run({
             client: this.client,
             interaction,
@@ -122,28 +116,23 @@ export class CommandManager {
 
         const commandIdMap: CommandIDMap = new Map();
 
-        /**
-         * Register global commands
-         */
+        // Register global commands
         const registeredGlobalCommands = await request<APIApplicationCommand[]>(
             'put',
             Routes.applicationCommands(clientId),
             globalCommands.map((c) => c.applicationCommandData),
         );
 
-        /**
-         * Map returned command ids to their corresponding command
-         */
+        // Map returned command ids to their corresponding command
         registeredGlobalCommands.forEach((command, i) =>
             commandIdMap.set(command.id, globalCommands[i]),
         );
 
-        /**
-         * Register guild commands
-         */
+        // Loop over each guild
         for (const [guildId, commands] of guildCommands) {
             const commandsArray = Array.from(commands);
 
+            // Register commands for the guild
             const res = await request<APIApplicationCommand[]>(
                 'put',
                 Routes.applicationGuildCommands(clientId, guildId),
