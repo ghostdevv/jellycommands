@@ -63,31 +63,24 @@ export class CommandManager {
             const command = await readJSFile<BaseCommand>(path);
             if (command.options?.disabled) continue;
 
+            // Add command to command list
             commands.set(path, command);
 
-            /**
-             * If in dev mode update guilds
-             */
+            // If in dev mode update guilds
             if (command.options?.dev)
                 command.options.guilds = [
                     ...(command.options?.guilds || []),
                     ...devGuilds,
                 ];
 
-            /**
-             * Set the command path
-             */
+            // Set the command path
             command.filePath = path;
 
-            /**
-             * If global and not in dev mode add to global
-             */
+            // If global and not in dev mode add to global
             if (command.options?.global && !command.options.dev)
                 globalCommands.add(command);
 
-            /**
-             * If the command is not global set to guild commands
-             */
+            // If the command is not global set to guild commands
             if (command.options?.guilds && !command.options?.global)
                 for (const guildId of command.options.guilds) {
                     const existing =
