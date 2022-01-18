@@ -1,27 +1,24 @@
 import { readJSFile, readFiles } from '../../util/fs';
 import { createRequest } from '../../util/request';
 import { BaseCommand } from './base/BaseCommand';
-import { CommandCache } from './CommandCache';
-import { CommandIdMap } from './CommandIdMap';
 import { Routes } from 'discord-api-types/v9';
-
-import type {
-    commandsList,
-    guildCommands,
-    commandIdMap,
-    globalCommands,
-} from '../../types/commands.d';
 
 import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'discord-api-types/v9';
 import type { APIApplicationCommand } from 'discord-api-types/v9';
 import type { JellyCommands } from '../JellyCommands';
 import type { Interaction } from 'discord.js';
 
+export type CommandIDMap = Map<string, BaseCommand>;
+export type CommandMap = Map<string, BaseCommand>;
+
+export type GlobalCommands = BaseCommand[];
+export type GuildCommandsMap = Map<string, Set<BaseCommand>>;
+
 export class CommandManager {
     private client;
     private commands;
 
-    constructor(client: JellyCommands, commands: commandIdMap) {
+    constructor(client: JellyCommands, commands: CommandIDMap) {
         this.client = client;
         this.commands = commands;
     }
@@ -59,17 +56,20 @@ export class CommandManager {
         });
     }
 
-    static async getCommandFiles(
+    static async readCommands(
         paths: string | string[],
         devGuilds: string[] = [],
     ) {
-        const guildCommands: guildCommands = new Map();
-        const globalCommands: globalCommands = new Set();
-        const commandsList: commandsList = new Set();
+        const commands: CommandMap = new Map();
 
-        for (const file of readFiles(paths)) {
-            const command = await readJSFile<BaseCommand>(file);
+        const guildCommands: GuildCommandsMap = new Map();
+        const globalCommands = new Set<BaseCommand>();
+
+        for (const path of readFiles(paths)) {
+            const command = await readJSFile<BaseCommand>(path);
             if (command.options?.disabled) continue;
+
+            commands.set(path, command);
 
             /**
              * If in dev mode update guilds
@@ -83,7 +83,7 @@ export class CommandManager {
             /**
              * Set the command path
              */
-            command.filePath = file;
+            command.filePath = path;
 
             /**
              * If global and not in dev mode add to global
@@ -96,58 +96,31 @@ export class CommandManager {
              */
             if (command.options?.guilds && !command.options?.global)
                 for (const guildId of command.options.guilds) {
-                    const existing: commandsList =
-                        guildCommands.get(guildId) || new Set();
+                    const existing =
+                        guildCommands.get(guildId) || new Set<BaseCommand>();
 
                     existing.add(command);
 
                     guildCommands.set(guildId, existing);
                 }
-
-            /**
-             * Add to main commandlist
-             */
-            commandsList.add(command);
         }
 
         return {
             guildCommands,
-            globalCommands,
-            commandsList,
+            globalCommands: Array.from(globalCommands) as GlobalCommands,
+            commands,
         };
     }
 
-    static toCommandsMap(commandsList: commandsList) {
-        const commandsMap: commandIdMap = new Map();
-
-        for (const command of commandsList)
-            commandsMap.set(command.id || '', command);
-
-        return commandsMap;
-    }
-
-    static async create(client: JellyCommands, paths: string | string[]) {
+    static async registerCommands(
+        client: JellyCommands,
+        globalCommands: GlobalCommands,
+        guildCommands: GuildCommandsMap,
+    ): Promise<CommandIDMap> {
         const { clientId, token } = client.getAuthDetails();
         const request = createRequest(token);
-        const cache = new CommandCache();
-        const idMap = new CommandIdMap();
 
-        const { guildCommands, globalCommands, commandsList } =
-            await CommandManager.getCommandFiles(
-                paths,
-                client.joptions.dev?.guilds,
-            );
-
-        if (client.joptions.cache) {
-            client.debug('Loading Cache');
-
-            if (cache.validate({ guildCommands, globalCommands })) {
-                client.debug('Cache is valid');
-
-                const commandMap = idMap.get(commandsList);
-                return new CommandManager(client, commandMap);
-            }
-        }
+        const commandIdMap: CommandIDMap = new Map();
 
         /**
          * Register global commands
@@ -155,14 +128,14 @@ export class CommandManager {
         const registeredGlobalCommands = await request<APIApplicationCommand[]>(
             'put',
             Routes.applicationCommands(clientId),
-            [...globalCommands].map((c) => c.applicationCommandData),
+            globalCommands.map((c) => c.applicationCommandData),
         );
 
         /**
          * Map returned command ids to their corresponding command
          */
-        registeredGlobalCommands.forEach(
-            (c, i) => ([...globalCommands][i].id = c.id),
+        registeredGlobalCommands.forEach((command, i) =>
+            commandIdMap.set(command.id, globalCommands[i]),
         );
 
         /**
@@ -182,12 +155,12 @@ export class CommandManager {
 
             for (let i = 0; i < res.length; i++) {
                 const command = commandsArray[i];
-                const permissions = command.applicationCommandPermissions;
-
                 const apiCommand = res[i];
 
                 // Set the command id map
                 commandIdMap.set(apiCommand.id, command);
+
+                const permissions = command.applicationCommandPermissions;
 
                 // Update permissions list
                 if (permissions)
@@ -197,6 +170,7 @@ export class CommandManager {
                     });
             }
 
+            // Set the permissions
             await request(
                 'put',
                 Routes.guildApplicationCommandsPermissions(clientId, guildId),
@@ -204,20 +178,46 @@ export class CommandManager {
             );
         }
 
+        return commandIdMap;
+    }
+
+    static async create(client: JellyCommands, paths: string | string[]) {
+        const { guildCommands, globalCommands, commands } =
+            await CommandManager.readCommands(
+                paths,
+                client.joptions.dev?.guilds,
+            );
+
+        // If cache is enabled, check it
+        if (client.joptions.cache) {
+            client.debug('Loading Cache');
+
+            // if (cache.validate({ guildCommands, globalCommands })) {
+            //     client.debug('Cache is valid');
+
+            //     const commandMap = idMap.get(commandsList);
+            //     return new CommandManager(client, commandMap);
+            // }
+        }
+
+        // Register the commands against discord api
+        const commandIdMap = await CommandManager.registerCommands(
+            client,
+            globalCommands,
+            guildCommands,
+        );
+
         /**
          * Update the cache & id map
          */
         if (client.joptions.cache) {
-            cache.set({ guildCommands, globalCommands });
-            idMap.set(commandsList);
+            // cache.set({ guildCommands, globalCommands });
+            // idMap.set(commandsList);
 
             client.debug('Cache has been updated');
             client.debug('Id Map has been updated');
         }
 
-        return new CommandManager(
-            client,
-            CommandManager.toCommandsMap(commandsList),
-        );
+        return new CommandManager(client, commandIdMap);
     }
 }
