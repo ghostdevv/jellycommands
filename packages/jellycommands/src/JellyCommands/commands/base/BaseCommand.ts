@@ -1,7 +1,6 @@
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v9';
 import type { APIApplicationCommandPermission } from 'discord-api-types/v9';
 import { ApplicationCommandPermissionType } from 'discord-api-types/v9';
-import type { CacheableCommand } from '../../../types/commandCache';
 import type { JellyCommands } from '../../JellyCommands';
 import type { Interaction } from 'discord.js';
 import { BaseOptions } from './options';
@@ -96,12 +95,5 @@ export abstract class BaseCommand<
             );
 
         return permissions.flat();
-    }
-
-    toCachable(): CacheableCommand {
-        return {
-            options: this.options,
-            filePath: this.filePath as string,
-        };
     }
 }
