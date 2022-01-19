@@ -15,7 +15,8 @@
         "dev-build": "pnpm -r dev --parallel --filter \\!dev",
         "dev-dev": "pnpm -r dev --parallel --filter dev",
         "build": "pnpm -r build",
-        "publish": "pnpm build && pnpm publish -r --access public --tag=next"
+        "publish": "pnpm build && pnpm publish -r --access public --tag=next",
+        "release": "pnpm build && pnpm publish -r --access public --tag=next"
     },
     "engines": {
         "pnpm": "^6.7.0",
