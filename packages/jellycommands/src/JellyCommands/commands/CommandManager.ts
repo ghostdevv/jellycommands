@@ -1,18 +1,18 @@
+import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'discord-api-types/v9';
+import { CommandCache, CommandIdResolver } from './CommandPersistance';
+import type { APIApplicationCommand } from 'discord-api-types/v9';
+import type { JellyCommands } from '../JellyCommands';
 import { readJSFile, readFiles } from '../../util/fs';
 import { createRequest } from '../../util/request';
 import { BaseCommand } from './base/BaseCommand';
-import { Routes } from 'discord-api-types/v9';
-
-import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'discord-api-types/v9';
-import type { APIApplicationCommand } from 'discord-api-types/v9';
-import type { JellyCommands } from '../JellyCommands';
 import type { Interaction } from 'discord.js';
+import { Routes } from 'discord-api-types/v9';
 
 export type CommandIDMap = Map<string, BaseCommand>;
 export type CommandMap = Map<string, BaseCommand>;
 
 export type GlobalCommands = BaseCommand[];
-export type GuildCommandsMap = Map<string, Set<BaseCommand>>;
+export type GuildCommandsMap = Map<string, BaseCommand[]>;
 
 export class CommandManager {
     private client;
@@ -53,10 +53,14 @@ export class CommandManager {
     static async readCommands(
         paths: string | string[],
         devGuilds: string[] = [],
-    ) {
+    ): Promise<{
+        commands: CommandMap;
+        globalCommands: GlobalCommands;
+        guildCommands: GuildCommandsMap;
+    }> {
         const commands: CommandMap = new Map();
 
-        const guildCommands: GuildCommandsMap = new Map();
+        const guildCommands = new Map<string, Set<BaseCommand>>();
         const globalCommands = new Set<BaseCommand>();
 
         for (const path of readFiles(paths)) {
@@ -64,7 +68,7 @@ export class CommandManager {
             if (command.options?.disabled) continue;
 
             // Add command to command list
-            commands.set(path, command);
+            commands.set(command.hashId, command);
 
             // If in dev mode update guilds
             if (command.options?.dev)
@@ -72,9 +76,6 @@ export class CommandManager {
                     ...(command.options?.guilds || []),
                     ...devGuilds,
                 ];
-
-            // Set the command path
-            command.filePath = path;
 
             // If global and not in dev mode add to global
             if (command.options?.global && !command.options.dev)
@@ -92,9 +93,14 @@ export class CommandManager {
                 }
         }
 
+        const guildCommandsMap: GuildCommandsMap = new Map();
+
+        for (const [guildId, commands] of guildCommands)
+            guildCommandsMap.set(guildId, Array.from(commands));
+
         return {
-            guildCommands,
-            globalCommands: Array.from(globalCommands) as GlobalCommands,
+            guildCommands: guildCommandsMap,
+            globalCommands: Array.from(globalCommands),
             commands,
         };
     }
@@ -123,20 +129,18 @@ export class CommandManager {
 
         // Loop over each guild
         for (const [guildId, commands] of guildCommands) {
-            const commandsArray = Array.from(commands);
-
             // Register commands for the guild
             const res = await request<APIApplicationCommand[]>(
                 'put',
                 Routes.applicationGuildCommands(clientId, guildId),
-                commandsArray.map((c) => c.applicationCommandData),
+                commands.map((c) => c.applicationCommandData),
             );
 
             const permissionData: RESTPutAPIGuildApplicationCommandsPermissionsJSONBody =
                 [];
 
             for (let i = 0; i < res.length; i++) {
-                const command = commandsArray[i];
+                const command = commands[i];
                 const apiCommand = res[i];
 
                 // Set the command id map
@@ -174,12 +178,24 @@ export class CommandManager {
         if (client.joptions.cache) {
             client.debug('Loading Cache');
 
-            // if (cache.validate({ guildCommands, globalCommands })) {
-            //     client.debug('Cache is valid');
+            const idResolver = new CommandIdResolver();
+            const cache = new CommandCache();
 
-            //     const commandMap = idMap.get(commandsList);
-            //     return new CommandManager(client, commandMap);
-            // }
+            if (cache.validate(commands)) {
+                client.debug('Cache is valid');
+
+                // Attempt to resolve command map
+                const commandMap = idResolver.get(commands);
+
+                // Only return a new command manager if id resolution was a success
+                if (commandMap) {
+                    client.debug('Id resolution success');
+                    return new CommandManager(client, commandMap);
+                }
+
+                // This will only run if a CommandManager isn't returned above
+                client.debug('Id Resolver failed, reregistering commands');
+            }
         }
 
         // Register the commands against discord api
@@ -189,15 +205,16 @@ export class CommandManager {
             guildCommands,
         );
 
-        /**
-         * Update the cache & id map
-         */
+        // Update command cache and idResovler
         if (client.joptions.cache) {
-            // cache.set({ guildCommands, globalCommands });
-            // idMap.set(commandsList);
+            const idResolver = new CommandIdResolver();
+            const cache = new CommandCache();
 
             client.debug('Cache has been updated');
+            cache.set(commands);
+
             client.debug('Id Map has been updated');
+            idResolver.set(commandIdMap);
         }
 
         return new CommandManager(client, commandIdMap);
