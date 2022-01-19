@@ -1,10 +1,10 @@
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v9';
 import type { APIApplicationCommandPermission } from 'discord-api-types/v9';
 import { ApplicationCommandPermissionType } from 'discord-api-types/v9';
-import type { CacheableCommand } from '../../../types/commandCache';
 import type { JellyCommands } from '../../JellyCommands';
 import type { Interaction } from 'discord.js';
 import { BaseOptions } from './options';
+import { createHash } from 'crypto';
 import Joi from 'joi';
 
 export interface RunOptions<InteractionType extends Interaction> {
@@ -23,9 +23,6 @@ export abstract class BaseCommand<
 > {
     public readonly options;
     public readonly run: ({}: RunOptions<InteractionType>) => void | any;
-
-    public id?: string;
-    public filePath?: string;
 
     constructor(
         run: BaseCommand<OptionsType, InteractionType>['run'],
@@ -98,10 +95,9 @@ export abstract class BaseCommand<
         return permissions.flat();
     }
 
-    toCachable(): CacheableCommand {
-        return {
-            options: this.options,
-            filePath: this.filePath as string,
-        };
+    get hashId() {
+        return createHash('sha256')
+            .update(JSON.stringify(this.options))
+            .digest('hex');
     }
 }
