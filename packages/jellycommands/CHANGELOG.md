@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.17
+
+### Patch Changes
+
+-   e42af01: this is a rerelease of last version, check changelog there
+
 ## 1.0.0-next.16
 
 ### Patch Changes
