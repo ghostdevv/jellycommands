@@ -96,7 +96,7 @@ export abstract class BaseCommand<
     }
 
     get hashId() {
-        return createHash('sha1')
+        return createHash('sha256')
             .update(JSON.stringify(this.options))
             .digest('hex');
     }
