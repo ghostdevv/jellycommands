@@ -5,13 +5,13 @@ importers:
   .:
     specifiers:
       '@changesets/cli': ^2.19.0
-      '@types/node': ^16.11.20
+      '@types/node': ^16.11.21
       nodemon: ^2.0.15
       tsup: ^5.11.11
       typescript: ^4.5.4
     devDependencies:
       '@changesets/cli': 2.19.0
-      '@types/node': 16.11.20
+      '@types/node': 16.11.21
       nodemon: 2.0.15
       tsup: 5.11.11_typescript@4.5.4
       typescript: 4.5.4
@@ -47,7 +47,7 @@ packages:
     resolution: {integrity: sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/highlight': 7.16.7
+      '@babel/highlight': 7.16.10
     dev: true
 
   /@babel/helper-validator-identifier/7.16.7:
@@ -55,8 +55,8 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /@babel/highlight/7.16.7:
-    resolution: {integrity: sha512-aKpPMfLvGO3Q97V0qhw/V2SWNWlwfJknuwAunU7wZLSfrM4xTBvg7E5opUVi1kJTBKihE38CPg4nBiqX83PWYw==}
+  /@babel/highlight/7.16.10:
+    resolution: {integrity: sha512-5FnTQLSLswEj6IkgVw5KusNUUFY9ZGqe/TRFnP/BKYHYgfh7tc+C7mwiy95/yNP7Dh9x580Vv8r7u7ZfTBFxdw==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/helper-validator-identifier': 7.16.7
@@ -361,8 +361,8 @@ packages:
     resolution: {integrity: sha512-aI3/oo5DzyiI5R/xAhxxRzfZlWlsbbqdgxfTPkqu/Zt+23GXiJvMCyPJT4+xKSXOnLqoL8jJYMLTwvK2M3a5hw==}
     dev: true
 
-  /@types/node/16.11.20:
-    resolution: {integrity: sha512-lAKaZ0Lc1Umwd0AqLr6iy5U8u/1DpK7/JzNgQn9cMMUk2mFR8bbhEP8BQrI9Cm5CU0bOVCaWbkGBvgqKMOJHsw==}
+  /@types/node/16.11.21:
+    resolution: {integrity: sha512-Pf8M1XD9i1ksZEcCP8vuSNwooJ/bZapNmIzpmsMaL+jMI+8mEYU3PKvs+xDNuQcJWF/x24WzY4qxLtB0zNow9A==}
     dev: true
 
   /@types/node/17.0.9:
@@ -607,8 +607,8 @@ packages:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
     dev: true
 
-  /chokidar/3.5.2:
-    resolution: {integrity: sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ==}
+  /chokidar/3.5.3:
+    resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
     engines: {node: '>= 8.10.0'}
     dependencies:
       anymatch: 3.1.2
@@ -1777,7 +1777,7 @@ packages:
     hasBin: true
     requiresBuild: true
     dependencies:
-      chokidar: 3.5.2
+      chokidar: 3.5.3
       debug: 3.2.7
       ignore-by-default: 1.0.1
       minimatch: 3.0.4
@@ -2464,7 +2464,7 @@ packages:
     dependencies:
       bundle-require: 2.2.0_esbuild@0.14.11
       cac: 6.7.12
-      chokidar: 3.5.2
+      chokidar: 3.5.3
       debug: 4.3.3
       esbuild: 0.14.11
       execa: 5.1.1
