@@ -198,7 +198,7 @@ export class CommandManager {
 
                 // This will only run if a CommandManager isn't returned above
                 client.debug('Id Resolver failed, reregistering commands');
-            }
+            } else client.debug('Cache is invalid, registering commands');
         }
 
         // Register the commands against discord api
