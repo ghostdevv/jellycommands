@@ -57,8 +57,6 @@ export class JellyCommands extends Client {
     async login(potentialToken?: string) {
         if (potentialToken) this.token = this.cleanToken(potentialToken);
 
-        const { token } = this.getAuthDetails();
-
         if (this.joptions.commands) {
             const commandIdMap = await CommandManager.createCommandIdMap(
                 this,
@@ -78,6 +76,7 @@ export class JellyCommands extends Client {
         if (this.joptions?.events)
             await EventManager.loadEvents(this, this.joptions.events);
 
+        const { token } = this.getAuthDetails();
         return super.login(token);
     }
 
