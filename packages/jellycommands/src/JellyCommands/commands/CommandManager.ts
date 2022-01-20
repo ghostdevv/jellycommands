@@ -167,7 +167,10 @@ export class CommandManager {
         return commandIdMap;
     }
 
-    static async create(client: JellyCommands, paths: string | string[]) {
+    static async createCommandIdMap(
+        client: JellyCommands,
+        paths: string | string[],
+    ): Promise<CommandIDMap> {
         const { guildCommands, globalCommands, commands } =
             await CommandManager.readCommands(
                 paths,
@@ -185,12 +188,12 @@ export class CommandManager {
                 client.debug('Cache is valid');
 
                 // Attempt to resolve command map
-                const commandMap = idResolver.get(commands);
+                const commandIdMap = idResolver.get(commands);
 
                 // Only return a new command manager if id resolution was a success
-                if (commandMap) {
+                if (commandIdMap) {
                     client.debug('Id resolution success');
-                    return new CommandManager(client, commandMap);
+                    return commandIdMap;
                 }
 
                 // This will only run if a CommandManager isn't returned above
@@ -217,6 +220,6 @@ export class CommandManager {
             idResolver.set(commandIdMap);
         }
 
-        return new CommandManager(client, commandIdMap);
+        return commandIdMap;
     }
 }

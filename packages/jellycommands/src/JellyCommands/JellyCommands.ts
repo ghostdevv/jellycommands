@@ -60,12 +60,19 @@ export class JellyCommands extends Client {
         const { token } = this.getAuthDetails();
 
         if (this.joptions.commands) {
-            const commandManager = await CommandManager.create(
+            const commandIdMap = await CommandManager.createCommandIdMap(
                 this,
                 this.joptions.commands,
             );
 
-            this.on('interactionCreate', (i) => commandManager.respond(i));
+            const commandManager = new CommandManager(this, commandIdMap);
+
+            this.on('interactionCreate', (i) => {
+                this.debug(`Interaction Recieved: ${i.id} | ${i.type}`);
+
+                // Tell command manager to respond to this
+                commandManager.respond(i);
+            });
         }
 
         if (this.joptions?.events)
