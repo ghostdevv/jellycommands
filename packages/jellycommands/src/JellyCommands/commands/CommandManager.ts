@@ -52,7 +52,7 @@ export class CommandManager {
 
     static async readCommands(
         paths: string | string[],
-        devGuilds: string[] = [],
+        client: JellyCommands,
     ): Promise<{
         commands: CommandMap;
         globalCommands: GlobalCommands;
@@ -67,18 +67,24 @@ export class CommandManager {
             const command = await readJSFile<BaseCommand>(path);
             if (command.options?.disabled) continue;
 
+            // Dev mode is either global or set per command
+            const devMode = client.joptions.dev?.global || command.options.dev;
+
+            // The guilds that dev mode is registered in
+            const devGuilds = client.joptions.dev?.guilds || [];
+
             // Add command to command list
             commands.set(command.hashId, command);
 
             // If in dev mode update guilds
-            if (command.options?.dev)
+            if (devMode)
                 command.options.guilds = [
                     ...(command.options?.guilds || []),
                     ...devGuilds,
                 ];
 
             // If global and not in dev mode add to global
-            if (command.options?.global && !command.options.dev)
+            if (command.options?.global && !devMode)
                 globalCommands.add(command);
 
             // If the command is not global set to guild commands
@@ -172,10 +178,9 @@ export class CommandManager {
         paths: string | string[],
     ): Promise<CommandIDMap> {
         const { guildCommands, globalCommands, commands } =
-            await CommandManager.readCommands(
-                paths,
-                client.joptions.dev?.guilds,
-            );
+            await CommandManager.readCommands(paths, client);
+
+        console.log(globalCommands);
 
         // If cache is enabled, check it
         if (client.joptions.cache) {
