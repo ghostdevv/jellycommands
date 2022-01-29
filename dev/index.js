@@ -1,10 +1,11 @@
 import 'dotenv/config.js';
-import { JellyCommands } from 'jellycommands';
+import { JellyCommands, loadCommands, loadEvents } from 'jellycommands';
 import { Intents } from 'discord.js';
+import pog from './commands/pog.js';
 
 const client = new JellyCommands({
-    commands: 'commands',
-    events: 'events',
+    commands: [pog, ...(await loadCommands('commands'))],
+    events: await loadEvents('events'),
 
     clientOptions: {
         intents: [Intents.FLAGS.GUILDS],

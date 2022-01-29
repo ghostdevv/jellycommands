@@ -20,3 +20,6 @@ export type { UserCommandOptions } from './JellyCommands/commands/types/userComm
 // Export event related
 export { event, Event } from './JellyCommands/events/Event';
 export type { EventOptions } from './JellyCommands/events/options';
+
+// Export helpers
+export {loadEvents, loadCommands} from "./util/loaders.js";
