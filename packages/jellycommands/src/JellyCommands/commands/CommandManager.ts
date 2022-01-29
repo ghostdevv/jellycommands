@@ -65,30 +65,39 @@ export class CommandManager {
 
         for (const path of readFiles(paths)) {
             const command = await readJSFile<BaseCommand>(path);
+
+            // Skip this command if it's disabled
             if (command.options?.disabled) continue;
 
-            // Dev mode is either global or set per command
+            // Dev mode is either per command or global
             const devMode = client.joptions.dev?.global || command.options.dev;
 
-            // The guilds that dev mode is registered in
+            // All the guilds that dev commands should be registered in
             const devGuilds = client.joptions.dev?.guilds || [];
 
-            // Add command to command list
-            commands.set(command.hashId, command);
+            // Enable dev if global dev or local dev mode is on
+            if (devMode) {
+                // Set dev mode on the command itself
+                command.options.dev = true;
 
-            // If in dev mode update guilds
-            if (devMode)
+                // Global needs to be disabled if in dev mode
+                command.options.global = false;
+
+                // Update the guilds
                 command.options.guilds = [
                     ...(command.options?.guilds || []),
                     ...devGuilds,
                 ];
+            }
 
-            // If global and not in dev mode add to global
-            if (command.options?.global && !devMode)
-                globalCommands.add(command);
+            // Add command to command list
+            commands.set(command.hashId, command);
 
-            // If the command is not global set to guild commands
-            if (command.options?.guilds && !command.options?.global)
+            // If global add it to global commands
+            if (command.options?.global) globalCommands.add(command);
+
+            // If has guilds loop over them and add to guild commands
+            if (command.options?.guilds)
                 for (const guildId of command.options.guilds) {
                     const existing =
                         guildCommands.get(guildId) || new Set<BaseCommand>();
