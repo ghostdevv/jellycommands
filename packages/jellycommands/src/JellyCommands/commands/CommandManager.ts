@@ -180,8 +180,6 @@ export class CommandManager {
         const { guildCommands, globalCommands, commands } =
             await CommandManager.readCommands(paths, client);
 
-        console.log(globalCommands);
-
         // If cache is enabled, check it
         if (client.joptions.cache) {
             client.debug('Loading Cache');
