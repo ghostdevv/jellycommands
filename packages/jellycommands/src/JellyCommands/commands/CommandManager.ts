@@ -51,7 +51,7 @@ export class CommandManager {
     }
 
     static async readCommands(
-        paths: string | string[],
+        _commands: BaseCommand[],
         client: JellyCommands,
     ): Promise<{
         commands: CommandMap;
@@ -63,9 +63,7 @@ export class CommandManager {
         const guildCommands = new Map<string, Set<BaseCommand>>();
         const globalCommands = new Set<BaseCommand>();
 
-        for (const path of readFiles(paths)) {
-            const command = await readJSFile<BaseCommand>(path);
-
+        for (const command of _commands) {
             // Skip this command if it's disabled
             if (command.options?.disabled) continue;
 
@@ -184,10 +182,10 @@ export class CommandManager {
 
     static async createCommandIdMap(
         client: JellyCommands,
-        paths: string | string[],
+        _commands: BaseCommand[],
     ): Promise<CommandIDMap> {
         const { guildCommands, globalCommands, commands } =
-            await CommandManager.readCommands(paths, client);
+            await CommandManager.readCommands(_commands, client);
 
         // If cache is enabled, check it
         if (client.joptions.cache) {

@@ -32,7 +32,7 @@ export abstract class BaseCommand<
 
         if (!run || typeof run != 'function')
             throw new TypeError(
-                `Expected type function for run, recieved ${typeof run}`,
+                `Expected type function for run, received ${typeof run}`,
             );
 
         const { error, value } = schema.validate(options);
