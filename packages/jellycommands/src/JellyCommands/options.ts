@@ -24,6 +24,7 @@ export const schema = Joi.object({
     }).default(),
 
     dev: Joi.object({
+        global: Joi.bool().default(false),
         guilds: snowflakeArray(),
     }).default(),
 
@@ -67,6 +68,11 @@ export interface JellyCommandsOptions {
      * Developer mode options
      */
     dev?: {
+        /**
+         * Should dev mode be enabled globally?
+         */
+        global?: boolean;
+
         /**
          * The guilds to run dev mode commands in
          */

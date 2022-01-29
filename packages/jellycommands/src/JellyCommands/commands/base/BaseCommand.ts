@@ -59,9 +59,6 @@ export abstract class BaseCommand<
                 'If using guards on a global command you must have a guilds array, guards can only be applied to guilds',
             );
         }
-
-        // Disable global in dev mode
-        if (this.options.dev) this.options.global = false;
     }
 
     abstract get applicationCommandData(): RESTPostAPIApplicationCommandsJSONBody;

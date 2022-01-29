@@ -52,7 +52,7 @@ export class CommandManager {
 
     static async readCommands(
         paths: string | string[],
-        devGuilds: string[] = [],
+        client: JellyCommands,
     ): Promise<{
         commands: CommandMap;
         globalCommands: GlobalCommands;
@@ -65,24 +65,39 @@ export class CommandManager {
 
         for (const path of readFiles(paths)) {
             const command = await readJSFile<BaseCommand>(path);
+
+            // Skip this command if it's disabled
             if (command.options?.disabled) continue;
 
-            // Add command to command list
-            commands.set(command.hashId, command);
+            // Dev mode is either per command or global
+            const devMode = client.joptions.dev?.global || command.options.dev;
 
-            // If in dev mode update guilds
-            if (command.options?.dev)
+            // All the guilds that dev commands should be registered in
+            const devGuilds = client.joptions.dev?.guilds || [];
+
+            // Enable dev if global dev or local dev mode is on
+            if (devMode) {
+                // Set dev mode on the command itself
+                command.options.dev = true;
+
+                // Global needs to be disabled if in dev mode
+                command.options.global = false;
+
+                // Update the guilds
                 command.options.guilds = [
                     ...(command.options?.guilds || []),
                     ...devGuilds,
                 ];
+            }
 
-            // If global and not in dev mode add to global
-            if (command.options?.global && !command.options.dev)
-                globalCommands.add(command);
+            // Add command to command list
+            commands.set(command.hashId, command);
 
-            // If the command is not global set to guild commands
-            if (command.options?.guilds && !command.options?.global)
+            // If global add it to global commands
+            if (command.options?.global) globalCommands.add(command);
+
+            // If has guilds loop over them and add to guild commands
+            if (command.options?.guilds)
                 for (const guildId of command.options.guilds) {
                     const existing =
                         guildCommands.get(guildId) || new Set<BaseCommand>();
@@ -167,12 +182,12 @@ export class CommandManager {
         return commandIdMap;
     }
 
-    static async create(client: JellyCommands, paths: string | string[]) {
+    static async createCommandIdMap(
+        client: JellyCommands,
+        paths: string | string[],
+    ): Promise<CommandIDMap> {
         const { guildCommands, globalCommands, commands } =
-            await CommandManager.readCommands(
-                paths,
-                client.joptions.dev?.guilds,
-            );
+            await CommandManager.readCommands(paths, client);
 
         // If cache is enabled, check it
         if (client.joptions.cache) {
@@ -185,17 +200,17 @@ export class CommandManager {
                 client.debug('Cache is valid');
 
                 // Attempt to resolve command map
-                const commandMap = idResolver.get(commands);
+                const commandIdMap = idResolver.get(commands);
 
                 // Only return a new command manager if id resolution was a success
-                if (commandMap) {
+                if (commandIdMap) {
                     client.debug('Id resolution success');
-                    return new CommandManager(client, commandMap);
+                    return commandIdMap;
                 }
 
                 // This will only run if a CommandManager isn't returned above
                 client.debug('Id Resolver failed, reregistering commands');
-            }
+            } else client.debug('Cache is invalid, registering commands');
         }
 
         // Register the commands against discord api
@@ -217,6 +232,6 @@ export class CommandManager {
             idResolver.set(commandIdMap);
         }
 
-        return new CommandManager(client, commandIdMap);
+        return commandIdMap;
     }
 }

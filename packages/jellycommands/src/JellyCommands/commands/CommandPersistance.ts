@@ -1,6 +1,5 @@
 import type { CommandIDMap, CommandMap } from './CommandManager';
 import { Cache } from '../structures/Cache';
-import { deepEqual } from 'assert';
 
 export interface CommandCacheData {
     ids: string[];
@@ -23,12 +22,19 @@ export class CommandCache {
         const cacheData = this.cache.get<CommandCacheData>();
         if (!cacheData) return false;
 
-        try {
-            deepEqual(cacheData.ids, this.commandHashIds(commands));
-            return true;
-        } catch (e) {
-            return false;
-        }
+        const newIds = this.commandHashIds(commands);
+        const { ids } = cacheData;
+
+        // If ids are invalid then nope out
+        if (!ids || !Array.isArray(ids)) return false;
+
+        // If the lengths aren't the same then they can't possibly be equal
+        if (newIds.length != ids.length) return false;
+
+        // If a id in newIds doesn't exist in the cache then exit
+        for (const id of newIds) if (!ids.includes(id)) return false;
+
+        return true;
     }
 }
 
