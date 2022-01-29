@@ -10,13 +10,8 @@ const client = new JellyCommands({
         intents: [Intents.FLAGS.GUILDS],
     },
 
-    messages: {
-        unknownCommand: {
-            embeds: [{ description: 'Unknown Command', color: 'RANDOM' }],
-        },
-    },
-
     dev: {
+        global: true,
         guilds: ['663140687591768074'],
     },
 
