@@ -4,9 +4,7 @@ import { Event } from '../JellyCommands/events/Event.js';
 import { readFiles, readJSFile } from './fs.js';
 
 export async function loadCommands(paths: string | string[]) {
-    return Promise.all(
-        readFiles(paths).map<Promise<UserProvidedCommand>>(readJSFile),
-    );
+    return Promise.all(readFiles(paths).map<Promise<BaseCommand>>(readJSFile));
 }
 
 export async function loadEvents(paths: string | string[]) {
@@ -16,11 +14,7 @@ export async function loadEvents(paths: string | string[]) {
 }
 
 /**
- * @todo get rid of these
- */
-export type UserProvidedCommand = BaseCommand;
-/**
- * @todo get rid of these
+ * @todo get rid of this
  */
 export type UserProvidedEvent = InstanceType<typeof Event>;
 

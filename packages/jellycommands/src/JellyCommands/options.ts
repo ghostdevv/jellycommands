@@ -5,9 +5,9 @@ import Joi from 'joi';
 import {
     arrayOfCommands,
     arrayOfEvents,
-    UserProvidedCommand,
     UserProvidedEvent,
 } from '../util/loaders.js';
+import { BaseCommand } from './commands/base/BaseCommand.js';
 
 export const schema = Joi.object({
     commands: arrayOfCommands(),
@@ -43,7 +43,7 @@ export interface JellyCommandsOptions {
     /**
      * Array of commands
      */
-    commands?: UserProvidedCommand[];
+    commands?: BaseCommand[];
 
     /**
      * Array of events
