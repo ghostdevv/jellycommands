@@ -2,7 +2,6 @@ import Joi from 'joi';
 import { BaseCommand } from '../JellyCommands/commands/base/BaseCommand.js';
 import { Event } from '../JellyCommands/events/Event.js';
 import { readFiles, readJSFile } from './fs.js';
-import { pathsSchema } from './joi.js';
 
 export async function loadCommands(
     commandsOrPaths: string | Array<string | BaseCommand>,
@@ -14,10 +13,10 @@ export async function loadCommands(
     let _commands: BaseCommand[] = [];
 
     for (const command of commandsOrPaths) {
-        if (isCommand().validate(command)) {
-            _commands.push(command as BaseCommand);
-        } else {
+        if (isCommand().validate(command).error) {
             _commands.push(...(await loadThing<BaseCommand>(command)));
+        } else {
+            _commands.push(command as BaseCommand);
         }
     }
 
@@ -34,10 +33,10 @@ export async function loadEvents(
     let _events: UserProvidedEvent[] = [];
 
     for (const event of eventsOrPaths) {
-        if (isEvent().validate(event)) {
-            _events.push(event as UserProvidedEvent);
-        } else {
+        if (isEvent().validate(event).error) {
             _events.push(...(await loadThing<UserProvidedEvent>(event)));
+        } else {
+            _events.push(event as UserProvidedEvent);
         }
     }
 
@@ -56,11 +55,11 @@ export type UserProvidedEvent = InstanceType<typeof Event>;
 const isCommand = () => Joi.object().instance(BaseCommand);
 export const arrayOfCommandsOrPaths = () => [
     Joi.string(),
-    Joi.array().items(Joi.object().instance(BaseCommand), Joi.string()),
+    Joi.array().items(isCommand(), Joi.string()),
 ];
 
 const isEvent = () => Joi.object().instance(Event);
 export const arrayOfEventsOrPaths = () => [
     Joi.string(),
-    Joi.array().items(Joi.object().instance(Event), Joi.string()),
+    Joi.array().items(isEvent(), Joi.string()),
 ];
