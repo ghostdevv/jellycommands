@@ -84,10 +84,7 @@ export class CommandManager {
                 command.options.global = false;
 
                 // Update the guilds
-                command.options.guilds = [
-                    ...(command.options?.guilds || []),
-                    ...devGuilds,
-                ];
+                command.options.guilds = devGuilds;
             }
 
             // Add command to command list
