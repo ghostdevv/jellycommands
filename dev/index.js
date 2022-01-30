@@ -14,7 +14,7 @@ const client = new JellyCommands({
 
     dev: {
         global: true,
-        guilds: ['663140687591768074'],
+        guilds: [process.env['TEST_GUILD']],
     },
 
     debug: true,
