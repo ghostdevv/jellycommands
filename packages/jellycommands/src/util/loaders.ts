@@ -55,12 +55,12 @@ export type UserProvidedEvent = InstanceType<typeof Event>;
 
 const isCommand = () => Joi.object().instance(BaseCommand);
 export const arrayOfCommandsOrPaths = () => [
-    Joi.array().items(isCommand()),
-    ...pathsSchema(),
+    Joi.string(),
+    Joi.array().items(Joi.object().instance(BaseCommand), Joi.string()),
 ];
 
 const isEvent = () => Joi.object().instance(Event);
 export const arrayOfEventsOrPaths = () => [
-    Joi.array().items(isEvent()),
-    ...pathsSchema(),
+    Joi.string(),
+    Joi.array().items(Joi.object().instance(Event), Joi.string()),
 ];
