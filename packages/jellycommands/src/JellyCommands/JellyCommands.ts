@@ -4,6 +4,7 @@ import { EventManager } from './events/EventManager';
 import { Props } from './structures/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
+import { loadCommands, loadEvents } from '../index.js';
 
 interface AuthDetails {
     token: string;
@@ -60,7 +61,7 @@ export class JellyCommands extends Client {
         if (this.joptions.commands) {
             const commandIdMap = await CommandManager.createCommandIdMap(
                 this,
-                this.joptions.commands,
+                await loadCommands(this.joptions.commands),
             );
 
             const commandManager = new CommandManager(this, commandIdMap);
@@ -74,7 +75,10 @@ export class JellyCommands extends Client {
         }
 
         if (this.joptions?.events)
-            await EventManager.loadEvents(this, this.joptions.events);
+            await EventManager.loadEvents(
+                this,
+                await loadEvents(this.joptions.events),
+            );
 
         const { token } = this.getAuthDetails();
         return super.login(token);

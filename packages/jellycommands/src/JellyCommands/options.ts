@@ -3,15 +3,15 @@ import { snowflakeArray } from '../util/joi';
 import { MessagePayload } from 'discord.js';
 import Joi from 'joi';
 import {
-    arrayOfCommands,
-    arrayOfEvents,
+    arrayOfCommandsOrPaths,
+    arrayOfEventsOrPaths,
     UserProvidedEvent,
 } from '../util/loaders.js';
 import { BaseCommand } from './commands/base/BaseCommand.js';
 
 export const schema = Joi.object({
-    commands: arrayOfCommands(),
-    events: arrayOfEvents(),
+    commands: arrayOfCommandsOrPaths(),
+    events: arrayOfEventsOrPaths(),
 
     clientOptions: Joi.object().required(),
 
@@ -41,14 +41,14 @@ export const schema = Joi.object({
 
 export interface JellyCommandsOptions {
     /**
-     * Array of commands
+     * Either an array of commands, or path(s) to commands
      */
-    commands?: BaseCommand[];
+    commands?: string | Array<string | BaseCommand>;
 
     /**
-     * Array of events
+     * Either an array of events, or path(s) to events
      */
-    events?: UserProvidedEvent[];
+    events?: string | Array<string | UserProvidedEvent>;
 
     /**
      * Base discord.js client options
