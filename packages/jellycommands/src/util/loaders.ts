@@ -2,31 +2,36 @@ import type { BaseCommand } from '../JellyCommands/commands/base/BaseCommand.js'
 import type { Event } from '../JellyCommands/events/Event.js';
 import { readFiles, readJSFile } from './fs.js';
 
-const loadFilesToSet = async <T>(set: Set<T>, path: string) => {
+const loadFiles = async <T>(path: string) => {
     const files = readFiles(path);
+    const items: T[] = [];
 
     for (const file of files) {
         const item = await readJSFile<T>(file);
-        set.add(item);
+        items.push(item);
     }
+
+    return items;
 };
 
 export async function loadCommands(
     commandsOrPaths: string | Array<string | BaseCommand>,
-): Promise<Set<BaseCommand>> {
-    const commands = new Set<BaseCommand>();
+): Promise<BaseCommand[]> {
+    const commands: BaseCommand[] = [];
 
     if (typeof commandsOrPaths === 'string') {
-        await loadFilesToSet(commands, commandsOrPaths);
+        const resolved = await loadFiles<BaseCommand>(commandsOrPaths);
+        commands.push(...resolved);
         return commands;
     }
 
     for (const item of commandsOrPaths) {
         if (typeof item == 'string') {
-            await loadFilesToSet<BaseCommand>(commands, item);
+            const resolved = await loadFiles<BaseCommand>(item);
+            commands.push(...resolved);
         }
 
-        commands.add(item as BaseCommand);
+        commands.push(item as BaseCommand);
     }
 
     return commands;
@@ -36,20 +41,22 @@ type UnknownEvent = InstanceType<typeof Event>;
 
 export async function loadEvents(
     eventsOrPaths: string | Array<string | UnknownEvent>,
-): Promise<Set<UnknownEvent>> {
-    const events = new Set<UnknownEvent>();
+): Promise<UnknownEvent[]> {
+    const events: UnknownEvent[] = [];
 
     if (typeof eventsOrPaths === 'string') {
-        await loadFilesToSet<UnknownEvent>(events, eventsOrPaths);
+        const resolved = await loadFiles<UnknownEvent>(eventsOrPaths);
+        events.push(...resolved);
         return events;
     }
 
     for (const item of eventsOrPaths) {
-        if (typeof eventsOrPaths === 'string') {
-            await loadFilesToSet<UnknownEvent>(events, eventsOrPaths);
+        if (typeof item === 'string') {
+            const resolved = await loadFiles<UnknownEvent>(item);
+            events.push(...resolved);
         }
 
-        events.add(item as UnknownEvent);
+        events.push(item as UnknownEvent);
     }
 
     return events;
