@@ -1,12 +1,12 @@
 import type { JellyCommands } from '../JellyCommands';
-import { UserProvidedEvent } from '../../util/loaders.js';
+import type { Event } from './Event';
 
 export class EventManager {
     static async loadEvents(
         client: JellyCommands,
-        _events: UserProvidedEvent[],
+        events: InstanceType<typeof Event>[],
     ) {
-        for (const event of _events) {
+        for (const event of events) {
             if (event.options.disabled) continue;
 
             const cb = (...ctx: any[]) => event.run({ client }, ...ctx);
