@@ -23,7 +23,7 @@ export class Props {
 
         if (!value)
             throw new TypeError(
-                `Expected to recieve a value, received ${typeof value}`,
+                `Expected to receive a value, received ${typeof value}`,
             );
 
         if (this.has(key))
