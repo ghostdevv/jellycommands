@@ -29,9 +29,9 @@ export async function loadCommands(
         if (typeof item == 'string') {
             const resolved = await loadFiles<BaseCommand>(item);
             commands.push(...resolved);
+        } else {
+            commands.push(item as BaseCommand);
         }
-
-        commands.push(item as BaseCommand);
     }
 
     return commands;
@@ -54,9 +54,9 @@ export async function loadEvents(
         if (typeof item === 'string') {
             const resolved = await loadFiles<UnknownEvent>(item);
             events.push(...resolved);
+        } else {
+            events.push(item as UnknownEvent);
         }
-
-        events.push(item as UnknownEvent);
     }
 
     return events;
