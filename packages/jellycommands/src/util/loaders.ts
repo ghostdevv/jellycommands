@@ -1,65 +1,56 @@
-import Joi from 'joi';
-import { BaseCommand } from '../JellyCommands/commands/base/BaseCommand.js';
-import { Event } from '../JellyCommands/events/Event.js';
+import type { BaseCommand } from '../JellyCommands/commands/base/BaseCommand.js';
+import type { Event } from '../JellyCommands/events/Event.js';
 import { readFiles, readJSFile } from './fs.js';
+
+const loadFilesToSet = async <T>(set: Set<T>, path: string) => {
+    const files = readFiles(path);
+
+    for (const file of files) {
+        const item = await readJSFile<T>(file);
+        set.add(item);
+    }
+};
 
 export async function loadCommands(
     commandsOrPaths: string | Array<string | BaseCommand>,
-) {
+): Promise<Set<BaseCommand>> {
+    const commands = new Set<BaseCommand>();
+
     if (typeof commandsOrPaths === 'string') {
-        return loadThing<BaseCommand>(commandsOrPaths);
+        await loadFilesToSet(commands, commandsOrPaths);
+        return commands;
     }
 
-    let _commands: BaseCommand[] = [];
-
-    for (const command of commandsOrPaths) {
-        if (isCommand().validate(command).error) {
-            _commands.push(...(await loadThing<BaseCommand>(command)));
-        } else {
-            _commands.push(command as BaseCommand);
+    for (const item of commandsOrPaths) {
+        if (typeof item == 'string') {
+            await loadFilesToSet<BaseCommand>(commands, item);
         }
+
+        commands.add(item as BaseCommand);
     }
 
-    return _commands;
+    return commands;
 }
+
+type UnknownEvent = InstanceType<typeof Event>;
 
 export async function loadEvents(
-    eventsOrPaths: string | Array<string | UserProvidedEvent>,
-) {
+    eventsOrPaths: string | Array<string | UnknownEvent>,
+): Promise<Set<UnknownEvent>> {
+    const events = new Set<UnknownEvent>();
+
     if (typeof eventsOrPaths === 'string') {
-        return loadThing<UserProvidedEvent>(eventsOrPaths);
+        await loadFilesToSet<UnknownEvent>(events, eventsOrPaths);
+        return events;
     }
 
-    let _events: UserProvidedEvent[] = [];
-
-    for (const event of eventsOrPaths) {
-        if (isEvent().validate(event).error) {
-            _events.push(...(await loadThing<UserProvidedEvent>(event)));
-        } else {
-            _events.push(event as UserProvidedEvent);
+    for (const item of eventsOrPaths) {
+        if (typeof eventsOrPaths === 'string') {
+            await loadFilesToSet<UnknownEvent>(events, eventsOrPaths);
         }
+
+        events.add(item as UnknownEvent);
     }
 
-    return _events;
+    return events;
 }
-
-async function loadThing<T>(path: any) {
-    return Promise.all(readFiles(path).map<Promise<T>>(readJSFile));
-}
-
-/**
- * @todo get rid of this
- */
-export type UserProvidedEvent = InstanceType<typeof Event>;
-
-const isCommand = () => Joi.object().instance(BaseCommand);
-export const arrayOfCommandsOrPaths = () => [
-    Joi.string(),
-    Joi.array().items(isCommand(), Joi.string()),
-];
-
-const isEvent = () => Joi.object().instance(Event);
-export const arrayOfEventsOrPaths = () => [
-    Joi.string(),
-    Joi.array().items(isEvent(), Joi.string()),
-];
