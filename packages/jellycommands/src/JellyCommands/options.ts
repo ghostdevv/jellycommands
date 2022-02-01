@@ -1,11 +1,20 @@
 import type { MessageOptions, ClientOptions } from 'discord.js';
-import { pathsSchema, snowflakeArray } from '../util/joi';
+import { BaseCommand } from './commands/base/BaseCommand.js';
+import { snowflakeArray } from '../util/joi';
 import { MessagePayload } from 'discord.js';
+import { Event } from './events/Event';
 import Joi from 'joi';
 
 export const schema = Joi.object({
-    commands: pathsSchema(),
-    events: pathsSchema(),
+    commands: [
+        Joi.string(),
+        Joi.array().items(Joi.object().instance(BaseCommand), Joi.string()),
+    ],
+
+    events: [
+        Joi.string(),
+        Joi.array().items(Joi.object().instance(Event), Joi.string()),
+    ],
 
     clientOptions: Joi.object().required(),
 
@@ -35,14 +44,14 @@ export const schema = Joi.object({
 
 export interface JellyCommandsOptions {
     /**
-     * Array or single file/directory of command(s)
+     * Either an array of commands, or path(s) to commands
      */
-    commands?: string | string[];
+    commands?: string | Array<string | BaseCommand>;
 
     /**
-     * Array or single file/directory of events(s)
+     * Either an array of events, or path(s) to events
      */
-    events?: string | string[];
+    events?: string | Array<string | InstanceType<typeof Event>>;
 
     /**
      * Base discord.js client options

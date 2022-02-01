@@ -51,21 +51,19 @@ export class CommandManager {
     }
 
     static async readCommands(
-        paths: string | string[],
+        commands: BaseCommand[],
         client: JellyCommands,
     ): Promise<{
         commands: CommandMap;
         globalCommands: GlobalCommands;
         guildCommands: GuildCommandsMap;
     }> {
-        const commands: CommandMap = new Map();
+        const commandMap: CommandMap = new Map();
 
         const guildCommands = new Map<string, Set<BaseCommand>>();
         const globalCommands = new Set<BaseCommand>();
 
-        for (const path of readFiles(paths)) {
-            const command = await readJSFile<BaseCommand>(path);
-
+        for (const command of commands) {
             // Skip this command if it's disabled
             if (command.options?.disabled) continue;
 
@@ -88,7 +86,7 @@ export class CommandManager {
             }
 
             // Add command to command list
-            commands.set(command.hashId, command);
+            commandMap.set(command.hashId, command);
 
             // If global add it to global commands
             if (command.options?.global) globalCommands.add(command);
@@ -113,7 +111,7 @@ export class CommandManager {
         return {
             guildCommands: guildCommandsMap,
             globalCommands: Array.from(globalCommands),
-            commands,
+            commands: commandMap,
         };
     }
 
@@ -181,10 +179,10 @@ export class CommandManager {
 
     static async createCommandIdMap(
         client: JellyCommands,
-        paths: string | string[],
+        _commands: BaseCommand[],
     ): Promise<CommandIDMap> {
         const { guildCommands, globalCommands, commands } =
-            await CommandManager.readCommands(paths, client);
+            await CommandManager.readCommands(_commands, client);
 
         // If cache is enabled, check it
         if (client.joptions.cache) {
