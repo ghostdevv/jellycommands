@@ -1,0 +1,5 @@
+---
+'jellycommands': patch
+---
+
+update dependancies
