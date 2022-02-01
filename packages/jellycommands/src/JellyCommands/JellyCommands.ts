@@ -66,7 +66,7 @@ export class JellyCommands extends Client {
             const commandManager = new CommandManager(this, commandIdMap);
 
             this.on('interactionCreate', (i) => {
-                this.debug(`Interaction Recieved: ${i.id} | ${i.type}`);
+                this.debug(`Interaction received: ${i.id} | ${i.type}`);
 
                 // Tell command manager to respond to this
                 commandManager.respond(i);
