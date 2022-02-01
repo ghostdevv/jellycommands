@@ -5,8 +5,9 @@ import pog from './commands/pog.js';
 import ready from './events/ready.js';
 
 const client = new JellyCommands({
-    commands: [pog, 'commands/stuff'],
-    events: [ready, 'events/messages'],
+    // For testing loading commands by importing we have a file-loaded dir for each
+    commands: [pog, 'commands/file-loaded'],
+    events: [ready, 'events/file-loaded'],
 
     clientOptions: {
         intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
