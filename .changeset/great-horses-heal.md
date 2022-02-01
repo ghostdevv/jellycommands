@@ -1,5 +1,4 @@
 ---
-'dev': patch
 'jellycommands': patch
 ---
 
