@@ -1,10 +1,12 @@
+import type { BaseCommand } from './commands/base/BaseCommand';
 import { CommandManager } from './commands/CommandManager';
 import type { JellyCommandsOptions } from './options';
 import { EventManager } from './events/EventManager';
+import { resolveStructures } from '../util/fs';
+import type { Event } from './events/Event';
 import { Props } from './structures/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
-import { loadCommands, loadEvents } from '../index.js';
 
 interface AuthDetails {
     token: string;
@@ -59,9 +61,13 @@ export class JellyCommands extends Client {
         if (potentialToken) this.token = this.cleanToken(potentialToken);
 
         if (this.joptions.commands) {
+            const commands = await resolveStructures<BaseCommand>(
+                this.joptions.commands,
+            );
+
             const commandIdMap = await CommandManager.createCommandIdMap(
                 this,
-                await loadCommands(this.joptions.commands),
+                commands,
             );
 
             const commandManager = new CommandManager(this, commandIdMap);
@@ -74,11 +80,13 @@ export class JellyCommands extends Client {
             });
         }
 
-        if (this.joptions?.events)
-            await EventManager.loadEvents(
-                this,
-                await loadEvents(this.joptions.events),
+        if (this.joptions?.events) {
+            const events = await resolveStructures<InstanceType<typeof Event>>(
+                this.joptions.events,
             );
+
+            await EventManager.loadEvents(this, events);
+        }
 
         const { token } = this.getAuthDetails();
         return super.login(token);
