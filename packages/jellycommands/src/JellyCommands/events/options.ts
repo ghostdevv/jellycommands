@@ -12,7 +12,7 @@ export interface EventOptions<Event extends keyof ClientEvents> {
     disabled?: boolean;
 
     /**
-     * Should the event be ran once or every time it's recieved
+     * Should the event be ran once or every time it's received
      */
     once?: boolean;
 }
