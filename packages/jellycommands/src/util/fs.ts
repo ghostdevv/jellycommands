@@ -1,4 +1,4 @@
-import { flattenPaths } from 'ghoststools';
+import { castToArray, flattenPaths } from 'ghoststools';
 import { pathToFileURL } from 'url';
 import { resolve } from 'path';
 
@@ -19,3 +19,21 @@ export const readJSFile = async <T>(path: string): Promise<T> => {
 
 export const readFiles = (files: string | string[]) =>
     flattenPaths(files, { filter: (f) => !f.startsWith('_') });
+
+export async function resolveStructures<T>(
+    items: string | Array<T | string>,
+): Promise<T[]> {
+    const resolved: T[] = [];
+
+    for (const item of castToArray<string | T>(items)) {
+        if (typeof item == 'string') {
+            const files = readFiles(item);
+
+            for (const item of files) resolved.push(await readJSFile<T>(item));
+        } else {
+            resolved.push(item);
+        }
+    }
+
+    return resolved;
+}

@@ -5,17 +5,17 @@
     "packageManager": "pnpm@6.24.1",
     "devDependencies": {
         "@changesets/cli": "^2.19.0",
-        "@types/node": "^16.11.19",
+        "@types/node": "^16.11.21",
         "nodemon": "^2.0.15",
         "tsup": "^5.11.11",
         "typescript": "^4.5.4"
     },
     "scripts": {
         "dev": "pnpm -r dev --parallel",
-        "dev-build": "pnpm -r dev --parallel --filter \\!dev",
+        "dev-build": "pnpm build -r --parallel -- --watch",
         "dev-dev": "pnpm -r dev --parallel --filter dev",
         "build": "pnpm -r build",
-        "publish": "pnpm build && pnpm publish -r --access public --tag=next"
+        "release": "pnpm build && pnpm publish -r --access public --tag=next"
     },
     "engines": {
         "pnpm": "^6.7.0",

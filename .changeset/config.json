@@ -9,6 +9,7 @@
   "commit": false,
   "linked": [],
   "access": "public",
+  "ignore": ["dev"],
   "baseBranch": "main",
   "updateInternalDependencies": "patch"
 }

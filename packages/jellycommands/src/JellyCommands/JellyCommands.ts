@@ -1,6 +1,9 @@
+import type { BaseCommand } from './commands/base/BaseCommand';
 import { CommandManager } from './commands/CommandManager';
 import type { JellyCommandsOptions } from './options';
 import { EventManager } from './events/EventManager';
+import { resolveStructures } from '../util/fs';
+import type { Event } from './events/Event';
 import { Props } from './structures/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
@@ -57,20 +60,35 @@ export class JellyCommands extends Client {
     async login(potentialToken?: string) {
         if (potentialToken) this.token = this.cleanToken(potentialToken);
 
-        const { token } = this.getAuthDetails();
-
         if (this.joptions.commands) {
-            const commandManager = await CommandManager.create(
-                this,
+            const commands = await resolveStructures<BaseCommand>(
                 this.joptions.commands,
             );
 
-            this.on('interactionCreate', (i) => commandManager.respond(i));
+            const commandIdMap = await CommandManager.createCommandIdMap(
+                this,
+                commands,
+            );
+
+            const commandManager = new CommandManager(this, commandIdMap);
+
+            this.on('interactionCreate', (i) => {
+                this.debug(`Interaction received: ${i.id} | ${i.type}`);
+
+                // Tell command manager to respond to this
+                commandManager.respond(i);
+            });
         }
 
-        if (this.joptions?.events)
-            await EventManager.loadEvents(this, this.joptions.events);
+        if (this.joptions?.events) {
+            const events = await resolveStructures<InstanceType<typeof Event>>(
+                this.joptions.events,
+            );
 
+            await EventManager.loadEvents(this, events);
+        }
+
+        const { token } = this.getAuthDetails();
         return super.login(token);
     }
 

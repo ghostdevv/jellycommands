@@ -1,23 +1,21 @@
 import 'dotenv/config.js';
 import { JellyCommands } from 'jellycommands';
 import { Intents } from 'discord.js';
+import pog from './commands/pog.js';
+import ready from './events/ready.js';
 
 const client = new JellyCommands({
-    commands: 'commands',
-    events: 'events',
+    // For testing loading commands by importing we have a file-loaded dir for each
+    commands: [pog, 'commands/file-loaded'],
+    events: [ready, 'events/file-loaded'],
 
     clientOptions: {
-        intents: [Intents.FLAGS.GUILDS],
-    },
-
-    messages: {
-        unknownCommand: {
-            embeds: [{ description: 'Unknown Command', color: 'RANDOM' }],
-        },
+        intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
     },
 
     dev: {
-        guilds: ['663140687591768074'],
+        global: true,
+        guilds: [process.env['TEST_GUILD']],
     },
 
     debug: true,

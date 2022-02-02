@@ -18,14 +18,14 @@ export class Event<T extends keyof ClientEvents> {
 
         if (!name || typeof name != 'string')
             throw new TypeError(
-                `Expected type string for name, recieved ${typeof name}`,
+                `Expected type string for name, received ${typeof name}`,
             );
 
         this.run = run;
 
         if (!run || typeof run != 'function')
             throw new TypeError(
-                `Expected type function for run, recieved ${typeof run}`,
+                `Expected type function for run, received ${typeof run}`,
             );
 
         const { error, value } = schema.validate(options);
