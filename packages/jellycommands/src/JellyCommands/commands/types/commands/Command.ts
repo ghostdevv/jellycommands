@@ -22,34 +22,6 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         const result = transform(option, false) as APIApplicationCommandOption;
 
         return result;
-
-        // Below is the alternative implementation
-
-        // const type: number =
-        //     typeof option.type == 'number'
-        //         ? option.type
-        //         : ProxyApplicationCommandOptionTypes[option.type];
-
-        // const base: ApplicationCommandOptionData = {
-        //     ...option,
-        //     type,
-        // };
-
-        // // SUB_COMMAND || SUB_COMMAND_GROUP
-        // if (type == 1 || type == 2) {
-        //     // @ts-ignore
-        //     const options = option.options?.map((o) =>
-        //         Command.transformOption(o),
-        //     );
-
-        //     return {
-        //         ...base,
-        //         // @ts-ignore
-        //         options,
-        //     };
-        // }
-
-        // return base;
     }
 
     get applicationCommandData() {
