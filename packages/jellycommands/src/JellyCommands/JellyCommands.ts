@@ -1,4 +1,5 @@
 import type { BaseCommand } from './commands/base/BaseCommand';
+import { getAuthDetails, cleanToken } from '../util/token.js';
 import { CommandManager } from './commands/CommandManager';
 import type { JellyCommandsOptions } from './options';
 import { EventManager } from './events/EventManager';
@@ -7,11 +8,6 @@ import type { Event } from './events/Event';
 import { Props } from './structures/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
-
-interface AuthDetails {
-    token: string;
-    clientId: string;
-}
 
 export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;
@@ -28,37 +24,8 @@ export class JellyCommands extends Client {
         this.props = new Props(options.props);
     }
 
-    cleanToken(token?: string): string | null {
-        return typeof token == 'string'
-            ? token.replace(/^(Bot|Bearer)\s*/i, '')
-            : null;
-    }
-
-    resolveToken(): string | null {
-        return this.token || this.cleanToken(process.env?.DISCORD_TOKEN);
-    }
-
-    resolveClientId(): string | null {
-        if (this.user?.id) return this.user?.id;
-
-        const token = this.resolveToken();
-        if (!token) return null;
-
-        return Buffer.from(token.split('.')[0], 'base64').toString();
-    }
-
-    getAuthDetails(): AuthDetails {
-        const clientId = this.resolveClientId();
-        const token = this.resolveToken();
-
-        if (!token) throw new Error('No token found');
-        if (!clientId) throw new Error('Invalid token provided');
-
-        return { token, clientId };
-    }
-
     async login(potentialToken?: string) {
-        if (potentialToken) this.token = this.cleanToken(potentialToken);
+        if (potentialToken) this.token = cleanToken(potentialToken);
 
         if (this.joptions.commands) {
             const commands = await resolveStructures<BaseCommand>(
@@ -88,7 +55,7 @@ export class JellyCommands extends Client {
             await EventManager.loadEvents(this, events);
         }
 
-        const { token } = this.getAuthDetails();
+        const { token } = getAuthDetails(this);
         return super.login(token);
     }
 

@@ -2,7 +2,7 @@ import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'disc
 import { CommandCache, CommandIdResolver } from './CommandPersistance';
 import type { APIApplicationCommand } from 'discord-api-types/v9';
 import type { JellyCommands } from '../JellyCommands';
-import { readJSFile, readFiles } from '../../util/fs';
+import { getAuthDetails } from '../../util/token.js';
 import { createRequest } from '../../util/request';
 import { BaseCommand } from './base/BaseCommand';
 import type { Interaction } from 'discord.js';
@@ -120,7 +120,7 @@ export class CommandManager {
         globalCommands: GlobalCommands,
         guildCommands: GuildCommandsMap,
     ): Promise<CommandIDMap> {
-        const { clientId, token } = client.getAuthDetails();
+        const { clientId, token } = getAuthDetails(client);
         const request = createRequest(token);
 
         const commandIdMap: CommandIDMap = new Map();
