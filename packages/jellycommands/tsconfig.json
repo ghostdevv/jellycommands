@@ -12,6 +12,7 @@
         "noImplicitThis": true,
         "noImplicitAny": true,
         "esModuleInterop": true,
+        "exactOptionalPropertyTypes": false,
         "forceConsistentCasingInFileNames": true,
         "moduleResolution": "node"
     },
