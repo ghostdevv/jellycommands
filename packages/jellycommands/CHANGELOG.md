@@ -1,5 +1,12 @@
 # jellycommands
 
+## 1.0.0-next.19
+
+### Patch Changes
+
+-   e03a57e: moved token functions out of client and into util file
+-   eb5658c: fix being able to use type strings
+
 ## 1.0.0-next.18
 
 ### Patch Changes
