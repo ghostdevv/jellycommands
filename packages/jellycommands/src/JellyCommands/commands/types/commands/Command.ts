@@ -1,24 +1,11 @@
 import type { APIApplicationCommandOption } from 'discord-api-types/v9';
-import { APIApplicationCommandBasicOption } from 'discord-api-types/v9';
 import type { ApplicationCommandOptionData } from 'discord.js';
 import { ApplicationCommandType } from 'discord-api-types/v9';
-import { BaseCommand } from '../../base/BaseCommand';
 import type { CommandInteraction } from 'discord.js';
+import { BaseCommand } from '../../base/BaseCommand';
 import { schema, CommandOptions } from './options';
+import { ApplicationCommand } from 'discord.js';
 import { removeKeys } from 'ghoststools';
-
-enum ProxyApplicationCommandOptionTypes {
-    SUB_COMMAND = 1,
-    SUB_COMMAND_GROUP = 2,
-    STRING = 3,
-    INTEGER = 4,
-    BOOLEAN = 5,
-    USER = 6,
-    CHANNEL = 7,
-    ROLE = 8,
-    MENTIONABLE = 9,
-    NUMBER = 10,
-}
 
 export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
     constructor(
@@ -29,38 +16,57 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
     }
 
     static transformOption(option: ApplicationCommandOptionData) {
-        const type: number =
-            typeof option.type == 'number'
-                ? option.type
-                : ProxyApplicationCommandOptionTypes[option.type];
+        const transform =
+            ApplicationCommand['transformOption'].bind(ApplicationCommand);
 
-        const base: APIApplicationCommandBasicOption = {
-            type,
-            name: option.name,
-            description: option.description,
-        };
+        const result = transform(option, false) as APIApplicationCommandOption;
 
-        // if (option.type == 'SUB_COMMAND' || option.type == 'SUB_COMMAND_GROUP')
-        //     data.options = option.options?.map(o => Command.transformOption(o))
+        return result;
+
+        // Below is the alternative implementation
+
+        // const type: number =
+        //     typeof option.type == 'number'
+        //         ? option.type
+        //         : ProxyApplicationCommandOptionTypes[option.type];
+
+        // const base: ApplicationCommandOptionData = {
+        //     ...option,
+        //     type,
+        // };
+
+        // // SUB_COMMAND || SUB_COMMAND_GROUP
+        // if (type == 1 || type == 2) {
+        //     // @ts-ignore
+        //     const options = option.options?.map((o) =>
+        //         Command.transformOption(o),
+        //     );
+
+        //     return {
+        //         ...base,
+        //         // @ts-ignore
+        //         options,
+        //     };
+        // }
+
+        // return base;
     }
 
-    // @ts-ignore
     get applicationCommandData() {
         const default_permission = this.options.guards
             ? this.options.guards.mode == 'blacklist'
             : true;
 
-        // This needs to be transformed to the correct typings
-        const options = this.options.options;
-
-        if (options) Command.transformOption(options[0]);
+        const options = this.options.options?.map((o) =>
+            Command.transformOption(o),
+        );
 
         return {
             name: this.options.name,
             type: ApplicationCommandType.ChatInput,
             description: this.options.description,
-            options: this.options.options,
             default_permission,
+            options,
         };
     }
 }
