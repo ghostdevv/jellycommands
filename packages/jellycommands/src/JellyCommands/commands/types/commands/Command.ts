@@ -3,16 +3,23 @@ import type { ApplicationCommandOptionData } from 'discord.js';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 import type { CommandInteraction } from 'discord.js';
 import { BaseCommand } from '../../base/BaseCommand';
-import { schema, CommandOptions } from './options';
+import { schema, CommandOptions, AutocompleteHandler } from './options';
 import { ApplicationCommand } from 'discord.js';
 import { removeKeys } from 'ghoststools';
 
 export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
+    autocomplete?: AutocompleteHandler;
+
     constructor(
         run: BaseCommand<CommandOptions, CommandInteraction>['run'],
         options: CommandOptions,
+        { autocomplete }: { autocomplete?: AutocompleteHandler } = {},
     ) {
+        if (autocomplete && typeof autocomplete !== 'function') {
+            throw new TypeError('Autocomplete handler must be a function');
+        }
         super(run, { options, schema });
+        this.autocomplete = autocomplete;
     }
 
     static transformOption(option: ApplicationCommandOptionData) {
@@ -50,6 +57,7 @@ export const command = (
 ) => {
     return new Command(
         options.run,
-        removeKeys(options, 'run') as CommandOptions,
+        removeKeys(options, ['run', 'autocomplete']) as CommandOptions,
+        { autocomplete: options.autocomplete },
     );
 };
