@@ -8,7 +8,7 @@ import { ApplicationCommand } from 'discord.js';
 import { removeKeys } from 'ghoststools';
 
 export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
-    autocomplete?: AutocompleteHandler;
+    readonly autocomplete?: AutocompleteHandler;
 
     constructor(
         run: BaseCommand<CommandOptions, CommandInteraction>['run'],
