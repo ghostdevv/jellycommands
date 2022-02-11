@@ -17,12 +17,17 @@ export interface OptionsOptions<OptionsType> {
     schema: Joi.ObjectSchema<any>;
 }
 
+type Awaitable<T> = Promise<T> | T;
+
+export type BaseCommandCallback<InteractionType extends Interaction> =
+    ({}: RunOptions<InteractionType>) => Awaitable<void | any>;
+
 export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,
     InteractionType extends Interaction = Interaction,
 > {
     public readonly options;
-    public readonly run: ({}: RunOptions<InteractionType>) => void | any;
+    public readonly run: BaseCommandCallback<InteractionType>;
 
     constructor(
         run: BaseCommand<OptionsType, InteractionType>['run'],
