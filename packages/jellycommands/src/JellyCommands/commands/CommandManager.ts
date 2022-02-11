@@ -25,14 +25,12 @@ export class CommandManager {
     }
 
     async respond(interaction: Interaction): Promise<void> {
-        if (
-            !(
-                interaction.isCommand() ||
-                interaction.isContextMenu() ||
-                interaction.isAutocomplete()
-            )
-        )
-            return;
+        const isCommandOrAutocomplete =
+            interaction.isCommand() ||
+            interaction.isContextMenu() ||
+            interaction.isAutocomplete();
+
+        if (!isCommandOrAutocomplete) return;
 
         const command = this.commands.get(interaction.commandId);
 
