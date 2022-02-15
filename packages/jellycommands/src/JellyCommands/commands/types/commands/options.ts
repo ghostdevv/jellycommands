@@ -1,6 +1,7 @@
 import type { ApplicationCommandOptionData } from 'discord.js';
 import type { BaseOptions } from '../../base/options';
 import { baseSchema } from '../../base/options';
+
 export interface CommandOptions extends BaseOptions {
     /**
      * The description of the slash command

@@ -7,6 +7,7 @@ import { createRequest } from '../../util/request';
 import { BaseCommand } from './base/BaseCommand';
 import type { Interaction } from 'discord.js';
 import { Routes } from 'discord-api-types/v9';
+import { Command } from './types/commands/Command.js';
 
 export type CommandIDMap = Map<string, BaseCommand>;
 export type CommandMap = Map<string, BaseCommand>;
@@ -24,18 +25,32 @@ export class CommandManager {
     }
 
     async respond(interaction: Interaction): Promise<void> {
-        if (!(interaction.isCommand() || interaction.isContextMenu())) return;
+        const isCommandOrAutocomplete =
+            interaction.isCommand() ||
+            interaction.isContextMenu() ||
+            interaction.isAutocomplete();
+
+        if (!isCommandOrAutocomplete) return;
 
         const command = this.commands.get(interaction.commandId);
 
         // If command is not found return - if unknownCommand message send
         if (!command)
             return void (
+                !interaction.isAutocomplete() &&
                 this.client.joptions.messages?.unknownCommand &&
                 interaction.reply(this.client.joptions.messages.unknownCommand)
             );
 
         const options = command.options;
+
+        // If autocomplete interaction, run options.autocomplete
+        if (interaction.isAutocomplete())
+            /** @todo Duck you typescript */
+            return void (command as unknown as Command).autocomplete?.({
+                interaction,
+                client: this.client,
+            });
 
         // If defer, defer
         if (options.defer)
