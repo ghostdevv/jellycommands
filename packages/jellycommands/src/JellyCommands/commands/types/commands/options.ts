@@ -1,15 +1,6 @@
-import type {
-    ApplicationCommandOptionData,
-    AutocompleteInteraction,
-} from 'discord.js';
+import type { ApplicationCommandOptionData } from 'discord.js';
 import type { BaseOptions } from '../../base/options';
 import { baseSchema } from '../../base/options';
-import { JellyCommands } from '../../../JellyCommands.js';
-
-export type AutocompleteHandler = ({}: {
-    interaction: AutocompleteInteraction;
-    client: JellyCommands;
-}) => any | void;
 
 export interface CommandOptions extends BaseOptions {
     /**
@@ -21,9 +12,6 @@ export interface CommandOptions extends BaseOptions {
      * Options for the slash command
      */
     options?: ApplicationCommandOptionData[];
-
-    /** Autocomplete handler for this command's options */
-    autocomplete?: AutocompleteHandler;
 }
 
 import Joi from 'joi';
