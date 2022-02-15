@@ -1,4 +1,5 @@
 import type { APIApplicationCommandOption } from 'discord-api-types/v9';
+import type { BaseCommandCallback } from '../../base/BaseCommand';
 import type { ApplicationCommandOptionData } from 'discord.js';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 import type { CommandInteraction } from 'discord.js';
@@ -45,7 +46,7 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
 
 export const command = (
     options: CommandOptions & {
-        run: BaseCommand<CommandOptions, CommandInteraction>['run'];
+        run: BaseCommandCallback<CommandInteraction>;
     },
 ) => {
     return new Command(

@@ -1,3 +1,4 @@
+import type { BaseCommandCallback } from '../../base/BaseCommand';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 import type { ContextMenuInteraction } from 'discord.js';
 import { schema, UserCommandOptions } from './options';
@@ -31,7 +32,7 @@ export class UserCommand extends BaseCommand<
 
 export const userCommand = (
     options: UserCommandOptions & {
-        run: BaseCommand<UserCommandOptions, ContextMenuInteraction>['run'];
+        run: BaseCommandCallback<ContextMenuInteraction>;
     },
 ) => {
     return new UserCommand(
