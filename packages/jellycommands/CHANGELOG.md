@@ -1,5 +1,12 @@
 # jellycommands
 
+## 1.0.0-next.20
+
+### Patch Changes
+
+-   9877c1d: autocomplete for slash commands
+-   2c6ed64: fix command run callback having incorrect signature
+
 ## 1.0.0-next.19
 
 ### Patch Changes
