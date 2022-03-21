@@ -1,6 +1,6 @@
 {
   "name": "jellycommands",
-  "version": "1.0.0-next.19",
+  "version": "1.0.0-next.20",
   "author": "GHOST",
   "license": "MIT",
   "main": "dist/index.js",
