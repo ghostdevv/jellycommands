@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.22
+
+### Patch Changes
+
+-   fix build ([`4be1aa2`](https://github.com/ghostdevv/jellycommands/commit/4be1aa2a610deb2e52873f83688db98e01e7a63c))
+
 ## 1.0.0-next.21
 
 ### Minor Changes
