@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.21
+
+### Minor Changes
+
+-   f743648: error catching in events and commands
+
 ## 1.0.0-next.20
 
 ### Patch Changes
