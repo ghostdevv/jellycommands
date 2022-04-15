@@ -1,13 +1,13 @@
 import type { RESTPutAPIGuildApplicationCommandsPermissionsJSONBody } from 'discord-api-types/v9';
 import { CommandCache, CommandIdResolver } from './CommandPersistance';
 import type { APIApplicationCommand } from 'discord-api-types/v9';
+import { Command } from './types/commands/Command.js';
 import type { JellyCommands } from '../JellyCommands';
 import { getAuthDetails } from '../../util/token.js';
 import { createRequest } from '../../util/request';
 import { BaseCommand } from './base/BaseCommand';
 import type { Interaction } from 'discord.js';
 import { Routes } from 'discord-api-types/v9';
-import { Command } from './types/commands/Command.js';
 
 export type CommandIDMap = Map<string, BaseCommand>;
 export type CommandMap = Map<string, BaseCommand>;
@@ -59,10 +59,18 @@ export class CommandManager {
             );
 
         // Run the command
-        command.run({
-            client: this.client,
-            interaction,
-        });
+        try {
+            await command.run({
+                client: this.client,
+                interaction,
+            });
+        } catch (e) {
+            console.error(
+                `There was an error running command ${command.options.name}`,
+                `interaction: ${interaction.id}, channel: ${interaction.channel}, guild: ${interaction.guild}`,
+                e,
+            );
+        }
     }
 
     static async readCommands(

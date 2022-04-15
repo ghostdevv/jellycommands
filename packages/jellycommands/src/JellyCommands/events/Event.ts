@@ -2,16 +2,23 @@ import { schema, EventOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
 import type { JellyCommands } from '../JellyCommands';
-import type { Client, ClientEvents } from 'discord.js';
+import type { ClientEvents } from 'discord.js';
+
+type Awaitable<T> = Promise<T> | T;
+
+export type EventCallback<EventName extends keyof ClientEvents> = (
+    instance: { client: JellyCommands },
+    ...args: ClientEvents[EventName]
+) => Awaitable<void>;
 
 export class Event<T extends keyof ClientEvents> {
     public readonly name: keyof ClientEvents;
-    public readonly run: Function;
+    public readonly run: EventCallback<T>;
     public readonly options: Required<EventOptions<T>>;
 
     constructor(
         name: keyof ClientEvents,
-        run: Function,
+        run: Event<T>['run'],
         options: EventOptions<T>,
     ) {
         this.name = name;
@@ -37,10 +44,7 @@ export class Event<T extends keyof ClientEvents> {
 
 export const event = <K extends keyof ClientEvents>(
     options: EventOptions<K> & {
-        run: (
-            instance: { client: JellyCommands },
-            ...args: ClientEvents[K]
-        ) => void | any;
+        run: EventCallback<K>;
     },
 ) => {
     return new Event<K>(
