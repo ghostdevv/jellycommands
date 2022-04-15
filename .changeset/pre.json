@@ -6,6 +6,7 @@
     "dev": "0.0.0"
   },
   "changesets": [
+    "four-panthers-tap",
     "gentle-flowers-tease",
     "great-horses-heal",
     "happy-sloths-kick",
