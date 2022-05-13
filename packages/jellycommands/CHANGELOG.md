@@ -1,5 +1,13 @@
 # jellycommands
 
+## 1.0.0-next.23
+
+### Patch Changes
+
+-   temporary disable permissions ([`4d83651`](https://github.com/ghostdevv/jellycommands/commit/4d83651cbe29439adc1a7eda9ae2b0309daa8164))
+
+*   improved API error format ([`06fde80`](https://github.com/ghostdevv/jellycommands/commit/06fde805aa076b8db06c2eb2a1641a24244ca00d))
+
 ## 1.0.0-next.22
 
 ### Patch Changes
