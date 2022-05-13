@@ -189,12 +189,18 @@ export class CommandManager {
                     });
             }
 
+            if (permissionData.length) {
+                throw new Error(
+                    'Discord made breaking changes to their API for permissions, whilst we work out how to deal with that we have disabled permissions feature to stop bots from breaking. Track progress here https://github.com/ghostdevv/jellycommands/issues/108',
+                );
+            }
+
             // Set the permissions
-            await request(
-                'put',
-                Routes.guildApplicationCommandsPermissions(clientId, guildId),
-                permissionData,
-            );
+            // await request(
+            //     'put',
+            //     Routes.guildApplicationCommandsPermissions(clientId, guildId),
+            //     permissionData,
+            // );
         }
 
         return commandIdMap;
