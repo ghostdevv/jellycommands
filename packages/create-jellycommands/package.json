@@ -1,0 +1,32 @@
+{
+    "name": "create-jellycommands",
+    "description": "Get started quickly with jellycommands by running npm init jellycommands",
+    "version": "0.0.0",
+    "type": "module",
+    "bin": {
+        "create-jellycommands": "src/bin.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ghostdevv/jellycommands.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ghostdevv/jellycommands/issues"
+    },
+    "homepage": "https://github.com/ghostdevv/jellycommands#readme",
+    "dependencies": {
+        "cpy": "^9.0.1",
+        "desm": "^1.2.0",
+        "kleur": "^4.1.4",
+        "log-symbols": "^5.1.0",
+        "minimist": "^1.2.6",
+        "prompts": "^2.4.2",
+        "update-notifier": "^5.1.0"
+    },
+    "keywords": [
+        "jellycommands",
+        "create",
+        "create jellycommands",
+        "npm init jellycommands"
+    ]
+}
