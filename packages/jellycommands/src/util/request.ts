@@ -34,7 +34,7 @@ export function createRequest(token: string) {
                     );
 
                 const error = message
-                    ? `[DISCORD API ERROR] ${message}`
+                    ? `[DISCORD API ERROR] [${method.toUpperCase()} ${route}] ${message}`
                     : e.message;
 
                 throw new Error(error);
