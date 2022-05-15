@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.24
+
+### Patch Changes
+
+-   update deps ([`cd0dc14`](https://github.com/ghostdevv/jellycommands/commit/cd0dc14bce824c2cae901b3a1f0b265eb9846428))
+
 ## 1.0.0-next.23
 
 ### Patch Changes
