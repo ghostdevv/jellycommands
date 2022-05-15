@@ -19,9 +19,9 @@
         "release": "changeset publish"
     },
     "engines": {
-        "pnpm": "^6.7.0",
+        "pnpm": "^7.1.0",
         "npm": "forbidden, use pnpm",
-        "node": ">= 12"
+        "node": ">= 16"
     },
     "repository": {
         "type": "git",
