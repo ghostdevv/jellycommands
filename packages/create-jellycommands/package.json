@@ -1,7 +1,7 @@
 {
     "name": "create-jellycommands",
     "description": "Get started quickly with jellycommands by running npm init jellycommands",
-    "version": "0.0.1-next.1",
+    "version": "0.0.1-next.2",
     "type": "module",
     "bin": {
         "create-jellycommands": "src/bin.js"

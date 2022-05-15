@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.0.1-next.2
+
+### Patch Changes
+
+-   add .jellycommands to ignore ([`5f9a28c`](https://github.com/ghostdevv/jellycommands/commit/5f9a28c24bbb5ab697413c37df106fc5c144146a))
+
 ## 0.0.1-next.1
 
 ### Patch Changes
