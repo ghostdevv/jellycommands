@@ -14,7 +14,7 @@
     "scripts": {
         "dev": "pnpm --parallel -r dev",
         "dev-build": "pnpm --parallel -r build --watch",
-        "dev-dev": "pnpm  --parallel --filter dev -r dev",
+        "dev-dev": "pnpm --filter dev -r dev",
         "build": "pnpm -r build",
         "release": "changeset publish"
     },
