@@ -1,7 +1,6 @@
-import type { MessageOptions, ClientOptions } from 'discord.js';
+import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
 import { BaseCommand } from './commands/base/BaseCommand.js';
 import { snowflakeArray } from '../util/joi';
-import { MessagePayload } from 'discord.js';
 import { Event } from './events/Event';
 import Joi from 'joi';
 
@@ -24,7 +23,6 @@ export const schema = Joi.object({
         unknownCommand: Joi.alternatives()
             .try(
                 Joi.string(),
-                Joi.object().instance(MessagePayload),
                 Joi.object(),
             )
             .default({
@@ -70,7 +68,7 @@ export interface JellyCommandsOptions {
         /**
          * This is sent when a unknown command is given
          */
-        unknownCommand?: string | MessagePayload | MessageOptions;
+        unknownCommand?: string | MessagePayload | InteractionReplyOptions;
     };
 
     /**
