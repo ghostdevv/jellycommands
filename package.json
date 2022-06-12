@@ -12,9 +12,9 @@
         "typescript": "^4.6.4"
     },
     "scripts": {
-        "dev": "pnpm -r dev --parallel",
-        "dev-build": "pnpm build -r --parallel -- --watch",
-        "dev-dev": "pnpm -r dev --parallel --filter dev",
+        "dev": "pnpm --parallel -r dev",
+        "dev-build": "pnpm --parallel -r build --watch",
+        "dev-dev": "pnpm  --parallel --filter dev -r dev",
         "build": "pnpm -r build",
         "release": "changeset publish"
     },
