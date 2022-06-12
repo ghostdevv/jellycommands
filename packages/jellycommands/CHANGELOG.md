@@ -1,5 +1,13 @@
 # jellycommands
 
+## 1.0.0-next.25
+
+### Patch Changes
+
+-   fix config.messages.unknownCommand types ([`f204f4e`](https://github.com/ghostdevv/jellycommands/commit/f204f4e2a2bbf9898bfd9b3489c672c58786fca9))
+
+*   add more error logging ([`b9612d9`](https://github.com/ghostdevv/jellycommands/commit/b9612d913bcf0c7985783f5ec893037a5fcebaa9))
+
 ## 1.0.0-next.24
 
 ### Patch Changes
