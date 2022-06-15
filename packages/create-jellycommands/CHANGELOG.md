@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.0.1-next.3
+
+### Patch Changes
+
+-   fix dev script ([`d5b4eac`](https://github.com/ghostdevv/jellycommands/commit/d5b4eac1c0ba2d1c1d8e8937bd01540cca89dfd3))
+
 ## 0.0.1-next.2
 
 ### Patch Changes
