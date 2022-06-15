@@ -26,7 +26,7 @@ export function createRequest(token: string) {
 
                 if (errors || _errors)
                     console.error(
-                        `[DISCORD API ERROR] ${JSON.stringify(
+                        `[DISCORD API ERROR] ${method.toUpperCase()} ${route}] ${JSON.stringify(
                             errors || _errors,
                             null,
                             4,
