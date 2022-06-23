@@ -4,12 +4,12 @@
     "license": "MIT",
     "packageManager": "pnpm@6.24.1",
     "devDependencies": {
-        "@changesets/cli": "^2.22.0",
+        "@changesets/cli": "^2.23.0",
         "@svitejs/changesets-changelog-github-compact": "^0.1.1",
-        "@types/node": "^16.11.35",
-        "nodemon": "^2.0.16",
-        "tsup": "^5.12.7",
-        "typescript": "^4.6.4"
+        "@types/node": "^16.11.41",
+        "nodemon": "^2.0.18",
+        "tsup": "^5.12.9",
+        "typescript": "^4.7.4"
     },
     "scripts": {
         "dev": "pnpm --parallel -r dev",
