@@ -19,8 +19,9 @@ export interface OptionsOptions<OptionsType> {
 
 type Awaitable<T> = Promise<T> | T;
 
-export type BaseCommandCallback<InteractionType extends Interaction> =
-    ({}: RunOptions<InteractionType>) => Awaitable<void | any>;
+export type BaseCommandCallback<InteractionType extends Interaction> = (
+    options: RunOptions<InteractionType>,
+) => Awaitable<void | any>;
 
 export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,

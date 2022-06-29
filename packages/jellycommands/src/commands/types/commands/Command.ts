@@ -12,7 +12,7 @@ import { removeKeys } from 'ghoststools';
 
 type Awaitable<T> = T | Promise<T>;
 
-export type AutocompleteHandler = ({}: {
+export type AutocompleteHandler = (options: {
     interaction: AutocompleteInteraction;
     client: JellyCommands;
 }) => Awaitable<any | void>;

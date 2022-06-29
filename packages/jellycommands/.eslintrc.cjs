@@ -6,6 +6,12 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'prettier',
     ],
+    overrides: [
+        {
+            files: ['*.ts'],
+            rules: { '@typescript-eslint/no-explicit-any': 'off' },
+        },
+    ],
     plugins: ['@typescript-eslint'],
     ignorePatterns: ['*.cjs'],
     parserOptions: {
