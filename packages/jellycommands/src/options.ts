@@ -1,6 +1,6 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
-import { BaseCommand } from './commands/base/BaseCommand.js';
-import { snowflakeArray } from '../util/joi';
+import { BaseCommand } from './commands/types/BaseCommand.js';
+import { snowflakeArray } from './util/joi';
 import { Event } from './events/Event';
 import Joi from 'joi';
 

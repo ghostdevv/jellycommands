@@ -1,8 +1,7 @@
-import { schema, EventOptions } from './options';
-import { removeKeys } from 'ghoststools';
-
 import type { JellyCommands } from '../JellyCommands';
+import { schema, EventOptions } from './options';
 import type { ClientEvents } from 'discord.js';
+import { removeKeys } from 'ghoststools';
 
 type Awaitable<T> = Promise<T> | T;
 
@@ -12,23 +11,17 @@ export type EventCallback<EventName extends keyof ClientEvents> = (
 ) => Awaitable<void>;
 
 export class Event<T extends keyof ClientEvents> {
-    public readonly name: keyof ClientEvents;
-    public readonly run: EventCallback<T>;
     public readonly options: Required<EventOptions<T>>;
 
     constructor(
-        name: keyof ClientEvents,
-        run: Event<T>['run'],
+        public readonly name: keyof ClientEvents,
+        public readonly run: EventCallback<T>,
         options: EventOptions<T>,
     ) {
-        this.name = name;
-
         if (!name || typeof name != 'string')
             throw new TypeError(
                 `Expected type string for name, received ${typeof name}`,
             );
-
-        this.run = run;
 
         if (!run || typeof run != 'function')
             throw new TypeError(

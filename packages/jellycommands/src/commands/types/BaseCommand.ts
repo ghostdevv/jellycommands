@@ -27,14 +27,11 @@ export abstract class BaseCommand<
     InteractionType extends Interaction = Interaction,
 > {
     public readonly options;
-    public readonly run: BaseCommandCallback<InteractionType>;
 
     constructor(
-        run: BaseCommand<OptionsType, InteractionType>['run'],
+        public readonly run: BaseCommandCallback<InteractionType>,
         { options, schema }: OptionsOptions<OptionsType>,
     ) {
-        this.run = run;
-
         if (!run || typeof run != 'function')
             throw new TypeError(
                 `Expected type function for run, received ${typeof run}`,

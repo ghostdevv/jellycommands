@@ -1,10 +1,9 @@
-import type { BaseCommand } from './commands/base/BaseCommand';
-import { getAuthDetails, cleanToken } from '../util/token.js';
-import { CommandManager } from './commands/CommandManager';
-import type { JellyCommandsOptions } from './options';
-import { EventManager } from './events/EventManager';
-import { resolveStructures } from '../util/fs';
-import type { Event } from './events/Event';
+import { getAuthDetails, cleanToken } from './util/token.js';
+import { resolveCommands } from './commands/resolve';
+import { getCommandIdMap } from './commands/cache';
+import { registerEvents } from './events/register';
+import { JellyCommandsOptions } from './options';
+import { respond } from './commands/respond';
 import { Props } from './structures/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
@@ -28,31 +27,28 @@ export class JellyCommands extends Client {
         if (potentialToken) this.token = cleanToken(potentialToken);
 
         if (this.joptions.commands) {
-            const commands = await resolveStructures<BaseCommand>(
+            const commands = await resolveCommands(
+                this,
                 this.joptions.commands,
             );
+            const commandIdMap = await getCommandIdMap(this, commands);
 
-            const commandIdMap = await CommandManager.createCommandIdMap(
-                this,
-                commands,
-            );
-
-            const commandManager = new CommandManager(this, commandIdMap);
-
-            this.on('interactionCreate', (i) => {
-                this.debug(`Interaction received: ${i.id} | ${i.type}`);
+            this.on('interactionCreate', (interaction) => {
+                this.debug(
+                    `Interaction received: ${interaction.id} | ${interaction.type}`,
+                );
 
                 // Tell command manager to respond to this
-                commandManager.respond(i);
+                respond({
+                    interaction,
+                    client: this,
+                    commandIdMap,
+                });
             });
         }
 
         if (this.joptions?.events) {
-            const events = await resolveStructures<InstanceType<typeof Event>>(
-                this.joptions.events,
-            );
-
-            await EventManager.loadEvents(this, events);
+            await registerEvents(this, this.joptions.events);
         }
 
         const { token } = getAuthDetails(this);

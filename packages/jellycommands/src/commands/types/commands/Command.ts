@@ -1,13 +1,13 @@
 import type { APIApplicationCommandOption } from 'discord-api-types/v9';
-import type { BaseCommandCallback } from '../../base/BaseCommand';
 import type { ApplicationCommandOptionData } from 'discord.js';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 import type { JellyCommands } from '../../../JellyCommands';
+import type { BaseCommandCallback } from '../BaseCommand';
 import type { AutocompleteInteraction } from 'discord.js';
 import type { CommandInteraction } from 'discord.js';
-import { BaseCommand } from '../../base/BaseCommand';
 import { schema, CommandOptions } from './options';
 import { ApplicationCommand } from 'discord.js';
+import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
 
 type Awaitable<T> = T | Promise<T>;

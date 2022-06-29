@@ -1,8 +1,8 @@
-import type { BaseCommandCallback } from '../../base/BaseCommand';
+import type { BaseCommandCallback } from '../../../commands/types/BaseCommand';
+import { BaseCommand } from '../../../commands/types/BaseCommand';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 import type { ContextMenuInteraction } from 'discord.js';
 import { schema, UserCommandOptions } from './options';
-import { BaseCommand } from '../../base/BaseCommand';
 import { removeKeys } from 'ghoststools';
 
 export class UserCommand extends BaseCommand<
