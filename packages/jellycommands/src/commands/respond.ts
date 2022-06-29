@@ -34,7 +34,7 @@ export async function respond(data: CommandReponseData): Promise<void> {
     // If autocomplete interaction, run options.autocomplete
     if (interaction.isAutocomplete())
         /** @todo Duck you typescript */
-        return void ((command as unknown) as Command).autocomplete?.({
+        return void (command as unknown as Command).autocomplete?.({
             interaction,
             client,
         });

@@ -1,4 +1,8 @@
-import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
+import type {
+    ClientOptions,
+    InteractionReplyOptions,
+    MessagePayload,
+} from 'discord.js';
 import { BaseCommand } from './commands/types/BaseCommand.js';
 import { snowflakeArray } from './utils/joi';
 import { Event } from './events/Event';
@@ -21,10 +25,7 @@ export const schema = Joi.object({
 
     messages: Joi.object({
         unknownCommand: Joi.alternatives()
-            .try(
-                Joi.string(),
-                Joi.object(),
-            )
+            .try(Joi.string(), Joi.object())
             .default({
                 embeds: [{ description: 'Unknown Command' }],
             }),
