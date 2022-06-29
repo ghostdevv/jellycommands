@@ -1,5 +1,5 @@
 import { GuildCommands, GlobalCommands } from './types.d';
-import { resolveItems } from '../util/resolveItems';
+import { resolveItems } from '../utils/resolveItems';
 import { BaseCommand } from './types/BaseCommand';
 import { JellyCommands } from '../JellyCommands';
 

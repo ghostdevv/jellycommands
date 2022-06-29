@@ -1,4 +1,4 @@
-import { getAuthDetails, cleanToken } from './util/token.js';
+import { getAuthDetails, cleanToken } from './utils/token.js';
 import { resolveCommands } from './commands/resolve';
 import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';

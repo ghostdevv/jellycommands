@@ -1,8 +1,8 @@
 import { APIApplicationCommand, Routes } from 'discord-api-types/v9';
 import { CommandIDMap, ResolvedCommands } from './types';
 import { JellyCommands } from '../JellyCommands';
-import { createRequest } from '../util/request';
-import { getAuthDetails } from '../util/token';
+import { createRequest } from '../utils/request';
+import { getAuthDetails } from '../utils/token';
 
 // TODO cache
 // TODO permissions

@@ -1,5 +1,5 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import { snowflakeArray } from '../../util/joi';
+import { snowflakeArray } from '../../utils/joi';
 import Joi from 'joi';
 
 export interface BaseOptions {

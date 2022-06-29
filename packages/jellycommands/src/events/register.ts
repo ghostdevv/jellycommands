@@ -1,4 +1,4 @@
-import { resolveItems } from '../util/resolveItems';
+import { resolveItems } from '../utils/resolveItems';
 import { JellyCommands } from '../JellyCommands';
 import { Event } from './Event';
 
