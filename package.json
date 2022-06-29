@@ -16,7 +16,10 @@
         "dev-build": "pnpm --parallel -r build --watch",
         "dev-dev": "pnpm --filter dev -r dev",
         "build": "pnpm -r build",
-        "release": "changeset publish"
+        "release": "changeset publish",
+        "lint": "pnpm -r lint",
+        "fix": "pnpm -r fix",
+        "test": "echo \"no tests yet\""
     },
     "engines": {
         "pnpm": "^7.1.0",
