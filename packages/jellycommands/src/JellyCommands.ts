@@ -1,4 +1,4 @@
-import { getAuthDetails, cleanToken } from './utils/token.js';
+import { cleanToken, resolveToken } from './utils/token.js';
 import { resolveCommands } from './commands/resolve';
 import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';
@@ -23,7 +23,7 @@ export class JellyCommands extends Client {
         this.props = new Props(options.props);
     }
 
-    async login(potentialToken?: string) {
+    async login(potentialToken?: string): Promise<string> {
         if (potentialToken) this.token = cleanToken(potentialToken);
 
         if (this.joptions.commands) {
@@ -31,14 +31,15 @@ export class JellyCommands extends Client {
                 this,
                 this.joptions.commands,
             );
+
             const commandIdMap = await getCommandIdMap(this, commands);
 
+            // Whenever there is a interactionCreate event respond to it
             this.on('interactionCreate', (interaction) => {
                 this.debug(
                     `Interaction received: ${interaction.id} | ${interaction.type}`,
                 );
 
-                // Tell command manager to respond to this
                 respond({
                     interaction,
                     client: this,
@@ -51,8 +52,7 @@ export class JellyCommands extends Client {
             await registerEvents(this, this.joptions.events);
         }
 
-        const { token } = getAuthDetails(this);
-        return super.login(token);
+        return super.login(resolveToken(this) || 'undefined');
     }
 
     debug(message: string) {
