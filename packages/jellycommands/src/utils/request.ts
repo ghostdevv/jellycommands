@@ -15,9 +15,13 @@ export function createRequest(token: string) {
         _errors?: ResponseObject['errors'];
     }
 
-    return <T>(method: Method, route: string, data?: any): Promise<T> =>
+    return <Response = Record<string, any>, Data = any>(
+        method: Method,
+        route: string,
+        data?: Data,
+    ): Promise<Response> =>
         req(route, { method, data })
-            .then((res) => res.data as T)
+            .then((res) => res.data)
             .catch((e) => {
                 if (!axios.isAxiosError(e)) throw e;
 
