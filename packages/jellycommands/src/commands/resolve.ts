@@ -16,13 +16,6 @@ export const resolveCommands = async (
         const devMode = client.joptions.dev?.global || command.options.dev;
         const devGuilds = client.joptions.dev?.guilds || [];
 
-        // TODO solve this issue
-        if (command.options.guards) {
-            throw new Error(
-                'Discord made breaking changes to their API for permissions, whilst we work out how to deal with that we have disabled permissions feature to stop bots from breaking. Track progress here https://github.com/ghostdevv/jellycommands/issues/108',
-            );
-        }
-
         if (devMode) {
             command.options.dev = true;
             command.options.global = false;

@@ -1,11 +1,9 @@
+import { RESTPutAPIApplicationCommandPermissionsJSONBody } from 'discord-api-types/v9';
 import { APIApplicationCommand, Routes } from 'discord-api-types/v9';
 import { CommandIDMap, ResolvedCommands } from './types';
 import { JellyCommands } from '../JellyCommands';
 import { createRequest } from '../utils/request';
 import { getAuthDetails } from '../utils/token';
-
-// TODO cache
-// TODO permissions
 
 export const registerCommands = async (
     client: JellyCommands,
@@ -40,13 +38,9 @@ export const registerCommands = async (
             commandsArray.map((c) => c.applicationCommandData),
         );
 
-        for (let i = 0; i < res.length; i++) {
-            const command = commandsArray[i];
-            const apiCommand = res[i];
-
-            // Set the command id map
-            commandIdMap.set(apiCommand.id, command);
-        }
+        res.forEach((command, i) =>
+            commandIdMap.set(command.id, commandsArray[i]),
+        );
     }
 
     return commandIdMap;
