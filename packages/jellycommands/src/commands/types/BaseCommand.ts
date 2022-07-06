@@ -66,14 +66,10 @@ export abstract class BaseCommand<
     abstract get applicationCommandData(): RESTPostAPIApplicationCommandsJSONBody;
 
     get applicationCommandPermissions(): string | null {
-        console.log('has guards? ', !!this.options.guards?.permissions);
-
         if (this.options.guards?.permissions) {
             const { bitfield } = new Permissions(
                 this.options.guards.permissions,
             );
-
-            console.log('bitfield', bitfield.toString());
 
             return bitfield.toString();
         }
