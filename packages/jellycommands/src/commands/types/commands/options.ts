@@ -30,7 +30,7 @@ export const schema = baseSchema.append({
                 'Slash Command names must be 1 - 32 characters, all lowercase with no witespaces or special chars',
         }),
 
-    description: Joi.string().max(100).required(),
+    description: Joi.string().min(1).max(100).required(),
 
     options: Joi.array(),
 });
