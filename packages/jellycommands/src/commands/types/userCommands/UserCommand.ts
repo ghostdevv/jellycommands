@@ -5,24 +5,11 @@ import type { ContextMenuInteraction } from 'discord.js';
 import { schema, UserCommandOptions } from './options';
 import { removeKeys } from 'ghoststools';
 
-export class UserCommand extends BaseCommand<
-    UserCommandOptions,
-    ContextMenuInteraction
-> {
-    constructor(
-        run: BaseCommand<UserCommandOptions, ContextMenuInteraction>['run'],
-        options: UserCommandOptions,
-    ) {
-        super(run, { options, schema });
-    }
+export class UserCommand extends BaseCommand<UserCommandOptions, ContextMenuInteraction> {
+    public readonly type = ApplicationCommandType.User;
 
-    get applicationCommandData() {
-        return {
-            name: this.options.name,
-            type: ApplicationCommandType.User,
-            description: '',
-            default_member_permissions: this.applicationCommandPermissions,
-        };
+    constructor(run: BaseCommandCallback<ContextMenuInteraction>, options: UserCommandOptions) {
+        super(run, { options, schema });
     }
 }
 
@@ -31,8 +18,5 @@ export const userCommand = (
         run: BaseCommandCallback<ContextMenuInteraction>;
     },
 ) => {
-    return new UserCommand(
-        options.run,
-        removeKeys(options, 'run') as UserCommandOptions,
-    );
+    return new UserCommand(options.run, removeKeys(options, 'run') as UserCommandOptions);
 };

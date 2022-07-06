@@ -40,6 +40,12 @@ export interface BaseOptions {
     global?: boolean;
 
     /**
+     * Should the slash command work in dms, this only works on global commands
+     * @default true
+     */
+    dm?: boolean;
+
+    /**
      * Whether or not the slash command should be loaded
      */
     disabled?: boolean;
@@ -64,5 +70,6 @@ export const baseSchema = Joi.object({
 
     guilds: snowflakeArray(),
     global: Joi.bool().default(false),
+    dm: Joi.bool().default(true),
     disabled: Joi.bool().default(false),
 });

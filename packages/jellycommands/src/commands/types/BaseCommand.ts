@@ -1,4 +1,5 @@
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
+import type { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
 import type { Interaction } from 'discord.js';
 import { Permissions } from 'discord.js';
@@ -26,16 +27,16 @@ export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,
     InteractionType extends Interaction = Interaction,
 > {
-    public readonly options;
+    public readonly options: OptionsType;
+
+    public abstract readonly type: ApplicationCommandType;
 
     constructor(
         public readonly run: BaseCommandCallback<InteractionType>,
         { options, schema }: OptionsOptions<OptionsType>,
     ) {
         if (!run || typeof run != 'function')
-            throw new TypeError(
-                `Expected type function for run, received ${typeof run}`,
-            );
+            throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
         const { error, value } = schema.validate(options);
 
@@ -43,34 +44,29 @@ export abstract class BaseCommand<
 
         this.options = value as typeof options;
 
-        if (
-            !this.options.guilds?.length &&
-            !this.options.global &&
-            !this.options.dev
-        )
-            throw new Error(
-                'Command must have at least one of guild, global, or dev',
-            );
+        if (!this.options.guilds?.length && !this.options.global && !this.options.dev)
+            throw new Error('Command must have at least one of guild, global, or dev');
 
-        if (
-            this.options.global &&
-            !this.options.guilds?.length &&
-            this.options.guards
-        ) {
+        if (this.options.global && !this.options.guilds?.length && this.options.guards) {
             throw new Error(
                 'If using guards on a global command you must have a guilds array, guards can only be applied to guilds',
             );
         }
     }
 
-    abstract get applicationCommandData(): RESTPostAPIApplicationCommandsJSONBody;
+    get applicationCommandData(): RESTPostAPIApplicationCommandsJSONBody {
+        return {
+            name: this.options.name,
+            type: this.type,
+            description: '',
+            default_member_permissions: this.applicationCommandPermissions,
+            dm_permission: this.options.dm ?? true,
+        };
+    }
 
     get applicationCommandPermissions(): string | null {
         if (this.options.guards?.permissions) {
-            const { bitfield } = new Permissions(
-                this.options.guards.permissions,
-            );
-
+            const { bitfield } = new Permissions(this.options.guards.permissions);
             return bitfield.toString();
         }
 
@@ -78,8 +74,6 @@ export abstract class BaseCommand<
     }
 
     get hashId() {
-        return createHash('sha256')
-            .update(JSON.stringify(this.options))
-            .digest('hex');
+        return createHash('sha256').update(JSON.stringify(this.options)).digest('hex');
     }
 }

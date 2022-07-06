@@ -18,6 +18,8 @@ export type AutocompleteHandler = (options: {
 }) => Awaitable<any | void>;
 
 export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
+    public readonly type = ApplicationCommandType.ChatInput;
+
     readonly autocomplete?: AutocompleteHandler;
 
     constructor(
@@ -35,8 +37,7 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
     }
 
     static transformOption(option: ApplicationCommandOptionData) {
-        const transform =
-            ApplicationCommand['transformOption'].bind(ApplicationCommand);
+        const transform = ApplicationCommand['transformOption'].bind(ApplicationCommand);
 
         const result = transform(option, false) as APIApplicationCommandOption;
 
@@ -44,15 +45,11 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
     }
 
     get applicationCommandData() {
-        const options = this.options.options?.map((o) =>
-            Command.transformOption(o),
-        );
+        const options = this.options.options?.map((o) => Command.transformOption(o));
 
         return {
-            name: this.options.name,
-            type: ApplicationCommandType.ChatInput,
+            ...super.applicationCommandData,
             description: this.options.description,
-            default_member_permissions: this.applicationCommandPermissions,
             options,
         };
     }

@@ -16,6 +16,7 @@ export default command({
     ],
 
     dev: true,
+    dm: false,
 
     run: ({ interaction }) =>
         interaction.reply({

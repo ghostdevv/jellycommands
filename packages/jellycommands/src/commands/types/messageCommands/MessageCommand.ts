@@ -5,24 +5,11 @@ import { schema, MessageCommandOptions } from './options';
 import type { ContextMenuInteraction } from 'discord.js';
 import { removeKeys } from 'ghoststools';
 
-export class MessageCommand extends BaseCommand<
-    MessageCommandOptions,
-    ContextMenuInteraction
-> {
-    constructor(
-        run: BaseCommand<MessageCommandOptions, ContextMenuInteraction>['run'],
-        options: MessageCommandOptions,
-    ) {
-        super(run, { options, schema });
-    }
+export class MessageCommand extends BaseCommand<MessageCommandOptions, ContextMenuInteraction> {
+    public readonly type = ApplicationCommandType.Message;
 
-    get applicationCommandData() {
-        return {
-            name: this.options.name,
-            type: ApplicationCommandType.Message,
-            description: '',
-            default_member_permissions: this.applicationCommandPermissions,
-        };
+    constructor(run: BaseCommandCallback<ContextMenuInteraction>, options: MessageCommandOptions) {
+        super(run, { options, schema });
     }
 }
 
@@ -31,8 +18,5 @@ export const messageCommand = (
         run: BaseCommandCallback<ContextMenuInteraction>;
     },
 ) => {
-    return new MessageCommand(
-        options.run,
-        removeKeys(options, 'run') as MessageCommandOptions,
-    );
+    return new MessageCommand(options.run, removeKeys(options, 'run') as MessageCommandOptions);
 };
