@@ -15,16 +15,11 @@ export const registerEvents = async (
             try {
                 await event.run({ client }, ...ctx);
             } catch (error) {
-                console.error(
-                    `There was an error running event ${event.name}`,
-                    error,
-                );
+                console.error(`There was an error running event ${event.name}`, error);
             }
         };
 
         // Register Event
-        event.options.once
-            ? client.once(event.name, cb)
-            : client.on(event.name, cb);
+        event.options.once ? client.once(event.name, cb) : client.on(event.name, cb);
     }
 };

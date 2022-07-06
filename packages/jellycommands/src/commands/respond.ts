@@ -13,9 +13,7 @@ export async function respond(data: CommandReponseData): Promise<void> {
     const { client, interaction, commandIdMap } = data;
 
     const isCommandOrAutocomplete =
-        interaction.isCommand() ||
-        interaction.isContextMenu() ||
-        interaction.isAutocomplete();
+        interaction.isCommand() || interaction.isContextMenu() || interaction.isAutocomplete();
 
     if (!isCommandOrAutocomplete) return;
 
@@ -41,9 +39,7 @@ export async function respond(data: CommandReponseData): Promise<void> {
 
     // If defer, defer
     if (options.defer)
-        await interaction.deferReply(
-            typeof options.defer == 'object' ? options.defer : {},
-        );
+        await interaction.deferReply(typeof options.defer == 'object' ? options.defer : {});
 
     // Run the command
     try {

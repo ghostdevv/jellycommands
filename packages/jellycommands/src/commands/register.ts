@@ -37,9 +37,7 @@ export const registerCommands = async (
             commandsArray.map((c) => c.applicationCommandData),
         );
 
-        res.forEach((command, i) =>
-            commandIdMap.set(command.id, commandsArray[i]),
-        );
+        res.forEach((command, i) => commandIdMap.set(command.id, commandsArray[i]));
     }
 
     return commandIdMap;

@@ -19,14 +19,10 @@ export class Event<T extends keyof ClientEvents> {
         options: EventOptions<T>,
     ) {
         if (!name || typeof name != 'string')
-            throw new TypeError(
-                `Expected type string for name, received ${typeof name}`,
-            );
+            throw new TypeError(`Expected type string for name, received ${typeof name}`);
 
         if (!run || typeof run != 'function')
-            throw new TypeError(
-                `Expected type function for run, received ${typeof run}`,
-            );
+            throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
         const { error, value } = schema.validate(options);
 
@@ -40,9 +36,5 @@ export const event = <K extends keyof ClientEvents>(
         run: EventCallback<K>;
     },
 ) => {
-    return new Event<K>(
-        options.name,
-        options.run,
-        removeKeys(options, 'run') as EventOptions<K>,
-    );
+    return new Event<K>(options.name, options.run, removeKeys(options, 'run') as EventOptions<K>);
 };

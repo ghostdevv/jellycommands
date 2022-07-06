@@ -88,8 +88,7 @@ export class CommandIdResolver {
     set(commands: CommandIDMap) {
         const data: Record<string, string> = {};
 
-        for (const [commandId, command] of commands)
-            data[command.hashId] = commandId;
+        for (const [commandId, command] of commands) data[command.hashId] = commandId;
 
         this.cache.set<Record<string, string>>(data);
     }

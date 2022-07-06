@@ -25,8 +25,7 @@ export function createRequest(token: string) {
             .catch((e) => {
                 if (!axios.isAxiosError(e)) throw e;
 
-                const { message, errors, _errors } = (e?.response?.data ||
-                    {}) as ResponseObject;
+                const { message, errors, _errors } = (e?.response?.data || {}) as ResponseObject;
 
                 if (errors || _errors)
                     console.error(

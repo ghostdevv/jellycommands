@@ -17,8 +17,7 @@ export class Cache {
         if (!existsSync(this.cacheDirectory)) mkdirSync(this.cacheDirectory);
 
         // If the cache file doesn't exist, create it
-        if (!existsSync(this.cacheFile))
-            writeFileSync(this.cacheFile, '{}', 'utf-8');
+        if (!existsSync(this.cacheFile)) writeFileSync(this.cacheFile, '{}', 'utf-8');
     }
 
     set<T extends Record<any, any>>(object: T) {

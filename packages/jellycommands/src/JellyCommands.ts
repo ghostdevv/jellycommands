@@ -27,18 +27,13 @@ export class JellyCommands extends Client {
         if (potentialToken) this.token = cleanToken(potentialToken);
 
         if (this.joptions.commands) {
-            const commands = await resolveCommands(
-                this,
-                this.joptions.commands,
-            );
+            const commands = await resolveCommands(this, this.joptions.commands);
 
             const commandIdMap = await getCommandIdMap(this, commands);
 
             // Whenever there is a interactionCreate event respond to it
             this.on('interactionCreate', (interaction) => {
-                this.debug(
-                    `Interaction received: ${interaction.id} | ${interaction.type}`,
-                );
+                this.debug(`Interaction received: ${interaction.id} | ${interaction.type}`);
 
                 respond({
                     interaction,
@@ -56,7 +51,6 @@ export class JellyCommands extends Client {
     }
 
     debug(message: string) {
-        if (this.joptions.debug)
-            console.debug(`\x1b[1m\x1b[35m[DEBUG]\x1b[22m\x1b[39m ${message}`);
+        if (this.joptions.debug) console.debug(`\x1b[1m\x1b[35m[DEBUG]\x1b[22m\x1b[39m ${message}`);
     }
 }
