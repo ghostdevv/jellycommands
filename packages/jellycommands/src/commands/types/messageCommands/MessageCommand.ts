@@ -17,15 +17,11 @@ export class MessageCommand extends BaseCommand<
     }
 
     get applicationCommandData() {
-        const default_permission = this.options.guards
-            ? this.options.guards.mode == 'blacklist'
-            : true;
-
         return {
             name: this.options.name,
             type: ApplicationCommandType.Message,
             description: '',
-            default_permission,
+            default_member_permissions: this.applicationCommandPermissions,
         };
     }
 }

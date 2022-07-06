@@ -1,8 +1,7 @@
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v9';
-import type { APIApplicationCommandPermission } from 'discord-api-types/v9';
-import { ApplicationCommandPermissionType } from 'discord-api-types/v9';
 import type { JellyCommands } from '../../JellyCommands';
 import type { Interaction } from 'discord.js';
+import { Permissions } from 'discord.js';
 import { BaseOptions } from './options';
 import { createHash } from 'crypto';
 import Joi from 'joi';
@@ -66,33 +65,20 @@ export abstract class BaseCommand<
 
     abstract get applicationCommandData(): RESTPostAPIApplicationCommandsJSONBody;
 
-    get applicationCommandPermissions() {
-        if (!this.options.guards) return null;
+    get applicationCommandPermissions(): string | null {
+        console.log('has guards? ', !!this.options.guards?.permissions);
 
-        const { mode, users, roles } = this.options.guards;
-
-        const permissions: APIApplicationCommandPermission[][] = [];
-        const permission = mode == 'whitelist';
-
-        if (users)
-            permissions.push(
-                users.map((id) => ({
-                    id,
-                    type: ApplicationCommandPermissionType.User,
-                    permission,
-                })),
+        if (this.options.guards?.permissions) {
+            const { bitfield } = new Permissions(
+                this.options.guards.permissions,
             );
 
-        if (roles)
-            permissions.push(
-                roles.map((id) => ({
-                    id,
-                    type: ApplicationCommandPermissionType.Role,
-                    permission,
-                })),
-            );
+            console.log('bitfield', bitfield.toString());
 
-        return permissions.flat();
+            return bitfield.toString();
+        }
+
+        return null;
     }
 
     get hashId() {

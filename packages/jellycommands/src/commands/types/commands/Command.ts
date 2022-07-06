@@ -44,10 +44,6 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
     }
 
     get applicationCommandData() {
-        const default_permission = this.options.guards
-            ? this.options.guards.mode == 'blacklist'
-            : true;
-
         const options = this.options.options?.map((o) =>
             Command.transformOption(o),
         );
@@ -56,7 +52,7 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
             name: this.options.name,
             type: ApplicationCommandType.ChatInput,
             description: this.options.description,
-            default_permission,
+            default_member_permissions: this.applicationCommandPermissions,
             options,
         };
     }

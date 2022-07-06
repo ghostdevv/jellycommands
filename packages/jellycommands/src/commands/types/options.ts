@@ -1,4 +1,5 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
+import type { PermissionResolvable } from 'discord.js';
 import { snowflakeArray } from '../../utils/joi';
 import Joi from 'joi';
 
@@ -23,19 +24,9 @@ export interface BaseOptions {
      */
     guards?: {
         /**
-         * Should the guards act as a whitelist or blacklist
+         * The permissions a member must have to run this command
          */
-        mode: 'whitelist' | 'blacklist';
-
-        /**
-         * Which users should be allowed only (whitelist) or should be blocked (blacklist)
-         */
-        users?: string[];
-
-        /**
-         * Which roles should be allowed only (whitelist) or should be blocked (blacklist)
-         */
-        roles?: string[];
+        permissions?: PermissionResolvable;
     };
 
     /**
@@ -68,9 +59,7 @@ export const baseSchema = Joi.object({
     ],
 
     guards: Joi.object({
-        mode: Joi.string().valid('whitelist', 'blacklist').required(),
-        users: snowflakeArray(),
-        roles: snowflakeArray(),
+        permissions: Joi.any(),
     }),
 
     guilds: snowflakeArray(),

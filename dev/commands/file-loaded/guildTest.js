@@ -8,13 +8,9 @@ export default command({
 
     dev: true,
 
-    // guards: {
-    //     mode: 'blacklist',
-
-    //     users: ['331151683067445251'],
-
-    //     roles: ['740589901095108739'],
-    // },
+    guards: {
+        permissions: ['ADMINISTRATOR'],
+    },
 
     run: ({ interaction }) =>
         interaction.reply({ embeds: [{ description: 'as' }] }),
