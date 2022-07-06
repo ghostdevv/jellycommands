@@ -1,6 +1,6 @@
-import type { APIApplicationCommandOption } from 'discord-api-types/v9';
+import type { APIApplicationCommandOption } from 'discord-api-types/v10';
 import type { ApplicationCommandOptionData } from 'discord.js';
-import { ApplicationCommandType } from 'discord-api-types/v9';
+import { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../../JellyCommands';
 import type { BaseCommandCallback } from '../BaseCommand';
 import type { AutocompleteInteraction } from 'discord.js';

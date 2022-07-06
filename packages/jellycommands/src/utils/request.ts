@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export function createRequest(token: string) {
     const req = axios.create({
-        baseURL: 'https://discord.com/api/v9/',
+        baseURL: 'https://discord.com/api/v10/',
         headers: {
             Authorization: `Bot ${token}`,
         },

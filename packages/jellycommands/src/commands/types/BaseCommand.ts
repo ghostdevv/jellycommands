@@ -1,4 +1,4 @@
-import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v9';
+import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
 import type { Interaction } from 'discord.js';
 import { Permissions } from 'discord.js';

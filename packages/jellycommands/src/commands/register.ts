@@ -1,5 +1,4 @@
-import { RESTPutAPIApplicationCommandPermissionsJSONBody } from 'discord-api-types/v9';
-import { APIApplicationCommand, Routes } from 'discord-api-types/v9';
+import { APIApplicationCommand, Routes } from 'discord-api-types/v10';
 import { CommandIDMap, ResolvedCommands } from './types';
 import { JellyCommands } from '../JellyCommands';
 import { createRequest } from '../utils/request';
