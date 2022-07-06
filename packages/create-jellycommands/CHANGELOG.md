@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.0.1-next.5
+
+### Patch Changes
+
+-   update dependancies ([`05f52a5`](https://github.com/ghostdevv/jellycommands/commit/05f52a5b2a9a22ddb89ffc55a9de4e81da92b03e))
+
 ## 0.0.1-next.4
 
 ### Patch Changes

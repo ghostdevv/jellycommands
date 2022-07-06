@@ -1,5 +1,23 @@
 # jellycommands
 
+## 1.0.0-next.27
+
+### Minor Changes
+
+-   new permissions system ([`6fba181`](https://github.com/ghostdevv/jellycommands/commit/6fba18170a5f94a66f3171493b8d6da5e367db0c))
+
+*   new dm option ([`8bfaab1`](https://github.com/ghostdevv/jellycommands/commit/8bfaab1628c4ae69471a2518532284b6e7c37587))
+
+### Patch Changes
+
+-   internally rename util to utils ([`0ae3767`](https://github.com/ghostdevv/jellycommands/commit/0ae3767edd50d85673afbce59f4f54881b26ab34))
+
+*   improve internal requester types ([`42c04ae`](https://github.com/ghostdevv/jellycommands/commit/42c04ae3e10f379bbb30a50ac3c3bb83365e5775))
+
+-   refactor internals to improve ([`18f0393`](https://github.com/ghostdevv/jellycommands/commit/18f03931023241177b1e7290dce3af7892632db1))
+
+*   switch to api v10 ([`f570a09`](https://github.com/ghostdevv/jellycommands/commit/f570a09fd348f79fca11c43004884b955ce279b4))
+
 ## 1.0.0-next.26
 
 ### Patch Changes
