@@ -9,4 +9,5 @@ export const tsup: Options = {
     target: 'esnext',
     format: ['esm', 'cjs'],
     entryPoints: ['src/index.ts'],
+    shims: true,
 };
