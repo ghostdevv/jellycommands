@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.28
+
+### Patch Changes
+
+-   limit descriptions to 100 chars ([`dd7d18f`](https://github.com/ghostdevv/jellycommands/commit/dd7d18f8ba98e190c2a7aa967660a3aa01d29f3d))
+
 ## 1.0.0-next.27
 
 ### Minor Changes
