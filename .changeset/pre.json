@@ -7,6 +7,7 @@
     "create-jellycommands": "0.0.0"
   },
   "changesets": [
+    "angry-radios-teach",
     "chilly-pets-speak",
     "cool-trees-guess",
     "famous-books-switch",
@@ -21,6 +22,7 @@
     "long-squids-run",
     "loud-lemons-shave",
     "mean-pandas-develop",
+    "mean-turkeys-thank",
     "metal-glasses-repeat",
     "mighty-schools-happen",
     "nasty-weeks-invent",
@@ -44,6 +46,7 @@
     "sweet-dolls-beg",
     "tall-cups-shake",
     "unlucky-snails-suffer",
+    "wet-sheep-act",
     "yellow-snakes-thank"
   ]
 }

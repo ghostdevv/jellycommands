@@ -1,5 +1,13 @@
 # create-jellycommands
 
+## 0.0.1-next.6
+
+### Patch Changes
+
+-   add comments and switch to global dev mode ([`165aa38`](https://github.com/ghostdevv/jellycommands/commit/165aa389a923726534e36cba5c4d76092521b4dc))
+
+*   remove GUILD_MEMBERS intent ([`1844a28`](https://github.com/ghostdevv/jellycommands/commit/1844a280a09d2f2711b1addbdd6347439402fc00))
+
 ## 0.0.1-next.5
 
 ### Patch Changes
