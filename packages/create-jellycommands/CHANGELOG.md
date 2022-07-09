@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.0.1-next.7
+
+### Patch Changes
+
+-   update template dependancies ([`653b59e`](https://github.com/ghostdevv/jellycommands/commit/653b59eb7c708968e4aac1f51ae1291a7ecf56fb))
+
 ## 0.0.1-next.6
 
 ### Patch Changes

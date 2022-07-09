@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.30
+
+### Minor Changes
+
+-   command name and description localisations ([`fd45708`](https://github.com/ghostdevv/jellycommands/commit/fd45708cff29705cb94ae2b2d8c342447bb6e658))
+
 ## 1.0.0-next.29
 
 ### Patch Changes
