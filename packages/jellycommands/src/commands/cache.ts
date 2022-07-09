@@ -82,26 +82,34 @@ export class CommandCache {
     }
 }
 
+type CommandHashId = string;
+type CommandId = string;
+
+type IdResolverMap = Record<CommandId, CommandHashId>;
+
 export class CommandIdResolver {
     private cache = new Cache('command-id-resolver');
 
     set(commands: CommandIDMap) {
-        const data: Record<string, string> = {};
+        const data: IdResolverMap = {};
 
-        for (const [commandId, command] of commands) data[command.hashId] = commandId;
+        for (const [commandId, command] of commands) {
+            data[commandId] = command.hashId;
+        }
 
-        this.cache.set<Record<string, string>>(data);
+        this.cache.set<IdResolverMap>(data);
     }
 
     get(commands: Set<BaseCommand>): CommandIDMap | false {
-        const ids = this.cache.get<Record<string, string>>();
-        const commandIdMap: CommandIDMap = new Map();
-
+        const ids = this.cache.get<IdResolverMap>();
         if (!ids) return false;
 
-        for (const command of commands) {
-            const commandId = ids[command.hashId];
-            if (!commandId) return false;
+        const commandIdMap: CommandIDMap = new Map();
+        const commandsArray = [...commands];
+
+        for (const [commandId, hashId] of Object.entries(ids)) {
+            const command = commandsArray.find((command) => command.hashId === hashId);
+            if (!command) return false;
 
             commandIdMap.set(commandId, command);
         }
