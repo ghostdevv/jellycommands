@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.29
+
+### Patch Changes
+
+-   fix command id resolution process ([`07e29b5`](https://github.com/ghostdevv/jellycommands/commit/07e29b5d63240ebf2dd5d6b7c41c8175e1f9b0fb))
+
 ## 1.0.0-next.28
 
 ### Patch Changes
