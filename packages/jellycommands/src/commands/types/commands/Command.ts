@@ -50,6 +50,7 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         return {
             ...super.applicationCommandData,
             description: this.options.description,
+            description_localizations: this.options.descriptionLocalizations,
             options,
         };
     }

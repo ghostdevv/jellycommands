@@ -1,5 +1,6 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
 import type { PermissionResolvable } from 'discord.js';
+import type { Locale } from 'discord-api-types/v10';
 import { snowflakeArray } from '../../utils/joi';
 import Joi from 'joi';
 
@@ -8,6 +9,11 @@ export interface BaseOptions {
      * The name of the command
      */
     name: string;
+
+    /**
+     * Localize a command name to different languages
+     */
+    nameLocalizations?: Record<Locale, string>;
 
     /**
      * Is the command in dev mode or not
@@ -53,6 +59,7 @@ export interface BaseOptions {
 
 export const baseSchema = Joi.object({
     name: Joi.string().required(),
+    nameLocalizations: Joi.object(),
 
     dev: Joi.bool().default(false),
 

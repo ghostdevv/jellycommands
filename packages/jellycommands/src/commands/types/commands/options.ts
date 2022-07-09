@@ -1,12 +1,18 @@
 import type { BaseOptions } from '../../../commands/types/options';
 import type { ApplicationCommandOptionData } from 'discord.js';
 import { baseSchema } from '../../../commands/types/options';
+import type { Locale } from 'discord-api-types/v10';
 
 export interface CommandOptions extends BaseOptions {
     /**
      * The description of the slash command
      */
     description: string;
+
+    /**
+     * Localize a command descriptions to different languages
+     */
+    descriptionLocalizations?: Record<Locale, string>;
 
     /**
      * Options for the slash command
@@ -31,6 +37,7 @@ export const schema = baseSchema.append({
         }),
 
     description: Joi.string().min(1).max(100).required(),
+    descriptionLocalizations: Joi.object(),
 
     options: Joi.array(),
 });

@@ -61,6 +61,7 @@ export abstract class BaseCommand<
             description: '',
             default_member_permissions: this.applicationCommandPermissions,
             dm_permission: this.options.dm ?? true,
+            name_localizations: this.options.nameLocalizations,
         };
     }
 
