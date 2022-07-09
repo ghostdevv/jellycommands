@@ -33,7 +33,8 @@ export class JellyCommands extends Client {
 
             // Whenever there is a interactionCreate event respond to it
             this.on('interactionCreate', (interaction) => {
-                this.debug(`Interaction received: ${interaction.id} | ${interaction.type}`);
+                // prettier-ignore
+                this.debug(`Interaction received: ${interaction.id} | ${interaction.type} | Command Id: ${interaction.isCommand() && interaction.commandId}`);
 
                 respond({
                     interaction,
