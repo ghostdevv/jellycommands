@@ -12,26 +12,22 @@
 
 <br />
 
+<div align="center">
 
+Jellycommands is a developer experience focused command framework for discord.js. It has support for all types of application commands, including slash commands and context menus. It also includes quality of life features such as caching and developer mode.
 
-# [Read the docs](https://ghostdevbusiness.gitbook.io/jellycommands/)
+<br />
 
+## [Documentation](https://ghostdevbusiness.gitbook.io/jellycommands/)
 
-# Running in dev mode
-Requirements:
-- NPM 7
-- Node 14
-
-Running in dev mode:
-```
-cd dev
-npm install
-cd ..
-npm run dev
-```
+</div>
 
 # Support
-Want to support JellyCommands? Amazing, you can do it in a few ways:
+
+-   ### Join the [discord](https://discord.gg/2Vd4wAjJnm)
+-   ### Create a issue on the [github](https://github.com/ghostdevv/jellycommands)
+
+# Support Development
 
 - ### Patreon / PayPal
     [Click me](https://ghostdev.xyz/donate)
@@ -46,3 +42,4 @@ Want to support JellyCommands? Amazing, you can do it in a few ways:
     The badge:
 
     [![JellyCommands](https://img.shields.io/badge/Powered%20by%20-Jelly%20Commands-EB5E8A?style=for-the-badge&labelColor=white)](https://github.com/ghostdevv/jellycommands)
+
