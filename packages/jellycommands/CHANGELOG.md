@@ -1,5 +1,13 @@
 # jellycommands
 
+## 1.0.0-next.31
+
+### Patch Changes
+
+-   fix event.run types ([`c5ff15d`](https://github.com/ghostdevv/jellycommands/commit/c5ff15db88dc740ff2d9368523045eaec4e729c4))
+
+*   update readme's ([`159086c`](https://github.com/ghostdevv/jellycommands/commit/159086c4725c99d6c47eab975c92227e7454ff0a))
+
 ## 1.0.0-next.30
 
 ### Minor Changes

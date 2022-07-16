@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.0.1-next.8
+
+### Patch Changes
+
+-   update readme's ([`159086c`](https://github.com/ghostdevv/jellycommands/commit/159086c4725c99d6c47eab975c92227e7454ff0a))
+
 ## 0.0.1-next.7
 
 ### Patch Changes
