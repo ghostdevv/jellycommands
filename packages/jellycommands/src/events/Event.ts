@@ -8,7 +8,7 @@ type Awaitable<T> = Promise<T> | T;
 export type EventCallback<EventName extends keyof ClientEvents> = (
     instance: { client: JellyCommands },
     ...args: ClientEvents[EventName]
-) => Awaitable<void>;
+) => Awaitable<void | any>;
 
 export class Event<T extends keyof ClientEvents> {
     public readonly options: Required<EventOptions<T>>;
