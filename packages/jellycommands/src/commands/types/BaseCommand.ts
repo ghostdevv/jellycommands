@@ -1,13 +1,13 @@
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import type { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
-import type { Interaction } from 'discord.js';
-import { Permissions } from 'discord.js';
+import type { BaseInteraction } from 'discord.js';
+import { PermissionsBitField } from 'discord.js';
 import { BaseOptions } from './options';
 import { createHash } from 'crypto';
 import Joi from 'joi';
 
-export interface RunOptions<InteractionType extends Interaction> {
+export interface RunOptions<InteractionType extends BaseInteraction> {
     interaction: InteractionType;
     client: JellyCommands;
 }
@@ -19,13 +19,13 @@ export interface OptionsOptions<OptionsType> {
 
 type Awaitable<T> = Promise<T> | T;
 
-export type BaseCommandCallback<InteractionType extends Interaction> = (
+export type BaseCommandCallback<InteractionType extends BaseInteraction> = (
     options: RunOptions<InteractionType>,
 ) => Awaitable<void | any>;
 
 export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,
-    InteractionType extends Interaction = Interaction,
+    InteractionType extends BaseInteraction = BaseInteraction,
 > {
     public readonly options: OptionsType;
 
@@ -67,7 +67,7 @@ export abstract class BaseCommand<
 
     get applicationCommandPermissions(): string | null {
         if (this.options.guards?.permissions) {
-            const { bitfield } = new Permissions(this.options.guards.permissions);
+            const { bitfield } = new PermissionsBitField(this.options.guards.permissions);
             return bitfield.toString();
         }
 
