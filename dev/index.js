@@ -1,8 +1,8 @@
 import 'dotenv/config.js';
 import { JellyCommands } from 'jellycommands';
-import { Intents } from 'discord.js';
-import pog from './commands/pog.js';
+import { IntentsBitField } from 'discord.js';
 import ready from './events/ready.js';
+import pog from './commands/pog.js';
 
 const client = new JellyCommands({
     // For testing loading commands by importing we have a file-loaded dir for each
@@ -10,7 +10,7 @@ const client = new JellyCommands({
     events: [ready, 'events/file-loaded'],
 
     clientOptions: {
-        intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+        intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages],
     },
 
     dev: {
