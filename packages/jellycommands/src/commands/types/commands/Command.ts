@@ -1,12 +1,11 @@
-import type { APIApplicationCommandOption } from 'discord-api-types/v10';
-import type { ApplicationCommandOptionData } from 'discord.js';
+import { ApplicationCommand, ApplicationCommandOptionData } from 'discord.js';
+import { APIApplicationCommandOption } from 'discord-api-types/v10';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../../JellyCommands';
 import type { BaseCommandCallback } from '../BaseCommand';
 import type { AutocompleteInteraction } from 'discord.js';
 import type { CommandInteraction } from 'discord.js';
 import { schema, CommandOptions } from './options';
-import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
 
@@ -20,28 +19,21 @@ export type AutocompleteHandler = (options: {
 export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
     public readonly type = ApplicationCommandType.ChatInput;
 
-    readonly autocomplete?: AutocompleteHandler;
-
     constructor(
         run: BaseCommand<CommandOptions, CommandInteraction>['run'],
         options: CommandOptions,
-        autocomplete?: AutocompleteHandler,
+        readonly autocomplete?: AutocompleteHandler,
     ) {
-        if (autocomplete && typeof autocomplete !== 'function') {
-            throw new TypeError('Autocomplete handler must be a function');
-        }
-
         super(run, { options, schema });
 
-        this.autocomplete = autocomplete;
+        if (this.autocomplete && typeof this.autocomplete !== 'function') {
+            throw new TypeError('Autocomplete handler must be a function');
+        }
     }
 
-    static transformOption(option: ApplicationCommandOptionData) {
+    static transformOption(option: ApplicationCommandOptionData): APIApplicationCommandOption {
         const transform = ApplicationCommand['transformOption'].bind(ApplicationCommand);
-
-        const result = transform(option, false) as APIApplicationCommandOption;
-
-        return result;
+        return transform(option, false) as APIApplicationCommandOption;
     }
 
     get applicationCommandData() {
