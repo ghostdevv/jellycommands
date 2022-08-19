@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { JellyCommands } from 'jellycommands';
-import { Intents } from 'discord.js';
+import { IntentsBitField } from 'discord.js';
 
 const client = new JellyCommands({
     // https://ghostdevbusiness.gitbook.io/jellycommands/commands/loading-commands
@@ -10,7 +10,7 @@ const client = new JellyCommands({
     events: 'src/events',
 
     clientOptions: {
-        intents: [Intents.FLAGS.GUILDS],
+        intents: [IntentsBitField.Flags.Guilds],
     },
 
     dev: {
