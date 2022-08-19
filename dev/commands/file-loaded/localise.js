@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from 'discord.js';
 import { command } from 'jellycommands';
 
 export default command({
@@ -15,7 +16,7 @@ export default command({
     options: [
         {
             name: 'play',
-            type: 'STRING',
+            type: ApplicationCommandOptionType.String,
             nameLocalizations: {
                 de: 'speil',
             },

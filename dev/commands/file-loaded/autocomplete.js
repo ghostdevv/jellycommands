@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType } from 'discord.js';
 import { command } from 'jellycommands';
 import { colors } from './_colors.js';
 
@@ -9,7 +10,7 @@ export default command({
 
     options: [
         {
-            type: 'STRING',
+            type: ApplicationCommandOptionType.String,
             name: 'color',
             description: 'The color of the thing idk',
             required: true,
@@ -19,8 +20,7 @@ export default command({
 
     dev: true,
 
-    run: ({ interaction }) =>
-        interaction.reply(interaction.options.getString('color', true)),
+    run: ({ interaction }) => interaction.reply(interaction.options.getString('color', true)),
 
     autocomplete: async ({ interaction }) => {
         const focused = interaction.options.getFocused(true);
