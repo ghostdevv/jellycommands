@@ -13,6 +13,11 @@ export default defineConfig({
         docsBranch: 'main',
         logo: '/logo.svg',
 
+        socialLinks: [
+            { icon: 'github', link: 'https://github.com/ghostdevv/jellycommands' },
+            { icon: 'discord', link: 'https://discord.gg/2Vd4wAjJnm' },
+        ],
+
         footer: {
             message: 'MIT Licensed',
             copyright: 'Copyright © 2021-present Willow (GHOST) & Contributors',
