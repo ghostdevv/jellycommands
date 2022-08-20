@@ -1,4 +1,4 @@
-import { ApplicationCommand, ApplicationCommandOptionData } from 'discord.js';
+import { ApplicationCommand, ApplicationCommandOption } from 'discord.js';
 import { APIApplicationCommandOption } from 'discord-api-types/v10';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../../JellyCommands';
@@ -31,7 +31,7 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         }
     }
 
-    static transformOption(option: ApplicationCommandOptionData): APIApplicationCommandOption {
+    static transformOption(option: ApplicationCommandOption): APIApplicationCommandOption {
         const transform = ApplicationCommand['transformOption'].bind(ApplicationCommand);
         return transform(option, false) as APIApplicationCommandOption;
     }
