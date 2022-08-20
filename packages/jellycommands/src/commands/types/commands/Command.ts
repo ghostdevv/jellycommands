@@ -32,7 +32,7 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         }
     }
 
-    static transformOptionType<T extends JellyApplicationCommandOption>(option: T): T {
+    static transformOptionType(option: JellyApplicationCommandOption): ApplicationCommandOption {
         option.type =
             typeof option.type == 'string'
                 ? ApplicationCommandOptionType[option.type]
@@ -43,11 +43,11 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
             option.options = transformed as typeof option.options;
         }
 
-        return option;
+        return option as ApplicationCommandOption;
     }
 
     static transformOption(option: JellyApplicationCommandOption): APIApplicationCommandOption {
-        const patched = Command.transformOptionType(option) as ApplicationCommandOption;
+        const patched = Command.transformOptionType(option);
 
         const transform = ApplicationCommand['transformOption'].bind(ApplicationCommand);
         return transform(patched, false) as APIApplicationCommandOption;
