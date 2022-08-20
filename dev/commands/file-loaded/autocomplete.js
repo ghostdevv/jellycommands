@@ -1,4 +1,3 @@
-import { ApplicationCommandOptionType } from 'discord.js';
 import { command } from 'jellycommands';
 import { colors } from './_colors.js';
 
@@ -10,7 +9,7 @@ export default command({
 
     options: [
         {
-            type: ApplicationCommandOptionType.String,
+            type: 'String',
             name: 'color',
             description: 'The color of the thing idk',
             required: true,

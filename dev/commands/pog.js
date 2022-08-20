@@ -1,4 +1,3 @@
-import { ApplicationCommandOptionType } from 'discord.js';
 import { command } from 'jellycommands';
 
 export default command({
@@ -9,7 +8,7 @@ export default command({
 
     options: [
         {
-            type: ApplicationCommandOptionType.Channel,
+            type: 'Channel',
             name: 'channel',
             description: 'Channel to pog',
             required: true,

@@ -1,11 +1,12 @@
-import { ApplicationCommand, ApplicationCommandOption } from 'discord.js';
-import { APIApplicationCommandOption } from 'discord-api-types/v10';
+import { type AutocompleteInteraction, ApplicationCommandOptionType } from 'discord.js';
+import type { ApplicationCommandOption, CommandInteraction } from 'discord.js';
+import type { APIApplicationCommandOption } from 'discord-api-types/v10';
 import { ApplicationCommandType } from 'discord-api-types/v10';
+import type { JellyApplicationCommandOption } from './types';
 import type { JellyCommands } from '../../../JellyCommands';
 import type { BaseCommandCallback } from '../BaseCommand';
-import type { AutocompleteInteraction } from 'discord.js';
-import type { CommandInteraction } from 'discord.js';
 import { schema, CommandOptions } from './options';
+import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
 
@@ -31,9 +32,25 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
         }
     }
 
-    static transformOption(option: ApplicationCommandOption): APIApplicationCommandOption {
+    static transformOptionType<T extends JellyApplicationCommandOption>(option: T): T {
+        option.type =
+            typeof option.type == 'string'
+                ? ApplicationCommandOptionType[option.type]
+                : option.type;
+
+        if ('options' in option && Array.isArray(option.options)) {
+            const transformed = option.options?.map((o) => Command.transformOptionType(o));
+            option.options = transformed as typeof option.options;
+        }
+
+        return option;
+    }
+
+    static transformOption(option: JellyApplicationCommandOption): APIApplicationCommandOption {
+        const patched = Command.transformOptionType(option) as ApplicationCommandOption;
+
         const transform = ApplicationCommand['transformOption'].bind(ApplicationCommand);
-        return transform(option, false) as APIApplicationCommandOption;
+        return transform(patched, false) as APIApplicationCommandOption;
     }
 
     get applicationCommandData() {
