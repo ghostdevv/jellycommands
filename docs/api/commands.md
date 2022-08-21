@@ -67,7 +67,7 @@ The localizations for users not in english, you can view the available [`Locale`
 ##### options
 
 - Type: [`ApplicationCommandOptionData[]`](https://discord.js.org/#/docs/discord.js/main/typedef/ApplicationCommandOption)
-- Guide: [/guide/commands/options](/guide/commands/options)
+- Guide: [/guide/commands/slash#options](/guide/commands/slash#options)
 
 The options for the slash command
 
@@ -196,3 +196,18 @@ When true JellyCommands will ignore this command.
 :::tip NOTE
 When using file-loaded commands, you can get the same behavior by adding an `_` in front of the file.
 :::
+
+### run
+
+- Type: `Function`
+- Guide: [/guide/commands/files#run-function](/guide/commands/files#run-function)
+- Required
+
+The main handler for the command
+
+### autocomplete
+
+- Type: `Function`
+- Guide: [/guide/commands/files#autocomplete](/guide/commands/files#autocomplete)
+
+Handles autocomplete interaction for slash commands

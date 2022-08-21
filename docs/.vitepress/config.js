@@ -99,8 +99,8 @@ export default defineConfig({
                             link: '/guide/commands/dev',
                         },
                         {
-                            text: 'Slash Command Options',
-                            link: '/guide/commands/options',
+                            text: 'Slash Commands Extras',
+                            link: '/guide/commands/slash',
                         },
                         {
                             text: 'Guards',
