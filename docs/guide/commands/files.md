@@ -75,7 +75,7 @@ export default command({
 
 ### interaction
 
-- Type: [`CommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/CommandInteraction)
+- Type: [`ChatInputCommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/CommandInteractionOptionResolver)
 
 The interaction that command relates to
 
