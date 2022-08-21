@@ -27,7 +27,7 @@ export default defineConfig({
         editLinkText: 'Suggest changes to this page',
 
         nav: [
-            { text: 'Guide', link: '/guide/' },
+            { text: 'Guide', link: '/guide/quickstart' },
             { text: 'API', link: '/api/' },
         ],
 
