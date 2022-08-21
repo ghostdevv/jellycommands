@@ -7,12 +7,16 @@ The JellyCommands client is the core part of every project, it extends [Discord.
 The basic setup is shown below, the [intents field](https://discord.js.org/#/docs/discord.js/main/typedef/IntentsResolvable) is required by discord.js' client.
 
 ```js
+import { JellyCommands } from 'jellycommands';
+
 const client = new JellyCommands({
     clientOptions: {
         // Intents is required
         intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
     },
 });
+
+client.login();
 ```
 
 ## Options
