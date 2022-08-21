@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.34
+
+### Patch Changes
+
+-   fix JellyApplicationCommandOption type ([#139](https://github.com/ghostdevv/jellycommands/pull/139))
+
 ## 1.0.0-next.33
 
 ### Patch Changes
