@@ -55,6 +55,31 @@ export default defineConfig({
                     ],
                 },
             ],
+
+            '/guide': [
+                {
+                    text: 'Get Started',
+                    items: [
+                        {
+                            text: 'Quick Start',
+                            link: '/guide/quickstart',
+                        },
+                        {
+                            text: 'Import vs Require',
+                            link: '/guide/require',
+                        },
+                    ],
+                },
+                {
+                    text: 'Core',
+                    items: [
+                        {
+                            text: 'Props API',
+                            link: '/guide/props',
+                        },
+                    ],
+                },
+            ],
         },
     },
 });
