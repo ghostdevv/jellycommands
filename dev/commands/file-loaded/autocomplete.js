@@ -9,7 +9,7 @@ export default command({
 
     options: [
         {
-            type: 'STRING',
+            type: 'String',
             name: 'color',
             description: 'The color of the thing idk',
             required: true,
@@ -19,8 +19,7 @@ export default command({
 
     dev: true,
 
-    run: ({ interaction }) =>
-        interaction.reply(interaction.options.getString('color', true)),
+    run: ({ interaction }) => interaction.reply(interaction.options.getString('color', true)),
 
     autocomplete: async ({ interaction }) => {
         const focused = interaction.options.getFocused(true);

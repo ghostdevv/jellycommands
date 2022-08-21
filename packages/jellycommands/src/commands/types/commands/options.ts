@@ -1,6 +1,6 @@
 import type { BaseOptions } from '../../../commands/types/options';
-import type { ApplicationCommandOptionData } from 'discord.js';
 import { baseSchema } from '../../../commands/types/options';
+import type { JellyApplicationCommandOption } from './types';
 import type { Locale } from 'discord-api-types/v10';
 
 export interface CommandOptions extends BaseOptions {
@@ -17,7 +17,7 @@ export interface CommandOptions extends BaseOptions {
     /**
      * Options for the slash command
      */
-    options?: ApplicationCommandOptionData[];
+    options?: JellyApplicationCommandOption[];
 }
 
 import Joi from 'joi';

@@ -13,7 +13,9 @@ export async function respond(data: CommandReponseData): Promise<void> {
     const { client, interaction, commandIdMap } = data;
 
     const isCommandOrAutocomplete =
-        interaction.isCommand() || interaction.isContextMenu() || interaction.isAutocomplete();
+        interaction.isCommand() ||
+        interaction.isContextMenuCommand() ||
+        interaction.isAutocomplete();
 
     if (!isCommandOrAutocomplete) return;
 

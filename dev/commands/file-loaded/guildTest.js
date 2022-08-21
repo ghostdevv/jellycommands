@@ -9,9 +9,8 @@ export default command({
     dev: true,
 
     guards: {
-        permissions: ['ADMINISTRATOR'],
+        permissions: ['Administrator'],
     },
 
-    run: ({ interaction }) =>
-        interaction.reply({ embeds: [{ description: 'as' }] }),
+    run: ({ interaction }) => interaction.reply({ embeds: [{ description: 'as' }] }),
 });

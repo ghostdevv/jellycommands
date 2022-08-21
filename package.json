@@ -4,7 +4,7 @@
     "license": "MIT",
     "packageManager": "pnpm@6.24.1",
     "devDependencies": {
-        "@changesets/cli": "^2.23.1",
+        "@changesets/cli": "^2.24.3",
         "@svitejs/changesets-changelog-github-compact": "^0.1.1",
         "vitepress": "1.0.0-alpha.9"
     },

@@ -15,7 +15,7 @@
     },
     "homepage": "https://github.com/ghostdevv/jellycommands#readme",
     "devDependencies": {
-        "@types/node": "^18.0.3"
+        "@types/node": "^18.7.8"
     },
     "dependencies": {
         "cpy": "^9.0.1",

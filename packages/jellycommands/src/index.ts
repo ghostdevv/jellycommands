@@ -6,6 +6,7 @@ export type { JellyCommandsOptions } from './options';
 export { Command } from './commands/types/commands/Command';
 export { command } from './commands/types/commands/Command';
 export type { CommandOptions } from './commands/types/commands/options';
+export type { JellyApplicationCommandOption } from './commands/types/commands/types';
 
 // Export message command related
 export { MessageCommand } from './commands/types/messageCommands/MessageCommand';

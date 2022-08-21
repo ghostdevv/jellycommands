@@ -8,7 +8,7 @@ export default command({
 
     options: [
         {
-            type: 'CHANNEL',
+            type: 'Channel',
             name: 'channel',
             description: 'Channel to pog',
             required: true,

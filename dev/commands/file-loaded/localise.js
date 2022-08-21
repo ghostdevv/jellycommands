@@ -15,7 +15,7 @@ export default command({
     options: [
         {
             name: 'play',
-            type: 'STRING',
+            type: 'String',
             nameLocalizations: {
                 de: 'speil',
             },
