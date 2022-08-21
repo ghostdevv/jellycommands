@@ -27,11 +27,34 @@ export default defineConfig({
         editLinkText: 'Suggest changes to this page',
 
         nav: [
-            // { text: 'Guide', link: '/guide/' },
-            // { text: 'Config', link: '/config/' },
-            // { text: 'Adapters', link: '/adapters/' },
+            { text: 'Guide', link: '/guide/' },
+            { text: 'API', link: '/api/' },
         ],
 
-        sidebar: {},
+        sidebar: {
+            '/api': [
+                {
+                    text: 'Core',
+                    items: [
+                        {
+                            text: 'Client',
+                            link: '/api/client',
+                        },
+                        {
+                            text: 'Props',
+                            link: '/api/props',
+                        },
+                        {
+                            text: 'Commands',
+                            link: '/api/commands',
+                        },
+                        {
+                            text: 'Events',
+                            link: '/api/events',
+                        },
+                    ],
+                },
+            ],
+        },
     },
 });
