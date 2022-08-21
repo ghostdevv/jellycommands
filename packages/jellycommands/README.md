@@ -26,4 +26,4 @@ npm init jellycommands my-project
 
 # Documentation
 
-[You can view the documentation here](https://ghostdevbusiness.gitbook.io/jellycommands/)
+[You can view the documentation here](https://jellycommands.dev)

@@ -18,7 +18,7 @@ Jellycommands is a developer experience focused command framework for discord.js
 
 <br />
 
-## [Documentation](https://ghostdevbusiness.gitbook.io/jellycommands/)
+## [Documentation](https://jellycommands.dev)
 
 </div>
 
