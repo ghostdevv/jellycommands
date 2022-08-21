@@ -2,6 +2,10 @@
 
 This page is for those who don't know what `import` does or have assumed it's a TypeScript thing. It's not specific to JellyCommands or Discord.js but will help your JavaScript learning!
 
+:::tip TLDR
+Use the new ESM import syntax, `npm init jellycommands` supports it out of the box! Continue reading if you are unsure what this means
+:::
+
 ## What is import and export syntax
 
 A lot of new developers in the Discord bot space might be only used to seeing `require`, this is the old nodejs module syntax (CJS), this comes along with `module.exports`. The new JavaScript module syntax (ESM) uses `import` and `export`. Not only is this new syntax much cleaner but it's much more powerful so is a great thing to transition to using.
