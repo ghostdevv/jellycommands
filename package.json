@@ -4,8 +4,9 @@
     "license": "MIT",
     "packageManager": "pnpm@6.24.1",
     "devDependencies": {
-        "@changesets/cli": "^2.24.1",
-        "@svitejs/changesets-changelog-github-compact": "^0.1.1"
+        "@changesets/cli": "^2.23.1",
+        "@svitejs/changesets-changelog-github-compact": "^0.1.1",
+        "vitepress": "1.0.0-alpha.9"
     },
     "scripts": {
         "dev": "pnpm --parallel -r dev",
@@ -15,7 +16,9 @@
         "release": "changeset publish",
         "lint": "pnpm -r lint",
         "fix": "pnpm -r fix",
-        "test": "echo \"no tests yet\""
+        "test": "echo \"no tests yet\"",
+        "docs:dev": "vitepress dev docs",
+        "docs:build": "vitepress build docs"
     },
     "engines": {
         "pnpm": "^7.0.0",

@@ -3,10 +3,10 @@ import { JellyCommands } from 'jellycommands';
 import { IntentsBitField } from 'discord.js';
 
 const client = new JellyCommands({
-    // https://ghostdevbusiness.gitbook.io/jellycommands/commands/loading-commands
+    // https://jellycommands.dev/guide/commands/loading
     commands: 'src/commands',
 
-    // https://ghostdevbusiness.gitbook.io/jellycommands/events/loading-events
+    // https://jellycommands.dev/guide/events/loading
     events: 'src/events',
 
     clientOptions: {
@@ -15,11 +15,11 @@ const client = new JellyCommands({
 
     dev: {
         // In testing we should enable this, it will make all our commands register in our testing guild
-        // https://ghostdevbusiness.gitbook.io/jellycommands/commands/dev-mode#global-dev-mode
+        // https://jellycommands.dev/guide/commands/dev#global-dev-mode
         global: true,
 
         // Put your testing guild id here
-        // https://ghostdevbusiness.gitbook.io/jellycommands/commands/dev-mode#setting-dev-guilds
+        // https://jellycommands.dev/guide/commands/dev#setup
         guilds: [''],
     },
 });
