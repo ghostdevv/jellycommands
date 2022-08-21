@@ -1,5 +1,13 @@
 # jellycommands
 
+## 1.0.0-next.32
+
+### Patch Changes
+
+-   update to discord.js v14 ([#132](https://github.com/ghostdevv/jellycommands/pull/132))
+
+*   update docs links ([#133](https://github.com/ghostdevv/jellycommands/pull/133))
+
 ## 1.0.0-next.31
 
 ### Patch Changes
