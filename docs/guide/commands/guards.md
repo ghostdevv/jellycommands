@@ -14,9 +14,9 @@ export default command({
     description: 'A short description of what the command does',
     
     guards: {
-        // This means only people with the ADMINISTRATOR permission can use the command
+        // This means only people with the Administrator permission can use the command
         permissions: [
-            'ADMINISTRATOR'
+            'Administrator'
         ]
     },
     
