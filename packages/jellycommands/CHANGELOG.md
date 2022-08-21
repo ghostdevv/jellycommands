@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.33
+
+### Patch Changes
+
+-   switch slash commands from CommandInteraction to ChatInputCommandInteraction ([#136](https://github.com/ghostdevv/jellycommands/pull/136))
+
 ## 1.0.0-next.32
 
 ### Patch Changes
