@@ -12,7 +12,7 @@ const client = new JellyCommands({
 })
 ```
 
-You can also pass multiple diectories if needed
+You can also pass multiple directories if needed
 
 :::tip NOTE
 JellyCommands loads directories recursively, so you only need to load the top directory, for example if you had `src/events` as a command directory, events in `src/events/something/` will also be loaded

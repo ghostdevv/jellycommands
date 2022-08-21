@@ -50,32 +50,24 @@ With CJS exporting is done with `module.exports`, with ESM it's `export`
 
 CJS
 ```js
-module.exports.something = () => {
-    console.log('hello world')
-}
+module.exports.something = 'Hello World'
 ```
 
 ESM
 ```js
-export const something = () => {
-    console.log('hello world')
-}
+export const something = 'Hello World'
 ```
 
 ### Default exports
 
 CJS
 ```js
-module.exports = () => {
-    console.log('hello world')
-}
+module.exports = 'Hello World'
 ```
 
 ESM
 ```js
-export default () => {
-    console.log('hello world')
-}
+export default 'Hello World'
 ```
 
 ## Using named and default exports
@@ -83,9 +75,7 @@ export default () => {
 With CJS it's not possible to use a named and default export, but with CJS you can! For example:
 
 ```js
-export default () => {
-    console.log('Hello World')
-}
+export default 'Hello World'
 
 export const something = true
 ```
@@ -93,14 +83,14 @@ export const something = true
 You can import both of these from the same file:
 
 ```js
-import helloWorldFunction from './test.js'
+import helloWorld from './test.js'
 import { something } from './test.js'
 ```
 
 You can even import them in one line:
 
 ```js
-import helloWorldFunction, { something } from './test.js'
+import helloWorld, { something } from './test.js'
 ```
 
 ## Support
