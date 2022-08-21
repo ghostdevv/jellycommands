@@ -26,16 +26,16 @@
     "fix": "prettier --write --plugin-search-dir=. src"
   },
   "devDependencies": {
-    "@types/node": "^18.6.3",
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.32.0",
-    "discord.js": "^14.1.2",
-    "eslint": "^8.21.0",
+    "@types/node": "^18.7.8",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "discord.js": "^14.2.0",
+    "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "nodemon": "^2.0.19",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
-    "tsup": "^6.2.1",
+    "tsup": "^6.2.2",
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "discord-api-types": "^0.37.0",
+    "discord-api-types": "^0.37.3",
     "ghoststools": "^0.6.3",
     "joi": "^17.6.0"
   },
