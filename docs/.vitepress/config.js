@@ -77,6 +77,10 @@ export default defineConfig({
                             text: 'Props API',
                             link: '/guide/props',
                         },
+                        {
+                            text: 'Messages',
+                            link: '/guide/messages',
+                        },
                     ],
                 },
                 {
