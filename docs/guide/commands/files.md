@@ -60,3 +60,27 @@ export default userCommand({
 ```
 
 [You can view the options for the `userCommand` function here.](/api/commands#core-options)
+
+### Run function
+
+The run function on commands is what is called to execute a command, you have access to the following properties:
+
+```js
+export default command({
+    run: ({ interaction, client }) => {
+        // Do something
+    }
+})
+```
+
+### interaction
+
+- Type: [`CommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/CommandInteraction)
+
+The interaction that command relates to
+
+### client
+
+- Type: `JellyCommands`
+
+The client that command uses
