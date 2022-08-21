@@ -1,40 +1,112 @@
 import {
+    ApplicationCommandOptionType,
     ApplicationCommandOption,
-    ApplicationCommandAttachmentOption,
-    ApplicationCommandChannelOption,
-    ApplicationCommandChoicesOption,
-    ApplicationCommandNonOptions,
-    ApplicationCommandNumericOption,
-    ApplicationCommandStringOption,
-    ApplicationCommandSubCommand,
-    ApplicationCommandSubGroup,
+    BaseApplicationCommandOptionsData,
+    ApplicationCommandOptionChoiceData,
+    ChannelType,
 } from 'discord.js';
+
+type Subcommand = ApplicationCommandOptionType.Subcommand | 'Subcommand';
+type SubcommandGroup = ApplicationCommandOptionType.SubcommandGroup | 'SubcommandGroup';
+type String = ApplicationCommandOptionType.String | 'String';
+type Integer = ApplicationCommandOptionType.Integer | 'Integer';
+type Boolean = ApplicationCommandOptionType.Boolean | 'Boolean';
+type User = ApplicationCommandOptionType.User | 'User';
+type Channel = ApplicationCommandOptionType.Channel | 'Channel';
+type Role = ApplicationCommandOptionType.Role | 'Role';
+type Mentionable = ApplicationCommandOptionType.Mentionable | 'Mentionable';
+type Number = ApplicationCommandOptionType.Number | 'Number';
+type Attachment = ApplicationCommandOptionType.Attachment | 'Attachment';
+
+interface ApplicationCommandSubGroup extends Omit<BaseApplicationCommandOptionsData, 'required'> {
+    type: SubcommandGroup;
+    options?: ApplicationCommandSubCommand[];
+}
+
+type CommandOptionChoiceResolvableType = String | CommandOptionNumericResolvableType;
+type CommandOptionSubOptionResolvableType = Subcommand | SubcommandGroup;
+type CommandOptionNumericResolvableType = Number | Integer;
+
+type CommandOptionNonChoiceResolvableType = Exclude<
+    ApplicationCommandOptionType,
+    CommandOptionChoiceResolvableType | CommandOptionSubOptionResolvableType | Channel
+>;
+
+interface ApplicationCommandNonOptions extends BaseApplicationCommandOptionsData {
+    type: Exclude<CommandOptionNonChoiceResolvableType, ApplicationCommandOptionType>;
+}
+
+interface ApplicationCommandChannelOption extends BaseApplicationCommandOptionsData {
+    type: Channel;
+    channelTypes?: ChannelType[];
+}
+
+interface ApplicationCommandChoicesOption
+    extends Omit<BaseApplicationCommandOptionsData, 'autocomplete'> {
+    type: CommandOptionChoiceResolvableType;
+    choices?: ApplicationCommandOptionChoiceData[];
+    autocomplete?: false;
+}
+
+interface ApplicationCommandChoicesOption
+    extends Omit<BaseApplicationCommandOptionsData, 'autocomplete'> {
+    type: CommandOptionChoiceResolvableType;
+    choices?: ApplicationCommandOptionChoiceData[];
+    autocomplete?: false;
+}
+
+interface ApplicationCommandStringOption extends ApplicationCommandChoicesOption {
+    type: String;
+    minLength?: number;
+    maxLength?: number;
+}
+
+interface ApplicationCommandAttachmentOption extends BaseApplicationCommandOptionsData {
+    type: Attachment;
+}
+
+interface ApplicationCommandSubCommand extends Omit<BaseApplicationCommandOptionsData, 'required'> {
+    type: Subcommand;
+    options?: (
+        | ApplicationCommandChoicesOption
+        | ApplicationCommandNonOptions
+        | ApplicationCommandChannelOption
+    )[];
+}
+
+interface ApplicationCommandNumericOption extends ApplicationCommandChoicesOption {
+    type: CommandOptionNumericResolvableType;
+    minValue?: number;
+    maxValue?: number;
+}
+
+interface ApplicationCommandRoleOption extends BaseApplicationCommandOptionsData {
+    type: Role;
+}
+
+interface ApplicationCommandUserOption extends BaseApplicationCommandOptionsData {
+    type: User;
+}
+
+interface ApplicationCommandMentionableOption extends BaseApplicationCommandOptionsData {
+    type: Mentionable;
+}
+
+interface ApplicationCommandBooleanOption extends BaseApplicationCommandOptionsData {
+    type: Boolean;
+}
 
 // Patch discord.js' ApplicationCommandOption to reallow the string instead of the enum
 export type JellyApplicationCommandOption =
-    | PatchOption<ApplicationCommandSubGroup>
-    | PatchOption<ApplicationCommandNonOptions>
-    | PatchOption<ApplicationCommandChannelOption>
-    | PatchOption<ApplicationCommandChoicesOption>
-    | PatchOption<ApplicationCommandNumericOption>
-    | PatchOption<ApplicationCommandStringOption>
-    | PatchOption<ApplicationCommandAttachmentOption>
-    | PatchOption<ApplicationCommandSubCommand>;
-
-interface ReverseApplicationCommandOptionType {
-    1: 'Subcommand';
-    2: 'SubcommandGroup';
-    3: 'String';
-    4: 'Integer';
-    5: 'Boolean';
-    6: 'User';
-    7: 'Channel';
-    8: 'Role';
-    9: 'Mentionable';
-    10: 'Number';
-    11: 'Attachment';
-}
-
-type PatchOption<T extends ApplicationCommandOption> = Omit<T, 'type'> & {
-    type: T['type'] | ReverseApplicationCommandOptionType[T['type']];
-};
+    | ApplicationCommandSubGroup
+    | ApplicationCommandNonOptions
+    | ApplicationCommandChannelOption
+    | ApplicationCommandChoicesOption
+    | ApplicationCommandNumericOption
+    | ApplicationCommandStringOption
+    | ApplicationCommandRoleOption
+    | ApplicationCommandUserOption
+    | ApplicationCommandMentionableOption
+    | ApplicationCommandBooleanOption
+    | ApplicationCommandAttachmentOption
+    | ApplicationCommandSubCommand;
