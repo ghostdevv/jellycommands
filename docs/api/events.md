@@ -3,7 +3,7 @@
 ## Loading
 
 - API: [/api/client#events](/api/client#events)
-- Guide: [/guide/events](/guide/events) 
+- Guide: [/guide/events](/guide/events/loading) 
 
 ## Event File
 

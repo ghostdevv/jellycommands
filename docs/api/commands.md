@@ -3,7 +3,7 @@
 ## Loading
 
 - API: [/api/client#commands](/api/client#commands)
-- Guide: [/guide/commands](/guide/commands) 
+- Guide: [/guide/commands](/guide/commands/loading) 
 
 ## Command File
 
