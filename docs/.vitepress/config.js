@@ -121,6 +121,15 @@ export default defineConfig({
                         },
                     ],
                 },
+                {
+                    text: 'Migrate',
+                    items: [
+                        {
+                            text: 'Discord.js v14',
+                            link: '/guide/migrate/djs14',
+                        },
+                    ],
+                },
             ],
         },
     },
