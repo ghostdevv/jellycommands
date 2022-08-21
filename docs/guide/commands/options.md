@@ -11,7 +11,7 @@ You can checkout [all available options here](https://discord.js.org/#/docs/disc
 
 ### Getting Options
 
-You can view how to get the different [options from a CommandInteraction here](https://discord.js.org/#/docs/discord.js/13.9.2/class/CommandInteraction)
+You can view how to get the different [options from a CommandInteraction here](https://discord.js.org/#/docs/discord.js/main/class/CommandInteractionOptionResolver)
 
 ## Providing Options
 
@@ -26,7 +26,7 @@ export default command({
   
     options: [
         {
-            type: 'CHANNEL',
+            type: 'Channel',
             name: 'channel',
             description: 'Channel to send a message into',
             required: true,
@@ -40,5 +40,23 @@ export default command({
         // We can then use this channel!
         console.log(channel.name)
     }
+})
+```
+
+Unlike discord.js built in options you can provide the option type as a string, but you can also provide it as an enum if you like, for example:
+
+```js
+import { ApplicationCommandOptionType } from 'discord.js';
+import { command } from 'jellycommands';
+
+export default command({
+    options: [
+        {
+            type: ApplicationCommandOptionType.Channel,
+            name: 'channel',
+            description: 'Channel to send a message into',
+            required: true,
+        },
+    ],
 })
 ```
