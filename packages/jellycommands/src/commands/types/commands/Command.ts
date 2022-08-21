@@ -1,5 +1,5 @@
 import { type AutocompleteInteraction, ApplicationCommandOptionType } from 'discord.js';
-import type { ApplicationCommandOption, CommandInteraction } from 'discord.js';
+import type { ApplicationCommandOption, ChatInputCommandInteraction } from 'discord.js';
 import type { APIApplicationCommandOption } from 'discord-api-types/v10';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyApplicationCommandOption } from './types';
@@ -17,11 +17,11 @@ export type AutocompleteHandler = (options: {
     client: JellyCommands;
 }) => Awaitable<any | void>;
 
-export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
+export class Command extends BaseCommand<CommandOptions, ChatInputCommandInteraction> {
     public readonly type = ApplicationCommandType.ChatInput;
 
     constructor(
-        run: BaseCommand<CommandOptions, CommandInteraction>['run'],
+        run: BaseCommand<CommandOptions, ChatInputCommandInteraction>['run'],
         options: CommandOptions,
         readonly autocomplete?: AutocompleteHandler,
     ) {
@@ -67,7 +67,7 @@ export class Command extends BaseCommand<CommandOptions, CommandInteraction> {
 
 export const command = (
     options: CommandOptions & {
-        run: BaseCommandCallback<CommandInteraction>;
+        run: BaseCommandCallback<ChatInputCommandInteraction>;
         autocomplete?: AutocompleteHandler;
     },
 ) => {
