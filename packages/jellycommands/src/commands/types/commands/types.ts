@@ -1,35 +1,34 @@
 import {
     ApplicationCommandOptionType,
-    ApplicationCommandOption,
     BaseApplicationCommandOptionsData,
     ApplicationCommandOptionChoiceData,
     ChannelType,
 } from 'discord.js';
 
-type Subcommand = ApplicationCommandOptionType.Subcommand | 'Subcommand';
-type SubcommandGroup = ApplicationCommandOptionType.SubcommandGroup | 'SubcommandGroup';
-type String = ApplicationCommandOptionType.String | 'String';
-type Integer = ApplicationCommandOptionType.Integer | 'Integer';
-type Boolean = ApplicationCommandOptionType.Boolean | 'Boolean';
-type User = ApplicationCommandOptionType.User | 'User';
-type Channel = ApplicationCommandOptionType.Channel | 'Channel';
-type Role = ApplicationCommandOptionType.Role | 'Role';
-type Mentionable = ApplicationCommandOptionType.Mentionable | 'Mentionable';
-type Number = ApplicationCommandOptionType.Number | 'Number';
-type Attachment = ApplicationCommandOptionType.Attachment | 'Attachment';
+type OptionSubcommand = ApplicationCommandOptionType.Subcommand | 'Subcommand';
+type OptionSubcommandGroup = ApplicationCommandOptionType.SubcommandGroup | 'SubcommandGroup';
+type OptionString = ApplicationCommandOptionType.String | 'String';
+type OptionInteger = ApplicationCommandOptionType.Integer | 'Integer';
+type OptionBoolean = ApplicationCommandOptionType.Boolean | 'Boolean';
+type OptionUser = ApplicationCommandOptionType.User | 'User';
+type OptionChannel = ApplicationCommandOptionType.Channel | 'Channel';
+type OptionRole = ApplicationCommandOptionType.Role | 'Role';
+type OptionMentionable = ApplicationCommandOptionType.Mentionable | 'Mentionable';
+type OptionNumber = ApplicationCommandOptionType.Number | 'Number';
+type OptionAttachment = ApplicationCommandOptionType.Attachment | 'Attachment';
 
 interface ApplicationCommandSubGroup extends Omit<BaseApplicationCommandOptionsData, 'required'> {
-    type: SubcommandGroup;
+    type: OptionSubcommandGroup;
     options?: ApplicationCommandSubCommand[];
 }
 
-type CommandOptionChoiceResolvableType = String | CommandOptionNumericResolvableType;
-type CommandOptionSubOptionResolvableType = Subcommand | SubcommandGroup;
-type CommandOptionNumericResolvableType = Number | Integer;
+type CommandOptionChoiceResolvableType = OptionString | CommandOptionNumericResolvableType;
+type CommandOptionSubOptionResolvableType = OptionSubcommand | OptionSubcommandGroup;
+type CommandOptionNumericResolvableType = OptionNumber | OptionInteger;
 
 type CommandOptionNonChoiceResolvableType = Exclude<
     ApplicationCommandOptionType,
-    CommandOptionChoiceResolvableType | CommandOptionSubOptionResolvableType | Channel
+    CommandOptionChoiceResolvableType | CommandOptionSubOptionResolvableType | OptionChannel
 >;
 
 interface ApplicationCommandNonOptions extends BaseApplicationCommandOptionsData {
@@ -37,7 +36,7 @@ interface ApplicationCommandNonOptions extends BaseApplicationCommandOptionsData
 }
 
 interface ApplicationCommandChannelOption extends BaseApplicationCommandOptionsData {
-    type: Channel;
+    type: OptionChannel;
     channelTypes?: ChannelType[];
 }
 
@@ -56,17 +55,17 @@ interface ApplicationCommandChoicesOption
 }
 
 interface ApplicationCommandStringOption extends ApplicationCommandChoicesOption {
-    type: String;
+    type: OptionString;
     minLength?: number;
     maxLength?: number;
 }
 
 interface ApplicationCommandAttachmentOption extends BaseApplicationCommandOptionsData {
-    type: Attachment;
+    type: OptionAttachment;
 }
 
 interface ApplicationCommandSubCommand extends Omit<BaseApplicationCommandOptionsData, 'required'> {
-    type: Subcommand;
+    type: OptionSubcommand;
     options?: (
         | ApplicationCommandChoicesOption
         | ApplicationCommandNonOptions
@@ -81,19 +80,19 @@ interface ApplicationCommandNumericOption extends ApplicationCommandChoicesOptio
 }
 
 interface ApplicationCommandRoleOption extends BaseApplicationCommandOptionsData {
-    type: Role;
+    type: OptionRole;
 }
 
 interface ApplicationCommandUserOption extends BaseApplicationCommandOptionsData {
-    type: User;
+    type: OptionUser;
 }
 
 interface ApplicationCommandMentionableOption extends BaseApplicationCommandOptionsData {
-    type: Mentionable;
+    type: OptionMentionable;
 }
 
 interface ApplicationCommandBooleanOption extends BaseApplicationCommandOptionsData {
-    type: Boolean;
+    type: OptionBoolean;
 }
 
 // Patch discord.js' ApplicationCommandOption to reallow the string instead of the enum
