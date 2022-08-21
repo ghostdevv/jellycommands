@@ -33,10 +33,17 @@ export class Command extends BaseCommand<CommandOptions, ChatInputCommandInterac
     }
 
     static transformOptionType(option: JellyApplicationCommandOption): ApplicationCommandOption {
+        const type = option.type;
+
         option.type =
             typeof option.type == 'string'
                 ? ApplicationCommandOptionType[option.type]
                 : option.type;
+
+        if (!option.type)
+            throw new Error(
+                `Unable to find Slash Command Option type "${type}", see https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationCommandOptionType`,
+            );
 
         if ('options' in option && Array.isArray(option.options)) {
             const transformed = option.options?.map((o) => Command.transformOptionType(o));
