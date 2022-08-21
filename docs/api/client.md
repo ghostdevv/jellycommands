@@ -24,14 +24,14 @@ client.login();
 ### commands
 
 - Type: `string | Array<string | Command>`
-- Guide: [/guide/commands](/guide/commands)
+- Guide: [/guide/commands](/guide/commands/loading)
 
 Passing a string will automatically load commands from that directory, otherwise you can manually import your commands and pass them in as an array. Files beginning with a `_` are ignored.
 
 ### events 
 
 - Type: `string | Array<string | Event>`
-- Guide: [/guide/events](/guide/events)
+- Guide: [/guide/events](/guide/events/loading)
 
 Passing a string will automatically load events from that directory, otherwise you can manually import your events and pass them in as an array. Files beginning with a `_` are ignored.
 
@@ -64,7 +64,7 @@ Message sent when an unknown command interaction is recieved
 
 ### dev
 
-- Guide: [/guide/dev](/guide/dev)
+- Guide: [/guide/commands/dev](/guide/commands/dev)
 
 DX focused developer mode
 

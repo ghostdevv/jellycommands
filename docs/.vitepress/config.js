@@ -79,6 +79,27 @@ export default defineConfig({
                         },
                     ],
                 },
+                {
+                    text: 'Commands',
+                    items: [
+                        {
+                            text: 'Loading Commands',
+                            link: '/guide/commands/loading',
+                        },
+                        {
+                            text: 'Command Files',
+                            link: '/guide/commands/files',
+                        },
+                        {
+                            text: 'Dev Mode',
+                            link: '/guide/commands/dev',
+                        },
+                        {
+                            text: 'Guards',
+                            link: '/guide/commands/guards',
+                        },
+                    ],
+                },
             ],
         },
     },

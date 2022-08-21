@@ -146,7 +146,7 @@ The localizations for users not in english, you can view the available [`Locale`
 ### dev
 
 - Type: `boolean`
-- Guide: [/guide/dev](/guide/dev)
+- Guide: [/guide/commands/dev](/guide/commands/dev)
 
 Whether the command is in dev mode or not
 
