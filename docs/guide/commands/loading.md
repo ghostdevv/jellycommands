@@ -1,22 +1,18 @@
 # Loading Commands
 
-There are two way to load commands with Jelly.
+`Jelly` can load `commands` both automatically and manually.
 
 ## Automatic Loading
 
-If you want to load automatically from your file system you can pass in a string to the [commands](/api/client#commands) option.
+To automatically load `commands` from your file system, you can specify the path to your `commands` folder with the [commands option](/api/client#commands).
 
 ```js
 const client = new JellyCommands({
-    commands: 'src/commands' // This would mean it loads all commands in src/commands  
+    commands: 'src/commands' // Loads all commands in src/commands
 })
 ```
 
-You can also pass multiple directories if needed
-
-:::tip NOTE
-JellyCommands loads directories recursively, so you only need to load the top directory, for example if you had `src/commands` as a command directory, commands in `src/commands/something/` will also be loaded
-:::
+Multiple directories can be specified with an array.
 
 ```js
 const client = new JellyCommands({
@@ -24,9 +20,15 @@ const client = new JellyCommands({
 })
 ```
 
-## Manually Loading
+:::tip NOTE
+`JellyCommands` loads directories recursively, so you only need to specify the top-level directory.
 
-If you want to import your commands manually the [commands](/api/client#commands) option supports that.
+For example, if your `commands` folder is set to `src/commands`, files in `src/commands/something/` will also be loaded.
+:::
+
+## Manual Loading
+
+If you prefer to import your `commands` manually, you can pass them in directly to the [commands option](/api/client#commands).
 
 ```js
 import SomeCommand from '.'
@@ -38,7 +40,9 @@ const client = new JellyCommands({
 })
 ```
 
-You can also combine that with auto-loading
+## Combined
+
+Automatic and manual loading can be combined freely.
 
 ```js
 import SomeCommand from '.'

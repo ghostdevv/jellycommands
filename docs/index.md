@@ -6,7 +6,7 @@ title: Get Started
 hero:
   name: JellyCommands
   text: Make better discord bots
-  tagline: A developer experienced focus command framework for discord.js
+  tagline: A command framework for discord.js with a focus on developer experience.
   image:
     src: /logo.svg
     alt: JellyCommands Logo

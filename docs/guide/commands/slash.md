@@ -1,21 +1,22 @@
 # Slash Command Extras
 
-Slash Commands have some extra features that context menu commands don't
+Slash Commands have some unique features unlike `messageCommand` and `userCommand`.
 
 ## Options
 
-Slash commands can take options, this could be things like `strings`, `numbers`, even `channels`. JellyCommands uses Discord.js built in System for this and provides a nice API 
-on top. You can checkout [all available options here](https://discord.js.org/#/docs/discord.js/main/typedef/ApplicationCommandOption)
+Slash commands can take `options`. These could be variables like `strings`, `numbers`, or even `channels`.  `JellyCommands` uses `discord.js`'s system to provide a nice API on top.
+
+See all [available options.](https://discord.js.org/#/docs/discord.js/main/typedef/ApplicationCommandOption)
 
 ### Providing Options
 
-You can use the [options property](/api/commands#options-1) to provide options:
+You can provide options with the [options](/api/commands#options-1) property.
 
 ```js
 import { command } from 'jellycommands';
 
 export default command({
-    name: 'commandname',
+    name: 'Command Name',
     description: 'A short description of what the command does',
   
     options: [
@@ -34,10 +35,10 @@ export default command({
         // We can then use this channel!
         console.log(channel.name)
     }
-})
+});
 ```
 
-Unlike discord.js built in options you can provide the option type as a string, but you can also provide it as an enum if you like, for example:
+Unlike the `discord.js` built in options, you can provide the option type as a `string`. If you prefer, however, you can provide it as an `enum`.
 
 ```js
 import { ApplicationCommandOptionType } from 'discord.js';
@@ -58,7 +59,9 @@ export default command({
 ## Autocomplete
 
 
-Some [Slash Command Options](#options) support the autocomplete property. When this is true, you can use the autocomplete handler. For example lets write a command that sends a colour, and provides auto complete on the colour names:
+Some [Slash Command Options](#options) support the `autocomplete` property. When set to `true`, you can use the `autocomplete` handler.
+
+For example, let's write a command that returns a color and provides autocomplete on the color names:
 
 ```js
 import { command } from 'jellycommands';
@@ -71,7 +74,7 @@ const colors = [
     'Yellow',
     'Orange',
     'Red',
-]
+];
 
 export default command({
     name: 'rainbow',
@@ -95,7 +98,7 @@ export default command({
     },
 
     autocomplete: async ({ interaction }) => {
-        // This gives you the name of the option that is being autocompleted
+        // Get the name of the option that is being autocompleted
         const focused = interaction.options.getFocused(true);
 
         if (focused.name === 'color') {

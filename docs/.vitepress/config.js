@@ -74,7 +74,7 @@ export default defineConfig({
                     text: 'Core',
                     items: [
                         {
-                            text: 'Props API',
+                            text: 'Props',
                             link: '/guide/props',
                         },
                         {
@@ -91,7 +91,7 @@ export default defineConfig({
                             link: '/guide/commands/loading',
                         },
                         {
-                            text: 'Command Files',
+                            text: 'Creating Commands',
                             link: '/guide/commands/files',
                         },
                         {
@@ -116,7 +116,7 @@ export default defineConfig({
                             link: '/guide/events/loading',
                         },
                         {
-                            text: 'Event Files',
+                            text: 'Creating Events',
                             link: '/guide/events/files',
                         },
                     ],

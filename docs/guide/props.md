@@ -1,10 +1,14 @@
-# Props API
+# Props
 
-The props api is a way of passing data around your project. This page will focus on use cases, for a detailed explaination of the props api [checkout the API page on it](/api/props).
+`Props` are used to pass data around your project.
+
+:::tip NOTE
+This page will focus on use cases.  For a detailed explaination of the `props api`, [see the API page on it](/api/props).
+:::
 
 ## Setting Props
 
-In our example lets pretend we are using a [`knex`](https://www.npmjs.com/package/knex) database. We can init our database and add it as a prop:
+For this example, we're using a [`knex`](https://www.npmjs.com/package/knex) database. In order to access the `knex` data in our bot, we must first add it as a `prop`:
 
 ```js
 import { JellyCommands } from 'jellycommands';
@@ -19,11 +23,11 @@ const client = new JellyCommands({
 })
 ```
 
-Now anywhere we have access to our `client` we can get the `db` prop
+We can now access our database with the `db` prop wherever `client` is available.
 
 ## Getting Props
 
-In a command we might want access to our database, so we can use the props api to get it:
+To access our database in a `command`, for example, we can use the `props api`:
 
 ```js
 import { command } from 'jellycommands';
