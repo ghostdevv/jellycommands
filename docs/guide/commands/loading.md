@@ -8,7 +8,7 @@ If you want to load automatically from your file system you can pass in a string
 
 ```js
 const client = new JellyCommands({
-    commands: 'src/commands' // This would mean it loads all commands in src/commands  
+    commands: 'src/commands' // Loads all commands in src/commands
 })
 ```
 
