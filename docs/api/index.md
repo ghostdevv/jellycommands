@@ -1,3 +1,6 @@
-# JellyCommands
+# Core
 
-This section includes all JellyCommands API's and features. We also have a [step-by-step](/guide/) guide if you are just getting started with JellyCommands
+- [Client](/api/client) - The core part of your JellyCommands app
+- [Props](/api/props) - Pass data through your app
+- [Commands](/api/commands) - Slash Commands and Context Menus
+- [Events](/api/events) - Events
