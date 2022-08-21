@@ -61,7 +61,7 @@ export default userCommand({
 
 [You can view the options for the `userCommand` function here.](/api/commands#core-options)
 
-### Run function
+## Run function
 
 The run function on commands is what is called to execute a command, you have access to the following properties:
 

@@ -20,7 +20,7 @@ export default event({
 
 [You can view a list of all the event options here](/api/events#options)
 
-### Run function
+## Run function
 
 The run function will first return the context and then all the variables that event gives you. You can find what variables are given to you by that event on the [events section of the Client page](https://discord.js.org/#/docs/discord.js/main/class/Client).
 For example if we take the [`channelUpdate`](https://discord.js.org/#/docs/discord.js/main/class/Client?scrollTo=e-channelUpdate) event the docs tell us this information:
