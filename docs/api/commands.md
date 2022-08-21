@@ -67,7 +67,7 @@ The localizations for users not in english, you can view the available [`Locale`
 ##### options
 
 - Type: [`ApplicationCommandOptionData[]`](https://discord.js.org/#/docs/discord.js/main/typedef/ApplicationCommandOption)
-- Guide: TODO
+- Guide: [/guide/commands/options](/guide/commands/options)
 
 The options for the slash command
 
