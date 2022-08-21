@@ -25,4 +25,4 @@ src/                - Project source code
 
 ## TypeScript
 
-JellyCommands supports typescript and `create-jellycommands` will ask you whether you would like to use it. The template uses [`tsm`](https://github.com/lukeed/tsm) to run code without a compilation step, but you can easily swap it out for `tsc` or another compiler like `tsup` if you would like a compilation step.
+JellyCommands supports typescript. The CLI `npm init jellycommands` will ask you whether you would like to use it. The template uses [`tsm`](https://github.com/lukeed/tsm) to run code without a compilation step, but you can easily swap it out for `tsc` or another compiler like `tsup` if you would like a compilation step.
