@@ -100,6 +100,19 @@ export default defineConfig({
                         },
                     ],
                 },
+                {
+                    text: 'Events',
+                    items: [
+                        {
+                            text: 'Loading Events',
+                            link: '/guide/events/loading',
+                        },
+                        {
+                            text: 'Event Files',
+                            link: '/guide/events/files',
+                        },
+                    ],
+                },
             ],
         },
     },
