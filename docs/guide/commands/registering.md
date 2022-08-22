@@ -4,7 +4,7 @@ Every command type can be registered either globally, or per guild.
 
 ## Global
 
-When a command is registered globall, all guilds have access to that command. That is accessible with the [`global`](/api/commands.html#global) option.
+When a command is registered globally, all guilds have access to it. You can enable that with the [`global`](/api/commands.html#global) option.
 
 ```js
 import { command } from 'jellycommands';
