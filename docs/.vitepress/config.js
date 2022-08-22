@@ -95,6 +95,10 @@ export default defineConfig({
                             link: '/guide/commands/files',
                         },
                         {
+                            text: 'Registering Commands',
+                            link: '/guide/commands/registering',
+                        },
+                        {
                             text: 'Dev Mode',
                             link: '/guide/commands/dev',
                         },
