@@ -66,11 +66,10 @@ interface ApplicationCommandAttachmentOption extends BaseApplicationCommandOptio
 
 interface ApplicationCommandSubCommand extends Omit<BaseApplicationCommandOptionsData, 'required'> {
     type: OptionSubcommand;
-    options?: (
-        | ApplicationCommandChoicesOption
-        | ApplicationCommandNonOptions
-        | ApplicationCommandChannelOption
-    )[];
+    options?: Exclude<
+        JellyApplicationCommandOption,
+        ApplicationCommandSubGroup | ApplicationCommandSubCommand
+    >[];
 }
 
 interface ApplicationCommandNumericOption extends ApplicationCommandChoicesOption {
@@ -95,12 +94,29 @@ interface ApplicationCommandBooleanOption extends BaseApplicationCommandOptionsD
     type: OptionBoolean;
 }
 
+interface ApplicationCommandAutocompleteNumericOption
+    extends Omit<BaseApplicationCommandOptionsData, 'autocomplete'> {
+    type: CommandOptionNumericResolvableType;
+    minValue?: number;
+    maxValue?: number;
+    autocomplete: true;
+}
+
+interface ApplicationCommandAutocompleteStringOption
+    extends Omit<BaseApplicationCommandOptionsData, 'autocomplete'> {
+    type: OptionString;
+    minLength?: number;
+    maxLength?: number;
+    autocomplete: true;
+}
+
 // Patch discord.js' ApplicationCommandOption to reallow the string instead of the enum
 export type JellyApplicationCommandOption =
     | ApplicationCommandSubGroup
+    | ApplicationCommandAutocompleteNumericOption
+    | ApplicationCommandAutocompleteStringOption
     | ApplicationCommandNonOptions
     | ApplicationCommandChannelOption
-    | ApplicationCommandChoicesOption
     | ApplicationCommandNumericOption
     | ApplicationCommandStringOption
     | ApplicationCommandRoleOption
