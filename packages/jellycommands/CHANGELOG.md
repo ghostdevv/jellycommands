@@ -1,5 +1,15 @@
 # jellycommands
 
+## 1.0.0-next.35
+
+### Patch Changes
+
+-   throw error if can't find option type ([`12ec023`](https://github.com/ghostdevv/jellycommands/commit/12ec023f90d25626718b1308ca86343d50eccf56))
+
+*   update JellyApplicationCommandOption types ([`aa151ad`](https://github.com/ghostdevv/jellycommands/commit/aa151adb35dfd0b13c0b038c167bb474fad7e3ea))
+
+-   update dependancies ([`0b359ab`](https://github.com/ghostdevv/jellycommands/commit/0b359abc4ec563febf638a26a36b567e0d0072eb))
+
 ## 1.0.0-next.34
 
 ### Patch Changes
