@@ -1,10 +1,14 @@
 # Guards
 
-Guards are a built-in way of protecting commands, at the moment we use Discord's permissions system and in the future might even support local guards!
+Guards are a built-in way of protecting commands.
+
+:::tip NOTE
+At the moment, we use Discord's permissions system.  We'd like to support local guards in the future!
+:::
 
 ## Permissions
 
-To set what people can use a command based on what permissions they have in a guild you can use [`guards.permissions`](/api/commands#guards).
+You can specify which users are permitted to use a command by referencing their guild permissions. These can be accessed with [`guards.permissions`](/api/commands#guards).
 
 ```js
 import { command } from 'jellycommands';

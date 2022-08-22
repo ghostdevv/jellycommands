@@ -1,6 +1,6 @@
 # Quick Start
 
-JellyCommands includes a CLI to generate your projects. To get started open your terminal and run:
+`JellyCommands` includes a CLI to generate your projects. To get started open your terminal and run:
 
 ```bash
 npm init jellycommands project-name
@@ -10,7 +10,7 @@ Now you can dive straight into your code, or continue reading!
 
 ## Project Overview
 
-Below is a rough overview of the structure of your project and what each of the files do. Don't forget to check the generated README.md in your project
+Below is a rough overview of the structure of your project and what each of the files do. Don't forget to check the generated `README.md` in your project
 
 ```
 .env.example        - This shows what your .env file should look like
@@ -25,4 +25,4 @@ src/                - Project source code
 
 ## TypeScript
 
-JellyCommands supports typescript. The CLI `npm init jellycommands` will ask you whether you would like to use it. The template uses [`tsm`](https://github.com/lukeed/tsm) to run code without a compilation step, but you can easily swap it out for `tsc` or another compiler like `tsup` if you would like a compilation step.
+`JellyCommands` supports typescript. The CLI `npm init jellycommands` will ask you whether you would like to use it. The template uses [`tsm`](https://github.com/lukeed/tsm) to run code without a compilation step, but you can easily swap it out for `tsc` or another compiler like `tsup` if you prefer a compilation step.

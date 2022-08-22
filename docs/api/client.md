@@ -1,10 +1,10 @@
 # Client
 
-The JellyCommands client is the core part of every project, it extends [Discord.js client](https://discord.js.org/#/docs/discord.js/main/class/Client) to add extra functionality.
+The `JellyCommands` client is the core of every project.  It extends the [discord.js client](https://discord.js.org/#/docs/discord.js/main/class/Client) to add additional functionality.
 
 ## Get Started
 
-The basic setup is shown below, the [intents field](https://discord.js.org/#/docs/discord.js/main/typedef/IntentsResolvable) is required by discord.js' client.
+The basic setup is shown below.  The [intents field](https://discord.js.org/#/docs/discord.js/main/typedef/IntentsResolvable) is required by the `discord.js` client.
 
 ```js
 import { JellyCommands } from 'jellycommands';
@@ -26,21 +26,21 @@ client.login();
 - Type: `string | Array<string | Command>`
 - Guide: [/guide/commands](/guide/commands/loading)
 
-Passing a string will automatically load commands from that directory, otherwise you can manually import your commands and pass them in as an array. Files beginning with a `_` are ignored.
+Passing a string will automatically load commands from that directory, otherwise you can manually import your commands and pass them in as an `array`. Files prefixed with `_` are ignored.
 
 ### events 
 
 - Type: `string | Array<string | Event>`
 - Guide: [/guide/events](/guide/events/loading)
 
-Passing a string will automatically load events from that directory, otherwise you can manually import your events and pass them in as an array. Files beginning with a `_` are ignored.
+Passing a `string` will automatically load events from that directory.  Otherwise, you can manually import your events and pass them in as an `array`. Files prefixed with `_` are ignored.
 
 ### clientOptions
 
 - Type: [`ClientOptions`](https://discord.js.org/#/docs/discord.js/main/typedef/ClientOptions)
 - Required
 
-This is passed directly to discord.js' client
+This is passed directly to the `discord.js` client
 
 ### props
 
@@ -48,19 +48,19 @@ This is passed directly to discord.js' client
 - Guide: [/guide/props](/guide/props)
 - API: [/api/props](/api/props)
 
-The built-in way to pass data through a JellyCommands app
+The built-in way to pass data through a `JellyCommands` app
 
 ### messages
 
 - Guide: [/guide/messages](/guide/messages)
 
-Customise JellyCommands responses
+Customise `JellyCommands` responses
 
 #### messages.unknownCommand
 
 - Type: `string | MessagePayload | InteractionReplyOptions`
 
-Message sent when an unknown command interaction is recieved
+The default message sent when an unknown command interaction is recieved
 
 ### dev
 
@@ -85,10 +85,10 @@ The guilds to register dev mode commands in
 - Type: `boolean`
 - Default: `true`
 
-Should JellyCommands cache be enabled, recommended to be kept on
+Enables `JellyCommands` cache. It's recommended to keep this on
 
 ### debug
 
 - Type: `boolean`
 
-Should JellyCommands emit debug messages
+Emits debug messages when `true`

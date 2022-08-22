@@ -1,9 +1,9 @@
 # Import vs Require
 
-This page is for those who don't know what `import` does or have assumed it's a TypeScript thing. It's not specific to JellyCommands or Discord.js but will help your JavaScript learning!
+This page is for those who don't know what `import` does or have assumed it's a TypeScript thing. It's not specific to JellyCommands or `discord.js` but will help your JavaScript learning!
 
 :::tip TLDR
-Use the new ESM import syntax, `npm init jellycommands` supports it out of the box! Continue reading if you are unsure what this means
+Use ESM import syntax, not `require`. Project's generated with `npm init jellycommands` support it out of the box! Continue reading if you are unsure what this means.
 :::
 
 ## What is import and export syntax
@@ -12,7 +12,7 @@ A lot of new developers in the Discord bot space might be only used to seeing `r
 
 ## Support
 
-ESM is supported in Node 12 and above, Discord.js & JellyCommands require Node 16+ so it's no issue! You might need to switch to esm syntax in your project by changing your package.json to have this field:
+ESM is supported in Node 12 and above, `discord.js` & `JellyCommands` require Node 16+ so it's no issue! You might need to switch to esm syntax in your project by changing your package.json to have this field:
 
 ```json
 {
@@ -22,7 +22,7 @@ ESM is supported in Node 12 and above, Discord.js & JellyCommands require Node 1
 
 ## Importing Modules
 
-Lets use `discord.js` as an example of how import and require differ:
+Lets use `discord.js` as an example of how `import` and `require` differ:
 
 CJS:
 ```js
@@ -99,4 +99,4 @@ import helloWorld, { something } from './test.js'
 
 ## Support
 
-If you struggle with transitioning to the new module system please [join the discord](https://discord.gg/2Vd4wAjJnm) and we can help you. But you can always switch back to CJS as both systems are supported by JellyCommands and Discord.js
+If you struggle with transitioning to the new module system please [join the discord](https://discord.gg/2Vd4wAjJnm) and we can help you. You can always switch back to CJS as both systems are supported by `JellyCommands` and `discord.js`.

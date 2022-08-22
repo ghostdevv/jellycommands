@@ -1,22 +1,69 @@
 # Dev Mode
 
-When developing slash commands the recommended work flow is to test them as a guild command, this is because global slash commands take up to an hour to register. So JellyCommands has a built in dev mode to make this super easy
+**Global** slash commands take *up to an hour* to register, so it's recommended to use **guild** commands during development.
+
+`JellyCommands` has a `dev` mode to make this easy.
 
 ## Setup
 
-In our client options we can configure the dev option [dev option](/api/client#dev). We need to set the guilds array so that Jelly knows what guilds we want to use for developing
+To use `dev` mode, you must tell `Jelly` which `guilds` to use.
 
 ```js
 const client = new JellyCommands({
-    dev: {
+	dev: {
         guilds: ['663140687591768074'], // Array of guild id's
     },
 });
 ```
 
-## Enabling Dev Mode
+For additional options, see [dev options](/api/client#dev).
 
-In any command you can set dev to true, you should also set `global` to true so that when out of dev the command is registered globally:
+## Global Dev Mode
+
+Adding `dev: true` to every command *(and remembering to remove it)* can be tedious. [global dev mode](/api/client#dev-global) makes this easier.
+
+Enable global dev mode by setting `global` to true.
+
+```js
+const client = new JellyCommands({
+    dev: {
+        global: true, // This will enable dev mode on every command
+        guilds: ['663140687591768074'],
+    },
+});
+```
+
+### Automatic Global Dev Mode
+
+An **environment variable** can be used to automatically enable dev mode locally with the popular `dotenv` package.
+
+In your project's root directory, create a file called `.env` containing the text `NODE_ENV="development"`.  Then, add the following to your config:
+
+```js
+import 'dotenv/config' // Reads environment variables from a .env file
+import { Client } from 'jellycommands'
+
+const DEV = process.env['NODE_ENV'] == 'development'
+
+const client = new JellyCommands({
+    dev: {
+        global: DEV,
+        guilds: ['663140687591768074'],
+    },
+});
+```
+
+Now, `dev` mode will be enabled when working locally, and disabled when running in production.
+
+## Dev Mode for Commands
+
+<!-- You can also enable `dev` mode for individual commands. You should also set `global` to true so that when out of `dev` mode, the command is still registered globally. -->
+
+You can also enable `dev` mode for individual commands.
+
+:::tip NOTE
+You should also set `global` to true so the command is still registered globally when out of `dev` mode.
+:::
 
 ```js
 import { command } from 'jellycommands';
@@ -33,34 +80,3 @@ export default command({
     }
 })
 ```
-
-## Global Dev Mode
-
-When making a large bot adding `dev: true` to every command and remembering to remove it will become annoying, so we added a [global dev mode](/api/client#dev-global) to address that:
-
-```js
-const client = new JellyCommands({
-    dev: {
-        global: true, // This will enable dev mode on every command
-        guilds: ['663140687591768074'], // Array of guild id's
-    },
-});
-```
-
-You can also use an environment variable to control dev mode to automatically put it in dev mode when developing and not in production.
-
-```js
-import 'dotenv/config' // This package reads environment variables from a .env file
-import { Client } from 'jellycommands'
-
-const DEV = process.env['NODE_ENV'] == 'development'
-
-const client = new JellyCommands({
-    dev: {
-        global: DEV,
-        guilds: ['663140687591768074'],
-    },
-});
-```
-
-You need to set `NODE_ENV="development"` in your `.env` file. In production you can set it to anything other than `development` such as `production` or not even set it at all!

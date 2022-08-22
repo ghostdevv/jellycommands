@@ -1,32 +1,35 @@
 # Loading Events
 
-Just like commands, there are two ways to load events.
+Just like commands, `events` can be loaded both automatically and manually.
 
 ## Automatic Loading
 
-If you want to load automatically from your file system you can pass in a string to the [events](/api/client#events) option.
+To automatically load `events` from your file system, you can specify the path to your `events` folder with the [events option](/api/client#events).
 
 ```js
 const client = new JellyCommands({
-    events: 'src/events' // This would mean it loads all events in src/events  
+    events: 'src/events' // Load all events in src/events
 })
 ```
 
-You can also pass multiple directories if needed
+Multiple directories can be specified with an array.
+
+
+```js
+const client = new JellyCommands({
+	events: ['src/events', 'src/otherevents']  
+})
+```
 
 :::tip NOTE
-JellyCommands loads directories recursively, so you only need to load the top directory, for example if you had `src/events` as a command directory, events in `src/events/something/` will also be loaded
+`JellyCommands` loads directories recursively, so you only need to specify the top-level directory.
+
+For example, if your `events` folder is set to `src/events`, files in `src/events/something/` will also be loaded.
 :::
 
-```js
-const client = new JellyCommands({
-    events: ['src/events', 'src/otherevents']  
-})
-```
+## Manual Loading
 
-## Manually Loading
-
-If you want to import your events manually the [events](/api/client#events) option supports that.
+If you prefer to import your `events` manually, you can pass them in directly to the [events option](/api/client#events).
 
 ```js
 import SomeEvent from '.'
@@ -38,7 +41,9 @@ const client = new JellyCommands({
 })
 ```
 
-You can also combine that with auto-loading
+## Combined
+
+Automatic and manual loading can be combined freely.
 
 ```js
 import SomeEvent from '.'
