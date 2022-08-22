@@ -1,6 +1,6 @@
 # Registering Commands
 
-Every command type can either be registered globally, or per guild.
+Every command type can be registered either globally, or per guild.
 
 ## Global
 
@@ -31,7 +31,7 @@ export default command({
 })
 ```
 
-## Combining
+## Combined
 
 You can combine the `guilds` and `global` option freely! Though this may have some unwanted side effects such as a command appearing twice.
 
