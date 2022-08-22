@@ -1,5 +1,13 @@
 # jellycommands
 
+## 1.0.0-next.36
+
+### Patch Changes
+
+-   stop transformOptionType from mutating the object ([`aaf4b58`](https://github.com/ghostdevv/jellycommands/commit/aaf4b58d54f646d9aa05851ef24ac0ffb50f0c06))
+
+*   use applicationCommandData for hashId instead of options ([`12fb5ec`](https://github.com/ghostdevv/jellycommands/commit/12fb5ec92aeba5218b505acf1fed59b9c487379e))
+
 ## 1.0.0-next.35
 
 ### Patch Changes
