@@ -75,6 +75,8 @@ export abstract class BaseCommand<
     }
 
     get hashId() {
-        return createHash('sha256').update(JSON.stringify(this.options)).digest('hex');
+        return createHash('sha256')
+            .update(JSON.stringify(this.applicationCommandData))
+            .digest('hex');
     }
 }
