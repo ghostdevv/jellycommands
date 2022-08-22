@@ -6,7 +6,7 @@ When a `command` is invoked, the command's `run` function is called.  This is wh
 
 ## `Run`
 
-The `run` function gives you access to the [`interaction`](docs/discord.js/main/class/CommandInteractionOptionResolver) object and the [`client`](/api/client) running it.
+The `run` function gives you access to the [`interaction`](https://discord.js.org/#/docs/discord.js/main/class/CommandInteraction) object and the [`client`](/api/client) running it.
 
 ```js
 export default command({
@@ -16,7 +16,10 @@ export default command({
 })
 ```
 
-### interaction [`ChatInputCommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/CommandInteractionOptionResolver)
+### interaction
+
+- Type for Slash Commands: [`ChatInputCommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/ChatInputCommandInteraction)
+- Type for Context Menus: [`ContextMenuCommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/ContextMenuCommandInteraction)
 
 The chat input command interaction data.
 
@@ -28,7 +31,7 @@ The client used by the command.
 
 The 3 types of commands are `command` (for slash commands), `messageCommand`, and `userCommand`.
 
-See [`core options`](api/commands.html#core-options) for all of the ways you can configure your commands.
+See [`core options`](/api/commands#core-options) for all of the ways you can configure your commands.
 
 
 ### Slash Commands
