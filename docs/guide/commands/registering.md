@@ -31,7 +31,6 @@ export default command({
 })
 ```
 
-
 ## Combining
 
 You can combine the `guilds` and `global` option freely! Though this may have some unwanted side effects such as a command appearing twice.
@@ -46,7 +45,6 @@ export default command({
     // It will also register globally
     global: true
 })
-```
 ```
 
 :::tip NOTE
