@@ -28,7 +28,6 @@ export class JellyCommands extends Client {
 
         if (this.joptions.commands) {
             const commands = await resolveCommands(this, this.joptions.commands);
-
             const commandIdMap = await getCommandIdMap(this, commands);
 
             // Whenever there is a interactionCreate event respond to it
