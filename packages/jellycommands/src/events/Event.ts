@@ -10,7 +10,7 @@ export type EventCallback<EventName extends keyof ClientEvents> = (
     ...args: ClientEvents[EventName]
 ) => Awaitable<void | any>;
 
-export class Event<T extends keyof ClientEvents> {
+export class Event<T extends keyof ClientEvents = keyof ClientEvents> {
     public readonly options: Required<EventOptions<T>>;
 
     constructor(

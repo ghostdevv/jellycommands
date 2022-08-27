@@ -40,7 +40,7 @@ export interface JellyCommandsOptions {
     /**
      * Either an array of events, or path(s) to events
      */
-    events?: string | Array<string | InstanceType<typeof Event>>;
+    events?: string | Array<string | Event>;
 
     /**
      * Base discord.js client options
