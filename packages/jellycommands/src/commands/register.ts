@@ -2,13 +2,13 @@ import { APIApplicationCommand, Routes } from 'discord-api-types/v10';
 import { CommandIDMap, ResolvedCommands } from './types';
 import { JellyCommands } from '../JellyCommands';
 import { createRequest } from '../utils/request';
-import { getAuthDetails } from '../utils/token';
+import { getAuthData } from '../utils/token';
 
 export const registerCommands = async (
     client: JellyCommands,
     { globalCommands, guildCommands }: ResolvedCommands,
 ) => {
-    const { clientId, token } = getAuthDetails(client);
+    const { clientId, token } = getAuthData(client);
     const request = createRequest(token);
 
     const globalCommandsArray = Array.from(globalCommands);

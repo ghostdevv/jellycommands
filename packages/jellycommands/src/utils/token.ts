@@ -21,12 +21,12 @@ export function resolveClientId(client: Client): string | null {
     return clientIdFromToken(token);
 }
 
-export interface AuthDetails {
+export interface AuthData {
     token: string;
     clientId: string;
 }
 
-export function getAuthDetails(client: Client): AuthDetails {
+export function getAuthData(client: Client): AuthData {
     const clientId = resolveClientId(client);
     const token = resolveToken(client);
 
