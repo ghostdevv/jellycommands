@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.37
+
+### Patch Changes
+
+-   snowflake max length has changed ([`129e61d`](https://github.com/ghostdevv/jellycommands/commit/129e61d89d892be0602378a98d5be1f6d4dbb333))
+
 ## 1.0.0-next.36
 
 ### Patch Changes
