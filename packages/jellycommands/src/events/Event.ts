@@ -1,9 +1,8 @@
 import type { JellyCommands } from '../JellyCommands';
 import { schema, EventOptions } from './options';
 import type { ClientEvents } from 'discord.js';
+import { Awaitable } from '../utils/types';
 import { removeKeys } from 'ghoststools';
-
-type Awaitable<T> = Promise<T> | T;
 
 export type EventCallback<EventName extends keyof ClientEvents> = (
     instance: { client: JellyCommands },

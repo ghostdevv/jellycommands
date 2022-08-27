@@ -3,6 +3,7 @@ import type { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
 import type { BaseInteraction } from 'discord.js';
 import { PermissionsBitField } from 'discord.js';
+import { Awaitable } from '../../utils/types';
 import { BaseOptions } from './options';
 import { createHash } from 'crypto';
 import Joi from 'joi';
@@ -16,8 +17,6 @@ export interface OptionsOptions<OptionsType> {
     options: OptionsType;
     schema: Joi.ObjectSchema<any>;
 }
-
-type Awaitable<T> = Promise<T> | T;
 
 export type BaseCommandCallback<InteractionType extends BaseInteraction> = (
     options: RunOptions<InteractionType>,

@@ -6,11 +6,10 @@ import type { JellyApplicationCommandOption } from './types';
 import type { JellyCommands } from '../../../JellyCommands';
 import type { BaseCommandCallback } from '../BaseCommand';
 import { schema, CommandOptions } from './options';
+import { Awaitable } from '../../../utils/types';
 import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
 import { removeKeys } from 'ghoststools';
-
-type Awaitable<T> = T | Promise<T>;
 
 export type AutocompleteHandler = (options: {
     interaction: AutocompleteInteraction;
