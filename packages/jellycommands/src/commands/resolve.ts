@@ -13,6 +13,13 @@ export const resolveCommands = async (
     const guildCommands: GuildCommands = new Map();
 
     for (const command of commands) {
+        if (command.options.disabled) {
+            // commands is a Set and doesn't have a convenient filter function
+            // so delete the disabled commands in this loop
+            commands.delete(command);
+            continue;
+        }
+
         const devMode = client.joptions.dev?.global || command.options.dev;
         const devGuilds = client.joptions.dev?.guilds || [];
 
