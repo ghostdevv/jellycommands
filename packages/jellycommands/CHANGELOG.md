@@ -1,5 +1,15 @@
 # jellycommands
 
+## 1.0.0-next.38
+
+### Patch Changes
+
+-   move utility type (internal) ([`74cdbb1`](https://github.com/ghostdevv/jellycommands/commit/74cdbb10bad9b91cc838a7e83c5f56a5af2cc08e))
+
+*   fix event class type ([`f4bc9cc`](https://github.com/ghostdevv/jellycommands/commit/f4bc9ccfc4603a18f0886c115d9e27645dac5c04))
+
+-   fix broken disabled option ([#147](https://github.com/ghostdevv/jellycommands/pull/147))
+
 ## 1.0.0-next.37
 
 ### Patch Changes
