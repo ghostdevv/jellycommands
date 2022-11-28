@@ -61,7 +61,9 @@ export const run = async () => {
 
     const templateGlob = desmJoin(import.meta.url, useTypeScript ? 'ts' : 'js', '/**');
 
-    await cpy(templateGlob, target);
+    await cpy(templateGlob, target, {
+        rename: (basename) => (basename.startsWith('*') ? `.${basename.slice(1)}` : basename),
+    });
 
     console.log(`${logSymbols.success} ${kleur.green('Your project has been created!')}`);
 
