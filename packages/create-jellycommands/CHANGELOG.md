@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.1.0-next.12
+
+### Patch Changes
+
+-   windows doesn't like the \* character so replace with \_ ([#150](https://github.com/ghostdevv/jellycommands/pull/150))
+
 ## 0.1.0-next.11
 
 ### Patch Changes
