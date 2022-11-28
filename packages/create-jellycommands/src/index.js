@@ -25,9 +25,7 @@ export const run = async () => {
             {
                 type: 'confirm',
                 name: 'confirm',
-                message: kleur.red(
-                    'No directory specified. Create in current directory?',
-                ),
+                message: kleur.red('No directory specified. Create in current directory?'),
             },
             { onCancel },
         );
@@ -61,19 +59,11 @@ export const run = async () => {
         { onCancel },
     );
 
-    const templateGlob = desmJoin(
-        import.meta.url,
-        useTypeScript ? 'ts' : 'js',
-        '/**',
-    );
+    const templateGlob = desmJoin(import.meta.url, useTypeScript ? 'ts' : 'js', '/**');
 
     await cpy(templateGlob, target);
 
-    console.log(
-        `${logSymbols.success} ${kleur.green(
-            'Your project has been created!',
-        )}`,
-    );
+    console.log(`${logSymbols.success} ${kleur.green('Your project has been created!')}`);
 
     console.log();
     console.log('Now you can:');
@@ -87,7 +77,5 @@ export const run = async () => {
 
     numbered
         .filter(Boolean)
-        .forEach((item, index) =>
-            console.log(`  ${kleur.gray(index + 1)}) ${item}`),
-        );
+        .forEach((item, index) => console.log(`  ${kleur.gray(index + 1)}) ${item}`));
 };
