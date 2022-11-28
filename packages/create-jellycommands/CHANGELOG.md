@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.1.0-next.11
+
+### Patch Changes
+
+-   fix gitignore not being copied accross ([`9485ba8`](https://github.com/ghostdevv/jellycommands/commit/9485ba8aff1c159a6fc495a63792da5a1db3b736))
+
 ## 0.1.0-next.10
 
 ### Patch Changes
