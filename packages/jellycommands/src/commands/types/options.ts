@@ -13,7 +13,7 @@ export interface BaseOptions {
     /**
      * Localize a command name to different languages
      */
-    nameLocalizations?: Record<Locale, string>;
+    nameLocalizations?: Partial<Record<Locale, string>>;
 
     /**
      * Is the command in dev mode or not

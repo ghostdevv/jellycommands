@@ -12,7 +12,7 @@ export interface CommandOptions extends BaseOptions {
     /**
      * Localize a command descriptions to different languages
      */
-    descriptionLocalizations?: Record<Locale, string>;
+    descriptionLocalizations?: Partial<Record<Locale, string>>;
 
     /**
      * Options for the slash command

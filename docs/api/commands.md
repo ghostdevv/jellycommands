@@ -60,7 +60,7 @@ The name of the command
 
 ##### descriptionLocalizations
 
-- Type: `Record<Locale, string>`
+- Type: `Partial<Record<Locale, string>>`
 
 The localizations for users not in english, you can view the available [`Locale` options here](https://discord.js.org/#/docs/discord.js/main/typedef/Locale)
 
@@ -139,7 +139,7 @@ The name of the command
 
 ### nameLocalizations
 
-- Type: `Record<Locale, string>`
+- Type: `Partial<Record<Locale, string>>`
 
 The localizations for users not in english, you can view the available [`Locale` options here](https://discord.js.org/#/docs/discord.js/main/typedef/Locale)
 
