@@ -1,5 +1,13 @@
 # jellycommands
 
+## 1.0.0-next.39
+
+### Patch Changes
+
+-   update dependancies ([`45dab7f`](https://github.com/ghostdevv/jellycommands/commit/45dab7fd09388390270460d2c42556a58cfe7f6e))
+
+-   change `nameLocalizations` & `descriptionLocalizations` to a partial type ([#153](https://github.com/ghostdevv/jellycommands/pull/153))
+
 ## 1.0.0-next.38
 
 ### Patch Changes
