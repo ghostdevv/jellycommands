@@ -1,6 +1,6 @@
 # Creating Events
 
-`Events` are files containing an `event` function.  They must be prefixed with `export default` in order to be loaded by `Jelly`.
+`Events` are files containing an `event` function.  They must be prefixed with `export default` in order to be loaded automatically.
 
 ```js
 import { event } from 'jellycommands';
@@ -47,3 +47,7 @@ The context object has the following properties:
 #### client [`JellyCommands`](/api/client)
 
 The client used by the command.
+
+#### props [`Props`](/api/props)
+
+Your project's props.

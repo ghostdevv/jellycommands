@@ -44,7 +44,7 @@ This is passed directly to the `discord.js` client
 
 ### props
 
-- Type: `Record<string, any>`
+- Type: `Props`
 - Guide: [/guide/props](/guide/props)
 - API: [/api/props](/api/props)
 

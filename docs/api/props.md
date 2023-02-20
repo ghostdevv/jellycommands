@@ -1,68 +1,40 @@
-# Props API
+# Props
 
-The props api is a way of passing data around your project. 
+## Set Props
 
-## Adding Props
+### Set on client create
 
+You can set props using the [`props`](/api/client.html#props) property on the `JellyCommands` client.
 
-### Provide when creating your client
+```ts
+import { JellyCommands } from 'jellycommands';
 
-The best way to set data is to include the props object in your client options, for example:
-
-```js
-const myProp = 'hello';
-
-const client = new JellyCommands();
-```
-
-### Provide dynamically
-
-You can also set props dynamically using `client.props.set`
-
-```js
-const client = new JellyCommands({});
-
-client.props.set('key', 'value');
-```
-
-## Getting Data
-
-:::tip NOTE
-Props will throw a error if it can't find the requested prop, this is so you don't have to do if statements to see if your prop exists or not. You might only need to worry about whether a prop exists if you are doing dynamic props, for this you can use `client.props.has`
-:::
-
-You can use client.props.get to get data, in the example below you will see how we are able to get the myProp data in a command (you can do this anywhere you have access to the client such as commands or events):
-
-```js
-import { command } from 'jellycommands';
-
-export default command({
-    name: 'proptest',
-    description: 'A command for testing props',
-    
-    run: ({ interaction, client }) => {
-        const prop = client.props.get('myProp');
-        
-        return interaction.reply({
-            content: `The prop is ${prop}`
-        })
+const client = new JellyCommands({
+    props: {
+        propOne: 'something'
     }
 })
 ```
 
-## Checking if a prop exists
+### Set/Modify dynamically
 
-Since props will throw a error if you try and get one that doesn't exist, you can use the has helper to see if a prop exists:
+You can modify props anywhere you have access to them, the primary place would be the off the `client`.
 
-```js
-const client = new JellyCommands({
-    props: {
-        one: 1,
-        two: 2
-    }
-});
+```ts
+const client = ...
 
-client.props.has('one'); // returns true
-client.props.has('two'); // returns true
-client.props.has('three'); // returns false
+client.props.propOne = 'something';
+```
+
+## Type Saftey
+
+You can use the `Props` interface from JellyCommand's ambient types. If you use `create-jellycommands` this will already be setup in `src/app.d.ts`
+
+```ts
+/// <reference types="jellycommands/ambient" />
+
+// See https://jellycommands.dev/guide/props.html
+interface Props {
+    propOne: string;
+}
 ```
