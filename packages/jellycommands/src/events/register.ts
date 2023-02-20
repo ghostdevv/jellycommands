@@ -13,7 +13,7 @@ export const registerEvents = async (
 
         const cb = async (...ctx: any[]) => {
             try {
-                await event.run({ client }, ...ctx);
+                await event.run({ client, props: client.props }, ...ctx);
             } catch (error) {
                 console.error(`There was an error running event ${event.name}`, error);
             }

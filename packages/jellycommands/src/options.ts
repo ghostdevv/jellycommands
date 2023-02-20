@@ -48,9 +48,9 @@ export interface JellyCommandsOptions {
     clientOptions: ClientOptions;
 
     /**
-     * Inital props to pass to props api
+     * Inital props
      */
-    props?: Record<string, any>;
+    props?: Props;
 
     /**
      * Customisable responses
