@@ -23,13 +23,13 @@ body:
     attributes:
       label: Logs
       description: Please copy and paste the errors from console
-      render: shell
+      render: bash
   - type: textarea
     id: system-info
     attributes:
       label: System Info
       description: Output of `npx envinfo --system --binaries --npmPackages jellycommands,discord.js` in the __same folder__ as your bot
-      render: shell
+      render: bash
       placeholder: System Information...
     validations:
       required: true
