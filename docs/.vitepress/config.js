@@ -58,6 +58,10 @@ export default defineConfig({
                             text: 'Events',
                             link: '/api/events',
                         },
+                        {
+                            text: 'App Types',
+                            link: '/api/types',
+                        },
                     ],
                 },
             ],
@@ -137,6 +141,10 @@ export default defineConfig({
                         {
                             text: 'Discord.js v14',
                             link: '/guide/migrate/djs14',
+                        },
+                        {
+                            text: 'Props',
+                            link: '/guide/migrate/props',
                         },
                     ],
                 },
