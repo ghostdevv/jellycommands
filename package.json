@@ -18,7 +18,8 @@
         "fix": "pnpm -r fix",
         "test": "echo \"no tests yet\"",
         "docs:dev": "vitepress dev docs",
-        "docs:build": "vitepress build docs"
+        "docs:build": "vitepress build docs",
+        "test-create": "node packages/create-jellycommands/src/bin.js"
     },
     "engines": {
         "pnpm": "^7.0.0",
