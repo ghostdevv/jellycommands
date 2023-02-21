@@ -5,5 +5,5 @@ This is the package for the official [jellycommands](https://github.com/ghostdev
 # Use CLI
 
 ```bash
-npm init jellycommands my-project
+npm create jellycommands my-project
 ```

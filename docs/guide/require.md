@@ -3,7 +3,7 @@
 This page is for those who don't know what `import` does or have assumed it's a TypeScript thing. It's not specific to JellyCommands or `discord.js` but will help your JavaScript learning!
 
 :::tip TLDR
-Use ESM import syntax, not `require`. Project's generated with `npm init jellycommands` support it out of the box! Continue reading if you are unsure what this means.
+Use ESM import syntax, not `require`. Project's generated with `npm create jellycommands` support it out of the box! Continue reading if you are unsure what this means.
 :::
 
 ## What is import and export syntax

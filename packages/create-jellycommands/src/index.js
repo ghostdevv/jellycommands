@@ -1,74 +1,73 @@
 import { existsSync, readdirSync } from 'fs';
-import { join as desmJoin } from 'desm';
-import logSymbols from 'log-symbols';
+import { resolve, basename } from 'path';
 import minimist from 'minimist';
-import { resolve } from 'path';
-import prompts from 'prompts';
+import { join } from 'desm';
 import kleur from 'kleur';
 import cpy from 'cpy';
 
-const onCancel = () => {
-    console.log(kleur.red(`${logSymbols.error} create-jellycommands exited`));
-    process.exit(1);
-};
+import { intro, confirm, cancel, isCancel, spinner, outro } from '@clack/prompts';
 
-export const run = async () => {
+function exit() {
+    cancel('create-jellycommands exited');
+    process.exit(0);
+}
+
+export async function run() {
     const args = minimist(process.argv.slice(2));
 
-    const target = resolve(args._[0] || '.');
+    intro(kleur.magenta(`create-jellycommands ${kleur.bold('v1')}`));
+
     const rawTarget = args._[0];
 
-    console.log(kleur.magenta(`create-jellycommands ${kleur.bold('v1')}\n`));
-
+    // If no directory specified as first arg
     if (!rawTarget) {
-        const { confirm } = await prompts(
-            {
-                type: 'confirm',
-                name: 'confirm',
-                message: kleur.red('No directory specified. Create in current directory?'),
-            },
-            { onCancel },
-        );
+        const shouldContinue = await confirm({
+            message: 'No directory specified, create in current directory?',
+            initialValue: false,
+        });
 
-        if (!confirm) {
-            onCancel();
+        if (!shouldContinue || isCancel(shouldContinue)) {
+            exit();
         }
     }
+
+    const target = resolve(rawTarget || '.');
 
     if (existsSync(target) && readdirSync(target).length > 0) {
-        const { confirm } = await prompts(
-            {
-                type: 'confirm',
-                name: 'confirm',
-                message: kleur.red('Directory is not empty, continue?'),
-            },
-            { onCancel },
-        );
+        const shouldContinue = await confirm({
+            message: `Directory "${basename(target)}" is ${kleur.bold('not')} empty, continue?`,
+            initialValue: false,
+        });
 
-        if (!confirm) {
-            onCancel();
+        if (!shouldContinue || isCancel(shouldContinue)) {
+            exit();
         }
     }
 
-    const { useTypeScript } = await prompts(
-        {
-            type: 'confirm',
-            name: 'useTypeScript',
-            message: 'Would you like to use TypeScript?',
-        },
-        { onCancel },
-    );
+    const useTypeScript = await confirm({
+        message: `Would you like to use ${kleur.blue('TypeScript')}?`,
+        initialValue: true,
+    });
 
-    const templateGlob = desmJoin(import.meta.url, useTypeScript ? 'ts' : 'js', '/**');
+    if (isCancel(useTypeScript)) {
+        exit();
+    }
+
+    const s = spinner();
+
+    s.start('Copying your template');
+
+    const templateGlob = join(import.meta.url, useTypeScript ? 'ts' : 'js', '/**');
 
     await cpy(templateGlob, target, {
         rename: (basename) => (basename.startsWith('_') ? `.${basename.slice(1)}` : basename),
     });
 
-    console.log(`${logSymbols.success} ${kleur.green('Your project has been created!')}`);
+    s.stop('Copied!');
 
-    console.log();
-    console.log('Now you can:');
+    outro(kleur.green('Your project has been created!'));
+
+    console.log(kleur.underline('To get started:'));
 
     const numbered = [
         rawTarget && `cd ${rawTarget}`,
@@ -80,4 +79,4 @@ export const run = async () => {
     numbered
         .filter(Boolean)
         .forEach((item, index) => console.log(`  ${kleur.gray(index + 1)}) ${item}`));
-};
+}
