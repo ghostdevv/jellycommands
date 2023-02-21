@@ -21,7 +21,7 @@ Jellycommands is a developer experience focused command framework for discord.js
 The best way to get started is using our cli:
 
 ```bash
-npm init jellycommands my-project
+npm create jellycommands my-project
 ```
 
 # Documentation

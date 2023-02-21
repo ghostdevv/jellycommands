@@ -1,6 +1,6 @@
 # Create JellyCommands
 
-This project was created with `npm init jellycommands`!
+This project was created with `npm create jellycommands`!
 
 # Get Started
 

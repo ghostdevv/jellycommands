@@ -1,6 +1,6 @@
 {
     "name": "create-jellycommands",
-    "description": "Get started quickly with jellycommands by running npm init jellycommands",
+    "description": "Get started quickly with jellycommands by running npm create jellycommands",
     "version": "0.1.0-next.13",
     "type": "module",
     "bin": {
@@ -29,6 +29,6 @@
         "jellycommands",
         "create",
         "create jellycommands",
-        "npm init jellycommands"
+        "npm create jellycommands"
     ]
 }
