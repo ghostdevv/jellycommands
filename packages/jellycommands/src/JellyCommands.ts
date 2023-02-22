@@ -23,7 +23,9 @@ export class JellyCommands extends Client {
     }
 
     async login(potentialToken?: string): Promise<string> {
-        if (potentialToken) this.token = cleanToken(potentialToken);
+        if (potentialToken) {
+            this.token = cleanToken(potentialToken);
+        }
 
         if (this.joptions.commands) {
             const commands = await resolveCommands(this, this.joptions.commands);
@@ -46,10 +48,12 @@ export class JellyCommands extends Client {
             await registerEvents(this, this.joptions.events);
         }
 
-        return super.login(resolveToken(this) || 'undefined');
+        return super.login(resolveToken(this) || undefined);
     }
 
     debug(message: string) {
-        if (this.joptions.debug) console.debug(`\x1b[1m\x1b[35m[DEBUG]\x1b[22m\x1b[39m ${message}`);
+        if (this.joptions.debug) {
+            console.debug(`\x1b[1m\x1b[35m[DEBUG]\x1b[22m\x1b[39m ${message}`);
+        }
     }
 }

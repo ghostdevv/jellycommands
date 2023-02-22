@@ -9,7 +9,7 @@ interface DiscordErrorResponse {
 }
 
 export function createRequest(token: string) {
-    const req = axios.create({
+    const request = axios.create({
         baseURL: RouteBases.api,
         headers: {
             Authorization: `Bot ${token}`,
@@ -20,8 +20,8 @@ export function createRequest(token: string) {
         method: Method,
         route: string,
         data?: Data,
-    ): Promise<Response> =>
-        req(route, { method, data })
+    ): Promise<Response> => {
+        return request(route, { method, data })
             .then((res) => res.data)
             .catch((e: AxiosError<DiscordErrorResponse>) => {
                 if (!axios.isAxiosError(e) || !e?.response?.data) throw e;
@@ -43,4 +43,5 @@ export function createRequest(token: string) {
 
                 throw new Error(error);
             });
+    };
 }
