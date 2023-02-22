@@ -7,10 +7,11 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x]
+        platform: [ubuntu-latest, windows-latest]
 
-    name: Test with NodeJS v${{ matrix.node-version }}
+    name: Test on ${{ matrix.platform }} with NodeJS v${{ matrix.node-version }}
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.platform }}
 
     steps:
       - name: Checkout
