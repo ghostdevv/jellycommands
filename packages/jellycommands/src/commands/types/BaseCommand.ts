@@ -11,6 +11,7 @@ import Joi from 'joi';
 export interface RunOptions<InteractionType extends BaseInteraction> {
     interaction: InteractionType;
     client: JellyCommands;
+    props: Props;
 }
 
 export interface OptionsOptions<OptionsType> {

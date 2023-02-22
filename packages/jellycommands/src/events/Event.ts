@@ -5,7 +5,7 @@ import { Awaitable } from '../utils/types';
 import { removeKeys } from 'ghoststools';
 
 export type EventCallback<EventName extends keyof ClientEvents> = (
-    instance: { client: JellyCommands },
+    instance: { client: JellyCommands; props: Props },
     ...args: ClientEvents[EventName]
 ) => Awaitable<void | any>;
 

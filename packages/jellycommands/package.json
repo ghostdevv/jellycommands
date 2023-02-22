@@ -9,6 +9,9 @@
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
+    },
+    "./ambient": {
+      "types": "./ambient.d.ts"
     }
   },
   "files": [

@@ -45,7 +45,7 @@ export async function respond(data: CommandReponseData): Promise<void> {
 
     // Run the command
     try {
-        await command.run({ client, interaction });
+        await command.run({ client, interaction, props: client.props });
     } catch (e) {
         console.error(
             `There was an error running command ${command.options.name}`,

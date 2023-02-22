@@ -4,7 +4,6 @@ import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';
 import { JellyCommandsOptions } from './options';
 import { respond } from './commands/respond';
-import { Props } from './structures/Props';
 import { Client } from 'discord.js';
 import { schema } from './options';
 
@@ -20,7 +19,7 @@ export class JellyCommands extends Client {
         if (error) throw error.annotate();
         else this.joptions = value;
 
-        this.props = new Props(options.props);
+        this.props = options.props || {};
     }
 
     async login(potentialToken?: string): Promise<string> {

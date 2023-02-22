@@ -19,6 +19,10 @@ const client = new JellyCommands({
     },
 
     debug: true,
+
+    props: {
+        test: 'asd',
+    },
 });
 
 client.login();

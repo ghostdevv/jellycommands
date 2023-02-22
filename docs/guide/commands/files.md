@@ -1,16 +1,16 @@
 # Creating Commands
 
-`Commands` are files containing a `command` function.  They must be prefixed with `export default` in order to be loaded by `Jelly`.
+`Commands` are files containing a `command` function.  They must be prefixed with `export default` in order to be loaded automatically.
 
 When a `command` is invoked, the command's `run` function is called.  This is where your custom command logic lives.
 
 ## `Run`
 
-The `run` function gives you access to the [`interaction`](https://discord.js.org/#/docs/discord.js/main/class/CommandInteraction) object and the [`client`](/api/client) running it.
+This function is called everytime your command is, the main property you need is `interaction` which contains all the interaction information. There are a few additional properties listed below:
 
 ```js
 export default command({
-    run: ({ interaction, client }) => {
+    run: ({ interaction, client, props }) => {
         // Do something
     }
 })
@@ -26,6 +26,10 @@ The chat input command interaction data.
 ### client [`JellyCommands`](/api/client)
 
 The client used by the command.
+
+### props [`Props`](/api/props)
+
+Your project's props.
 
 ## Command Types
 
