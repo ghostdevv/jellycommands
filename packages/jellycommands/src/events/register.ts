@@ -1,12 +1,19 @@
-import { resolveItems } from '../utils/resolveItems';
 import { JellyCommands } from '../JellyCommands';
+import { read } from '../utils/files';
 import { Event } from './Event';
 
 export const registerEvents = async (
     client: JellyCommands,
     items: string | Array<string | Event<any>>,
 ) => {
-    const events = await resolveItems(items);
+    const events = new Set<Event>();
+
+    await read(items, (event) => {
+        if (!(event instanceof Event))
+            throw new Error(`Found invalid item "${event}" in options.events`);
+
+        events.add(event);
+    });
 
     for (const event of events) {
         if (event.options.disabled) continue;
