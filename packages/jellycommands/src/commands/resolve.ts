@@ -1,13 +1,20 @@
 import { GuildCommands, GlobalCommands } from './types.d';
-import { resolveItems } from '../utils/resolveItems';
 import { BaseCommand } from './types/BaseCommand';
 import { JellyCommands } from '../JellyCommands';
+import { read } from '../utils/files';
 
 export const resolveCommands = async (
     client: JellyCommands,
     items: string | Array<string | BaseCommand>,
 ) => {
-    const commands = await resolveItems(items);
+    const commands = new Set<BaseCommand>();
+
+    await read(items, (command) => {
+        if (!(command instanceof BaseCommand))
+            throw new Error(`Found invalid item "${command}" in options.commands`);
+
+        commands.add(command);
+    });
 
     const globalCommands: GlobalCommands = new Set();
     const guildCommands: GuildCommands = new Map();
