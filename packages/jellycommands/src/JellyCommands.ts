@@ -20,6 +20,27 @@ export class JellyCommands extends Client {
         else this.joptions = value;
 
         this.props = options.props || {};
+
+        // TODO remove for 1.0
+        // Makes need for a migration more obvious for those using props api
+        this.props = {
+            get() {
+                throw new Error(
+                    'props.get has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                );
+            },
+            set() {
+                throw new Error(
+                    'props.set has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                );
+            },
+            has() {
+                throw new Error(
+                    'props.has has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                );
+            },
+            ...this.props,
+        };
     }
 
     async login(potentialToken?: string): Promise<string> {
