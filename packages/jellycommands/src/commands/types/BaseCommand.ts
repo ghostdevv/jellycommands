@@ -14,12 +14,7 @@ export interface RunOptions<InteractionType extends BaseInteraction> {
     props: Props;
 }
 
-export interface OptionsOptions<OptionsType> {
-    options: OptionsType;
-    schema: Joi.ObjectSchema<any>;
-}
-
-export type BaseCommandCallback<InteractionType extends BaseInteraction> = (
+export type CommandCallback<InteractionType extends BaseInteraction> = (
     options: RunOptions<InteractionType>,
 ) => Awaitable<void | any>;
 
@@ -28,13 +23,19 @@ export abstract class BaseCommand<
     InteractionType extends BaseInteraction = BaseInteraction,
 > {
     public readonly options: OptionsType;
+    public readonly run: CommandCallback<InteractionType>;
 
     public abstract readonly type: ApplicationCommandType;
 
-    constructor(
-        public readonly run: BaseCommandCallback<InteractionType>,
-        { options, schema }: OptionsOptions<OptionsType>,
-    ) {
+    constructor({
+        run,
+        options,
+        schema,
+    }: {
+        options: OptionsType;
+        schema: Joi.ObjectSchema<any>;
+        run: CommandCallback<InteractionType>;
+    }) {
         if (!run || typeof run != 'function')
             throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
@@ -43,6 +44,7 @@ export abstract class BaseCommand<
         if (error) throw error.annotate();
 
         this.options = value as typeof options;
+        this.run = run;
 
         if (!this.options.guilds?.length && !this.options.global && !this.options.dev)
             throw new Error('Command must have at least one of guild, global, or dev');

@@ -4,12 +4,11 @@ import type { APIApplicationCommandOption } from 'discord-api-types/v10';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyApplicationCommandOption } from './types';
 import type { JellyCommands } from '../../../JellyCommands';
-import type { BaseCommandCallback } from '../BaseCommand';
+import type { CommandCallback } from '../BaseCommand';
 import { schema, CommandOptions } from './options';
 import { Awaitable } from '../../../utils/types';
 import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
-import { removeKeys } from 'ghoststools';
 
 export type AutocompleteHandler = (options: {
     interaction: AutocompleteInteraction;
@@ -19,16 +18,24 @@ export type AutocompleteHandler = (options: {
 export class Command extends BaseCommand<CommandOptions, ChatInputCommandInteraction> {
     public readonly type = ApplicationCommandType.ChatInput;
 
-    constructor(
-        run: BaseCommand<CommandOptions, ChatInputCommandInteraction>['run'],
-        options: CommandOptions,
-        readonly autocomplete?: AutocompleteHandler,
-    ) {
-        super(run, { options, schema });
+    public readonly autocomplete?: AutocompleteHandler;
 
-        if (this.autocomplete && typeof this.autocomplete !== 'function') {
+    constructor({
+        run,
+        options,
+        autocomplete,
+    }: {
+        run: CommandCallback<ChatInputCommandInteraction>;
+        options: CommandOptions;
+        autocomplete?: AutocompleteHandler;
+    }) {
+        super({ run, options, schema });
+
+        if (autocomplete && typeof autocomplete !== 'function') {
             throw new TypeError('Autocomplete handler must be a function');
         }
+
+        this.autocomplete = autocomplete;
     }
 
     static transformOptionType(option: JellyApplicationCommandOption): ApplicationCommandOption {
@@ -72,13 +79,15 @@ export class Command extends BaseCommand<CommandOptions, ChatInputCommandInterac
 
 export const command = (
     options: CommandOptions & {
-        run: BaseCommandCallback<ChatInputCommandInteraction>;
+        run: CommandCallback<ChatInputCommandInteraction>;
         autocomplete?: AutocompleteHandler;
     },
 ) => {
-    return new Command(
-        options.run,
-        removeKeys(options, ['run', 'autocomplete']) as CommandOptions,
-        options.autocomplete,
-    );
+    const { run, autocomplete, ...rest } = options;
+
+    return new Command({
+        run,
+        autocomplete,
+        options: rest,
+    });
 };

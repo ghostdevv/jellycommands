@@ -1,9 +1,8 @@
-import type { BaseCommandCallback } from '../../../commands/types/BaseCommand';
+import type { CommandCallback } from '../../../commands/types/BaseCommand';
 import { BaseCommand } from '../../../commands/types/BaseCommand';
 import type { ContextMenuCommandInteraction } from 'discord.js';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 import { schema, MessageCommandOptions } from './options';
-import { removeKeys } from 'ghoststools';
 
 export class MessageCommand extends BaseCommand<
     MessageCommandOptions,
@@ -12,17 +11,18 @@ export class MessageCommand extends BaseCommand<
     public readonly type = ApplicationCommandType.Message;
 
     constructor(
-        run: BaseCommandCallback<ContextMenuCommandInteraction>,
+        run: CommandCallback<ContextMenuCommandInteraction>,
         options: MessageCommandOptions,
     ) {
-        super(run, { options, schema });
+        super({ run, options, schema });
     }
 }
 
 export const messageCommand = (
     options: MessageCommandOptions & {
-        run: BaseCommandCallback<ContextMenuCommandInteraction>;
+        run: CommandCallback<ContextMenuCommandInteraction>;
     },
 ) => {
-    return new MessageCommand(options.run, removeKeys(options, 'run') as MessageCommandOptions);
+    const { run, ...rest } = options;
+    return new MessageCommand(run, rest);
 };
