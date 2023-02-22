@@ -1,6 +1,6 @@
 # Props API
 
-As of `VERSION` the props api has changed, read this guide to figure out how to change your code.
+As of `1.0.0-next.40` the props api has changed, read this guide to figure out how to change your code.
 
 ## Add App Types
 
