@@ -16,7 +16,7 @@
         "release": "changeset publish",
         "lint": "pnpm -r lint",
         "fix": "pnpm -r fix",
-        "test": "echo \"no tests yet\"",
+        "test": "echo \"no tests for create-jellycommands yet\" && pnpm -r test",
         "docs:dev": "vitepress dev docs",
         "docs:build": "vitepress build docs",
         "test-create": "node packages/create-jellycommands/src/bin.js"

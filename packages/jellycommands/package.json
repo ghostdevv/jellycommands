@@ -23,6 +23,7 @@
   "scripts": {
     "dev": "tsup-node --watch src",
     "build": "tsup-node",
+    "test": "tsm node_modules/uvu/bin.js tests \".*\\.test\\.ts\"",
     "lint": "run-s lint:*",
     "lint:prettier": "prettier --check --plugin-search-dir=. src",
     "lint:eslint": "eslint src",
@@ -38,8 +39,10 @@
     "nodemon": "^2.0.20",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.4",
+    "tsm": "^2.3.0",
     "tsup": "^6.6.3",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "uvu": "^0.5.6"
   },
   "peerDependencies": {
     "discord.js": "^14.0.0"
