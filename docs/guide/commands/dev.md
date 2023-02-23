@@ -19,7 +19,7 @@ const client = new JellyCommands({
 For additional options, see [dev options](/api/client#dev).
 
 :::tip NOTE
-If dev mode is enabled in any way, atleast one guild ID must be specified within [`dev.guilds`](/api/client#dev)
+If `dev` mode is enabled, at least one guild id must be specified within [`dev.guilds`](/api/client#dev)
 :::
 
 ## Global Dev Mode
