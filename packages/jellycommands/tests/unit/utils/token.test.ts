@@ -46,7 +46,7 @@ test('clientIdFromToken should return the client ID from the token', () => {
 
     // If the token is not valid format, null is returned
     // The client ID is one of 2 parts of the token,
-    // Both parts are seperated by a `.`
+    // Both parts are Base64 seperated by a `.`
     //! This test is currently failing
     //const InvalidString = clientIdFromToken('ImNotAVaildToken"');
     //assert.strictEqual(InvalidString, null);
@@ -69,10 +69,32 @@ test('resolveToken should return the token', () => {
     assert.strictEqual(token1, '1234567890');
 
     // If the client does not have a token, it should return null
-    //! This should null because there is no `DISCORD_TOKEN` in the env
+    //! This should be null because there is no `DISCORD_TOKEN` in the env
     const token2 = resolveToken(mockWithNoValue);
     assert.strictEqual(process.env.DISCORD_TOKEN, undefined);
     assert.strictEqual(token2, null);
+
+    //TODO: Assert when the `DISCORD_TOKEN` is in the env
+});
+
+test('resolveClientId should return the client ID', () => {
+    // Just a object that has the type of the discord.js Client
+    const mockWithValue = { user: { id: '1234567890' } } as Client;
+    const mockWithNoValue = { user: null, token: 'MTIzNDU2Nzg5MA==.dGVzdENsaWVudElk' } as Client;
+    const mockWithNoToken = { user: null, token: null } as Client;
+
+    // If the client has a user ID, it should return that
+    const idFromClient = resolveClientId(mockWithValue);
+    assert.strictEqual(idFromClient, '1234567890');
+
+    // If the client does not have a user ID, it should return the client ID from the token
+    const idFromToken = resolveClientId(mockWithNoValue);
+    assert.strictEqual(idFromToken, '1234567890');
+
+    // If the client does not have a user ID or a token, it should return null
+    //! This should be null because there is no `DISCORD_TOKEN` in the env
+    const noToken = resolveClientId(mockWithNoToken);
+    assert.strictEqual(noToken, null);
 
     //TODO: Assert when the `DISCORD_TOKEN` is in the env
 });
