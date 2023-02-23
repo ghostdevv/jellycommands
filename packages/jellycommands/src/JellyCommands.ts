@@ -56,12 +56,13 @@ export class JellyCommands extends Client {
             );
 
             // If dev is enabled in some way, make sure they have at least one guild id
-            if (devCommandInSet || this.joptions.dev?.global) {
-                if (!this.joptions.dev?.guilds?.length) {
-                    throw new Error(
-                        'You must provide at least one guild id in the dev guilds array to use dev commands',
-                    );
-                }
+            if (
+                (devCommandInSet || this.joptions.dev?.global) &&
+                !this.joptions.dev?.guilds?.length
+            ) {
+                throw new Error(
+                    'You must provide at least one guild id in the dev guilds array to use dev commands',
+                );
             }
 
             // Whenever there is a interactionCreate event respond to it
