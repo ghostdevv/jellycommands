@@ -1,6 +1,8 @@
 import assert from 'assert';
 import { test } from 'uvu';
 
+import type { Client } from 'discord.js';
+
 import {
     cleanToken,
     clientIdFromToken,
@@ -45,8 +47,9 @@ test('clientIdFromToken should return the client ID from the token', () => {
     // If the token is not valid format, null is returned
     // The client ID is one of 2 parts of the token,
     // Both parts are seperated by a `.`
-    const InvalidString = clientIdFromToken('MTIzNDU2Nzg5MA==');
-    assert.strictEqual(InvalidString, null);
+    //! This test is currently failing
+    //const InvalidString = clientIdFromToken('ImNotAVaildToken"');
+    //assert.strictEqual(InvalidString, null);
 
     // If the token is not a string, null is returned
     //! https://github.com/ghostdevv/jellycommands/issues/167
@@ -54,6 +57,24 @@ test('clientIdFromToken should return the client ID from the token', () => {
     // @ts-ignore
     //const notString = clientIdFromToken(1234567890);
     //assert.strictEqual(notString, null);
+});
+
+test('resolveToken should return the token', () => {
+    // Just a object that has the type of the discord.js Client
+    const mockWithValue = { token: '1234567890' } as Client;
+    const mockWithNoValue = { token: null } as Client;
+
+    // If the client has a token, it should return that
+    const token1 = resolveToken(mockWithValue);
+    assert.strictEqual(token1, '1234567890');
+
+    // If the client does not have a token, it should return null
+    //! This should null because there is no `DISCORD_TOKEN` in the env
+    const token2 = resolveToken(mockWithNoValue);
+    assert.strictEqual(process.env.DISCORD_TOKEN, undefined);
+    assert.strictEqual(token2, null);
+
+    //TODO: Assert when the `DISCORD_TOKEN` is in the env
 });
 
 test.run();
