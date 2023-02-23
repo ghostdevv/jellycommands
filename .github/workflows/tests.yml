@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 node-version: [16.x, 18.x]
-                platform: [ubuntu-latest, windows-latest, macos-latest]
+                platform: [ubuntu-latest, windows-latest]
 
         steps:
             - name: Checkout
@@ -53,7 +53,5 @@ jobs:
             - name: Run Tests
               run: pnpm test
 
-              # Lint includes formatting but should this be commited to the repo?
-              # Currently it is only formatted on the runner and then ditched
             - name: Lint
               run: pnpm lint
