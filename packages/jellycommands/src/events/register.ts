@@ -6,7 +6,7 @@ export const registerEvents = async (
     client: JellyCommands,
     items: string | Array<string | Event<any>>,
 ) => {
-    const events = new Set<Event>();
+    const events = new Set<Event<any>>();
 
     await read(items, (event) => {
         if (!(event instanceof Event))
