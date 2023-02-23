@@ -53,7 +53,7 @@ export class JellyCommands extends Client {
             const commandIdMap = await getCommandIdMap(this, commands);
 
             // If dev is enabled in some way, make sure they have at least one guild id
-            if (this.joptions.dev?.guilds?.length) {
+            if (!this.joptions.dev?.guilds?.length) {
                 const hasDevCommand = Array.from(commands.commands).some(
                     (command) => command.options.dev,
                 );
