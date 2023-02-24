@@ -1,5 +1,17 @@
 # create-jellycommands
 
+## 0.1.0-next.14
+
+### Patch Changes
+
+-   update styles of create-jellycommands ([#156](https://github.com/ghostdevv/jellycommands/pull/156))
+
+-   add src/app.d.ts ([#155](https://github.com/ghostdevv/jellycommands/pull/155))
+
+-   update the jsconfig.json and tsconfig.json ([`dc96114`](https://github.com/ghostdevv/jellycommands/commit/dc961145241448e186a632eb254540b6ca044884))
+
+-   update non-major dependancies ([#162](https://github.com/ghostdevv/jellycommands/pull/162))
+
 ## 0.1.0-next.13
 
 ### Patch Changes
