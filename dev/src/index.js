@@ -4,6 +4,12 @@ import { IntentsBitField } from 'discord.js';
 import ready from './events/ready.js';
 import pog from './commands/pog.js';
 
+const testGuild = process.env['TEST_GUILD'];
+
+if (typeof testGuild !== 'string') {
+    throw new Error('Please add  TEST_GUILD env variable');
+}
+
 const client = new JellyCommands({
     // For testing loading commands by importing we have a file-loaded dir for each
     commands: [pog, 'commands/file-loaded'],
@@ -15,13 +21,13 @@ const client = new JellyCommands({
 
     dev: {
         global: true,
-        guilds: [process.env['TEST_GUILD']],
+        guilds: [testGuild],
     },
 
     debug: true,
 
     props: {
-        test: 'asd',
+        a: 'asd',
     },
 });
 
