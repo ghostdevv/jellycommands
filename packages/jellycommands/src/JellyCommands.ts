@@ -51,18 +51,16 @@ export class JellyCommands extends Client {
         if (this.joptions.commands) {
             const commands = await resolveCommands(this, this.joptions.commands);
             const commandIdMap = await getCommandIdMap(this, commands);
-            const devCommandInSet = Array.from(commands.commands).some(
-                (command) => command.options.dev,
-            );
-
-            // If dev is enabled in some way, make sure they have at least one guild id
-            if (
-                (devCommandInSet || this.joptions.dev?.global) &&
-                !this.joptions.dev?.guilds?.length
-            ) {
-                throw new Error(
-                    'You must provide at least one guild id in the dev guilds array to use dev commands',
+            if (!this.joptions.dev?.guilds?.length) {
+                const hasDevCommand = Array.from(commands.commands).some(
+                    (command) => command.options.dev,
                 );
+
+                // If dev is enabled in some way, make sure they have at least one guild id
+                if (this.joptions.dev?.global || hasDevCommand)
+                    throw new Error(
+                        'You must provide at least one guild id in the dev guilds array to use dev commands',
+                    );
             }
 
             // Whenever there is a interactionCreate event respond to it
