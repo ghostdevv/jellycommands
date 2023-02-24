@@ -1,0 +1,19 @@
+// * Don't delete me!!!
+// * If you have questions, ask in The Dev Lounge Discord
+// * https://discord.com/invite/2Vd4wAjJnm
+
+{
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "module": "ESNext",
+        "target": "ESNext",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "strict": true,
+        "checkJs": true,
+        "allowJs": true
+    },
+    "include": ["./src/**/*.js", "./src/**/*.ts"],
+}
