@@ -51,6 +51,7 @@ export class JellyCommands extends Client {
         if (this.joptions.commands) {
             const commands = await resolveCommands(this, this.joptions.commands);
             const commandIdMap = await getCommandIdMap(this, commands);
+
             if (!this.joptions.dev?.guilds?.length) {
                 const hasDevCommand = Array.from(commands.commands).some(
                     (command) => command.options.dev,

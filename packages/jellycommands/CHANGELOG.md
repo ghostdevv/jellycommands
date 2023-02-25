@@ -1,5 +1,19 @@
 # jellycommands
 
+## 1.0.0-next.40
+
+### Patch Changes
+
+-   add errors to props.get, props.set, props.has to aid in migration ([#159](https://github.com/ghostdevv/jellycommands/pull/159))
+
+-   (breaking) update props api to be typesafe and easier to use ([#155](https://github.com/ghostdevv/jellycommands/pull/155))
+
+-   add a guard to catch no guild id when dev mode enabled ([#165](https://github.com/ghostdevv/jellycommands/pull/165))
+
+-   change command/event file resolution logic ([#161](https://github.com/ghostdevv/jellycommands/pull/161))
+
+-   update non-major dependancies ([#162](https://github.com/ghostdevv/jellycommands/pull/162))
+
 ## 1.0.0-next.39
 
 ### Patch Changes

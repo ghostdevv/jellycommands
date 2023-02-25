@@ -45,6 +45,28 @@ export default command({
 })
 ```
 
+## TS & JS Config
+
+If you are using TypeScript you should have a `tsconfig.json` in your project, similiarly if you are using JavaScript you should have a `jsconfig.json` in your project. They should both look something like this:
+
+```json
+{
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "module": "ESNext",
+        "target": "ESNext",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "strict": true,
+        "checkJs": true,
+        "allowJs": true
+    },
+    "include": ["./src/**/*.js", "./src/**/*.ts"]
+}
+```
+
 ## Erroring
 
 Props previously threw an error when you tried to access soemthing that didn't exist, this is no longer the case.

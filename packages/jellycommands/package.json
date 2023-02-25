@@ -1,6 +1,6 @@
 {
   "name": "jellycommands",
-  "version": "1.0.0-next.39",
+  "version": "1.0.0-next.40",
   "author": "GHOST",
   "license": "MIT",
   "main": "dist/index.js",
@@ -18,7 +18,8 @@
     "dist",
     "LICENSE",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "ambient.d.ts"
   ],
   "scripts": {
     "dev": "tsup-node --watch src",
