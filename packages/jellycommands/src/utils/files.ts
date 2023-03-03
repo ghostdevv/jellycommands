@@ -1,4 +1,5 @@
 import { totalist } from 'totalist';
+import { pathToFileURL } from 'url';
 
 // Takes in file/folder paths and T and will resolve all to T
 // When T is found callback is called
@@ -11,9 +12,12 @@ export async function read<T>(things: string | Array<string | T>, callback: (ite
             continue;
         }
 
-        await totalist(item, async (name, path) => {
+        await totalist(item, async (name, rawPath) => {
             // If it starts with an _ we ignore it
             if (name.startsWith('_')) return;
+
+            // Windows needs a file url
+            const { href: path } = pathToFileURL(rawPath);
 
             // Import the file
             const data = await import(path);
