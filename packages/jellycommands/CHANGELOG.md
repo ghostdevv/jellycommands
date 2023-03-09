@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.41
+
+### Patch Changes
+
+-   fix automatic file loading on windows ([#169](https://github.com/ghostdevv/jellycommands/pull/169))
+
 ## 1.0.0-next.40
 
 ### Patch Changes
