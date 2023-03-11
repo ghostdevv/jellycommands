@@ -21,3 +21,7 @@ export type { UserCommandOptions } from './commands/types/userCommands/options';
 // Export event related
 export { event, Event } from './events/Event';
 export type { EventOptions } from './events/options';
+
+// Export button related
+export { button, Button } from './buttons/buttons';
+export type { ButtonOptions } from './buttons/options';
