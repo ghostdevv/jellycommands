@@ -36,6 +36,11 @@ export async function handleButton({
     const button = await findButton(interaction.customId, buttons);
 
     if (button) {
+        if (button.options.defer)
+            await interaction.deferReply(
+                typeof button.options.defer == 'object' ? button.options.defer : {},
+            );
+
         await button.run({ client, props: client.props, interaction });
     }
 }
