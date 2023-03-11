@@ -2,6 +2,7 @@ import type { JellyCommands } from '../JellyCommands';
 import type { ButtonInteraction } from 'discord.js';
 import type { Button } from './buttons';
 
+// TODO test this function
 async function findButton(incomingId: string, buttons: Set<Button>): Promise<Button | null> {
     for (const button of buttons) {
         const { id } = button.options;
