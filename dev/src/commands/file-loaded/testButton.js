@@ -15,7 +15,10 @@ export default command({
 
         interaction.followUp({
             content: 'Test Buttons',
-            components: [row],
+            components: [
+                // @ts-ignore
+                row,
+            ],
         });
     },
 });
