@@ -10,4 +10,5 @@ export const tsup: Options = {
     format: ['esm', 'cjs'],
     entryPoints: ['src/index.ts'],
     shims: true,
+    external: [/^[a-zA-Z]:/],
 };
