@@ -1,6 +1,6 @@
 # Quick Start
 
-`JellyCommands` includes a versatile tool that provides you with a simple and intuitive command-line interface (CLI) for generating new projects. With just a few keystrokes, you can create a new project with all the basic files and directories you need to get started. Simply open your terminal and run the following command:
+`JellyCommands` includes a versatile tool that provides you with a simple and intuitive command-line interface (CLI) for generating new projects. You can create a new project with all the basic files and directories you need to get started. Simply open your terminal and run the following command:
 
 ```bash
 npm create jellycommands project-name
