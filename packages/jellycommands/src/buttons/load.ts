@@ -8,7 +8,10 @@ export async function loadButtons(items: string | Array<string | Button>) {
         if (!(button instanceof Button))
             throw new Error(`Found invalid item "${button}" in options.buttons`);
 
-        buttons.add(button);
+        // Only load if not disabled
+        if (!button.options.disabled) {
+            buttons.add(button);
+        }
     });
 
     return buttons;
