@@ -14,5 +14,13 @@ export async function loadButtons(items: string | Array<string | Button>) {
         }
     });
 
+    for (const button of buttons) {
+        // Delete disabled buttons
+        if (button.options.disabled) {
+            buttons.delete(button);
+            continue;
+        }
+    }
+
     return buttons;
 }
