@@ -13,7 +13,10 @@ export const resolveCommands = async (
         if (!(command instanceof BaseCommand))
             throw new Error(`Found invalid item "${command}" in options.commands`);
 
-        commands.add(command);
+        // Don't load disabled commands
+        if (!command.options.disabled) {
+            commands.add(command);
+        }
     });
 
     const globalCommands: GlobalCommands = new Set();
@@ -21,8 +24,6 @@ export const resolveCommands = async (
 
     for (const command of commands) {
         if (command.options.disabled) {
-            // commands is a Set and doesn't have a convenient filter function
-            // so delete the disabled commands in this loop
             commands.delete(command);
             continue;
         }
