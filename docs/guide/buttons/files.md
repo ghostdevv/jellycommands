@@ -1,6 +1,6 @@
 # Creating Buttons
 
-`Button` files contain a button handler. They aren't responsible for adding buttons to messages but are a way of running code when the buttons you made are pressed.
+`Button` files contain a **button handler**. They aren't responsible for adding buttons to messages but are a way of running code when the buttons you made are pressed.
 
 ```js
 import { button } from 'jellycommands';
@@ -15,6 +15,10 @@ export default button({
 ```
 
 [You can view a list of all the button options here](/api/buttons#options)
+
+:::tip TIP
+If you are unsure how to add buttons to messages, checkout the [Discord.js Guide](https://discordjs.guide/interactions/buttons.html)
+:::
 
 ## Button `id`
 
