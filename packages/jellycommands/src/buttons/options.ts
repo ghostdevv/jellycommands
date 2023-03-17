@@ -2,8 +2,6 @@ import type { InteractionDeferReplyOptions } from 'discord.js';
 import type { Awaitable } from '../utils/types';
 import Joi from 'joi';
 
-// TODO look at interaction options, such as defer, ephermal etc
-
 export interface ButtonOptions {
     /**
      * The customId of the button, or a regex/function to match against
