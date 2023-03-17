@@ -8,7 +8,7 @@
     "dependencies": {
         "discord.js": "^14.2.0",
         "dotenv": "^16.0.1",
-        "jellycommands": "1.0.0-next.32"
+        "jellycommands": "1.0.0-next.42"
     },
     "devDependencies": {
         "nodemon": "^2.0.19"
