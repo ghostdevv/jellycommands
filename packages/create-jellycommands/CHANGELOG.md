@@ -1,5 +1,15 @@
 # create-jellycommands
 
+## 0.1.0-next.15
+
+### Minor Changes
+
+-   update templates to have buttons ([`9401374`](https://github.com/ghostdevv/jellycommands/commit/9401374ab11c7a91b0d114b197f6768e6eb00c6a))
+
+### Patch Changes
+
+-   update template deps ([`4ecfed6`](https://github.com/ghostdevv/jellycommands/commit/4ecfed6634eb94c84adc2ffd52ef4c9dc16826cb))
+
 ## 0.1.0-next.14
 
 ### Patch Changes
