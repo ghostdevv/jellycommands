@@ -1,7 +1,7 @@
 {
     "name": "dev",
     "type": "module",
-    "main": "index.js",
+    "main": "src/index.js",
     "version": "0.0.1-next.1",
     "private": true,
     "scripts": {

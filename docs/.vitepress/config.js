@@ -59,6 +59,10 @@ export default defineConfig({
                             link: '/api/events',
                         },
                         {
+                            text: 'Buttons',
+                            link: '/api/buttons',
+                        },
+                        {
                             text: 'App Types',
                             link: '/api/types',
                         },
@@ -132,6 +136,19 @@ export default defineConfig({
                         {
                             text: 'Creating Events',
                             link: '/guide/events/files',
+                        },
+                    ],
+                },
+                {
+                    text: 'Buttons',
+                    items: [
+                        {
+                            text: 'Loading Buttons',
+                            link: '/guide/buttons/loading',
+                        },
+                        {
+                            text: 'Creating Buttons',
+                            link: '/guide/buttons/files',
                         },
                     ],
                 },

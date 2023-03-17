@@ -2,7 +2,9 @@ import { cleanToken, resolveToken } from './utils/token.js';
 import { resolveCommands } from './commands/resolve';
 import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';
+import { handleButton } from './buttons/handle.js';
 import { JellyCommandsOptions } from './options';
+import { loadButtons } from './buttons/load.js';
 import { respond } from './commands/respond';
 import { Client } from 'discord.js';
 import { schema } from './options';
@@ -74,6 +76,16 @@ export class JellyCommands extends Client {
                     client: this,
                     commandIdMap,
                 });
+            });
+        }
+
+        if (this.joptions.buttons) {
+            const buttons = await loadButtons(this.joptions.buttons);
+
+            this.on('interactionCreate', (interaction) => {
+                if (interaction.isButton()) {
+                    handleButton({ client: this, interaction, buttons });
+                }
             });
         }
 
