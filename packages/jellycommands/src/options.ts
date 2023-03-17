@@ -1,6 +1,7 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
 import { BaseCommand } from './commands/types/BaseCommand.js';
 import { snowflakeArray } from './utils/joi';
+import { Button } from './buttons/buttons';
 import { Event } from './events/Event';
 import Joi from 'joi';
 
@@ -8,6 +9,8 @@ export const schema = Joi.object({
     commands: [Joi.string(), Joi.array().items(Joi.object().instance(BaseCommand), Joi.string())],
 
     events: [Joi.string(), Joi.array().items(Joi.object().instance(Event), Joi.string())],
+
+    buttons: [Joi.string(), Joi.array().items(Joi.object().instance(Button), Joi.string())],
 
     clientOptions: Joi.object().required(),
 
@@ -41,6 +44,11 @@ export interface JellyCommandsOptions {
      * Either an array of events, or path(s) to events
      */
     events?: string | Array<string | Event>;
+
+    /**
+     * Either an array of buttons, or path(s) to buttons
+     */
+    buttons?: string | Array<string | Button>;
 
     /**
      * Base discord.js client options

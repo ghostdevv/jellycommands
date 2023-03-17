@@ -32,12 +32,15 @@ export async function respond(data: CommandReponseData): Promise<void> {
     const options = command.options;
 
     // If autocomplete interaction, run options.autocomplete
-    if (interaction.isAutocomplete())
-        /** @todo Duck you typescript */
-        return void (command as unknown as Command).autocomplete?.({
-            interaction,
-            client,
-        });
+    if (interaction.isAutocomplete()) {
+        if (command instanceof Command)
+            await command.autocomplete?.({
+                interaction,
+                client,
+            });
+
+        return;
+    }
 
     // If defer, defer
     if (options.defer)

@@ -35,6 +35,13 @@ Passing a string will automatically load commands from that directory, otherwise
 
 Passing a `string` will automatically load events from that directory.  Otherwise, you can manually import your events and pass them in as an `array`. Files prefixed with `_` are ignored.
 
+### buttons
+
+- Type: `string | Array<string | Button>`
+- Guide: [/guide/buttons](/guide/buttons/loading)
+
+Passing a `string` will automatically load buttons from that directory.  Otherwise, you can manually import your events and pass them in as an `array`. Files prefixed with `_` are ignored.
+
 ### clientOptions
 
 - Type: [`ClientOptions`](https://discord.js.org/#/docs/discord.js/main/typedef/ClientOptions)

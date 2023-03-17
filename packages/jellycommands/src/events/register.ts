@@ -12,11 +12,17 @@ export const registerEvents = async (
         if (!(event instanceof Event))
             throw new Error(`Found invalid item "${event}" in options.events`);
 
-        events.add(event);
+        // Don't load disabled events
+        if (!event.options.disabled) {
+            events.add(event);
+        }
     });
 
     for (const event of events) {
-        if (event.options.disabled) continue;
+        if (event.options.disabled) {
+            events.delete(event);
+            continue;
+        }
 
         const cb = async (...ctx: any[]) => {
             try {

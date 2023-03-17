@@ -9,6 +9,9 @@ const client = new JellyCommands({
     // https://jellycommands.dev/guide/events/loading
     events: 'src/events',
 
+    // https://jellycommands.dev/guide/buttons/loading
+    buttons: 'src/buttons',
+
     clientOptions: {
         intents: [IntentsBitField.Flags.Guilds],
     },
