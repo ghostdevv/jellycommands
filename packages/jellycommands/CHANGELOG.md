@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.42
+
+### Minor Changes
+
+-   support buttons ([#171](https://github.com/ghostdevv/jellycommands/pull/171))
+
 ## 1.0.0-next.41
 
 ### Patch Changes
