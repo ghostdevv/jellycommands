@@ -2,4 +2,4 @@
 'jellycommands': patch
 ---
 
-fix: disable shims for windows
+fix: add `noExternal` option to tsup build
