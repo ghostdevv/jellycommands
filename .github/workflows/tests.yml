@@ -3,39 +3,55 @@ name: Tests
 on: [push, pull_request]
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-        # platform: [ubuntu-latest, windows-latest]
-        platform: [ubuntu-latest]
+    test:
+        name: Test on ${{ matrix.platform }} with NodeJS v${{ matrix.node-version }}
 
-    name: Test on ${{ matrix.platform }} with NodeJS v${{ matrix.node-version }}
+        runs-on: ${{ matrix.platform }}
 
-    runs-on: ${{ matrix.platform }}
+        strategy:
+            matrix:
+                node-version: [16.x, 18.x]
+                platform: [ubuntu-latest, windows-latest]
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2.2.1
-        with:
-          version: 7.0.0
+            - name: Setup Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
 
-      - name: Install Dependancies
-        run: pnpm i
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2.2.1
+              id: pnpm-install
+              with:
+                  version: 7
+                  run_install: false
 
-      - name: Build Packages
-        run: pnpm build
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              shell: bash
+              run: |
+                  echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - name: Run Tests
-        run: pnpm test
+            - name: Setup pnpm cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
 
-      - name: Lint
-        run: pnpm lint
+            - name: Install dependencies
+              # No frozen lockfile because windows doesn't like it (Theres a issue for it somewhere in PNPM's repo)
+              run: pnpm install --no-frozen-lockfile
+
+            - name: Build
+              run: pnpm build
+
+            - name: Run Tests
+              run: pnpm test
+
+            - name: Lint
+              run: pnpm lint
