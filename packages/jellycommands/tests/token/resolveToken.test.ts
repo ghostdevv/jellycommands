@@ -1,6 +1,5 @@
-import { test, equal, mockClient, mockToken } from '../../common';
-
-import { resolveToken } from '../../../../src/utils/token';
+import { test, equal, mockClient, mockToken } from '../common';
+import { resolveToken } from '../../src/utils/token';
 
 test('Get token from client', () => {
     const result = resolveToken(mockClient());
@@ -29,7 +28,5 @@ test('No env token or no client.token to get the token from', () => {
     const result = resolveToken(modifiedMockClient);
     equal(result, null);
 });
-
-
 
 test.run();

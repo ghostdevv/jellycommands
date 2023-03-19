@@ -1,6 +1,5 @@
-import { test, equal, mockToken } from '../../common';
-
-import { cleanToken } from '../../../../src/utils/token';
+import { cleanToken } from '../../src/utils/token';
+import { test, equal, mockToken } from '../common';
 
 test('Strip Bot prefix', () => {
     const result = cleanToken(`Bot ${mockToken}`);

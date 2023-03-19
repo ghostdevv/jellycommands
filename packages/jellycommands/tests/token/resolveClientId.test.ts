@@ -1,6 +1,5 @@
-import { test, equal, mockClient, rawClientId } from '../../common';
-
-import { resolveClientId } from '../../../../src/utils/token';
+import { test, equal, mockClient, rawClientId } from '../common';
+import { resolveClientId } from '../../src/utils/token';
 
 test('Get the ID from the client', () => {
     const result = resolveClientId(mockClient());

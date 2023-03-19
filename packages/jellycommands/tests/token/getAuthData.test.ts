@@ -1,6 +1,5 @@
-import { test, deepEqual, throws, mockClient, mockToken, rawClientId } from '../../common';
-
-import { getAuthData, AuthData } from '../../../../src/utils/token';
+import { test, deepEqual, throws, mockClient, mockToken, rawClientId } from '../common';
+import { getAuthData, AuthData } from '../../src/utils/token';
 
 test('Get the token from the client', () => {
     const result = getAuthData(mockClient());
