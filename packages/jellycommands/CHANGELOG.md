@@ -1,5 +1,11 @@
 # jellycommands
 
+## 1.0.0-next.43
+
+### Patch Changes
+
+-   nested files with \_ are now ignored correctly ([#180](https://github.com/ghostdevv/jellycommands/pull/180))
+
 ## 1.0.0-next.42
 
 ### Minor Changes
