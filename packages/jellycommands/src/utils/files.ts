@@ -1,3 +1,4 @@
+import { basename } from 'path';
 import { totalist } from 'totalist';
 import { pathToFileURL } from 'url';
 
@@ -12,7 +13,9 @@ export async function read<T>(things: string | Array<string | T>, callback: (ite
             continue;
         }
 
-        await totalist(item, async (name, rawPath) => {
+        await totalist(item, async (relPath, rawPath) => {
+            const name = basename(relPath);
+
             // If it starts with an _ we ignore it
             if (name.startsWith('_')) return;
 
