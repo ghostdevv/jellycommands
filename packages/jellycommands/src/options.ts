@@ -43,7 +43,7 @@ export interface JellyCommandsOptions {
     /**
      * Either an array of events, or path(s) to events
      */
-    events?: string | Array<string | Event>;
+    events?: string | Array<string | Event<any>>;
 
     /**
      * Either an array of buttons, or path(s) to buttons
