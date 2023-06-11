@@ -1,6 +1,7 @@
+import type { BaseFeatureOptions } from '../features/features';
 import type { ClientEvents } from 'discord.js';
 
-export interface EventOptions<Event extends keyof ClientEvents> {
+export interface EventOptions<Event extends keyof ClientEvents> extends BaseFeatureOptions {
     /**
      * The event name: https://discord.js.org/#/docs/main/stable/class/Client
      */

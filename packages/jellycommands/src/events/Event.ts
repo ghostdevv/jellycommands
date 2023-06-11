@@ -1,6 +1,7 @@
 import type { JellyCommands } from '../JellyCommands';
+import { BaseFeature } from '../features/features';
 import { schema, EventOptions } from './options';
-import type { ClientEvents } from 'discord.js';
+import type { Client, ClientEvents } from 'discord.js';
 import { Awaitable } from '../utils/types';
 
 export type EventCallback<EventName extends keyof ClientEvents> = (
@@ -8,14 +9,17 @@ export type EventCallback<EventName extends keyof ClientEvents> = (
     ...args: ClientEvents[EventName]
 ) => Awaitable<void | any>;
 
-export class Event<T extends keyof ClientEvents = keyof ClientEvents> {
-    public readonly options: Required<EventOptions<T>>;
+export class Event<T extends keyof ClientEvents = keyof ClientEvents> extends BaseFeature {
+    public readonly options: EventOptions<T>;
+    public readonly TYPE = 'EVENT';
 
     constructor(
         public readonly name: keyof ClientEvents,
         public readonly run: EventCallback<T>,
         options: EventOptions<T>,
     ) {
+        super();
+
         if (!name || typeof name != 'string')
             throw new TypeError(`Expected type string for name, received ${typeof name}`);
 

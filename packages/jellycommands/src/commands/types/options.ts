@@ -1,10 +1,11 @@
+import type { BaseFeatureOptions } from '../../features/features';
 import type { InteractionDeferReplyOptions } from 'discord.js';
 import type { PermissionResolvable } from 'discord.js';
 import type { Locale } from 'discord-api-types/v10';
 import { snowflakeArray } from '../../utils/joi';
 import Joi from 'joi';
 
-export interface BaseOptions {
+export interface BaseOptions extends BaseFeatureOptions {
     /**
      * The name of the command
      */

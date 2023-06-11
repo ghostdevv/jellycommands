@@ -17,6 +17,7 @@ export type AutocompleteHandler = (options: {
 
 export class Command extends BaseCommand<CommandOptions, ChatInputCommandInteraction> {
     public readonly type = ApplicationCommandType.ChatInput;
+    public readonly TYPE = 'SLASH_COMMAND' as const;
 
     public readonly autocomplete?: AutocompleteHandler;
 

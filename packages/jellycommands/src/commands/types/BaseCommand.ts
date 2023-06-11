@@ -1,6 +1,7 @@
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
 import type { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
+import { BaseFeature } from '../../features/features';
 import type { BaseInteraction } from 'discord.js';
 import { PermissionsBitField } from 'discord.js';
 import { Awaitable } from '../../utils/types';
@@ -21,7 +22,7 @@ export type CommandCallback<InteractionType extends BaseInteraction> = (
 export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,
     InteractionType extends BaseInteraction = BaseInteraction,
-> {
+> extends BaseFeature {
     public readonly options: OptionsType;
     public readonly run: CommandCallback<InteractionType>;
 
@@ -36,6 +37,8 @@ export abstract class BaseCommand<
         schema: Joi.ObjectSchema<any>;
         run: CommandCallback<InteractionType>;
     }) {
+        super();
+
         if (!run || typeof run != 'function')
             throw new TypeError(`Expected type function for run, received ${typeof run}`);
 

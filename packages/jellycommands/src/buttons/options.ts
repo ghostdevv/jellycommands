@@ -1,8 +1,9 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
+import type { BaseFeatureOptions } from '../features/features';
 import type { Awaitable } from '../utils/types';
 import Joi from 'joi';
 
-export interface ButtonOptions {
+export interface ButtonOptions extends BaseFeatureOptions {
     /**
      * The customId of the button, or a regex/function to match against
      */

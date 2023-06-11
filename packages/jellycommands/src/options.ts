@@ -1,16 +1,18 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
 import { BaseCommand } from './commands/types/BaseCommand.js';
+import type { Feature } from './features/features.js';
 import { snowflakeArray } from './utils/joi';
 import { Button } from './buttons/buttons';
 import { Event } from './events/Event';
 import Joi from 'joi';
 
 export const schema = Joi.object({
+    // Remove for 1.0
     commands: [Joi.string(), Joi.array().items(Joi.object().instance(BaseCommand), Joi.string())],
-
     events: [Joi.string(), Joi.array().items(Joi.object().instance(Event), Joi.string())],
-
     buttons: [Joi.string(), Joi.array().items(Joi.object().instance(Button), Joi.string())],
+
+    features: Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.object(), Joi.string())),
 
     clientOptions: Joi.object().required(),
 
@@ -37,18 +39,26 @@ export const schema = Joi.object({
 export interface JellyCommandsOptions {
     /**
      * Either an array of commands, or path(s) to commands
+     * @deprecated
      */
     commands?: string | Array<string | BaseCommand>;
 
     /**
      * Either an array of events, or path(s) to events
+     * @deprecated
      */
     events?: string | Array<string | Event>;
 
     /**
      * Either an array of buttons, or path(s) to buttons
+     * @deprecated
      */
     buttons?: string | Array<string | Button>;
+
+    /**
+     * Features
+     */
+    features?: string | Array<string | Feature>;
 
     /**
      * Base discord.js client options
