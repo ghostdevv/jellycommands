@@ -7,6 +7,7 @@ interface File {
     name: string;
 }
 
+// todo replace with node 18 built in when possible
 async function readdirRecursive(path: string): Promise<File[]> {
     const results = await readdir(path, { withFileTypes: true });
     const files: File[] = [];
