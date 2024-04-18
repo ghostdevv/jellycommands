@@ -15,7 +15,7 @@
     },
     "homepage": "https://github.com/ghostdevv/jellycommands#readme",
     "devDependencies": {
-        "@types/node": "^20.12.7"
+        "@types/node": "^16.18.96"
     },
     "dependencies": {
         "@clack/prompts": "^0.7.0",
