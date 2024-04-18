@@ -2,6 +2,28 @@ import { readdir } from 'node:fs/promises';
 import { pathToFileURL } from 'url';
 import { join } from 'node:path';
 
+interface File {
+    path: string;
+    name: string;
+}
+
+async function readdirRecursive(path: string): Promise<File[]> {
+    const results = await readdir(path, { withFileTypes: true });
+    const files: File[] = [];
+
+    for (const result of results) {
+        const resultPath = join(path, result.name);
+
+        if (result.isDirectory()) {
+            files.push(...(await readdirRecursive(resultPath)));
+        } else {
+            files.push({ path: resultPath, name: result.name });
+        }
+    }
+
+    return files;
+}
+
 // Takes in file/folder paths and T and will resolve all to T
 // When T is found callback is called
 export async function read<T>(things: string | Array<string | T>, callback: (item: T) => void) {
@@ -13,12 +35,7 @@ export async function read<T>(things: string | Array<string | T>, callback: (ite
             continue;
         }
 
-        for (const file of await readdir(item, { recursive: true, withFileTypes: true })) {
-            if (file.isDirectory()) continue;
-
-            const path = join(file.path, file.name);
-            const name = file.name;
-
+        for (const { path, name } of await readdirRecursive(item)) {
             // If it starts with an _ we ignore it
             if (name.startsWith('_')) continue;
 
