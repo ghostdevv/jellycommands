@@ -12,7 +12,10 @@ export type ButtonCallback = (context: {
 export class Button {
     public readonly options: ButtonOptions;
 
-    constructor(options: ButtonOptions, public readonly run: ButtonCallback) {
+    constructor(
+        options: ButtonOptions,
+        public readonly run: ButtonCallback,
+    ) {
         const { error, value } = schema.validate(options);
 
         if (error) throw error.annotate();
