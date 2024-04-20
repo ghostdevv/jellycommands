@@ -2,8 +2,8 @@ import type { APIApplicationCommandOption } from 'discord-api-types/v10';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyApplicationCommandOption } from './types';
 import type { JellyCommands } from '../../../JellyCommands';
+import { commandSchema, CommandOptions } from './options';
 import type { CommandCallback } from '../BaseCommand';
-import { schema, CommandOptions } from './options';
 import { Awaitable } from '../../../utils/types';
 import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
@@ -34,7 +34,7 @@ export class Command extends BaseCommand<CommandOptions, ChatInputCommandInterac
         options: CommandOptions;
         autocomplete?: AutocompleteHandler;
     }) {
-        super({ run, options, schema });
+        super({ run, options, schema: commandSchema });
 
         if (autocomplete && typeof autocomplete !== 'function') {
             throw new TypeError('Autocomplete handler must be a function');

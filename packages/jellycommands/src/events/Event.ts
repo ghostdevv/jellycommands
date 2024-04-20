@@ -1,6 +1,7 @@
 import type { JellyCommands } from '../JellyCommands';
 import { schema, EventOptions } from './options';
 import type { ClientEvents } from 'discord.js';
+import { parseSchema } from '../utils/zod';
 import { Awaitable } from '../utils/types';
 
 export type EventCallback<EventName extends keyof ClientEvents> = (
@@ -22,10 +23,7 @@ export class Event<T extends keyof ClientEvents = keyof ClientEvents> {
         if (!run || typeof run != 'function')
             throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
-        const { error, value } = schema.validate(options);
-
-        if (error) throw error.annotate();
-        else this.options = value;
+        this.options = parseSchema('event options', schema, options) as Required<EventOptions<T>>;
     }
 }
 

@@ -1,4 +1,4 @@
-import type { ClientEvents } from 'discord.js';
+import { type ClientEvents, Events } from 'discord.js';
 
 export interface EventOptions<Event extends keyof ClientEvents> {
     /**
@@ -8,19 +8,25 @@ export interface EventOptions<Event extends keyof ClientEvents> {
 
     /**
      * Whether or not the event should be loaded
+     * @default false
      */
     disabled?: boolean;
 
     /**
      * Should the event be ran once or every time it's received
+     * @default false
      */
     once?: boolean;
 }
 
-import Joi from 'joi';
+import { z } from 'zod';
 
-export const schema = Joi.object({
-    name: Joi.string().required(),
-    disabled: Joi.bool().default(false),
-    once: Joi.bool().default(false),
+export const schema = z.object({
+    name: z
+        .string()
+        .refine((str): str is keyof ClientEvents => Object.values(Events).includes(str as any), {
+            message: 'Event name must be a valid client event',
+        }),
+    disabled: z.boolean().default(false),
+    once: z.boolean().default(false),
 });
