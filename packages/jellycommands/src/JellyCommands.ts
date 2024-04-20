@@ -3,11 +3,11 @@ import { resolveCommands } from './commands/resolve';
 import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';
 import { handleButton } from './buttons/handle.js';
-import { JellyCommandsOptions } from './options';
+import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
 import { loadButtons } from './buttons/load.js';
 import { respond } from './commands/respond';
 import { Client } from 'discord.js';
-import { schema } from './options';
+import { parseSchema } from './utils/zod.js';
 
 export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;
@@ -16,10 +16,12 @@ export class JellyCommands extends Client {
     constructor(options: JellyCommandsOptions) {
         super(options.clientOptions);
 
-        const { error, value } = schema.validate(options);
-
-        if (error) throw error.annotate();
-        else this.joptions = value;
+        // @ts-expect-error issue with intents
+        this.joptions = parseSchema(
+            'JellyCommands options',
+            jellyCommandsOptionsSchema,
+            options,
+        ) as JellyCommandsOptions;
 
         this.props = options.props || {};
 

@@ -1,7 +1,8 @@
-import { type ButtonOptions, schema } from './options';
+import { type ButtonOptions, buttonSchema } from './options';
 import type { JellyCommands } from '../JellyCommands';
 import type { ButtonInteraction } from 'discord.js';
 import type { Awaitable } from '../utils/types';
+import { parseSchema } from '../utils/zod';
 
 export type ButtonCallback = (context: {
     client: JellyCommands;
@@ -16,10 +17,7 @@ export class Button {
         options: ButtonOptions,
         public readonly run: ButtonCallback,
     ) {
-        const { error, value } = schema.validate(options);
-
-        if (error) throw error.annotate();
-        else this.options = value;
+        this.options = parseSchema('button', buttonSchema, options);
     }
 }
 

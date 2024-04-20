@@ -2,7 +2,7 @@ import type { CommandCallback } from '../../../commands/types/BaseCommand';
 import { BaseCommand } from '../../../commands/types/BaseCommand';
 import type { ContextMenuCommandInteraction } from 'discord.js';
 import { ApplicationCommandType } from 'discord-api-types/v10';
-import { schema, MessageCommandOptions } from './options';
+import { messageCommandSchema, MessageCommandOptions } from './options';
 
 export class MessageCommand extends BaseCommand<
     MessageCommandOptions,
@@ -14,7 +14,7 @@ export class MessageCommand extends BaseCommand<
         run: CommandCallback<ContextMenuCommandInteraction>,
         options: MessageCommandOptions,
     ) {
-        super({ run, options, schema });
+        super({ run, options, schema: messageCommandSchema });
     }
 }
 

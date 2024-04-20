@@ -1,37 +1,37 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
 import { BaseCommand } from './commands/types/BaseCommand.js';
-import { snowflakeArray } from './utils/joi';
+import { snowflakeSchema } from './utils/zod.js';
 import { Button } from './buttons/buttons';
 import { Event } from './events/Event';
-import Joi from 'joi';
+import { z } from 'zod';
 
-export const schema = Joi.object({
-    commands: [Joi.string(), Joi.array().items(Joi.object().instance(BaseCommand), Joi.string())],
-
-    events: [Joi.string(), Joi.array().items(Joi.object().instance(Event), Joi.string())],
-
-    buttons: [Joi.string(), Joi.array().items(Joi.object().instance(Button), Joi.string())],
-
-    clientOptions: Joi.object().required(),
-
-    props: Joi.object().default({}),
-
-    messages: Joi.object({
-        unknownCommand: Joi.alternatives()
-            .try(Joi.string(), Joi.object())
-            .default({
-                embeds: [{ description: 'Unknown Command' }],
-            }),
-    }).default(),
-
-    dev: Joi.object({
-        global: Joi.bool().default(false),
-        guilds: snowflakeArray(),
-    }).default(),
-
-    cache: Joi.bool().default(true),
-
-    debug: Joi.bool().default(false),
+export const jellyCommandsOptionsSchema = z.object({
+    commands: z
+        .union([z.string(), z.union([z.string(), z.instanceof(BaseCommand)]).array()])
+        .optional(),
+    events: z.union([z.string(), z.union([z.string(), z.instanceof(Event)]).array()]).optional(),
+    buttons: z.union([z.string(), z.union([z.string(), z.instanceof(Button)]).array()]).optional(),
+    clientOptions: z.object({}).passthrough(),
+    props: z.object({}).passthrough().default({}),
+    messages: z
+        .object({
+            unknownCommand: z.union([
+                z.string(),
+                z
+                    .object({})
+                    .passthrough()
+                    .default({ embeds: [{ description: 'Unknown Command' }] }),
+            ]),
+        })
+        .default({}),
+    dev: z
+        .object({
+            global: z.boolean().default(false),
+            guilds: snowflakeSchema.array().nonempty().optional(),
+        })
+        .default({}),
+    cache: z.boolean().default(true),
+    debug: z.boolean().default(false),
 });
 
 export interface JellyCommandsOptions {
