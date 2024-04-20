@@ -1,5 +1,6 @@
 import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
 import { cleanToken, resolveToken } from './utils/token.js';
+import { Logger, createLogger } from './utils/logger';
 import { resolveCommands } from './commands/resolve';
 import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';
@@ -22,6 +23,8 @@ export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;
     public readonly props: Props;
 
+    public readonly log: Logger;
+
     constructor(options: JellyCommandsOptions) {
         super(options.clientOptions);
 
@@ -31,6 +34,8 @@ export class JellyCommands extends Client {
             jellyCommandsOptionsSchema,
             options,
         ) as JellyCommandsOptions;
+
+        this.log = createLogger(this);
 
         this.props = options.props || {};
 
@@ -74,7 +79,7 @@ export class JellyCommands extends Client {
             onResponseError: (context) => {
                 if (context.options.retryStatusCodes?.includes(context.response.status)) {
                     // prettier-ignore
-                    this.debug(`[Discord Request Rate Limited] Retrying in ${context.options.retryDelay}ms`)
+                    this.log.debug(`[Discord Request Rate Limited] Retrying in ${context.options.retryDelay}ms`)
                 }
 
                 const contextStr =
@@ -82,8 +87,7 @@ export class JellyCommands extends Client {
                         ? `:\n${JSON.stringify(context.response._data, null, 2)}\n`
                         : ' NO CONTEXT RETURNED';
 
-                // todo use error here
-                this.debug(`[Discord Fetch Error (${context.response?.status})]${contextStr}`);
+                this.log.error(`[Discord Fetch Error (${context.response?.status})]${contextStr}`);
             },
         });
     }
@@ -112,7 +116,7 @@ export class JellyCommands extends Client {
             // Whenever there is a interactionCreate event respond to it
             this.on('interactionCreate', (interaction) => {
                 // prettier-ignore
-                this.debug(`Interaction received: ${interaction.id} | ${interaction.type} | Command Id: ${interaction.isCommand() && interaction.commandId}`);
+                this.log.debug(`Interaction received: ${interaction.id} | ${interaction.type} | Command Id: ${interaction.isCommand() && interaction.commandId}`);
 
                 respond({
                     interaction,
@@ -137,11 +141,5 @@ export class JellyCommands extends Client {
         }
 
         return super.login(resolveToken(this) || undefined);
-    }
-
-    debug(message: string) {
-        if (this.joptions.debug) {
-            console.debug(`\x1b[1m\x1b[35m[DEBUG]\x1b[22m\x1b[39m ${message}`);
-        }
     }
 }

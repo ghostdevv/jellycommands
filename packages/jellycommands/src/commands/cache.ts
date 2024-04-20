@@ -10,38 +10,38 @@ export async function getCommandIdMap(
 ): Promise<CommandIDMap> {
     // If cache is disabled always register
     if (!client.joptions.cache) {
-        client.debug('Cache Disabled, registering Commands');
+        client.log.debug('Cache Disabled, registering Commands');
         return await registerCommands(client, commands);
     }
 
-    client.debug('Loading Cache');
+    client.log.debug('Loading Cache');
 
     const idResolver = new CommandIdResolver();
     const cache = new CommandCache();
 
     if (cache.validate(commands.commands)) {
-        client.debug('Cache is valid');
+        client.log.debug('Cache is valid');
 
         // Attempt to resolve command id map
         const commandIdMap = idResolver.get(commands.commands);
 
         if (commandIdMap) {
-            client.debug('Command Id Resolution success');
+            client.log.debug('Command Id Resolution success');
             return commandIdMap;
         }
 
         // This will only run if a CommandManager isn't returned above
-        client.debug('Id Resolver failed, reregistering commands');
+        client.log.debug('Id Resolver failed, reregistering commands');
     }
 
-    client.debug('Cache is invalid, registering commands');
+    client.log.debug('Cache is invalid, registering commands');
 
     const commandIdMap = await registerCommands(client, commands);
 
-    client.debug('Cache Updated');
+    client.log.debug('Cache Updated');
     cache.set(commands.commands);
 
-    client.debug('Id Resolver Updated');
+    client.log.debug('Id Resolver Updated');
     idResolver.set(commandIdMap);
 
     return commandIdMap;
