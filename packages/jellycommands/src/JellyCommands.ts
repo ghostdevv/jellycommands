@@ -1,13 +1,22 @@
+import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
 import { cleanToken, resolveToken } from './utils/token.js';
 import { resolveCommands } from './commands/resolve';
 import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';
 import { handleButton } from './buttons/handle.js';
-import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
+import { RouteBases } from 'discord-api-types/v10';
 import { loadButtons } from './buttons/load.js';
 import { respond } from './commands/respond';
-import { Client } from 'discord.js';
 import { parseSchema } from './utils/zod.js';
+import { Client } from 'discord.js';
+import { ofetch } from 'ofetch';
+
+// todo remove when dropping node 16
+declare global {
+    interface Response {
+        status: number;
+    }
+}
 
 export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;
@@ -45,6 +54,38 @@ export class JellyCommands extends Client {
             },
             ...this.props,
         };
+    }
+
+    async $fetch<R = any, D = any, Q = Record<string, any>>(
+        path: string,
+        options?: { method: string; body?: D; headers?: Record<string, string>; query?: Q },
+    ): Promise<R> {
+        return await ofetch<R>(path, {
+            baseURL: RouteBases.api,
+            headers: {
+                ...(options?.headers || {}),
+                Authorization: `Bot ${this.token}`,
+            },
+            method: options?.method,
+            body: options?.body,
+            query: options?.query || undefined,
+            retry: 5,
+            retryDelay: 500,
+            onResponseError: (context) => {
+                if (context.options.retryStatusCodes?.includes(context.response.status)) {
+                    // prettier-ignore
+                    this.debug(`[Discord Request Rate Limited] Retrying in ${context.options.retryDelay}ms`)
+                }
+
+                const contextStr =
+                    typeof context.response?._data == 'object'
+                        ? `:\n${JSON.stringify(context.response._data, null, 2)}\n`
+                        : ' NO CONTEXT RETURNED';
+
+                // todo use error here
+                this.debug(`[Discord Fetch Error (${context.response?.status})]${contextStr}`);
+            },
+        });
     }
 
     async login(potentialToken?: string): Promise<string> {
