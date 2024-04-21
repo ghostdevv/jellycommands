@@ -1,12 +1,12 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import type { Awaitable } from '../utils/types';
+import type { MaybePromise } from '../utils/types';
 import { z } from 'zod';
 
 export interface ButtonOptions {
     /**
      * The customId of the button, or a regex/function to match against
      */
-    id: string | RegExp | ((id: string) => Awaitable<boolean>);
+    id: string | RegExp | ((id: string) => MaybePromise<boolean>);
 
     /**
      * Should the interaction be defered?

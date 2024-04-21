@@ -1,6 +1,6 @@
-import { type AnyZodObject, z } from 'zod';
+import { z } from 'zod';
 
-export function parseSchema<T extends AnyZodObject>(
+export function parseSchema<T extends z.ZodType>(
     name: string,
     schema: T,
     data: unknown,

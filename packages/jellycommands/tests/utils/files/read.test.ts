@@ -1,6 +1,5 @@
+import { describe, expect, it } from 'vitest';
 import { read } from '$src/utils/files';
-import { describe } from 'node:test';
-import { expect, it } from 'vitest';
 import { join } from 'desm';
 
 const TEST_FILES = join(import.meta.url, './test-files');

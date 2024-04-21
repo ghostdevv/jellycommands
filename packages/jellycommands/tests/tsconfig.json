@@ -3,7 +3,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "$mock": ["./common.ts"],
+            "$mock": ["./mock.ts"],
             "$src/*": ["../src/*"],
             "$src": ["../src"],
         }
