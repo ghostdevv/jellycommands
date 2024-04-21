@@ -14,7 +14,7 @@ export function createLogger(client: JellyCommands): Logger {
         error: (...errors: any[]) =>
             console.error('\x1b[1m\x1b[31m[JellyCommands Error]\x1b[22m\x1b[39m', ...errors),
         debug: (...messages: any[]) => {
-            if (!client.joptions.debug) {
+            if (client.joptions.debug) {
                 console.debug('\x1b[1m\x1b[34m[JellyCommands Debug]\x1b[22m\x1b[39m', ...messages);
             }
         },
