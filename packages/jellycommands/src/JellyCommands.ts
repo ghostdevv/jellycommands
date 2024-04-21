@@ -6,11 +6,11 @@ import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';
 import { handleButton } from './buttons/handle.js';
 import { RouteBases } from 'discord-api-types/v10';
+import { type FetchOptions, ofetch } from 'ofetch';
 import { loadButtons } from './buttons/load.js';
 import { respond } from './commands/respond';
 import { parseSchema } from './utils/zod.js';
 import { Client } from 'discord.js';
-import { type FetchOptions, ofetch } from 'ofetch';
 
 export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;

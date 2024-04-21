@@ -19,18 +19,18 @@ describe('logger', () => {
         const logger = createLogger(mockJellyClient());
 
         logger.error();
-        expect(error).toHaveBeenCalled();
+        expect(error).toHaveBeenCalledTimes(1);
     });
 
     it('works with debug logs', () => {
-        const client = mockJellyClient(false);
+        const client = mockJellyClient();
         const logger = createLogger(client);
 
         logger.debug('.debug()');
-        expect(debug).not.toHaveBeenCalled();
+        expect(debug).not.toHaveBeenCalledTimes(1);
 
         client.joptions.debug = true;
         logger.debug('.debug()');
-        expect(debug).toHaveBeenCalled();
+        expect(debug).toHaveBeenCalledTimes(1);
     });
 });

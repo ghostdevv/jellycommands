@@ -1,5 +1,6 @@
 import { JellyCommands } from '$src/JellyCommands';
-import type { Client } from 'discord.js';
+import { Client } from 'discord.js';
+import { vi } from 'vitest';
 
 export const rawToken = 'ImAToken';
 export const rawClientId = 'ImAClientId';
@@ -10,20 +11,23 @@ export const encodedClientId = Buffer.from(rawClientId).toString('base64');
 export const mockToken = `${encodedClientId}.${encodedToken}`;
 
 export function mockClient() {
-    return <Client>{
-        token: mockToken,
-        user: {
-            id: rawClientId,
-        },
-    };
+    const client = new Client({ intents: [] });
+
+    client.token = mockToken;
+    // @ts-expect-error missing properties
+    client.user = { id: rawClientId };
+
+    return client;
 }
 
-export function mockJellyClient(debug = false) {
-    return <JellyCommands>{
-        token: mockToken,
-        user: {
-            id: rawClientId,
-        },
-        joptions: { debug },
-    };
+export function mockJellyClient() {
+    const client = new JellyCommands({
+        clientOptions: { intents: [] },
+    });
+
+    client.token = encodedToken;
+    // @ts-expect-error missing properties
+    client.user = { id: rawClientId };
+
+    return client;
 }
