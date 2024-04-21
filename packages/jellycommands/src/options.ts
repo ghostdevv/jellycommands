@@ -1,5 +1,6 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
 import { BaseCommand } from './commands/types/BaseCommand.js';
+import type { AnyCommand } from './commands/types/types';
 import { snowflakeSchema } from './utils/zod.js';
 import { Button } from './buttons/buttons';
 import { Event } from './events/Event';
@@ -38,12 +39,12 @@ export interface JellyCommandsOptions {
     /**
      * Either an array of commands, or path(s) to commands
      */
-    commands?: string | Array<string | BaseCommand>;
+    commands?: string | Array<string | AnyCommand>;
 
     /**
      * Either an array of events, or path(s) to events
      */
-    events?: string | Array<string | Event>;
+    events?: string | Array<string | Event<any>>;
 
     /**
      * Either an array of buttons, or path(s) to buttons
