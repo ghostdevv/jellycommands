@@ -7,4 +7,8 @@ describe('parse client id from token', () => {
         const result = clientIdFromToken(mockToken);
         expect(result).toBe(rawClientId);
     });
+
+    it('returns null on invalid id', () => {
+        expect(clientIdFromToken('empty')).toBeNull();
+    });
 });

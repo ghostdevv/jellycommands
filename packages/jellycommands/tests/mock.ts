@@ -3,7 +3,7 @@ import { Client } from 'discord.js';
 import { vi } from 'vitest';
 
 export const rawToken = 'ImAToken';
-export const rawClientId = 'ImAClientId';
+export const rawClientId = '843642576971759667';
 
 export const encodedToken = Buffer.from(rawToken).toString('base64');
 export const encodedClientId = Buffer.from(rawClientId).toString('base64');

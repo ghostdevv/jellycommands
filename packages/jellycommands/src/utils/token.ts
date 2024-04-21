@@ -1,3 +1,4 @@
+import { isSnowflake } from './snowflake';
 import type { Client } from 'discord.js';
 
 export function cleanToken(token?: string): string | null {
@@ -5,7 +6,8 @@ export function cleanToken(token?: string): string | null {
 }
 
 export function clientIdFromToken(token: string): string | null {
-    return Buffer.from(token.split('.')[0], 'base64').toString();
+    const maybeSnowflake = Buffer.from(token.split('.')[0], 'base64').toString();
+    return isSnowflake(maybeSnowflake) ? maybeSnowflake : null;
 }
 
 export function resolveToken(client: Client): string | null {
@@ -27,10 +29,10 @@ export interface AuthData {
 }
 
 export function getAuthData(client: Client): AuthData {
-    const clientId = resolveClientId(client);
     const token = resolveToken(client);
-
     if (!token) throw new Error('No token found');
+
+    const clientId = resolveClientId(client);
     if (!clientId) throw new Error('Invalid token provided');
 
     return { token, clientId };

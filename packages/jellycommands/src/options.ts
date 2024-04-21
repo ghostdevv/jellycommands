@@ -1,7 +1,7 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
 import { BaseCommand } from './commands/types/BaseCommand.js';
 import type { AnyCommand } from './commands/types/types';
-import { snowflakeSchema } from './utils/zod.js';
+import { snowflakeSchema } from './utils/snowflake.js';
 import { Button } from './buttons/buttons';
 import { Event } from './events/Event';
 import { z } from 'zod';

@@ -1,7 +1,7 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
+import { snowflakeSchema } from '../../utils/snowflake';
 import type { PermissionResolvable } from 'discord.js';
 import type { Locale } from 'discord-api-types/v10';
-import { snowflakeSchema } from '../../utils/zod';
 import { z } from 'zod';
 
 export interface BaseOptions {

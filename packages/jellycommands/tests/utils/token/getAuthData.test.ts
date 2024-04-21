@@ -10,6 +10,10 @@ describe('parses auth data from client', () => {
         });
     });
 
+    it('gets the client id', () => {
+        expect(getAuthData(mockClient()).clientId).toBe(rawClientId);
+    });
+
     it('gets the token from environment vars', () => {
         const client = mockClient();
         client.token = null;
@@ -22,9 +26,17 @@ describe('parses auth data from client', () => {
         });
     });
 
-    it('throws if no token found', () => {
+    it('throws if no token data found', () => {
         const client = mockClient();
         client.token = null;
+
+        expect(() => getAuthData(client)).toThrowError();
+    });
+
+    it('throws if no token data found', () => {
+        const client = mockClient();
+        client.token = 'empty';
+        client.user = null;
 
         expect(() => getAuthData(client)).toThrowError();
     });

@@ -14,10 +14,3 @@ export function parseSchema<T extends z.ZodType>(
 
     throw new TypeError(`Error parsing schema for ${name}:\n${formattedError}\n`);
 }
-
-export const snowflakeSchema = z
-    .string({
-        invalid_type_error: 'Snowflake ids should be given as a string',
-        required_error: 'Must give a valid Snowflake id',
-    })
-    .min(18, { message: 'Discord Snowflake ids are at least 18 chars' });
