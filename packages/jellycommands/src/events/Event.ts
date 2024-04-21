@@ -2,12 +2,12 @@ import type { JellyCommands } from '../JellyCommands';
 import { schema, EventOptions } from './options';
 import type { ClientEvents } from 'discord.js';
 import { parseSchema } from '../utils/zod';
-import { Awaitable } from '../utils/types';
+import { MaybePromise } from '../utils/types';
 
 export type EventCallback<EventName extends keyof ClientEvents> = (
     instance: { client: JellyCommands; props: Props },
     ...args: ClientEvents[EventName]
-) => Awaitable<void | any>;
+) => MaybePromise<void | any>;
 
 export class Event<T extends keyof ClientEvents = keyof ClientEvents> {
     public readonly options: Required<EventOptions<T>>;

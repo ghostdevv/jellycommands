@@ -4,7 +4,7 @@ import type { JellyApplicationCommandOption } from './types';
 import type { JellyCommands } from '../../../JellyCommands';
 import { commandSchema, CommandOptions } from './options';
 import type { CommandCallback } from '../BaseCommand';
-import { Awaitable } from '../../../utils/types';
+import { MaybePromise } from '../../../utils/types';
 import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
 import {
@@ -18,7 +18,7 @@ import {
 export type AutocompleteHandler = (options: {
     interaction: AutocompleteInteraction;
     client: JellyCommands;
-}) => Awaitable<any | void>;
+}) => MaybePromise<any | void>;
 
 export class Command extends BaseCommand<CommandOptions, ChatInputCommandInteraction> {
     public readonly type = ApplicationCommandType.ChatInput;

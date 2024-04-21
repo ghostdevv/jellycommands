@@ -5,7 +5,7 @@ import type { BaseInteraction } from 'discord.js';
 import type { AnyZodObject } from 'zod';
 
 import { PermissionsBitField } from 'discord.js';
-import { Awaitable } from '../../utils/types';
+import { MaybePromise } from '../../utils/types';
 import { parseSchema } from '../../utils/zod';
 import { BaseOptions } from './options';
 import { createHash } from 'crypto';
@@ -18,7 +18,7 @@ export interface RunOptions<InteractionType extends BaseInteraction> {
 
 export type CommandCallback<InteractionType extends BaseInteraction> = (
     options: RunOptions<InteractionType>,
-) => Awaitable<void | any>;
+) => MaybePromise<void | any>;
 
 export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,
