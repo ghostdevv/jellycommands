@@ -1,31 +1,43 @@
 import { readdir } from 'node:fs/promises';
 import { pathToFileURL } from 'url';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
+import { existsSync, statSync } from 'node:fs';
 
 // Takes in file/folder paths and T and will resolve all to T
 // When T is found callback is called
 export async function read<T>(things: string | Array<string | T>, callback: (item: T) => void) {
     const thingsArray = Array.isArray(things) ? things : [things];
 
-    for (const item of thingsArray) {
-        if (typeof item != 'string') {
-            callback(item);
+    async function handle(filePath: string, name = basename(filePath)) {
+        // If it starts with an _ we ignore it
+        if (name.startsWith('_')) return;
+
+        // Import the file, we need a file url here because of windows
+        const data = await import(pathToFileURL(filePath).href);
+
+        // Run the callback
+        callback(data.default);
+    }
+
+    for (const pathOrThing of thingsArray) {
+        if (typeof pathOrThing != 'string') {
+            callback(pathOrThing);
             continue;
         }
 
-        const ls = await readdir(item, { recursive: true, withFileTypes: true });
+        if (existsSync(pathOrThing) && statSync(pathOrThing).isFile()) {
+            await handle(pathOrThing);
+            continue;
+        }
+
+        const ls = await readdir(pathOrThing, {
+            recursive: true,
+            withFileTypes: true,
+        });
 
         for (const file of ls) {
             if (file.isDirectory()) continue;
-
-            // If it starts with an _ we ignore it
-            if (file.name.startsWith('_')) continue;
-
-            // Import the file
-            const data = await import(pathToFileURL(join(file.path, file.name)).href);
-
-            // Call add with the default export
-            callback(data.default);
+            await handle(join(file.path, file.name), file.name);
         }
     }
 }
