@@ -98,4 +98,4 @@ Enables `JellyCommands` cache. It's recommended to keep this on
 
 - Type: `boolean`
 
-Emits debug messages when `true`
+Enables debug messages to be printed to console. If a non-empty `DEBUG` environment variable is set then this will automatically be enabled.
