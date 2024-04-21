@@ -19,11 +19,11 @@
     },
     "dependencies": {
         "@clack/prompts": "^0.7.0",
-        "cpy": "^10.1.0",
+        "cpy": "^11.0.1",
         "desm": "^1.3.1",
         "kleur": "^4.1.5",
         "minimist": "^1.2.8",
-        "update-notifier": "^6.0.2"
+        "update-notifier": "^7.0.0"
     },
     "keywords": [
         "jellycommands",
