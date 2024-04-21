@@ -2,4 +2,4 @@
 "jellycommands": minor
 ---
 
-fix: make event name parsing not strict
+feat: make event name not strict

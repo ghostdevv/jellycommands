@@ -2,4 +2,4 @@
 "jellycommands": patch
 ---
 
-deps: switch to ofetch over axios
+deps: switch to ofetch from axios
