@@ -2,29 +2,6 @@ import { readdir } from 'node:fs/promises';
 import { pathToFileURL } from 'url';
 import { join } from 'node:path';
 
-interface File {
-    path: string;
-    name: string;
-}
-
-// todo replace with node 18 built in when possible
-async function readdirRecursive(path: string): Promise<File[]> {
-    const results = await readdir(path, { withFileTypes: true });
-    const files: File[] = [];
-
-    for (const result of results) {
-        const resultPath = join(path, result.name);
-
-        if (result.isDirectory()) {
-            files.push(...(await readdirRecursive(resultPath)));
-        } else {
-            files.push({ path: resultPath, name: result.name });
-        }
-    }
-
-    return files;
-}
-
 // Takes in file/folder paths and T and will resolve all to T
 // When T is found callback is called
 export async function read<T>(things: string | Array<string | T>, callback: (item: T) => void) {
@@ -36,12 +13,16 @@ export async function read<T>(things: string | Array<string | T>, callback: (ite
             continue;
         }
 
-        for (const { path, name } of await readdirRecursive(item)) {
+        const ls = await readdir(item, { recursive: true, withFileTypes: true });
+
+        for (const file of ls) {
+            if (file.isDirectory()) continue;
+
             // If it starts with an _ we ignore it
-            if (name.startsWith('_')) continue;
+            if (file.name.startsWith('_')) continue;
 
             // Import the file
-            const data = await import(pathToFileURL(path).href);
+            const data = await import(pathToFileURL(join(file.path, file.name)).href);
 
             // Call add with the default export
             callback(data.default);

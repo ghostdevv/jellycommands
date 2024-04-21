@@ -10,14 +10,7 @@ import { loadButtons } from './buttons/load.js';
 import { respond } from './commands/respond';
 import { parseSchema } from './utils/zod.js';
 import { Client } from 'discord.js';
-import { ofetch } from 'ofetch';
-
-// todo remove when dropping node 16
-declare global {
-    interface Response {
-        status: number;
-    }
-}
+import { type FetchOptions, ofetch } from 'ofetch';
 
 export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;
@@ -61,9 +54,9 @@ export class JellyCommands extends Client {
         };
     }
 
-    async $fetch<R = any, D = any, Q = Record<string, any>>(
+    async $fetch<R = any, D extends Record<string, any> = any, Q extends Record<string, any> = any>(
         path: string,
-        options?: { method: string; body?: D; headers?: Record<string, string>; query?: Q },
+        options?: { method: string; body?: D; headers?: FetchOptions['headers']; query?: Q },
     ): Promise<R> {
         return await ofetch<R>(path, {
             baseURL: RouteBases.api,
