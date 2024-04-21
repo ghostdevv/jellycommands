@@ -1,19 +1,21 @@
 import type { JellyCommands } from '../JellyCommands';
-import { schema, EventOptions } from './options';
+import { eventSchema, EventOptions } from './options';
 import type { ClientEvents } from 'discord.js';
-import { parseSchema } from '../utils/zod';
 import { MaybePromise } from '../utils/types';
+import { parseSchema } from '../utils/zod';
 
-export type EventCallback<EventName extends keyof ClientEvents> = (
-    instance: { client: JellyCommands; props: Props },
-    ...args: ClientEvents[EventName]
+export type EventName = keyof ClientEvents | (string & {});
+
+export type EventCallback<E extends EventName> = (
+    ctx: { client: JellyCommands; props: Props },
+    ...args: E extends keyof ClientEvents ? ClientEvents[E] : any[]
 ) => MaybePromise<void | any>;
 
-export class Event<T extends keyof ClientEvents = keyof ClientEvents> {
+export class Event<T extends EventName = EventName> {
     public readonly options: Required<EventOptions<T>>;
 
     constructor(
-        public readonly name: keyof ClientEvents,
+        public readonly name: EventName,
         public readonly run: EventCallback<T>,
         options: EventOptions<T>,
     ) {
@@ -23,11 +25,13 @@ export class Event<T extends keyof ClientEvents = keyof ClientEvents> {
         if (!run || typeof run != 'function')
             throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
-        this.options = parseSchema('event options', schema, options) as Required<EventOptions<T>>;
+        this.options = <Required<EventOptions<T>>>(
+            parseSchema('event options', eventSchema, options)
+        );
     }
 }
 
-export const event = <K extends keyof ClientEvents>(
+export const event = <K extends EventName>(
     options: EventOptions<K> & {
         run: EventCallback<K>;
     },

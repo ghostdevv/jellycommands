@@ -1,6 +1,6 @@
-import { type ClientEvents, Events } from 'discord.js';
+import type { EventName } from './Event';
 
-export interface EventOptions<Event extends keyof ClientEvents> {
+export interface EventOptions<Event extends EventName> {
     /**
      * The event name: https://discord.js.org/#/docs/main/stable/class/Client
      */
@@ -21,12 +21,8 @@ export interface EventOptions<Event extends keyof ClientEvents> {
 
 import { z } from 'zod';
 
-export const schema = z.object({
-    name: z
-        .string()
-        .refine((str): str is keyof ClientEvents => Object.values(Events).includes(str as any), {
-            message: 'Event name must be a valid client event',
-        }),
+export const eventSchema = z.object({
+    name: z.string() as z.ZodType<EventName>,
     disabled: z.boolean().default(false),
     once: z.boolean().default(false),
 });
