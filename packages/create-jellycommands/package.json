@@ -15,7 +15,7 @@
     },
     "homepage": "https://github.com/ghostdevv/jellycommands#readme",
     "devDependencies": {
-        "@types/node": "^16.18.96"
+        "@types/node": "^18.19.31"
     },
     "dependencies": {
         "@clack/prompts": "^0.7.0",
@@ -30,5 +30,11 @@
         "create",
         "create jellycommands",
         "npm create jellycommands"
-    ]
+    ],
+    "volta": {
+        "node": "18.20.2"
+    },
+    "engines": {
+        "node": ">= 18"
+    }
 }

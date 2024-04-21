@@ -31,7 +31,7 @@
     "fix": "prettier --write src"
   },
   "devDependencies": {
-    "@types/node": "^16.18.96",
+    "@types/node": "^18.19.31",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "desm": "^1.3.1",
@@ -62,5 +62,11 @@
   "bugs": {
     "url": "https://github.com/ghostdevv/jellycommands/issues"
   },
-  "homepage": "https://github.com/ghostdevv/jellycommands#readme"
+  "homepage": "https://github.com/ghostdevv/jellycommands#readme",
+  "volta": {
+    "node": "18.20.2"
+  },
+  "engines": {
+    "node": ">= 18"
+  }
 }
