@@ -8,4 +8,10 @@ describe('command options schema', () => {
             commandSchema.parse({ name: 'name', description: 'descriptive' }),
         ).not.toThrowError();
     });
+
+    it('rejects invalid names', () => {
+        expect(() =>
+            commandSchema.parse({ name: 'NAME', description: 'descriptive' }),
+        ).toThrowError();
+    });
 });

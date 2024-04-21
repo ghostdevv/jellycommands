@@ -22,11 +22,17 @@ export interface CommandOptions extends BaseOptions {
 }
 
 export const commandSchema = baseCommandSchema.extend({
-    name: z.string().regex(
-        // https://discord.com/developers/docs/interactions/application-commands#application-command-object
-        /^[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$/u,
-        'Slash command name must be all lowercase, alphanumeric, and at most 32 chars long',
-    ),
+    name: z
+        .string()
+        .regex(
+            // https://discord.com/developers/docs/interactions/application-commands#application-command-object
+            /^[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$/u,
+            'Slash command name must be all lowercase, alphanumeric, and at most 32 chars long',
+        )
+        .refine(
+            (name) => name.toLocaleLowerCase() == name,
+            'Name must use lowercase chars where possible',
+        ),
 
     description: z
         .string({ required_error: 'Slash command description is required' })
