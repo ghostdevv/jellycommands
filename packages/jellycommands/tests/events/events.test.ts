@@ -98,4 +98,33 @@ describe('registers events', () => {
         expect(run).toHaveBeenCalledOnce();
         expect(client.listeners('testEvent').length).toBe(0);
     });
+
+    it('throws if an invalid event is passed', async () => {
+        const client = mockJellyClient();
+
+        expect(() =>
+            registerEvents(client, [
+                // @ts-expect-error invalid item
+                1234,
+            ]),
+        ).rejects.toThrowError();
+    });
+
+    it('logs an error if the event throws at runtime', async () => {
+        const error = vi.spyOn(console, 'error').mockImplementation(() => void 0);
+        const client = mockJellyClient();
+
+        await registerEvents(client, [
+            event({
+                name: 'testEvent',
+                run() {
+                    throw new Error('failed!');
+                },
+            }),
+        ]);
+
+        client.emit('testEvent');
+
+        expect(error).toHaveBeenCalledTimes(1);
+    });
 });

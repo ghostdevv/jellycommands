@@ -19,11 +19,6 @@ export const registerEvents = async (
     });
 
     for (const event of events) {
-        if (event.options.disabled) {
-            events.delete(event);
-            continue;
-        }
-
         const cb = async (...ctx: any[]) => {
             try {
                 await event.run({ client, props: client.props }, ...ctx);
