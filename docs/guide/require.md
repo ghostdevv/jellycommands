@@ -12,7 +12,7 @@ If you're new to the Discord bot space and JavaScript development in general, yo
 
 ## ESM Support
 
-ESM is supported in Node.js versions 12 and above. However, both `discord.js` and `JellyCommands` require Node.js 16 or higher, so you won't encounter any issues when using ESM syntax in these libraries. We recommend using the latest LTS (Long-term Support) version of Node.js, which provides stability and security updates over an extended period of time.
+ESM is supported in Node.js versions 12 and above. However, both `discord.js` and `JellyCommands` require Node.js 18 or higher, so you won't encounter any issues when using ESM syntax in these libraries. We recommend using the latest LTS (Long-term Support) version of Node.js, which provides stability and security updates over an extended period of time.
 
 To use ESM syntax in your project, you may need to add a configuration field to your package.json file. Simply add the following line:
 
