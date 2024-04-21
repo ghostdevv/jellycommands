@@ -4,6 +4,7 @@ import type { ClientEvents } from 'discord.js';
 import { MaybePromise } from '../utils/types';
 import { parseSchema } from '../utils/zod';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type EventName = keyof ClientEvents | (string & {});
 
 export type EventCallback<E extends EventName> = (
