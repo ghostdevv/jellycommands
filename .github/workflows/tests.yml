@@ -21,19 +21,21 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        id: pnpm-install
+        with:
+          version: 8
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.1
-        id: pnpm-install
-        with:
-          version: 8
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
