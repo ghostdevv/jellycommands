@@ -6,6 +6,9 @@
     "bin": {
         "create-jellycommands": "src/bin.js"
     },
+    "scripts": {
+        "lint": "publint"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/ghostdevv/jellycommands.git"
@@ -15,7 +18,8 @@
     },
     "homepage": "https://github.com/ghostdevv/jellycommands#readme",
     "devDependencies": {
-        "@types/node": "^18.19.31"
+        "@types/node": "^18.19.31",
+        "publint": "^0.2.7"
     },
     "dependencies": {
         "@clack/prompts": "^0.7.0",
