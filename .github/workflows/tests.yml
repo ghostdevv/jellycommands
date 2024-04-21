@@ -50,8 +50,7 @@ jobs:
                       ${{ runner.os }}-pnpm-store-
 
             - name: Install dependencies
-              # No frozen lockfile because windows doesn't like it (Theres a issue for it somewhere in PNPM's repo)
-              run: pnpm install --no-frozen-lockfile
+              run: pnpm install --frozen-lockfile
 
             - name: Build
               run: pnpm build
