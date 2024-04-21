@@ -1,3 +1,4 @@
+import { JellyCommands } from '$src/JellyCommands';
 import type { Client } from 'discord.js';
 
 export const rawToken = 'ImAToken';
@@ -14,5 +15,15 @@ export function mockClient() {
         user: {
             id: rawClientId,
         },
+    };
+}
+
+export function mockJellyClient(debug = false) {
+    return <JellyCommands>{
+        token: mockToken,
+        user: {
+            id: rawClientId,
+        },
+        joptions: { debug },
     };
 }
