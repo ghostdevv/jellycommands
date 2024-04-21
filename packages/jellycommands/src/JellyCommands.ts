@@ -1,25 +1,34 @@
+import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
 import { cleanToken, resolveToken } from './utils/token.js';
+import { Logger, createLogger } from './utils/logger';
 import { resolveCommands } from './commands/resolve';
 import { getCommandIdMap } from './commands/cache';
 import { registerEvents } from './events/register';
 import { handleButton } from './buttons/handle.js';
-import { JellyCommandsOptions } from './options';
+import { RouteBases } from 'discord-api-types/v10';
+import { type FetchOptions, ofetch } from 'ofetch';
 import { loadButtons } from './buttons/load.js';
 import { respond } from './commands/respond';
+import { parseSchema } from './utils/zod.js';
 import { Client } from 'discord.js';
-import { schema } from './options';
 
 export class JellyCommands extends Client {
     public readonly joptions: JellyCommandsOptions;
     public readonly props: Props;
 
+    public readonly log: Logger;
+
     constructor(options: JellyCommandsOptions) {
         super(options.clientOptions);
 
-        const { error, value } = schema.validate(options);
+        // @ts-expect-error issue with intents
+        this.joptions = parseSchema(
+            'JellyCommands options',
+            jellyCommandsOptionsSchema,
+            options,
+        ) as JellyCommandsOptions;
 
-        if (error) throw error.annotate();
-        else this.joptions = value;
+        this.log = createLogger(this);
 
         this.props = options.props || {};
 
@@ -43,6 +52,37 @@ export class JellyCommands extends Client {
             },
             ...this.props,
         };
+    }
+
+    async $fetch<R = any, D extends Record<string, any> = any, Q extends Record<string, any> = any>(
+        path: string,
+        options?: { method: string; body?: D; headers?: FetchOptions['headers']; query?: Q },
+    ): Promise<R> {
+        return await ofetch<R>(path, {
+            baseURL: RouteBases.api,
+            headers: {
+                ...(options?.headers || {}),
+                Authorization: `Bot ${this.token}`,
+            },
+            method: options?.method,
+            body: options?.body,
+            query: options?.query || undefined,
+            retry: 5,
+            retryDelay: 500,
+            onResponseError: (context) => {
+                if (context.options.retryStatusCodes?.includes(context.response.status)) {
+                    // prettier-ignore
+                    this.log.debug(`[Discord Request Rate Limited] Retrying in ${context.options.retryDelay}ms`)
+                }
+
+                const contextStr =
+                    typeof context.response?._data == 'object'
+                        ? `:\n${JSON.stringify(context.response._data, null, 2)}\n`
+                        : ' NO CONTEXT RETURNED';
+
+                this.log.error(`[Discord Fetch Error (${context.response?.status})]${contextStr}`);
+            },
+        });
     }
 
     async login(potentialToken?: string): Promise<string> {
@@ -69,7 +109,7 @@ export class JellyCommands extends Client {
             // Whenever there is a interactionCreate event respond to it
             this.on('interactionCreate', (interaction) => {
                 // prettier-ignore
-                this.debug(`Interaction received: ${interaction.id} | ${interaction.type} | Command Id: ${interaction.isCommand() && interaction.commandId}`);
+                this.log.debug(`Interaction received: ${interaction.id} | ${interaction.type} | Command Id: ${interaction.isCommand() && interaction.commandId}`);
 
                 respond({
                     interaction,
@@ -94,11 +134,5 @@ export class JellyCommands extends Client {
         }
 
         return super.login(resolveToken(this) || undefined);
-    }
-
-    debug(message: string) {
-        if (this.joptions.debug) {
-            console.debug(`\x1b[1m\x1b[35m[DEBUG]\x1b[22m\x1b[39m ${message}`);
-        }
     }
 }

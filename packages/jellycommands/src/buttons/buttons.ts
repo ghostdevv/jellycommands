@@ -1,22 +1,23 @@
-import { type ButtonOptions, schema } from './options';
+import { type ButtonOptions, buttonSchema } from './options';
 import type { JellyCommands } from '../JellyCommands';
 import type { ButtonInteraction } from 'discord.js';
-import type { Awaitable } from '../utils/types';
+import type { MaybePromise } from '../utils/types';
+import { parseSchema } from '../utils/zod';
 
 export type ButtonCallback = (context: {
     client: JellyCommands;
     props: Props;
     interaction: ButtonInteraction;
-}) => Awaitable<void | any>;
+}) => MaybePromise<void | any>;
 
 export class Button {
     public readonly options: ButtonOptions;
 
-    constructor(options: ButtonOptions, public readonly run: ButtonCallback) {
-        const { error, value } = schema.validate(options);
-
-        if (error) throw error.annotate();
-        else this.options = value;
+    constructor(
+        options: ButtonOptions,
+        public readonly run: ButtonCallback,
+    ) {
+        this.options = parseSchema('button', buttonSchema, options);
     }
 }
 

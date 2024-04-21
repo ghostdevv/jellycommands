@@ -1,19 +1,24 @@
-import { type AutocompleteInteraction, ApplicationCommandOptionType } from 'discord.js';
-import type { ApplicationCommandOption, ChatInputCommandInteraction } from 'discord.js';
 import type { APIApplicationCommandOption } from 'discord-api-types/v10';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyApplicationCommandOption } from './types';
 import type { JellyCommands } from '../../../JellyCommands';
+import { commandSchema, CommandOptions } from './options';
 import type { CommandCallback } from '../BaseCommand';
-import { schema, CommandOptions } from './options';
-import { Awaitable } from '../../../utils/types';
+import { MaybePromise } from '../../../utils/types';
 import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
+import {
+    type AutocompleteInteraction,
+    type ApplicationCommandOption,
+    type ApplicationCommandOptionData,
+    type ChatInputCommandInteraction,
+    ApplicationCommandOptionType,
+} from 'discord.js';
 
 export type AutocompleteHandler = (options: {
     interaction: AutocompleteInteraction;
     client: JellyCommands;
-}) => Awaitable<any | void>;
+}) => MaybePromise<any | void>;
 
 export class Command extends BaseCommand<CommandOptions, ChatInputCommandInteraction> {
     public readonly type = ApplicationCommandType.ChatInput;
@@ -29,7 +34,7 @@ export class Command extends BaseCommand<CommandOptions, ChatInputCommandInterac
         options: CommandOptions;
         autocomplete?: AutocompleteHandler;
     }) {
-        super({ run, options, schema });
+        super({ run, options, schema: commandSchema });
 
         if (autocomplete && typeof autocomplete !== 'function') {
             throw new TypeError('Autocomplete handler must be a function');
@@ -38,7 +43,9 @@ export class Command extends BaseCommand<CommandOptions, ChatInputCommandInterac
         this.autocomplete = autocomplete;
     }
 
-    static transformOptionType(option: JellyApplicationCommandOption): ApplicationCommandOption {
+    static transformOptionType(
+        option: JellyApplicationCommandOption,
+    ): ApplicationCommandOptionData {
         const type =
             typeof option.type == 'string'
                 ? ApplicationCommandOptionType[option.type]
@@ -49,12 +56,13 @@ export class Command extends BaseCommand<CommandOptions, ChatInputCommandInterac
                 `Unable to find Slash Command Option type "${option.type}", see https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationCommandOptionType`,
             );
 
-        let options: ApplicationCommandOption[] | undefined;
+        let options: ApplicationCommandOptionData[] | undefined;
 
         if ('options' in option && Array.isArray(option.options)) {
             options = option.options?.map((o) => Command.transformOptionType(o));
         }
 
+        // @ts-expect-error type mismatch
         return { ...option, options, type } as ApplicationCommandOption;
     }
 

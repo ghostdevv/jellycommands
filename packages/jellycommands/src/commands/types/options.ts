@@ -1,8 +1,8 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
 import type { PermissionResolvable } from 'discord.js';
 import type { Locale } from 'discord-api-types/v10';
-import { snowflakeArray } from '../../utils/joi';
-import Joi from 'joi';
+import { snowflakeSchema } from '../../utils/zod';
+import { z } from 'zod';
 
 export interface BaseOptions {
     /**
@@ -57,26 +57,27 @@ export interface BaseOptions {
     disabled?: boolean;
 }
 
-export const baseSchema = Joi.object({
-    name: Joi.string().required(),
-    nameLocalizations: Joi.object(),
+export const baseCommandSchema = z.object({
+    name: z.string(),
+    nameLocalizations: z.object({}).catchall(z.string()).optional(),
+    dev: z.boolean().default(false).optional(),
+    defer: z
+        .union([
+            z.boolean().default(false),
+            z.object({
+                ephemeral: z.boolean().optional(),
+                fetchReply: z.boolean().optional(),
+            }),
+        ])
+        .optional(),
 
-    dev: Joi.bool().default(false),
-
-    defer: [
-        Joi.bool(),
-        Joi.object({
-            ephemeral: Joi.bool(),
-            fetchReply: Joi.bool(),
-        }),
-    ],
-
-    guards: Joi.object({
-        permissions: Joi.any(),
-    }),
-
-    guilds: snowflakeArray(),
-    global: Joi.bool().default(false),
-    dm: Joi.bool().default(true),
-    disabled: Joi.bool().default(false),
+    guards: z
+        .object({
+            permissions: z.any(),
+        })
+        .optional(),
+    guilds: snowflakeSchema.array().nonempty().optional(),
+    global: z.boolean().default(false).optional(),
+    dm: z.boolean().default(false).optional(),
+    disabled: z.boolean().default(false).optional(),
 });

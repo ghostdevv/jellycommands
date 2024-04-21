@@ -2,7 +2,6 @@
     "compilerOptions": {
         "target": "es2019",
         "module": "esnext",
-        "outDir": "dist/esm",
         "lib": ["ES2020"],
 
         "strict": true,
@@ -16,5 +15,5 @@
         "forceConsistentCasingInFileNames": true,
         "moduleResolution": "node"
     },
-    "include": ["src/**/*.ts", "ambient.d.ts"]
+    "include": ["src/**/*.ts", "ambient.d.ts", "tests/**/*.ts"]
 }
