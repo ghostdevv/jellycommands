@@ -32,7 +32,7 @@ export const jellyCommandsOptionsSchema = z.object({
         })
         .default({}),
     cache: z.boolean().default(true),
-    debug: z.boolean().default(false),
+    debug: z.boolean().default(() => !!process.env['DEBUG']),
 });
 
 export interface JellyCommandsOptions {

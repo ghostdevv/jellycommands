@@ -33,4 +33,15 @@ describe('logger', () => {
         logger.debug('.debug()');
         expect(debug).toHaveBeenCalledTimes(1);
     });
+
+    it('debug should default to false', () => {
+        const client = mockJellyClient();
+        expect(client.joptions.debug).toBe(false);
+    });
+
+    it('debug should read envrionment variable', () => {
+        vi.stubEnv('DEBUG', 'asd');
+        const client = mockJellyClient();
+        expect(client.joptions.debug).toBe(true);
+    });
 });
