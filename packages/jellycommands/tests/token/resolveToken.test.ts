@@ -1,32 +1,25 @@
-import { test, equal, mockClient, mockToken } from '../common';
-import { resolveToken } from '../../src/utils/token';
+import { describe, expect, it, vi } from 'vitest';
+import { resolveToken } from '$src/utils/token';
+import { mockClient, mockToken } from '$mock';
 
-test('Get token from client', () => {
-    const result = resolveToken(mockClient());
-    equal(result, mockToken);
+describe('resolve token from client', () => {
+    it('gets the token', () => {
+        expect(resolveToken(mockClient())).toBe(mockToken);
+    });
+
+    it('gets the token from environment vars', () => {
+        const client = mockClient();
+        client.token = null;
+
+        vi.stubEnv('DISCORD_TOKEN', mockToken);
+
+        expect(resolveToken(client)).toBe(mockToken);
+    });
+
+    it('returns null if unable to get token', () => {
+        const client = mockClient();
+        client.token = null;
+
+        expect(resolveToken(client)).toBeNull();
+    });
 });
-
-test('Get token from env', () => {
-    const modifiedMockClient = mockClient();
-
-    modifiedMockClient.token = null;
-
-    process.env.DISCORD_TOKEN = mockToken;
-
-    const result = resolveToken(modifiedMockClient);
-    equal(result, mockToken);
-
-    // Clean up
-    delete process.env.DISCORD_TOKEN;
-});
-
-test('No env token or no client.token to get the token from', () => {
-    const modifiedMockClient = mockClient();
-
-    modifiedMockClient.token = null;
-
-    const result = resolveToken(modifiedMockClient);
-    equal(result, null);
-});
-
-test.run();
