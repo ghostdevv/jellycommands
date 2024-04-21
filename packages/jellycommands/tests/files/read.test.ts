@@ -1,28 +1,60 @@
-import { read } from '../../src/utils/files';
-import { notEqual, ok } from 'assert';
+import { read } from '$src/utils/files';
+import { describe } from 'node:test';
+import { expect, it } from 'vitest';
 import { join } from 'desm';
-import { test } from 'uvu';
 
 const TEST_FILES = join(import.meta.url, './test-files');
 
-test('can read files', async () => {
-    const data: string[] = [];
+async function readToArray<T>(things: string | Array<string | T>) {
+    const data: T[] = [];
 
-    await read<string>(TEST_FILES, (item) => {
+    await read(things, (item) => {
         data.push(item);
     });
 
-    notEqual(data.length, 0);
-});
+    return data;
+}
 
-test('ignores files with _ in name', async () => {
-    const data: string[] = [];
-
-    await read<string>(TEST_FILES, (item) => {
-        data.push(item);
+describe('reads files and parses data', () => {
+    it('reads files', async () => {
+        const files = await readToArray(TEST_FILES);
+        expect(files).toHaveLength(3);
     });
 
-    ok(!data.includes('WRONG'));
-});
+    it('works with array of items', async () => {
+        const files = await readToArray([TEST_FILES]);
+        expect(files);
+    });
 
-test.run();
+    it('can read individual files', async () => {
+        const files = await readToArray(join(import.meta.url, './test-files/index.mjs'));
+        expect(files).toHaveLength(1);
+        expect(files[0]).toBe('correct');
+    });
+
+    it('works with multiple paths', async () => {
+        const files = await readToArray([
+            join(import.meta.url, './test-files/index.mjs'),
+            join(import.meta.url, './test-files/nested'),
+        ]);
+
+        expect(files).toHaveLength(2);
+    });
+
+    it('ignores files with _ in name', async () => {
+        const files = await readToArray([
+            TEST_FILES,
+            join(import.meta.url, './test-files/nested/_ignored.mjs'),
+        ]);
+
+        expect(files).not.includes('WRONG');
+        expect(files).toHaveLength(3);
+    });
+
+    it('returns already read items', async () => {
+        const now = Date.now();
+        const files = await readToArray<string | number>([now, TEST_FILES]);
+
+        expect(files).include(now);
+    });
+});

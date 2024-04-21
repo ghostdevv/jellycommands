@@ -1,24 +1,25 @@
-import { cleanToken } from '../../src/utils/token';
-import { test, equal, mockToken } from '../common';
+import { cleanToken } from '$src/utils/token';
+import { describe, it, expect } from 'vitest';
+import { mockToken } from '$mock';
 
-test('Strip Bot prefix', () => {
-    const result = cleanToken(`Bot ${mockToken}`);
-    equal(result, mockToken);
+describe('cleans a discord token', () => {
+    it('strips bot prefixes', () => {
+        const result = cleanToken(`Bot ${mockToken}`);
+        expect(result).toBe(mockToken);
+    });
+
+    it('strips bearer prefixes', () => {
+        const result = cleanToken(`Bearer ${mockToken}`);
+        expect(result).toBe(mockToken);
+    });
+
+    it('applies has no prefix', () => {
+        const result = cleanToken(mockToken);
+        expect(result).toBe(mockToken);
+    });
+
+    it('accepts no token', () => {
+        const result = cleanToken();
+        expect(result).toBeNull();
+    });
 });
-
-test('Strip Bearer prefix', () => {
-    const result = cleanToken(`Bearer ${mockToken}`);
-    equal(result, mockToken);
-});
-
-test('No prefix', () => {
-    const result = cleanToken(mockToken);
-    equal(result, mockToken);
-});
-
-test('No token', () => {
-    const result = cleanToken();
-    equal(result, null);
-});
-
-test.run();

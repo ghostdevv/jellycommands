@@ -1,9 +1,10 @@
-import { test, equal, mockToken, rawClientId } from '../common';
-import { clientIdFromToken } from '../../src/utils/token';
+import { clientIdFromToken } from '$src/utils/token';
+import { mockToken, rawClientId } from '$mock';
+import { describe, it, expect } from 'vitest';
 
-test('With a valid token', () => {
-    const result = clientIdFromToken(mockToken);
-    equal(result, rawClientId);
+describe('parse client id from token', () => {
+    it('works', () => {
+        const result = clientIdFromToken(mockToken);
+        expect(result).toBe(rawClientId);
+    });
 });
-
-test.run();

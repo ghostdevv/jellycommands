@@ -4,7 +4,8 @@
         "baseUrl": ".",
         "paths": {
             "$mock": ["./common.ts"],
-            "$src": ["../src"]
+            "$src/*": ["../src/*"],
+            "$src": ["../src"],
         }
     }
 }

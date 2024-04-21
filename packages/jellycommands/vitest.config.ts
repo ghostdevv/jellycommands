@@ -7,5 +7,7 @@ export default defineConfig({
             $src: join(import.meta.url, './src'),
             $mock: join(import.meta.url, './tests/common.ts'),
         },
+        include: ['tests/**/*.test.ts'],
+        unstubEnvs: true,
     },
 });
