@@ -3,25 +3,26 @@ import { createLogger } from '$src/utils/logger';
 import { mockJellyClient } from '$mock';
 
 describe('logger', () => {
-    it('regular and error logging works', () => {
-        const log = vi.fn();
-        const error = vi.fn();
-        vi.stubGlobal('console', { log, error });
+    const error = vi.spyOn(console, 'error');
+    const debug = vi.spyOn(console, 'debug');
+    const log = vi.spyOn(console, 'log');
 
+    it('works with regular logs', () => {
         const logger = createLogger(mockJellyClient());
 
         logger('logger()');
         logger.log('.log()');
-        logger.error('.error()');
-
         expect(log).toHaveBeenCalledTimes(2);
+    });
+
+    it('works with error logs', () => {
+        const logger = createLogger(mockJellyClient());
+
+        logger.error();
         expect(error).toHaveBeenCalled();
     });
 
-    it('debugging works', () => {
-        const debug = vi.fn();
-        vi.stubGlobal('console', { debug });
-
+    it('works with debug logs', () => {
         const client = mockJellyClient(false);
         const logger = createLogger(client);
 
