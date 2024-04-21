@@ -35,7 +35,7 @@
   "scripts": {
     "dev": "tsup-node --watch src",
     "build": "tsup-node",
-    "test": "vitest",
+    "test": "vitest --coverage",
     "lint": "prettier --check src && eslint src && publint",
     "format": "prettier --write src"
   },
