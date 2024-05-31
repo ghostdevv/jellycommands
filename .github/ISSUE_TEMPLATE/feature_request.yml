@@ -15,7 +15,7 @@ body:
     id: example
     attributes:
       label: Examples
-      description: Some examples of where this featue can be seen in the wild.
+      description: Some examples of where this feature can be seen in the wild.
       placeholder: Command handler x has this because y...
     validations:
       required: false
