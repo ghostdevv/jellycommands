@@ -13,11 +13,15 @@ export default defineConfig({
         docsBranch: 'main',
         logo: '/logo.svg',
 
-        algolia: {
-            apiKey: '8bd73370e0912c6a4f1d8ff68f6f8533',
-            indexName: 'jellycommands',
-            appId: 'KMNKUKL4NS',
+        search: {
+            provider: 'local',
         },
+
+        // algolia: {
+        //     apiKey: '8bd73370e0912c6a4f1d8ff68f6f8533',
+        //     indexName: 'jellycommands',
+        //     appId: 'KMNKUKL4NS',
+        // },
 
         socialLinks: [
             { icon: 'github', link: 'https://github.com/ghostdevv/jellycommands' },
