@@ -3,6 +3,7 @@
         "target": "es2019",
         "module": "esnext",
         "lib": ["ES2020"],
+        "moduleResolution": "Bundler",
 
         "strict": true,
         "declaration": true,
@@ -12,8 +13,7 @@
         "noImplicitAny": true,
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": false,
-        "forceConsistentCasingInFileNames": true,
-        "moduleResolution": "node"
+        "forceConsistentCasingInFileNames": true
     },
     "include": ["src/**/*.ts", "ambient.d.ts", "tests/**/*.ts"]
 }
