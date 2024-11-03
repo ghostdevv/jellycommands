@@ -1,8 +1,8 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
 import { BaseCommand } from './commands/types/BaseCommand.js';
-import { BaseFeature, Feature } from './features/features';
 import type { AnyCommand } from './commands/types/types';
 import { snowflakeSchema } from './utils/snowflake.js';
+import { Feature } from './features/features';
 import { Button } from './buttons/buttons';
 import { Event } from './events/Event';
 import { z } from 'zod';
@@ -14,7 +14,7 @@ export const jellyCommandsOptionsSchema = z.object({
     events: z.union([z.string(), z.union([z.string(), z.instanceof(Event)]).array()]).optional(),
     buttons: z.union([z.string(), z.union([z.string(), z.instanceof(Button)]).array()]).optional(),
     features: z
-        .union([z.string(), z.union([z.string(), z.instanceof(BaseFeature)]).array()])
+        .union([z.string(), z.union([z.string(), z.instanceof(Feature)]).array()])
         .optional(),
     clientOptions: z.object({}).passthrough(),
     props: z.object({}).passthrough().default({}),
@@ -59,9 +59,11 @@ export interface JellyCommandsOptions {
     buttons?: string | Array<string | Button>;
 
     /**
-     * Features
+     * The features of your bot. For any strings that are passed they
+     * will be loaded recursively from that path.
+     * @see todo
      */
-    features?: string | Array<string | Feature>;
+    features: string | (string | Feature)[];
 
     /**
      * Base discord.js client options

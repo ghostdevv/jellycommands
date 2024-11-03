@@ -1,6 +1,6 @@
 import type { JellyCommands } from '../JellyCommands';
 import { eventSchema, EventOptions } from './options';
-import { BaseFeature } from '../features/features';
+import { Feature } from '../features/features';
 import type { ClientEvents } from 'discord.js';
 import { MaybePromise } from '../utils/types';
 import { parseSchema } from '../utils/zod';
@@ -13,16 +13,15 @@ export type EventCallback<E extends EventName> = (
     ...args: E extends keyof ClientEvents ? ClientEvents[E] : any[]
 ) => MaybePromise<void | any>;
 
-export class Event<T extends EventName = EventName> extends BaseFeature {
+export class Event<T extends EventName = EventName> extends Feature {
     public readonly options: Required<EventOptions<T>>;
-    public readonly TYPE = 'EVENT';
 
     constructor(
         public readonly name: EventName,
         public readonly run: EventCallback<T>,
-        options: EventOptions<T>,
+        _options: EventOptions<T>,
     ) {
-        super();
+        super('jellycommands.event', 'Event');
 
         if (!name || typeof name != 'string')
             throw new TypeError(`Expected type string for name, received ${typeof name}`);
@@ -31,7 +30,7 @@ export class Event<T extends EventName = EventName> extends BaseFeature {
             throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
         this.options = <Required<EventOptions<T>>>(
-            parseSchema('event options', eventSchema, options)
+            parseSchema('event options', eventSchema, _options)
         );
     }
 }

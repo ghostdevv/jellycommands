@@ -9,7 +9,6 @@ export class MessageCommand extends BaseCommand<
     ContextMenuCommandInteraction
 > {
     public readonly type = ApplicationCommandType.Message;
-    public readonly TYPE = 'MESSAGE_COMMAND' as const;
 
     constructor(
         run: CommandCallback<ContextMenuCommandInteraction>,

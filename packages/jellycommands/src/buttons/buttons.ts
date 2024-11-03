@@ -2,7 +2,7 @@ import { type ButtonOptions, buttonSchema } from './options';
 import type { JellyCommands } from '../JellyCommands';
 import type { ButtonInteraction } from 'discord.js';
 import type { MaybePromise } from '../utils/types';
-import { BaseFeature } from '../features/features';
+import { Feature } from '../features/features';
 import { parseSchema } from '../utils/zod';
 
 export type ButtonCallback = (context: {
@@ -11,16 +11,15 @@ export type ButtonCallback = (context: {
     interaction: ButtonInteraction;
 }) => MaybePromise<void | any>;
 
-export class Button extends BaseFeature {
+export class Button extends Feature<ButtonOptions> {
     public readonly options: ButtonOptions;
-    public readonly TYPE = 'BUTTON' as const;
 
     constructor(
-        options: ButtonOptions,
+        _options: ButtonOptions,
         public readonly run: ButtonCallback,
     ) {
-        super();
-        this.options = parseSchema('button', buttonSchema, options);
+        super('jellycommands.button', 'Button');
+        this.options = parseSchema('button', buttonSchema, _options);
     }
 }
 

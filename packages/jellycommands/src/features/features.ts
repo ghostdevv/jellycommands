@@ -1,41 +1,49 @@
-import type { MessageCommand } from '../commands/types/messageCommands/MessageCommand';
-import type { UserCommand } from '../commands/types/userCommands/UserCommand';
-import type { Command } from '../commands/types/commands/Command';
-import type { Button } from '../buttons/buttons';
-import { Event } from '../events/Event';
-import { read } from '../utils/files';
-
-export type Feature = Button | Command | MessageCommand | UserCommand | Event;
-
-export abstract class BaseFeature {
-    public abstract options: BaseFeatureOptions;
-    public abstract readonly TYPE: string;
-}
-
 export interface BaseFeatureOptions {
+    /**
+     * When `true` the feature won't be loaded by JellyCommands.
+     * If you're using the filesystem loader a `_` prefix in the
+     * filename will automatically enable this.
+     *
+     * @default false
+     */
     disabled?: boolean;
 }
 
-const FEATURE_TYPES: Feature['TYPE'][] = [
-    'BUTTON',
-    'SLASH_COMMAND',
-    'MESSAGE_COMMAND',
-    'USER_COMMAND',
-    'EVENT',
-];
+export const FEATURE_SYMBOL = Symbol.for('jellycommands.feature');
 
-function isFeature(thing: any): thing is Feature {
-    return !!thing && FEATURE_TYPES.some((type) => thing['TYPE'] === type);
+export abstract class Feature<O extends BaseFeatureOptions = BaseFeatureOptions> {
+    public readonly [FEATURE_SYMBOL]: string;
+
+    /**
+     * A human readable name for the feature.
+     */
+    public readonly featureName: string;
+
+    /**
+     * The features options
+     */
+    public abstract readonly options: O;
+
+    /**
+     * The base class for all features.
+     *
+     * @param id Machine readable identifier for the feature. Changing this is a breaking change.
+     * @param name A human readable name of the feature. Changing this is not considered breaking.
+     */
+    constructor(id: string, name: string) {
+        this[FEATURE_SYMBOL] = id;
+        this.featureName = name;
+    }
+
+    get id(): string {
+        return this[FEATURE_SYMBOL];
+    }
 }
 
-export async function readFeatures(rawFeatures: string | Array<string | Feature>) {
-    const features = new Set<Feature>();
-
-    await read(rawFeatures, (feature) => {
-        if (isFeature(feature) && !feature.options.disabled) {
-            features.add(feature);
-        }
-    });
-
-    return features;
+/**
+ * Check if the `thing` is a feature.
+ * @param thing "Thing" to check.
+ */
+export function isFeature(thing: any): thing is Feature {
+    return thing && typeof thing == 'object' && FEATURE_SYMBOL in thing;
 }

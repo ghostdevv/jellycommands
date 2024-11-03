@@ -8,12 +8,6 @@ export interface EventOptions<Event extends EventName> extends BaseFeatureOption
     name: Event;
 
     /**
-     * Whether or not the event should be loaded
-     * @default false
-     */
-    disabled?: boolean;
-
-    /**
      * Should the event be ran once or every time it's received
      * @default false
      */

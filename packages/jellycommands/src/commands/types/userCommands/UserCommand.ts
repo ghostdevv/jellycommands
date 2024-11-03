@@ -6,7 +6,6 @@ import { ApplicationCommandType } from 'discord-api-types/v10';
 
 export class UserCommand extends BaseCommand<UserCommandOptions, ContextMenuCommandInteraction> {
     public readonly type = ApplicationCommandType.User;
-    public readonly TYPE = 'USER_COMMAND' as const;
 
     constructor(run: CommandCallback<ContextMenuCommandInteraction>, options: UserCommandOptions) {
         super({ run, options, schema: userCommandSchema });

@@ -13,11 +13,6 @@ export interface ButtonOptions extends BaseFeatureOptions {
      * Should the interaction be defered?
      */
     defer?: boolean | InteractionDeferReplyOptions;
-
-    /**
-     * Should the button be loaded?
-     */
-    disabled?: boolean;
 }
 
 export const buttonSchema = z.object({

@@ -51,11 +51,6 @@ export interface BaseOptions extends BaseFeatureOptions {
      * @default true
      */
     dm?: boolean;
-
-    /**
-     * Whether or not the slash command should be loaded
-     */
-    disabled?: boolean;
 }
 
 export const baseCommandSchema = z.object({
