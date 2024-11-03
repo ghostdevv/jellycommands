@@ -1,15 +1,15 @@
 import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
-import { cleanToken, resolveToken } from './utils/token.js';
+import { cleanToken, resolveToken } from './utils/token';
 import { Logger, createLogger } from './utils/logger';
-import { resolveCommands } from './commands/resolve';
-import { getCommandIdMap } from './commands/cache';
-import { registerEvents } from './events/register';
-import { handleButton } from './buttons/handle.js';
+import { AnyCommand } from './commands/types/types';
+import { loadCommands } from './commands/resolve';
 import { RouteBases } from 'discord-api-types/v10';
 import { type FetchOptions, ofetch } from 'ofetch';
-import { loadButtons } from './buttons/load.js';
-import { respond } from './commands/respond';
-import { parseSchema } from './utils/zod.js';
+import { loadFeatures } from './features/loader';
+import { handleButton } from './buttons/handle';
+import { Button } from './buttons/buttons';
+import { parseSchema } from './utils/zod';
+import { Event } from './events/Event';
 import { Client } from 'discord.js';
 
 export class JellyCommands extends Client {
@@ -90,38 +90,27 @@ export class JellyCommands extends Client {
             this.token = cleanToken(potentialToken);
         }
 
-        if (this.joptions.commands) {
-            const commands = await resolveCommands(this, this.joptions.commands);
-            const commandIdMap = await getCommandIdMap(this, commands);
+        const commands = new Set<AnyCommand>();
+        const buttons = new Set<Button>();
 
-            if (!this.joptions.dev?.guilds?.length) {
-                const hasDevCommand = Array.from(commands.commands).some(
-                    (command) => command.options.dev,
-                );
-
-                // If dev is enabled in some way, make sure they have at least one guild id
-                if (this.joptions.dev?.global || hasDevCommand)
-                    throw new Error(
-                        'You must provide at least one guild id in the dev guilds array to use dev commands',
-                    );
+        await loadFeatures(this.joptions.features, async (feature) => {
+            if (feature.options.disabled) {
+                return;
             }
 
-            // Whenever there is a interactionCreate event respond to it
-            this.on('interactionCreate', (interaction) => {
-                // prettier-ignore
-                this.log.debug(`Interaction received: ${interaction.id} | ${interaction.type} | Command Id: ${interaction.isCommand() && interaction.commandId}`);
+            if (Event.is(feature)) {
+                // todo how to replicate set dedupe for all features
+                await Event.register(this, feature);
+                return;
+            }
 
-                respond({
-                    interaction,
-                    client: this,
-                    commandIdMap,
-                });
-            });
-        }
+            if (Button.is(feature)) {
+                buttons.add(feature);
+                return;
+            }
+        });
 
-        if (this.joptions.buttons) {
-            const buttons = await loadButtons(this.joptions.buttons);
-
+        if (buttons.size) {
             this.on('interactionCreate', (interaction) => {
                 if (interaction.isButton()) {
                     handleButton({ client: this, interaction, buttons });
@@ -129,8 +118,8 @@ export class JellyCommands extends Client {
             });
         }
 
-        if (this.joptions?.events) {
-            await registerEvents(this, this.joptions.events);
+        if (commands.size) {
+            await loadCommands(this, commands);
         }
 
         return super.login(resolveToken(this) || undefined);

@@ -1,25 +1,10 @@
 import { GuildCommands, GlobalCommands } from './types.d';
-import { BaseCommand } from './types/BaseCommand';
 import { JellyCommands } from '../JellyCommands';
 import { AnyCommand } from './types/types';
-import { read } from '../utils/files';
+import { getCommandIdMap } from './cache';
+import { respond } from './respond';
 
-export const resolveCommands = async (
-    client: JellyCommands,
-    items: string | Array<string | AnyCommand>,
-) => {
-    const commands = new Set<AnyCommand>();
-
-    await read(items, (command) => {
-        if (!(command instanceof BaseCommand))
-            throw new Error(`Found invalid item "${command}" in options.commands`);
-
-        // Don't load disabled commands
-        if (!command.options.disabled) {
-            commands.add(command);
-        }
-    });
-
+async function sortCommands(client: JellyCommands, commands: Set<AnyCommand>) {
     const globalCommands: GlobalCommands = new Set();
     const guildCommands: GuildCommands = new Map();
 
@@ -57,4 +42,31 @@ export const resolveCommands = async (
         globalCommands,
         commands,
     };
-};
+}
+
+export async function loadCommands(client: JellyCommands, _commands: Set<AnyCommand>) {
+    const commands = await sortCommands(client, _commands);
+    const commandIdMap = await getCommandIdMap(client, commands);
+
+    if (!client.joptions.dev?.guilds?.length) {
+        const hasDevCommand = Array.from(commands.commands).some((command) => command.options.dev);
+
+        // If dev is enabled in some way, make sure they have at least one guild id
+        if (client.joptions.dev?.global || hasDevCommand)
+            throw new Error(
+                'You must provide at least one guild id in the dev guilds array to use dev commands',
+            );
+    }
+
+    // Whenever there is a interactionCreate event respond to it
+    client.on('interactionCreate', (interaction) => {
+        // prettier-ignore
+        client.log.debug(`Interaction received: ${interaction.id} | ${interaction.type} | Command Id: ${interaction.isCommand() && interaction.commandId}`);
+
+        respond({
+            interaction,
+            client,
+            commandIdMap,
+        });
+    });
+}

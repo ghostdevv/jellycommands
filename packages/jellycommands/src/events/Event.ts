@@ -1,6 +1,6 @@
 import type { JellyCommands } from '../JellyCommands';
 import { eventSchema, EventOptions } from './options';
-import { Feature } from '../features/features';
+import { Feature, isFeature } from '../features/features';
 import type { ClientEvents } from 'discord.js';
 import { MaybePromise } from '../utils/types';
 import { parseSchema } from '../utils/zod';
@@ -32,6 +32,22 @@ export class Event<T extends EventName = EventName> extends Feature {
         this.options = <Required<EventOptions<T>>>(
             parseSchema('event options', eventSchema, _options)
         );
+    }
+
+    static async register(client: JellyCommands, event: Event<any>) {
+        async function cb(...ctx: any[]) {
+            try {
+                await event.run({ client, props: client.props }, ...ctx);
+            } catch (error) {
+                console.error(`There was an error running event ${event.name}`, error);
+            }
+        }
+
+        event.options.once ? client.once(event.name, cb) : client.on(event.name, cb);
+    }
+
+    static is(item: any): item is Event {
+        return isFeature(item) && item.id === 'jellycommands.event';
     }
 }
 

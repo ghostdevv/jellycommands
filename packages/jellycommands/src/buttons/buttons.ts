@@ -2,7 +2,7 @@ import { type ButtonOptions, buttonSchema } from './options';
 import type { JellyCommands } from '../JellyCommands';
 import type { ButtonInteraction } from 'discord.js';
 import type { MaybePromise } from '../utils/types';
-import { Feature } from '../features/features';
+import { Feature, isFeature } from '../features/features';
 import { parseSchema } from '../utils/zod';
 
 export type ButtonCallback = (context: {
@@ -20,6 +20,10 @@ export class Button extends Feature<ButtonOptions> {
     ) {
         super('jellycommands.button', 'Button');
         this.options = parseSchema('button', buttonSchema, _options);
+    }
+
+    static is(item: any): item is Button {
+        return isFeature(item) && item.id === 'jellycommands.button';
     }
 }
 

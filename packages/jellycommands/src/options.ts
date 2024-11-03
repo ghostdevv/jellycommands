@@ -1,20 +1,20 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
-import { BaseCommand } from './commands/types/BaseCommand.js';
-import type { AnyCommand } from './commands/types/types';
-import { snowflakeSchema } from './utils/snowflake.js';
-import { Feature } from './features/features';
-import { Button } from './buttons/buttons';
-import { Event } from './events/Event';
+import { LoadableFeatures } from './features/loader';
+import { snowflakeSchema } from './utils/snowflake';
+import { isFeature } from './features/features';
 import { z } from 'zod';
 
 export const jellyCommandsOptionsSchema = z.object({
-    commands: z
-        .union([z.string(), z.union([z.string(), z.instanceof(BaseCommand)]).array()])
-        .optional(),
-    events: z.union([z.string(), z.union([z.string(), z.instanceof(Event)]).array()]).optional(),
-    buttons: z.union([z.string(), z.union([z.string(), z.instanceof(Button)]).array()]).optional(),
     features: z
-        .union([z.string(), z.union([z.string(), z.instanceof(Feature)]).array()])
+        .union([
+            z.string(),
+            z.array(
+                z.union([
+                    z.string(),
+                    z.any().refine((feature) => isFeature(feature), 'Should be a feature instance'),
+                ]),
+            ),
+        ])
         .optional(),
     clientOptions: z.object({}).passthrough(),
     props: z.object({}).passthrough().default({}),
@@ -41,29 +41,11 @@ export const jellyCommandsOptionsSchema = z.object({
 
 export interface JellyCommandsOptions {
     /**
-     * Either an array of commands, or path(s) to commands
-     * @deprecated
-     */
-    commands?: string | Array<string | AnyCommand>;
-
-    /**
-     * Either an array of events, or path(s) to events
-     * @deprecated
-     */
-    events?: string | Array<string | Event<any>>;
-
-    /**
-     * Either an array of buttons, or path(s) to buttons
-     * @deprecated
-     */
-    buttons?: string | Array<string | Button>;
-
-    /**
      * The features of your bot. For any strings that are passed they
      * will be loaded recursively from that path.
      * @see todo
      */
-    features: string | (string | Feature)[];
+    features: LoadableFeatures;
 
     /**
      * Base discord.js client options
