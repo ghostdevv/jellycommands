@@ -12,27 +12,30 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repo
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                   # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
                   fetch-depth: 0
 
-            - name: Setup Node.js 16.x
-              uses: actions/setup-node@v2
-              with:
-                  node-version: 16.x
-
             - name: Setup PNPM
-              uses: pnpm/action-setup@v2.0.1
+              uses: pnpm/action-setup@v4
               with:
-                  version: 8
+                  version: 9.12.3
+                  registry-url: https://registry.npmjs.org/
+
+            - name: Setup Node.js 18
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+                  registry-url: https://registry.npmjs.org/
+                  cache: 'pnpm'
 
             - name: Install Dependencies
-              run: pnpm install
+              run: pnpm install --frozen-lockfile
 
             - name: Build
               run: pnpm build
-              
+
             - name: Create Release Pull Request
               uses: changesets/action@v1
               with:

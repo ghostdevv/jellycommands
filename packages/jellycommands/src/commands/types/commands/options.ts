@@ -1,5 +1,6 @@
+import { z } from 'zod';
+import { baseCommandSchema } from '../../../commands/types/options';
 import type { BaseOptions } from '../../../commands/types/options';
-import { baseSchema } from '../../../commands/types/options';
 import type { JellyApplicationCommandOption } from './types';
 import type { Locale } from 'discord-api-types/v10';
 
@@ -20,24 +21,25 @@ export interface CommandOptions extends BaseOptions {
     options?: JellyApplicationCommandOption[];
 }
 
-import Joi from 'joi';
+export const commandSchema = baseCommandSchema.extend({
+    name: z
+        .string()
+        .regex(
+            // https://discord.com/developers/docs/interactions/application-commands#application-command-object
+            /^[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$/u,
+            'Slash command name must be all lowercase, alphanumeric, and at most 32 chars long',
+        )
+        .refine(
+            (name) => name.toLocaleLowerCase() == name,
+            'Name must use lowercase chars where possible',
+        ),
 
-export const schema = baseSchema.append({
-    // Enforce good registration rule
-    name: Joi.string()
-        .required()
-        .prefs({ convert: false })
-        .ruleset.lowercase()
-        .min(1)
-        .max(32)
-        .pattern(/^[a-z0-9]+$/)
-        .rule({
-            message:
-                'Slash Command names must be 1 - 32 characters, all lowercase with no witespaces or special chars',
-        }),
+    description: z
+        .string({ required_error: 'Slash command description is required' })
+        .min(1, 'Slash command description must be at least 1 char long')
+        .max(100, 'Slash command description cannot exceed 100 chars'),
 
-    description: Joi.string().min(1).max(100).required(),
-    descriptionLocalizations: Joi.object(),
+    descriptionLocalizations: z.object({}).catchall(z.string()).optional(),
 
-    options: Joi.array(),
+    options: z.any().array().optional(),
 });

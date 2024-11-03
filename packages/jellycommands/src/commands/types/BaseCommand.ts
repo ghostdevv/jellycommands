@@ -3,11 +3,13 @@ import type { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
 import { BaseFeature } from '../../features/features';
 import type { BaseInteraction } from 'discord.js';
+import type { AnyZodObject } from 'zod';
+
 import { PermissionsBitField } from 'discord.js';
-import { Awaitable } from '../../utils/types';
+import { MaybePromise } from '../../utils/types';
+import { parseSchema } from '../../utils/zod';
 import { BaseOptions } from './options';
 import { createHash } from 'crypto';
-import Joi from 'joi';
 
 export interface RunOptions<InteractionType extends BaseInteraction> {
     interaction: InteractionType;
@@ -17,7 +19,7 @@ export interface RunOptions<InteractionType extends BaseInteraction> {
 
 export type CommandCallback<InteractionType extends BaseInteraction> = (
     options: RunOptions<InteractionType>,
-) => Awaitable<void | any>;
+) => MaybePromise<void | any>;
 
 export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,
@@ -34,7 +36,7 @@ export abstract class BaseCommand<
         schema,
     }: {
         options: OptionsType;
-        schema: Joi.ObjectSchema<any>;
+        schema: AnyZodObject;
         run: CommandCallback<InteractionType>;
     }) {
         super();
@@ -42,11 +44,7 @@ export abstract class BaseCommand<
         if (!run || typeof run != 'function')
             throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
-        const { error, value } = schema.validate(options);
-
-        if (error) throw error.annotate();
-
-        this.options = value as typeof options;
+        this.options = parseSchema('command', schema, options) as OptionsType;
         this.run = run;
 
         if (!this.options.guilds?.length && !this.options.global && !this.options.dev)

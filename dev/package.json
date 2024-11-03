@@ -7,9 +7,11 @@
     "scripts": {
         "dev": "nodemon ."
     },
-    "dependencies": {
-        "discord.js": "^14.7.1",
-        "dotenv": "^16.0.3",
-        "jellycommands": "workspace:*"
+    "devDependencies": {
+        "@types/node": "^20.12.11",
+        "discord.js": "^14.15.2",
+        "dotenv": "^16.4.5",
+        "jellycommands": "workspace:*",
+        "nodemon": "^3.1.0"
     }
 }

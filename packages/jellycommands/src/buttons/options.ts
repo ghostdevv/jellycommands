@@ -1,13 +1,13 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import type { BaseFeatureOptions } from '../features/features';
-import type { Awaitable } from '../utils/types';
-import Joi from 'joi';
+import { BaseFeatureOptions } from '../features/features';
+import type { MaybePromise } from '../utils/types';
+import { z } from 'zod';
 
 export interface ButtonOptions extends BaseFeatureOptions {
     /**
      * The customId of the button, or a regex/function to match against
      */
-    id: string | RegExp | ((id: string) => Awaitable<boolean>);
+    id: string | RegExp | ((id: string) => MaybePromise<boolean>);
 
     /**
      * Should the interaction be defered?
@@ -20,16 +20,26 @@ export interface ButtonOptions extends BaseFeatureOptions {
     disabled?: boolean;
 }
 
-export const schema = Joi.object({
-    id: Joi.alternatives().try(Joi.string(), Joi.object().regex(), Joi.function()),
+export const buttonSchema = z.object({
+    id: z.union([
+        z.string(),
+        z.instanceof(RegExp),
+        // todo test this
+        z
+            .function()
+            .args(z.string().optional())
+            .returns(z.union([z.boolean(), z.promise(z.boolean())])),
+    ]),
 
-    defer: [
-        Joi.bool(),
-        Joi.object({
-            ephemeral: Joi.bool(),
-            fetchReply: Joi.bool(),
-        }),
-    ],
+    defer: z
+        .union([
+            z.boolean().default(false),
+            z.object({
+                ephemeral: z.boolean().optional(),
+                fetchReply: z.boolean().optional(),
+            }),
+        ])
+        .optional(),
 
-    disabled: Joi.bool().default(false),
+    disabled: z.boolean().default(false).optional(),
 });

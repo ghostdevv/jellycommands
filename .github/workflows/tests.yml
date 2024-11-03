@@ -1,55 +1,43 @@
 name: Tests
 
 on:
-  pull_request:
-  push:
-    paths:
-      - packages/**
+    pull_request:
+    push:
+        branches:
+            - main
+        paths:
+            - packages/**
 
 jobs:
     test:
-        name: Test on ${{ matrix.platform }} with NodeJS v${{ matrix.node-version }}
+        name: Test on ${{ matrix.platform }} with Node v${{ matrix.node-version }}
 
         runs-on: ${{ matrix.platform }}
 
         strategy:
             matrix:
-                node-version: [16.x, 18.x]
+                node-version: [18, 20]
                 platform: [ubuntu-latest, windows-latest]
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
-
-            - name: Setup Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node-version }}
+              uses: actions/checkout@v4
 
             - name: Install pnpm
-              uses: pnpm/action-setup@v2.2.1
+              uses: pnpm/action-setup@v4
               id: pnpm-install
               with:
-                  version: 8
-                  run_install: false
+                  version: 9.12.3
 
-            - name: Get pnpm store directory
-              id: pnpm-cache
-              shell: bash
-              run: |
-                  echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-            - name: Setup pnpm cache
-              uses: actions/cache@v3
+            - name: Setup Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
               with:
-                  path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}-pnpm-store-
+                  node-version: ${{ matrix.node-version }}
+                  registry-url: https://registry.npmjs.org/
+                  cache: 'pnpm'
 
             - name: Install dependencies
-              # No frozen lockfile because windows doesn't like it (Theres a issue for it somewhere in PNPM's repo)
-              run: pnpm install --no-frozen-lockfile
+              run: pnpm install --frozen-lockfile
 
             - name: Build
               run: pnpm build

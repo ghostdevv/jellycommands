@@ -1,7 +1,7 @@
-import type { BaseFeatureOptions } from '../features/features';
-import type { ClientEvents } from 'discord.js';
+import { BaseFeatureOptions } from '../features/features';
+import type { EventName } from './Event';
 
-export interface EventOptions<Event extends keyof ClientEvents> extends BaseFeatureOptions {
+export interface EventOptions<Event extends EventName> extends BaseFeatureOptions {
     /**
      * The event name: https://discord.js.org/#/docs/main/stable/class/Client
      */
@@ -9,19 +9,21 @@ export interface EventOptions<Event extends keyof ClientEvents> extends BaseFeat
 
     /**
      * Whether or not the event should be loaded
+     * @default false
      */
     disabled?: boolean;
 
     /**
      * Should the event be ran once or every time it's received
+     * @default false
      */
     once?: boolean;
 }
 
-import Joi from 'joi';
+import { z } from 'zod';
 
-export const schema = Joi.object({
-    name: Joi.string().required(),
-    disabled: Joi.bool().default(false),
-    once: Joi.bool().default(false),
+export const eventSchema = z.object({
+    name: z.string() as z.ZodType<EventName>,
+    disabled: z.boolean().default(false),
+    once: z.boolean().default(false),
 });

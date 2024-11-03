@@ -1,13 +1,14 @@
 import { GuildCommands, GlobalCommands } from './types.d';
 import { BaseCommand } from './types/BaseCommand';
 import { JellyCommands } from '../JellyCommands';
+import { AnyCommand } from './types/types';
 import { read } from '../utils/files';
 
 export const resolveCommands = async (
     client: JellyCommands,
-    items: string | Array<string | BaseCommand>,
+    items: string | Array<string | AnyCommand>,
 ) => {
-    const commands = new Set<BaseCommand>();
+    const commands = new Set<AnyCommand>();
 
     await read(items, (command) => {
         if (!(command instanceof BaseCommand))

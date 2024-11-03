@@ -1,20 +1,24 @@
 import type { JellyCommands } from '../JellyCommands';
+import { eventSchema, EventOptions } from './options';
 import { BaseFeature } from '../features/features';
-import { schema, EventOptions } from './options';
-import type { Client, ClientEvents } from 'discord.js';
-import { Awaitable } from '../utils/types';
+import type { ClientEvents } from 'discord.js';
+import { MaybePromise } from '../utils/types';
+import { parseSchema } from '../utils/zod';
 
-export type EventCallback<EventName extends keyof ClientEvents> = (
-    instance: { client: JellyCommands; props: Props },
-    ...args: ClientEvents[EventName]
-) => Awaitable<void | any>;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type EventName = keyof ClientEvents | (string & {});
 
-export class Event<T extends keyof ClientEvents = keyof ClientEvents> extends BaseFeature {
-    public readonly options: EventOptions<T>;
+export type EventCallback<E extends EventName> = (
+    ctx: { client: JellyCommands; props: Props },
+    ...args: E extends keyof ClientEvents ? ClientEvents[E] : any[]
+) => MaybePromise<void | any>;
+
+export class Event<T extends EventName = EventName> extends BaseFeature {
+    public readonly options: Required<EventOptions<T>>;
     public readonly TYPE = 'EVENT';
 
     constructor(
-        public readonly name: keyof ClientEvents,
+        public readonly name: EventName,
         public readonly run: EventCallback<T>,
         options: EventOptions<T>,
     ) {
@@ -26,14 +30,13 @@ export class Event<T extends keyof ClientEvents = keyof ClientEvents> extends Ba
         if (!run || typeof run != 'function')
             throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
-        const { error, value } = schema.validate(options);
-
-        if (error) throw error.annotate();
-        else this.options = value;
+        this.options = <Required<EventOptions<T>>>(
+            parseSchema('event options', eventSchema, options)
+        );
     }
 }
 
-export const event = <K extends keyof ClientEvents>(
+export const event = <K extends EventName>(
     options: EventOptions<K> & {
         run: EventCallback<K>;
     },
