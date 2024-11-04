@@ -50,7 +50,8 @@ export interface JellyCommandsOptions {
     /**
      * The features of your bot. For any strings that are passed they
      * will be loaded recursively from that path.
-     * @see todo
+     *
+     * @see https://jellycommands.dev/guide/features
      */
     features?: LoadableFeatures;
 

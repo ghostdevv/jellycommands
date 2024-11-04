@@ -66,7 +66,8 @@ async function read(client: JellyCommands, path: string): Promise<File[]> {
 /**
  * The features of your bot. For any strings that are passed they
  * will be loaded recursively from that path.
- * @see todo
+ *
+ * @see https://jellycommands.dev/guide/features
  */
 export type LoadableFeatures = string | (string | Feature)[];
 
