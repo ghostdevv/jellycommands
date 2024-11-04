@@ -3,4 +3,4 @@
 'jellycommands': patch
 ---
 
-update non-major dependancies
+update non-minor dependancies

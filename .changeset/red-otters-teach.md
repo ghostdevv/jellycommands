@@ -1,5 +1,5 @@
 ---
-"jellycommands": major
+'jellycommands': minor
 ---
 
 breaking: add new "features" system
