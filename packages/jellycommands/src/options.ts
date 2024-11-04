@@ -39,6 +39,11 @@ export const jellyCommandsOptionsSchema = z.object({
         .default({}),
     cache: z.boolean().default(true),
     debug: z.boolean().default(() => !!process.env['DEBUG']),
+    fs: z
+        .object({
+            extensions: z.string().array().default(['.js', '.ts']),
+        })
+        .default({}),
 });
 
 export interface JellyCommandsOptions {
@@ -100,4 +105,16 @@ export interface JellyCommandsOptions {
      * Whether jelly should emit debug messages
      */
     debug?: boolean;
+
+    /**
+     * Options to control how JellyCommands reads from the
+     * filesystem when loading features.
+     */
+    fs?: {
+        /**
+         * Only files that end in these extensions are loaded.
+         * @default ['.js', '.ts']
+         */
+        extensions?: string[];
+    };
 }

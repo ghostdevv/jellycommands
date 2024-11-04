@@ -99,3 +99,12 @@ Enables `JellyCommands` cache. It's recommended to keep this on
 - Type: `boolean`
 
 Enables debug messages to be printed to console. If a non-empty `DEBUG` environment variable is set then this will automatically be enabled.
+
+### fs
+
+#### fs.extensions
+
+-   Type: `string[]`
+-   Default: `['.js', '.ts']`
+
+Only files that end in these extensions are loaded.

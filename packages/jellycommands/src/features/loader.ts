@@ -1,8 +1,8 @@
 import { isFeature, type Feature } from './features';
+import { basename, extname, join, resolve } from 'node:path';
 import { JellyCommands } from '../JellyCommands';
 import { readdir, stat } from 'node:fs/promises';
 import { SetMap } from '../structures/SetMap';
-import path, { basename, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { existsSync } from 'node:fs';
 
@@ -11,15 +11,16 @@ interface File {
     name: string;
 }
 
-// todo check is abs
 // todo should ignore parent dirs with _?
 // todo test
 
 /**
  * Reads the given `path`, will gracefully handle a file
- * if one is given as the `path` arg.
+ * if one is given as the `path` arg. Ignores directories that
+ * start with `_`.
  */
 async function read(client: JellyCommands, path: string): Promise<File[]> {
+    const extensions = client.joptions.fs!.extensions!;
     const exists = existsSync(path);
 
     if (!exists) {
@@ -27,31 +28,36 @@ async function read(client: JellyCommands, path: string): Promise<File[]> {
         return [];
     }
 
-    const stats = await stat(path);
+    const isDirectory = (await stat(path)).isDirectory();
     const files: File[] = [];
 
-    if (stats.isDirectory()) {
+    function addFile(absolutePath: string, name: string) {
+        if (name.startsWith('_')) {
+            if (!isDirectory) {
+                client.log.warn(`Given features path starts with _ and will be ignored: "${path}"`);
+            }
+
+            return;
+        }
+
+        if (extensions.includes(extname(name))) {
+            files.push({ absolutePath, name });
+        }
+    }
+
+    if (isDirectory) {
         const ls = await readdir(path, {
             withFileTypes: true,
             recursive: true,
         });
 
         for (const file of ls) {
-            if (file.isDirectory() || file.name.startsWith('_')) continue;
-
-            files.push({
-                absolutePath: join(file.parentPath, file.name),
-                name: file.name,
-            });
+            if (!file.isDirectory()) {
+                addFile(join(file.parentPath, file.name), file.name);
+            }
         }
     } else {
-        const name = basename(path);
-
-        if (name.startsWith('_')) {
-            client.log.warn(`Given features path starts with _ and will be ignored: "${path}"`);
-        } else {
-            files.push({ absolutePath: path, name: basename(path) });
-        }
+        addFile(path, basename(path));
     }
 
     return files;
