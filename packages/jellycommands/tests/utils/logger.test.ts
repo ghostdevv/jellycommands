@@ -5,6 +5,7 @@ import { mockJellyClient } from '$mock';
 describe('logger', () => {
     const error = vi.spyOn(console, 'error');
     const debug = vi.spyOn(console, 'debug');
+    const warn = vi.spyOn(console, 'warn');
     const log = vi.spyOn(console, 'log');
 
     it('works with regular logs', () => {
@@ -20,6 +21,14 @@ describe('logger', () => {
 
         logger.error();
         expect(error).toHaveBeenCalledTimes(1);
+    });
+
+    it('works with warn logs', () => {
+        const client = mockJellyClient();
+        const logger = createLogger(client);
+
+        logger.warn();
+        expect(warn).toHaveBeenCalledTimes(1);
     });
 
     it('works with debug logs', () => {
