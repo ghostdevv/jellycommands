@@ -35,6 +35,8 @@ const client = new JellyCommands({
 });
 ```
 
+[Read more on features here](/guide/features).
+
 ## Client Logger
 
 The `client.debug` log function has been removed in favour of both `client.log()` and `client.log.<level>()`.

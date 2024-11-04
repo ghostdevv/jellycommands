@@ -3,11 +3,11 @@
 ## Loading
 
 - API: [/api/client#commands](/api/client#commands)
-- Guide: [/guide/commands](/guide/commands/loading) 
+- Guide: [/guide/commands](/guide/commands/files) 
 
 ## Command File
 
-A command file uses the `command` helper function and exports it on the default export. For example:
+A command file uses the `command` helper function and exports it. For example:
 
 ```js
 import { command } from 'jellycommands';

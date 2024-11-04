@@ -4,7 +4,7 @@ The `JellyCommands` client is the core of every project.  It extends the [discor
 
 ## Get Started
 
-The basic setup is shown below.  The [intents field](https://discord.js.org/#/docs/discord.js/main/typedef/IntentsResolvable) is required by the `discord.js` client.
+The basic setup is shown below. The [intents field](https://discord.js.org/#/docs/discord.js/main/typedef/IntentsResolvable) is required by the `discord.js` client.
 
 ```js
 import { JellyCommands } from 'jellycommands';
@@ -21,26 +21,12 @@ client.login();
 
 ## Options
 
-### commands
+### features
 
-- Type: `string | Array<string | Command>`
-- Guide: [/guide/commands](/guide/commands/loading)
+- Type: `string | Array<string | Feature>`
+- Guide: [/guide/features](/guide/features)
 
-Passing a string will automatically load commands from that directory, otherwise you can manually import your commands and pass them in as an `array`. Files prefixed with `_` are ignored.
-
-### events 
-
-- Type: `string | Array<string | Event>`
-- Guide: [/guide/events](/guide/events/loading)
-
-Passing a `string` will automatically load events from that directory.  Otherwise, you can manually import your events and pass them in as an `array`. Files prefixed with `_` are ignored.
-
-### buttons
-
-- Type: `string | Array<string | Button>`
-- Guide: [/guide/buttons](/guide/buttons/loading)
-
-Passing a `string` will automatically load buttons from that directory.  Otherwise, you can manually import your events and pass them in as an `array`. Files prefixed with `_` are ignored.
+The recommended way to load features is to pass in a directory path (or paths). JellyCommands will recursively search the given path(s), and load any features it finds. Every export will be checked, and anything that isn't a feature is ignored. Files that start with `_` or don't match the allowed [extensions](#fs-extensions) will also be ignored.
 
 ### clientOptions
 

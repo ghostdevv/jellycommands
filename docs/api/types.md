@@ -9,7 +9,7 @@ You should create a file called `src/app.d.ts`, if you `create-jellycommands` th
 ```ts
 /// <reference types="jellycommands/ambient" />
 
-// See https://jellycommands.dev/guide/props.html
+// See https://jellycommands.dev/guide/props
 interface Props {}
 ```
 

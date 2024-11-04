@@ -36,17 +36,17 @@ export class JellyCommands extends Client {
         this.props = {
             get() {
                 throw new Error(
-                    'props.get has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                    'props.get has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
                 );
             },
             set() {
                 throw new Error(
-                    'props.set has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                    'props.set has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
                 );
             },
             has() {
                 throw new Error(
-                    'props.has has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                    'props.has has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
                 );
             },
             ...this.props,

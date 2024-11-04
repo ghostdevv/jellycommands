@@ -3,11 +3,11 @@
 ## Loading
 
 - API: [/api/client#events](/api/client#events)
-- Guide: [/guide/events](/guide/events/loading) 
+- Guide: [/guide/events](/guide/events/files) 
 
 ## Event File
 
-A event file uses the `event` helper function and exports it on the default export. For example:
+A event file uses the `event` helper function and exports it. For example:
 
 ```js
 import { event } from 'jellycommands';

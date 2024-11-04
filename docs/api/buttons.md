@@ -3,11 +3,11 @@
 ## Loading
 
 - API: [/api/client#buttons](/api/client#buttons)
-- Guide: [/guide/buttons](/guide/buttons/loading) 
+- Guide: [/guide/buttons](/guide/buttons/files) 
 
 ## Button File
 
-A button file uses the `button` helper function and exports it on the default export. For example:
+A button file uses the `button` helper function and exports it. For example:
 
 ```js
 import { button } from 'jellycommands';

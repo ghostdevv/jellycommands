@@ -4,7 +4,7 @@
 
 ### Set on client create
 
-You can set props using the [`props`](/api/client.html#props) property on the `JellyCommands` client.
+You can set props using the [`props`](/api/client#props) property on the `JellyCommands` client.
 
 ```ts
 import { JellyCommands } from 'jellycommands';
@@ -33,7 +33,7 @@ You can use the `Props` interface from JellyCommand's ambient types. If you use 
 ```ts
 /// <reference types="jellycommands/ambient" />
 
-// See https://jellycommands.dev/guide/props.html
+// See https://jellycommands.dev/guide/props
 interface Props {
     propOne: string;
 }

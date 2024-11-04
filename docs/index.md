@@ -13,7 +13,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /guide/quickstart
+      link: /guide/overview
 
 features:
   - icon: 🌈
