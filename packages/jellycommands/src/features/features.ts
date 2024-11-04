@@ -17,7 +17,7 @@ export abstract class Feature<O extends BaseFeatureOptions = BaseFeatureOptions>
     /**
      * A human readable name for the feature.
      */
-    public readonly featureName: string;
+    // public readonly featureName: string;
 
     /**
      * The features options
@@ -30,9 +30,10 @@ export abstract class Feature<O extends BaseFeatureOptions = BaseFeatureOptions>
      * @param id Machine readable identifier for the feature. Changing this is a breaking change.
      * @param name A human readable name of the feature. Changing this is not considered breaking.
      */
-    constructor(id: string, name: string) {
+    constructor(id: string, _name: string) {
         this[FEATURE_SYMBOL] = id;
-        this.featureName = name;
+        // todo
+        // this.featureName = name;
     }
 
     get id(): string {
