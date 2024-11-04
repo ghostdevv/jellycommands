@@ -12,7 +12,7 @@ import { Client } from 'discord.js';
 export class JellyCommands extends Client {
     // todo these options include data that isn't relevant (like given features) so mayb shouldn't be here
     public readonly joptions: JellyCommandsOptions;
-    public readonly plugins: SortedPlugins;
+    private readonly plugins: SortedPlugins;
     public readonly props: Props;
     public readonly log: Logger;
 
@@ -28,7 +28,8 @@ export class JellyCommands extends Client {
 
         this.log = createLogger(this);
         this.props = options.props || {};
-        this.plugins = sortPlugins(this, [...CORE_PLUGINS, ...(this.joptions.plugins || [])]);
+        // this.plugins = sortPlugins(this, [...CORE_PLUGINS, ...(this.joptions.plugins || [])]);
+        this.plugins = sortPlugins(this, CORE_PLUGINS);
 
         // TODO remove for 1.0
         // Makes need for a migration more obvious for those using props api

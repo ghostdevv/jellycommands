@@ -77,8 +77,11 @@ export async function loadFeatures(client: JellyCommands, input: LoadableFeature
     const inputArray = Array.isArray(input) ? input : [input];
     const featuresById = new SetMap<string, Feature>();
 
+    // @ts-expect-error temporarily privated
+    const plugins = client.plugins;
+
     async function addFeature(feature: Feature) {
-        for (const plugin of client.plugins.transforms) {
+        for (const plugin of plugins.transforms) {
             feature = await plugin.transform(client, feature);
         }
 
@@ -125,7 +128,7 @@ export async function loadFeatures(client: JellyCommands, input: LoadableFeature
     }
 
     for (const [id, features] of featuresById.entries()) {
-        const plugin = client.plugins.features.get(id);
+        const plugin = plugins.features.get(id);
 
         if (!plugin) {
             throw new Error(`Unable to find feature plugin for "${id}"`);
