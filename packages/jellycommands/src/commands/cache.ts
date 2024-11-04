@@ -1,8 +1,8 @@
 import { CommandIDMap, ResolvedCommands } from './types';
-import { BaseCommand } from './types/BaseCommand';
 import { JellyCommands } from '../JellyCommands';
 import { registerCommands } from './register';
 import { Cache } from '../structures/Cache';
+import { AnyCommand } from './types/types';
 
 export async function getCommandIdMap(
     client: JellyCommands,
@@ -50,11 +50,11 @@ export async function getCommandIdMap(
 export class CommandCache {
     private cache = new Cache('command-cache');
 
-    set(commands: Set<BaseCommand>) {
+    set(commands: Set<AnyCommand>) {
         this.cache.set<string[]>(this.getHashIds(commands));
     }
 
-    getHashIds(commands: Set<BaseCommand>) {
+    getHashIds(commands: Set<AnyCommand>) {
         const hashIds: string[] = [];
 
         for (const command of commands) {
@@ -64,7 +64,7 @@ export class CommandCache {
         return hashIds;
     }
 
-    validate(commands: Set<BaseCommand>): boolean {
+    validate(commands: Set<AnyCommand>): boolean {
         const ids = this.cache.get<string[]>();
         if (!ids || !Array.isArray(ids)) return false;
 
@@ -100,7 +100,7 @@ export class CommandIdResolver {
         this.cache.set<IdResolverMap>(data);
     }
 
-    get(commands: Set<BaseCommand>): CommandIDMap | false {
+    get(commands: Set<AnyCommand>): CommandIDMap | false {
         const ids = this.cache.get<IdResolverMap>();
         if (!ids) return false;
 

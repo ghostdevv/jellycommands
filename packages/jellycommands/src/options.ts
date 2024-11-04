@@ -3,6 +3,7 @@ import { LoadableFeatures } from './features/loader';
 import { snowflakeSchema } from './utils/snowflake';
 import { isFeature } from './features/features';
 import { z } from 'zod';
+import { AnyPlugin } from './plugins/plugins';
 
 export const jellyCommandsOptionsSchema = z.object({
     features: z
@@ -18,6 +19,7 @@ export const jellyCommandsOptionsSchema = z.object({
         .optional(),
     clientOptions: z.object({}).passthrough(),
     props: z.object({}).passthrough().default({}),
+    plugins: z.array(z.object({}).passthrough()).optional(),
     messages: z
         .object({
             unknownCommand: z.union([
@@ -51,6 +53,12 @@ export interface JellyCommandsOptions {
      * Base discord.js client options
      */
     clientOptions: ClientOptions;
+
+    /**
+     * JellyCommands plugins
+     * @see todo
+     */
+    plugins?: AnyPlugin[];
 
     /**
      * Inital props

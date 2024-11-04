@@ -1,29 +1,32 @@
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
+import type { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js';
 import type { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
-import type { BaseInteraction } from 'discord.js';
 import type { AnyZodObject } from 'zod';
 
 import { Feature } from '../../features/features';
 import { PermissionsBitField } from 'discord.js';
 import { MaybePromise } from '../../utils/types';
+import { COMMAND_FEATURE_ID } from '../plugin';
 import { parseSchema } from '../../utils/zod';
 import { BaseOptions } from './options';
 import { createHash } from 'crypto';
 
-export interface RunOptions<InteractionType extends BaseInteraction> {
+type AnyCommandInteraction = CommandInteraction | ContextMenuCommandInteraction;
+
+export interface RunOptions<InteractionType extends AnyCommandInteraction> {
     interaction: InteractionType;
     client: JellyCommands;
     props: Props;
 }
 
-export type CommandCallback<InteractionType extends BaseInteraction> = (
+export type CommandCallback<InteractionType extends AnyCommandInteraction> = (
     options: RunOptions<InteractionType>,
 ) => MaybePromise<void | any>;
 
 export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,
-    InteractionType extends BaseInteraction = BaseInteraction,
+    InteractionType extends AnyCommandInteraction = AnyCommandInteraction,
 > extends Feature<OptionsType> {
     public readonly options: OptionsType;
     public readonly run: CommandCallback<InteractionType>;
@@ -39,7 +42,7 @@ export abstract class BaseCommand<
         schema: AnyZodObject;
         run: CommandCallback<InteractionType>;
     }) {
-        super('jellycommands.command', 'todo');
+        super(COMMAND_FEATURE_ID, 'todo');
 
         if (!run || typeof run != 'function')
             throw new TypeError(`Expected type function for run, received ${typeof run}`);

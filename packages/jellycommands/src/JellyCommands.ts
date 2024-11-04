@@ -1,21 +1,19 @@
 import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
+import { SortedPlugins, sortPlugins } from './plugins/plugins';
 import { cleanToken, resolveToken } from './utils/token';
 import { Logger, createLogger } from './utils/logger';
-import { AnyCommand } from './commands/types/types';
-import { loadCommands } from './commands/resolve';
 import { RouteBases } from 'discord-api-types/v10';
 import { type FetchOptions, ofetch } from 'ofetch';
 import { loadFeatures } from './features/loader';
-import { handleButton } from './buttons/handle';
-import { Button } from './buttons/buttons';
+import { CORE_PLUGINS } from './plugins/core';
 import { parseSchema } from './utils/zod';
-import { Event } from './events/Event';
 import { Client } from 'discord.js';
 
 export class JellyCommands extends Client {
+    // todo these options include data that isn't relevant (like given features) so mayb shouldn't be here
     public readonly joptions: JellyCommandsOptions;
+    public readonly plugins: SortedPlugins;
     public readonly props: Props;
-
     public readonly log: Logger;
 
     constructor(options: JellyCommandsOptions) {
@@ -29,8 +27,8 @@ export class JellyCommands extends Client {
         ) as JellyCommandsOptions;
 
         this.log = createLogger(this);
-
         this.props = options.props || {};
+        this.plugins = sortPlugins(this, [...CORE_PLUGINS, ...(this.joptions.plugins || [])]);
 
         // TODO remove for 1.0
         // Makes need for a migration more obvious for those using props api
@@ -85,43 +83,22 @@ export class JellyCommands extends Client {
         });
     }
 
+    /**
+     * This must be called once in order to start your Discord Bot.
+     * It initialises all JellyCommands specific code, then calls
+     * the base discord.js `client.login()` fn to run your bot.
+     */
     async login(potentialToken?: string): Promise<string> {
-        if (potentialToken) {
-            this.token = cleanToken(potentialToken);
+        this.token ||= cleanToken(potentialToken);
+        const token = resolveToken(this);
+
+        if (!token) {
+            throw new Error('No bot token was found');
         }
 
-        const commands = new Set<AnyCommand>();
-        const buttons = new Set<Button>();
+        this.log.debug('Loading features');
+        await loadFeatures(this, this.joptions.features);
 
-        await loadFeatures(this.joptions.features, async (feature) => {
-            if (feature.options.disabled) {
-                return;
-            }
-
-            if (Event.is(feature)) {
-                // todo how to replicate set dedupe for all features
-                await Event.register(this, feature);
-                return;
-            }
-
-            if (Button.is(feature)) {
-                buttons.add(feature);
-                return;
-            }
-        });
-
-        if (buttons.size) {
-            this.on('interactionCreate', (interaction) => {
-                if (interaction.isButton()) {
-                    handleButton({ client: this, interaction, buttons });
-                }
-            });
-        }
-
-        if (commands.size) {
-            await loadCommands(this, commands);
-        }
-
-        return super.login(resolveToken(this) || undefined);
+        return super.login(token);
     }
 }
