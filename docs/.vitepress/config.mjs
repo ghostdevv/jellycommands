@@ -160,12 +160,16 @@ export default defineConfig({
                     text: 'Migrate',
                     items: [
                         {
-                            text: 'Discord.js v14',
-                            link: '/guide/migrate/djs14',
+                            text: 'Features (1.0.0-next.44)',
+                            link: '/guide/migrate/features',
                         },
                         {
-                            text: 'Props',
+                            text: 'Props (1.0.0-next.40)',
                             link: '/guide/migrate/props',
+                        },
+                        {
+                            text: 'Discord.js v14 (1.0.0-next.31)',
+                            link: '/guide/migrate/djs14',
                         },
                     ],
                 },
