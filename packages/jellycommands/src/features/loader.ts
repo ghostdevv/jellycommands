@@ -82,10 +82,6 @@ export async function loadFeatures(client: JellyCommands, input: LoadableFeature
     const plugins = client.plugins;
 
     async function addFeature(feature: Feature) {
-        for (const plugin of plugins.transforms) {
-            feature = await plugin.transform(client, feature);
-        }
-
         // todo this should really work dynamically somehow
         // todo should this be a feature attrib rather than an option?
         // should options be locked and attribs dynamic
