@@ -3,14 +3,8 @@ import { JellyCommands } from 'jellycommands';
 import { IntentsBitField } from 'discord.js';
 
 const client = new JellyCommands({
-    // https://jellycommands.dev/guide/commands/loading
-    commands: 'src/commands',
-
-    // https://jellycommands.dev/guide/events/loading
-    events: 'src/events',
-
-    // https://jellycommands.dev/guide/buttons/loading
-    buttons: 'src/buttons',
+    // https://jellycommands.dev/guide/overview#features
+    features: 'src/commands',
 
     clientOptions: {
         intents: [IntentsBitField.Flags.Guilds],

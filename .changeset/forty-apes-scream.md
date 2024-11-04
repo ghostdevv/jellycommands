@@ -2,4 +2,4 @@
 "create-jellycommands": patch
 ---
 
-chore: update template deps
+chore: update templates

@@ -6,14 +6,17 @@
         "start": "tsm ."
     },
     "dependencies": {
-        "discord.js": "^14.15.2",
+        "discord.js": "^14.15.3",
         "dotenv": "^16.4.5",
-        "jellycommands": "1.0.0-next.43",
+        "jellycommands": "1.0.0-next.44",
         "typescript": "^5.4.5"
     },
     "devDependencies": {
         "@types/node": "^20.12.11",
-        "nodemon": "^3.1.0",
+        "nodemon": "^3.1.7",
         "tsm": "^2.3.0"
+    },
+    "engines": {
+        "node": ">=20.13.1"
     }
 }
