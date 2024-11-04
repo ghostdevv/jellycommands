@@ -52,7 +52,7 @@ export interface JellyCommandsOptions {
      * will be loaded recursively from that path.
      * @see todo
      */
-    features: LoadableFeatures;
+    features?: LoadableFeatures;
 
     /**
      * Base discord.js client options
