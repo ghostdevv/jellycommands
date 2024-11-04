@@ -97,8 +97,12 @@ export class JellyCommands extends Client {
             throw new Error('No bot token was found');
         }
 
-        this.log.debug('Loading features');
-        await loadFeatures(this, this.joptions.features);
+        if (this.joptions.features?.length) {
+            this.log.debug('Loading features');
+            await loadFeatures(this, this.joptions.features);
+        } else {
+            this.log.debug('No features given');
+        }
 
         return super.login(token);
     }
