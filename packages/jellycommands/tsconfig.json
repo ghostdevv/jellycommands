@@ -6,7 +6,6 @@
         "moduleResolution": "Bundler",
 
         "strict": true,
-        "declaration": true,
         "strictNullChecks": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
@@ -14,7 +13,10 @@
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": false,
         "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "noEmit": true,
+        "declaration": false
     },
-    "include": ["src/**/*.ts", "ambient.d.ts", "tests/**/*.ts"]
+    "include": ["src/**/*.ts", "ambient.d.ts", "tests/**/*.ts"],
+    "exclude": ["node_modules/**", "dist/**"]
 }
