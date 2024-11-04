@@ -6,7 +6,7 @@ This guide covers breaking changes introduced in JellyCommands `1.0.0-next.44`. 
 
 The following minimum versions are now required:
 
--   Node v18.19.0
+-   Node v20.13.1
 -   Discord.js v14 (todo specific minor)
 
 ## "Features"

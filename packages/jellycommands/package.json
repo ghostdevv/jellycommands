@@ -74,9 +74,9 @@
   },
   "homepage": "https://github.com/ghostdevv/jellycommands",
   "volta": {
-    "node": "18.19.0"
+    "node": "20.13.1"
   },
   "engines": {
-    "node": ">=18.19.0"
+    "node": ">=20.13.1"
   }
 }

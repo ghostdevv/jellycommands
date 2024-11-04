@@ -23,7 +23,7 @@
     "engines": {
         "pnpm": "^9.12.3",
         "npm": "forbidden, use pnpm",
-        "node": ">=18.19.0"
+        "node": ">=20.13.1"
     },
     "repository": {
         "type": "git",
@@ -34,7 +34,7 @@
     },
     "homepage": "https://github.com/ghostdevv/jellycommands#readme",
     "volta": {
-        "node": "18.19.0",
+        "node": "20.13.1",
         "pnpm": "9.12.3"
     }
 }
