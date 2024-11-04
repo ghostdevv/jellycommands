@@ -2,8 +2,8 @@ import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'dis
 import { LoadableFeatures } from './features/loader';
 import { snowflakeSchema } from './utils/snowflake';
 import { isFeature } from './features/features';
+// import { AnyPlugin } from './plugins/plugins';
 import { z } from 'zod';
-import { AnyPlugin } from './plugins/plugins';
 
 export const jellyCommandsOptionsSchema = z.object({
     features: z

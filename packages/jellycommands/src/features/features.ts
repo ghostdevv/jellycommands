@@ -30,6 +30,7 @@ export abstract class Feature<O extends BaseFeatureOptions = BaseFeatureOptions>
      * @param id Machine readable identifier for the feature. Changing this is a breaking change.
      * @param name A human readable name of the feature. Changing this is not considered breaking.
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     constructor(id: string, _name: string) {
         this[FEATURE_SYMBOL] = id;
         // todo
