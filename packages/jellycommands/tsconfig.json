@@ -13,7 +13,8 @@
         "noImplicitAny": true,
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": false,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true
     },
     "include": ["src/**/*.ts", "ambient.d.ts", "tests/**/*.ts"]
 }
