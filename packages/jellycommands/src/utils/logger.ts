@@ -1,4 +1,4 @@
-import { JellyCommands } from '../JellyCommands';
+import type { JellyCommands } from '../JellyCommands';
 
 export interface Logger {
     (...messages: any[]): void;

@@ -1,7 +1,7 @@
 import type { CommandCallback } from '../../../commands/types/BaseCommand';
 import type { UserContextMenuCommandInteraction } from 'discord.js';
 
-import { userCommandSchema, UserCommandOptions } from './options';
+import { userCommandSchema, type UserCommandOptions } from './options';
 import { BaseCommand } from '../../../commands/types/BaseCommand';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 

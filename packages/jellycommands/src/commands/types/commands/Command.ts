@@ -1,10 +1,10 @@
 import type { APIApplicationCommandOption } from 'discord-api-types/v10';
+import { commandSchema, type CommandOptions } from './options';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyApplicationCommandOption } from './types';
 import type { JellyCommands } from '../../../JellyCommands';
-import { commandSchema, CommandOptions } from './options';
+import type { MaybePromise } from '../../../utils/types';
 import type { CommandCallback } from '../BaseCommand';
-import { MaybePromise } from '../../../utils/types';
 import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
 import {

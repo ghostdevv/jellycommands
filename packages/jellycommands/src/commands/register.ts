@@ -1,5 +1,5 @@
-import { APIApplicationCommand, Routes } from 'discord-api-types/v10';
-import { CommandIDMap, ResolvedCommands } from './types';
+import { type APIApplicationCommand, Routes } from 'discord-api-types/v10';
+import type { CommandIDMap, ResolvedCommands } from './types';
 import { JellyCommands } from '../JellyCommands';
 import { getAuthData } from '../utils/token';
 

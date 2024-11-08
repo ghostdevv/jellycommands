@@ -1,6 +1,6 @@
-import { Component } from '../components/components';
-import { JellyCommands } from '../JellyCommands';
-import { MaybePromise } from '../utils/types';
+import type { Component } from '../components/components';
+import type { JellyCommands } from '../JellyCommands';
+import type { MaybePromise } from '../utils/types';
 
 /**
  * Component plugins "provide" for components.

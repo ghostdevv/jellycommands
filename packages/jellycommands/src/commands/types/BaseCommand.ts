@@ -2,14 +2,14 @@ import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v
 import type { CommandInteraction, ContextMenuCommandInteraction } from 'discord.js';
 import type { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
+import type { MaybePromise } from '../../utils/types';
+import type { BaseOptions } from './options';
 import type { AnyZodObject } from 'zod';
 
 import { Component } from '../../components/components';
 import { PermissionsBitField } from 'discord.js';
-import { MaybePromise } from '../../utils/types';
 import { COMMAND_COMPONENT_ID } from '../plugin';
 import { parseSchema } from '../../utils/zod';
-import { BaseOptions } from './options';
 import { createHash } from 'crypto';
 
 type AnyCommandInteraction = CommandInteraction | ContextMenuCommandInteraction;

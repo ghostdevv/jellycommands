@@ -1,8 +1,8 @@
-import { CommandIDMap, ResolvedCommands } from './types';
-import { JellyCommands } from '../JellyCommands';
+import type { CommandIDMap, ResolvedCommands } from './types';
+import type { JellyCommands } from '../JellyCommands';
 import { registerCommands } from './register';
 import { Cache } from '../structures/Cache';
-import { AnyCommand } from './types/types';
+import type { AnyCommand } from './types/types';
 
 export async function getCommandIdMap(
     client: JellyCommands,

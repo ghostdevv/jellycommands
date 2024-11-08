@@ -1,9 +1,9 @@
 import { Component, isComponent } from '../components/components';
+import { eventSchema, type EventOptions } from './options';
 import type { JellyCommands } from '../JellyCommands';
-import { eventSchema, EventOptions } from './options';
+import type { MaybePromise } from '../utils/types';
 import { EVENTS_COMPONENT_ID } from './plugin';
 import type { ClientEvents } from 'discord.js';
-import { MaybePromise } from '../utils/types';
 import { parseSchema } from '../utils/zod';
 
 // eslint-disable-next-line @typescript-eslint/ban-types

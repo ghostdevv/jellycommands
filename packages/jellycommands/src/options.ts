@@ -1,5 +1,5 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
-import { LoadableComponents } from './components/loader';
+import type { LoadableComponents } from './components/loader';
 import { isComponent } from './components/components';
 import { snowflakeSchema } from './utils/snowflake';
 // import { AnyPlugin } from './plugins/plugins';

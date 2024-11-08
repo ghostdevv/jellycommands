@@ -1,6 +1,6 @@
 import { basename, extname, join, resolve } from 'node:path';
 import { isComponent, type Component } from './components';
-import { JellyCommands } from '../JellyCommands';
+import type { JellyCommands } from '../JellyCommands';
 import { readdir, stat } from 'node:fs/promises';
 import { SetMap } from '../structures/SetMap';
 import { pathToFileURL } from 'node:url';

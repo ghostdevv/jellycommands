@@ -1,7 +1,7 @@
 import { Command } from './types/commands/Command';
 import { JellyCommands } from '../JellyCommands';
-import { Interaction } from 'discord.js';
-import { CommandIDMap } from './types';
+import type { Interaction } from 'discord.js';
+import type { CommandIDMap } from './types';
 
 export interface CommandReponseData {
     client: JellyCommands;

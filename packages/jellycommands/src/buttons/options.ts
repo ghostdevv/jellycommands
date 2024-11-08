@@ -1,5 +1,5 @@
+import type { BaseComponentOptions } from '../components/components';
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import { BaseComponentOptions } from '../components/components';
 import type { MaybePromise } from '../utils/types';
 import { z } from 'zod';
 

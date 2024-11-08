@@ -1,7 +1,7 @@
-import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
-import { SortedPlugins, sortPlugins } from './plugins/plugins';
+import { type JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
+import { type SortedPlugins, sortPlugins } from './plugins/plugins';
+import { type Logger, createLogger } from './utils/logger';
 import { cleanToken, resolveToken } from './utils/token';
-import { Logger, createLogger } from './utils/logger';
 import { loadComponents } from './components/loader';
 import { RouteBases } from 'discord-api-types/v10';
 import { type FetchOptions, ofetch } from 'ofetch';
