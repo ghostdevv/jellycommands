@@ -77,6 +77,7 @@ export class Command extends BaseCommand<
 		const patched = Command.transformOptionType(option);
 
 		const transform =
+			// @ts-expect-error todo
 			ApplicationCommand.transformOption.bind(ApplicationCommand);
 		return transform(patched, false) as APIApplicationCommandOption;
 	}
