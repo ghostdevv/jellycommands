@@ -2,24 +2,24 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { command } from 'jellycommands';
 
 export default command({
-    name: 'test',
-    description: 'Testing that the bot works fine',
+	name: 'test',
+	description: 'Testing that the bot works fine',
 
-    global: true,
+	global: true,
 
-    run: ({ interaction }) => {
-        const row = new ActionRowBuilder();
+	run: ({ interaction }) => {
+		const row = new ActionRowBuilder();
 
-        const button = new ButtonBuilder()
-            .setCustomId('hello')
-            .setLabel('Click me!')
-            .setStyle(ButtonStyle.Primary);
+		const button = new ButtonBuilder()
+			.setCustomId('hello')
+			.setLabel('Click me!')
+			.setStyle(ButtonStyle.Primary);
 
-        row.addComponents(button);
+		row.addComponents(button);
 
-        interaction.reply({
-            content: 'Hello, world!',
-            components: [row],
-        });
-    },
+		interaction.reply({
+			content: 'Hello, world!',
+			components: [row],
+		});
+	},
 });

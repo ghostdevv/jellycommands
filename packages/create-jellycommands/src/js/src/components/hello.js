@@ -1,11 +1,11 @@
 import { button } from 'jellycommands';
 
 export default button({
-    id: 'hello',
+	id: 'hello',
 
-    async run({ interaction }) {
-        interaction.reply({
-            content: 'Hello from a button!',
-        });
-    },
+	async run({ interaction }) {
+		interaction.reply({
+			content: 'Hello from a button!',
+		});
+	},
 });

@@ -1,3 +1,3 @@
 interface Props {
-    [key: string]: any;
+	[key: string]: any;
 }

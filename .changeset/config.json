@@ -1,15 +1,15 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@1.6.3/schema.json",
-  "changelog": [
-    "@svitejs/changesets-changelog-github-compact",
-    {
-      "repo": "ghostdevv/jellycommands"
-    }
-  ],
-  "commit": false,
-  "linked": [],
-  "access": "public",
-  "ignore": ["dev"],
-  "baseBranch": "main",
-  "updateInternalDependencies": "patch"
+	"$schema": "https://unpkg.com/@changesets/config@1.6.3/schema.json",
+	"changelog": [
+		"@svitejs/changesets-changelog-github-compact",
+		{
+			"repo": "ghostdevv/jellycommands"
+		}
+	],
+	"commit": false,
+	"linked": [],
+	"access": "public",
+	"ignore": ["dev"],
+	"baseBranch": "main",
+	"updateInternalDependencies": "patch"
 }

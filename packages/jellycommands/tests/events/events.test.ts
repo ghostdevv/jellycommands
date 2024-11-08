@@ -3,44 +3,49 @@ import { event, Event } from '$src/events/Event';
 import { mockJellyClient } from '$mock';
 
 declare module 'discord.js' {
-    interface ClientEvents {
-        testEvent: [];
-    }
+	interface ClientEvents {
+		testEvent: [];
+	}
 }
 
 describe('events fn', () => {
-    it('works', () => {
-        const testEvent = event({ name: 'testEvent', async run() {} });
-        expect(testEvent).toBeInstanceOf(Event);
-    });
+	it('works', () => {
+		const testEvent = event({ name: 'testEvent', async run() {} });
+		expect(testEvent).toBeInstanceOf(Event);
+	});
 
-    it('has correct defaults', () => {
-        const testEvent = event({ name: 'testEvent', async run() {} });
-        expect(testEvent.options.disabled).toBe(false);
-        expect(testEvent.options.once).toBe(false);
-    });
+	it('has correct defaults', () => {
+		const testEvent = event({ name: 'testEvent', async run() {} });
+		expect(testEvent.options.disabled).toBe(false);
+		expect(testEvent.options.once).toBe(false);
+	});
 
-    it('allows changing defaults', () => {
-        const testEvent = event({ name: 'testEvent', async run() {}, disabled: true, once: true });
-        expect(testEvent.options.disabled).toBe(true);
-        expect(testEvent.options.once).toBe(true);
-    });
+	it('allows changing defaults', () => {
+		const testEvent = event({
+			name: 'testEvent',
+			async run() {},
+			disabled: true,
+			once: true,
+		});
+		expect(testEvent.options.disabled).toBe(true);
+		expect(testEvent.options.once).toBe(true);
+	});
 
-    it('throws on incorrect options', () => {
-        expect(() => event({ run() {} } as any)).toThrowError();
-        expect(() => event({ name: 'testEvent' } as any)).toThrowError();
-        expect(() => event({ name: 123 } as any)).toThrowError();
+	it('throws on incorrect options', () => {
+		expect(() => event({ run() {} } as any)).toThrowError();
+		expect(() => event({ name: 'testEvent' } as any)).toThrowError();
+		expect(() => event({ name: 123 } as any)).toThrowError();
 
-        expect(() => event({ run: 123 } as any)).toThrowError();
-        expect(() => event({} as any)).toThrowError();
+		expect(() => event({ run: 123 } as any)).toThrowError();
+		expect(() => event({} as any)).toThrowError();
 
-        expect(() => event({ disabled: 123 } as any)).toThrowError();
-    });
+		expect(() => event({ disabled: 123 } as any)).toThrowError();
+	});
 
-    it('should have equal names', () => {
-        const testEvent = event({ name: 'testEvent', async run() {} });
-        expect(testEvent.name).toBe(testEvent.options.name);
-    });
+	it('should have equal names', () => {
+		const testEvent = event({ name: 'testEvent', async run() {} });
+		expect(testEvent.name).toBe(testEvent.options.name);
+	});
 });
 
 // describe('registers events', () => {

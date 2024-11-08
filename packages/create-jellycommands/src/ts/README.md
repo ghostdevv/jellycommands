@@ -15,6 +15,6 @@ cp .env.example .env
 `npm run <command>`
 
 | Command | Description                                            |
-|---------|--------------------------------------------------------|
+| ------- | ------------------------------------------------------ |
 | dev     | You can use this command when developing your bot      |
 | start   | When you host/run your bot you should use this command |

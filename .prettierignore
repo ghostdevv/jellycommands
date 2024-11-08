@@ -1,0 +1,8 @@
+node_modules
+.env
+dist
+.jellycommands
+.vitepress/cache
+.changeset/*.md
+.changeset/pre.json
+pnpm-lock.yaml

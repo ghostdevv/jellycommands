@@ -1,0 +1,21 @@
+{
+	"name": "@jellycommands/docs",
+	"private": true,
+	"scripts": {
+		"dev": "vitepress dev",
+		"build": "vitepress build"
+	},
+	"packageManager": "pnpm@9.12.3",
+	"engines": {
+		"pnpm": "^9.12.3",
+		"npm": "forbidden, use pnpm",
+		"node": ">=20.13.1"
+	},
+	"volta": {
+		"node": "20.13.1",
+		"pnpm": "9.12.3"
+	},
+	"devDependencies": {
+		"vitepress": "1.1.4"
+	}
+}
