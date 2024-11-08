@@ -6,24 +6,24 @@ import { BaseCommand } from '../../../commands/types/BaseCommand';
 import { ApplicationCommandType } from 'discord-api-types/v10';
 
 export class UserCommand extends BaseCommand<
-    UserCommandOptions,
-    UserContextMenuCommandInteraction
+	UserCommandOptions,
+	UserContextMenuCommandInteraction
 > {
-    public readonly type = ApplicationCommandType.User;
+	public readonly type = ApplicationCommandType.User;
 
-    constructor(
-        run: CommandCallback<UserContextMenuCommandInteraction>,
-        options: UserCommandOptions,
-    ) {
-        super({ run, options, schema: userCommandSchema });
-    }
+	constructor(
+		run: CommandCallback<UserContextMenuCommandInteraction>,
+		options: UserCommandOptions,
+	) {
+		super({ run, options, schema: userCommandSchema });
+	}
 }
 
 export const userCommand = (
-    options: UserCommandOptions & {
-        run: CommandCallback<UserContextMenuCommandInteraction>;
-    },
+	options: UserCommandOptions & {
+		run: CommandCallback<UserContextMenuCommandInteraction>;
+	},
 ) => {
-    const { run, ...rest } = options;
-    return new UserCommand(run, rest);
+	const { run, ...rest } = options;
+	return new UserCommand(run, rest);
 };

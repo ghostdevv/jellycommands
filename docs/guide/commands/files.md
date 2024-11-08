@@ -8,16 +8,16 @@ This function is called everytime your command is, the main property you need is
 
 ```js
 export default command({
-    run: ({ interaction, client, props }) => {
-        // Do something
-    }
-})
+	run: ({ interaction, client, props }) => {
+		// Do something
+	},
+});
 ```
 
 ### interaction
 
-- Type for Slash Commands: [`ChatInputCommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/ChatInputCommandInteraction)
-- Type for Context Menus: [`ContextMenuCommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/ContextMenuCommandInteraction)
+-   Type for Slash Commands: [`ChatInputCommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/ChatInputCommandInteraction)
+-   Type for Context Menus: [`ContextMenuCommandInteraction`](https://discord.js.org/#/docs/discord.js/main/class/ContextMenuCommandInteraction)
 
 The chat input command interaction data.
 
@@ -35,21 +35,20 @@ The 3 types of commands are `command` (for slash commands), `messageCommand`, an
 
 See [`core options`](/api/commands#core-options) for all of the ways you can configure your commands.
 
-
 ### Slash Commands
 
-Slash commands use the `command` helper.  Unlike the others, they accept `description` and `descriptionLocalizations` options.
+Slash commands use the `command` helper. Unlike the others, they accept `description` and `descriptionLocalizations` options.
 
 ```js
 import { command } from 'jellycommands';
 
 export default command({
-    name: 'Command Name',
-    description: 'A short description of what the command does',
-    
-    run: ({ interaction }) => {
-        // Do something with interaction
-    }
+	name: 'Command Name',
+	description: 'A short description of what the command does',
+
+	run: ({ interaction }) => {
+		// Do something with interaction
+	},
 });
 ```
 
@@ -57,17 +56,17 @@ export default command({
 
 ### Message Commands
 
-Message commands appear in context menus when a user right-clicks a message.  They use the `messageCommand` helper.
+Message commands appear in context menus when a user right-clicks a message. They use the `messageCommand` helper.
 
 ```js
 import { messageCommand } from 'jellycommands';
 
 export default messageCommand({
-    name: 'Command Name',
-    
-    run: ({ interaction }) => {
-        // Do something with interaction
-    }
+	name: 'Command Name',
+
+	run: ({ interaction }) => {
+		// Do something with interaction
+	},
 });
 ```
 
@@ -75,17 +74,17 @@ export default messageCommand({
 
 ### User Commands
 
-User commands appear as context menus when right-clicking a user.  They use the `userCommand` helper.
+User commands appear as context menus when right-clicking a user. They use the `userCommand` helper.
 
 ```js
 import { userCommand } from 'jellycommands';
 
 export default userCommand({
-    name: 'Command Name',
-    
-    run: ({ interaction }) => {
-        // Do something with interaction
-    }
+	name: 'Command Name',
+
+	run: ({ interaction }) => {
+		// Do something with interaction
+	},
 });
 ```
 

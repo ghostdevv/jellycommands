@@ -2,9 +2,9 @@
 
 This covers components and how they're loaded in-depth. Check [here if you want an overview on components](/guide/overview.html#components), or click one of the guides below to learn about the different component types:
 
-- [Commands](/guide/commands/files)
-- [Events](/guide/events/files)
-- [Buttons](/guide/buttons/files)
+-   [Commands](/guide/commands/files)
+-   [Events](/guide/events/files)
+-   [Buttons](/guide/buttons/files)
 
 ## Loading Components
 
@@ -14,11 +14,11 @@ The recommended way is to load components is via the filesystem. You can pass as
 
 ```ts
 const client = new JellyCommands({
-    // Pass a single file/directory path
-    components: 'src/components',
+	// Pass a single file/directory path
+	components: 'src/components',
 
-    // or pass multiple
-    components: ['src/commands', 'src/events'],
+	// or pass multiple
+	components: ['src/commands', 'src/events'],
 });
 ```
 
@@ -33,7 +33,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const client = new JellyCommands({
-    components: join(__dirname, './src/components'),
+	components: join(__dirname, './src/components'),
 });
 ```
 
@@ -61,8 +61,8 @@ If you're using JavaScript or TypeScript then we already support that out of the
 
 ```ts
 const client = new JellyCommands({
-    fs: {
-        extensions: ['.js', '.ts'],
-    }
+	fs: {
+		extensions: ['.js', '.ts'],
+	},
 });
 ```

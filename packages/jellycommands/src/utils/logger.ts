@@ -1,30 +1,42 @@
 import type { JellyCommands } from '../JellyCommands';
 
 export interface Logger {
-    (...messages: any[]): void;
-    log: (...messages: any[]) => void;
-    debug: (...messages: any[]) => void;
-    error: (...errors: any[]) => void;
-    warn: (...errors: any[]) => void;
+	(...messages: any[]): void;
+	log: (...messages: any[]) => void;
+	debug: (...messages: any[]) => void;
+	error: (...errors: any[]) => void;
+	warn: (...errors: any[]) => void;
 }
 
 export function createLogger(client: JellyCommands): Logger {
-    const methods = {
-        log: (...messages: any[]) => {
-            console.log('\x1b[1m\x1b[35m[JellyCommands Log]\x1b[22m\x1b[39m', ...messages);
-        },
-        error: (...errors: any[]) => {
-            console.error('\x1b[1m\x1b[31m[JellyCommands Error]\x1b[22m\x1b[39m', ...errors);
-        },
-        warn: (...messages: any[]) => {
-            console.warn('\x1b[1m\x1b[33m[JellyCommands Debug]\x1b[22m\x1b[39m', ...messages);
-        },
-        debug: (...messages: any[]) => {
-            if (client.joptions.debug) {
-                console.debug('\x1b[1m\x1b[34m[JellyCommands Debug]\x1b[22m\x1b[39m', ...messages);
-            }
-        },
-    };
+	const methods = {
+		log: (...messages: any[]) => {
+			console.log(
+				'\x1b[1m\x1b[35m[JellyCommands Log]\x1b[22m\x1b[39m',
+				...messages,
+			);
+		},
+		error: (...errors: any[]) => {
+			console.error(
+				'\x1b[1m\x1b[31m[JellyCommands Error]\x1b[22m\x1b[39m',
+				...errors,
+			);
+		},
+		warn: (...messages: any[]) => {
+			console.warn(
+				'\x1b[1m\x1b[33m[JellyCommands Debug]\x1b[22m\x1b[39m',
+				...messages,
+			);
+		},
+		debug: (...messages: any[]) => {
+			if (client.joptions.debug) {
+				console.debug(
+					'\x1b[1m\x1b[34m[JellyCommands Debug]\x1b[22m\x1b[39m',
+					...messages,
+				);
+			}
+		},
+	};
 
-    return Object.assign(methods.log, methods);
+	return Object.assign(methods.log, methods);
 }

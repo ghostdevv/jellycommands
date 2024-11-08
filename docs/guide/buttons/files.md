@@ -6,12 +6,12 @@
 import { button } from 'jellycommands';
 
 export default button({
-    id: 'test',
+	id: 'test',
 
-    run: () => {
-        // Do something with button click
-    }
-})
+	run: () => {
+		// Do something with button click
+	},
+});
 ```
 
 [You can view a list of all the button options here](/api/buttons#options)
@@ -32,14 +32,14 @@ The simplest form is a plain string, for example you could have an id of `hello`
 import { button } from 'jellycommands';
 
 export default button({
-    id: 'hello',
+	id: 'hello',
 
-    run: async ({ interaction }) => {
-        await interaction.reply({
-            content: 'Hello there!'
-        })
-    }
-})
+	run: async ({ interaction }) => {
+		await interaction.reply({
+			content: 'Hello there!',
+		});
+	},
+});
 ```
 
 ### Regex & Function ids
@@ -50,27 +50,27 @@ If the id is not the same each time. As an example, say you have a button that s
 import { button } from 'jellycommands';
 
 export default button({
-    // a regex id
-    id: /fruit_([\w])+/,
+	// a regex id
+	id: /fruit_([\w])+/,
 
-    // a function id
-    id: (id) => {
-        return id.startsWith('fruit_');
-    },
+	// a function id
+	id: (id) => {
+		return id.startsWith('fruit_');
+	},
 
-    run: async ({ interaction }) => {
-        const fruit = interaction.customId.replace('fruit_', '');
+	run: async ({ interaction }) => {
+		const fruit = interaction.customId.replace('fruit_', '');
 
-        await interaction.reply({
-            content: `Your fruit is ${fruit}`
-        })
-    }
-})
+		await interaction.reply({
+			content: `Your fruit is ${fruit}`,
+		});
+	},
+});
 ```
 
 ## Button `run` handler
 
-When an `event` is invoked, the event's `run` function is called.  This is where your custom event logic lives.
+When an `event` is invoked, the event's `run` function is called. This is where your custom event logic lives.
 
 When a button is clicked, the `run` function is called. This is where your custom logic for the button lives.
 

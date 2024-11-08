@@ -21,6 +21,6 @@ Since we are using `ambient type declarations` you can't use top level `import` 
 
 ```ts
 interface Props {
-    test: import('./test').HelloWorld
+	test: import('./test').HelloWorld;
 }
 ```

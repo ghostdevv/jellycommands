@@ -35,9 +35,9 @@ import { JellyCommands } from 'jellycommands';
 import { IntentsBitField } from 'discord.js';
 
 const client = new JellyCommands({
-    clientOptions: {
-        intents: [IntentsBitField.Flags.Guilds],
-    },
+	clientOptions: {
+		intents: [IntentsBitField.Flags.Guilds],
+	},
 });
 ```
 
@@ -50,11 +50,11 @@ import { JellyCommands } from 'jellycommands';
 import { IntentsBitField } from 'discord.js';
 
 const client = new JellyCommands({
-    clientOptions: {
-        intents: [IntentsBitField.Flags.Guilds],
-    },
-    
-    components: ['src/components'],
+	clientOptions: {
+		intents: [IntentsBitField.Flags.Guilds],
+	},
+
+	components: ['src/components'],
 });
 
 client.login();
@@ -62,6 +62,6 @@ client.login();
 
 Components currently include:
 
-- [Commands](/guide/commands/files)
-- [Events](/guide/events/files)
-- [Buttons](/guide/buttons/files)
+-   [Commands](/guide/commands/files)
+-   [Events](/guide/events/files)
+-   [Buttons](/guide/buttons/files)

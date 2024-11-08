@@ -1,43 +1,43 @@
 {
-    "name": "jellycommands-monorepo",
-    "private": true,
-    "license": "MIT",
-    "devDependencies": {
-        "@changesets/cli": "^2.27.1",
-        "@svitejs/changesets-changelog-github-compact": "^1.1.0",
-        "prettier": "^3.2.5",
-        "vitepress": "1.1.4"
-    },
-    "scripts": {
-        "dev": "pnpm --parallel -r dev",
-        "dev-build": "pnpm --parallel -r build --watch",
-        "dev-dev": "pnpm --filter dev -r dev",
-        "build": "pnpm -r build",
-        "package": "pnpm -r package",
-        "release": "changeset publish",
-        "lint": "pnpm -r lint",
-        "fix": "pnpm prettier --write .",
-        "test": "pnpm -r test",
-        "docs:dev": "vitepress dev docs",
-        "docs:build": "vitepress build docs",
-        "test-create": "node packages/create-jellycommands/src/bin.js"
-    },
-    "packageManager": "pnpm@9.12.3",
-    "engines": {
-        "pnpm": "^9.12.3",
-        "npm": "forbidden, use pnpm",
-        "node": ">=20.13.1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ghostdevv/jellycommands.git"
-    },
-    "bugs": {
-        "url": "https://github.com/ghostdevv/jellycommands/issues"
-    },
-    "homepage": "https://github.com/ghostdevv/jellycommands#readme",
-    "volta": {
-        "node": "20.13.1",
-        "pnpm": "9.12.3"
-    }
+	"name": "jellycommands-monorepo",
+	"private": true,
+	"license": "MIT",
+	"devDependencies": {
+		"@changesets/cli": "^2.27.1",
+		"@svitejs/changesets-changelog-github-compact": "^1.1.0",
+		"prettier": "^3.2.5",
+		"vitepress": "1.1.4"
+	},
+	"scripts": {
+		"dev": "pnpm --parallel -r dev",
+		"dev-build": "pnpm --parallel -r build --watch",
+		"dev-dev": "pnpm --filter dev -r dev",
+		"build": "pnpm -r build",
+		"package": "pnpm -r package",
+		"release": "changeset publish",
+		"lint": "pnpm -r lint",
+		"fix": "pnpm prettier --write .",
+		"test": "pnpm -r test",
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"test-create": "node packages/create-jellycommands/src/bin.js"
+	},
+	"packageManager": "pnpm@9.12.3",
+	"engines": {
+		"pnpm": "^9.12.3",
+		"npm": "forbidden, use pnpm",
+		"node": ">=20.13.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ghostdevv/jellycommands.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ghostdevv/jellycommands/issues"
+	},
+	"homepage": "https://github.com/ghostdevv/jellycommands#readme",
+	"volta": {
+		"node": "20.13.1",
+		"pnpm": "9.12.3"
+	}
 }

@@ -1,23 +1,23 @@
 {
-    "compilerOptions": {
-        "target": "es2022",
-        "module": "esnext",
-        "lib": ["es2023"],
-        "moduleResolution": "Bundler",
+	"compilerOptions": {
+		"target": "es2022",
+		"module": "esnext",
+		"lib": ["es2023"],
+		"moduleResolution": "Bundler",
 
-        "strict": true,
-        "strictNullChecks": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noImplicitAny": true,
-        "esModuleInterop": true,
-        "exactOptionalPropertyTypes": false,
-        "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true,
-        "noEmit": true,
-        "declaration": false,
-        "verbatimModuleSyntax": true
-    },
-    "include": ["src/**/*.ts", "ambient.d.ts", "tests/**/*.ts"],
-    "exclude": ["node_modules/**", "dist/**"]
+		"strict": true,
+		"strictNullChecks": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"esModuleInterop": true,
+		"exactOptionalPropertyTypes": false,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"declaration": false,
+		"verbatimModuleSyntax": true
+	},
+	"include": ["src/**/*.ts", "ambient.d.ts", "tests/**/*.ts"],
+	"exclude": ["node_modules/**", "dist/**"]
 }

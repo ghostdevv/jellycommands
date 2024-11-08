@@ -51,19 +51,19 @@ If you are using TypeScript you should have a `tsconfig.json` in your project, s
 
 ```json
 {
-    "compilerOptions": {
-        "lib": ["ESNext"],
-        "module": "ESNext",
-        "target": "ESNext",
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "strict": true,
-        "checkJs": true,
-        "allowJs": true
-    },
-    "include": ["./src/**/*.js", "./src/**/*.ts"]
+	"compilerOptions": {
+		"lib": ["ESNext"],
+		"module": "ESNext",
+		"target": "ESNext",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"strict": true,
+		"checkJs": true,
+		"allowJs": true
+	},
+	"include": ["./src/**/*.js", "./src/**/*.ts"]
 }
 ```
 

@@ -10,12 +10,12 @@ When a command is registered globally, all guilds have access to it. You can ena
 import { command } from 'jellycommands';
 
 export default command({
-    global: true,
-})
+	global: true,
+});
 ```
 
 :::tip NOTE
-Global commands take up to an hour to take effect. When developing this is cumbersome, [dev mode fixes that](/guide/commands/dev). 
+Global commands take up to an hour to take effect. When developing this is cumbersome, [dev mode fixes that](/guide/commands/dev).
 :::
 
 ## Guilds
@@ -26,9 +26,9 @@ You can also a register a command per guild, using the [`guilds`](/api/commands#
 import { command } from 'jellycommands';
 
 export default command({
-    // This command will register in both of these guilds
-    guilds: ['663140687591768074', '755788441161302136'],
-})
+	// This command will register in both of these guilds
+	guilds: ['663140687591768074', '755788441161302136'],
+});
 ```
 
 ## Combined
@@ -39,12 +39,12 @@ You can combine the `guilds` and `global` option freely! Though this may have so
 import { command } from 'jellycommands';
 
 export default command({
-    // This command will register in both of these guilds
-    guilds: ['663140687591768074', '755788441161302136'],
+	// This command will register in both of these guilds
+	guilds: ['663140687591768074', '755788441161302136'],
 
-    // It will also register globally
-    global: true
-})
+	// It will also register globally
+	global: true,
+});
 ```
 
 :::tip NOTE

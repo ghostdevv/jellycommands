@@ -1,11 +1,11 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "$mock": ["./mock.ts"],
-            "$src/*": ["../src/*"],
-            "$src": ["../src"]
-        }
-    }
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"$mock": ["./mock.ts"],
+			"$src/*": ["../src/*"],
+			"$src": ["../src"]
+		}
+	}
 }

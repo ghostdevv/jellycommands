@@ -8,94 +8,104 @@ import type { CommandCallback } from '../BaseCommand';
 import { ApplicationCommand } from 'discord.js';
 import { BaseCommand } from '../BaseCommand';
 import {
-    type AutocompleteInteraction,
-    type ApplicationCommandOption,
-    type ApplicationCommandOptionData,
-    type ChatInputCommandInteraction,
-    ApplicationCommandOptionType,
+	type AutocompleteInteraction,
+	type ApplicationCommandOption,
+	type ApplicationCommandOptionData,
+	type ChatInputCommandInteraction,
+	ApplicationCommandOptionType,
 } from 'discord.js';
 
 export type AutocompleteHandler = (options: {
-    interaction: AutocompleteInteraction;
-    client: JellyCommands;
+	interaction: AutocompleteInteraction;
+	client: JellyCommands;
 }) => MaybePromise<any | void>;
 
-export class Command extends BaseCommand<CommandOptions, ChatInputCommandInteraction> {
-    public readonly type = ApplicationCommandType.ChatInput;
+export class Command extends BaseCommand<
+	CommandOptions,
+	ChatInputCommandInteraction
+> {
+	public readonly type = ApplicationCommandType.ChatInput;
 
-    public readonly autocomplete?: AutocompleteHandler;
+	public readonly autocomplete?: AutocompleteHandler;
 
-    constructor({
-        run,
-        options,
-        autocomplete,
-    }: {
-        run: CommandCallback<ChatInputCommandInteraction>;
-        options: CommandOptions;
-        autocomplete?: AutocompleteHandler;
-    }) {
-        super({ run, options, schema: commandSchema });
+	constructor({
+		run,
+		options,
+		autocomplete,
+	}: {
+		run: CommandCallback<ChatInputCommandInteraction>;
+		options: CommandOptions;
+		autocomplete?: AutocompleteHandler;
+	}) {
+		super({ run, options, schema: commandSchema });
 
-        if (autocomplete && typeof autocomplete !== 'function') {
-            throw new TypeError('Autocomplete handler must be a function');
-        }
+		if (autocomplete && typeof autocomplete !== 'function') {
+			throw new TypeError('Autocomplete handler must be a function');
+		}
 
-        this.autocomplete = autocomplete;
-    }
+		this.autocomplete = autocomplete;
+	}
 
-    static transformOptionType(
-        option: JellyApplicationCommandOption,
-    ): ApplicationCommandOptionData {
-        const type =
-            typeof option.type == 'string'
-                ? ApplicationCommandOptionType[option.type]
-                : option.type;
+	static transformOptionType(
+		option: JellyApplicationCommandOption,
+	): ApplicationCommandOptionData {
+		const type =
+			typeof option.type == 'string'
+				? ApplicationCommandOptionType[option.type]
+				: option.type;
 
-        if (!type)
-            throw new Error(
-                `Unable to find Slash Command Option type "${option.type}", see https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationCommandOptionType`,
-            );
+		if (!type)
+			throw new Error(
+				`Unable to find Slash Command Option type "${option.type}", see https://discord-api-types.dev/api/discord-api-types-v10/enum/ApplicationCommandOptionType`,
+			);
 
-        let options: ApplicationCommandOptionData[] | undefined;
+		let options: ApplicationCommandOptionData[] | undefined;
 
-        if ('options' in option && Array.isArray(option.options)) {
-            options = option.options?.map((o) => Command.transformOptionType(o));
-        }
+		if ('options' in option && Array.isArray(option.options)) {
+			options = option.options?.map((o) =>
+				Command.transformOptionType(o),
+			);
+		}
 
-        // @ts-expect-error type mismatch
-        return { ...option, options, type } as ApplicationCommandOption;
-    }
+		// @ts-expect-error type mismatch
+		return { ...option, options, type } as ApplicationCommandOption;
+	}
 
-    static transformOption(option: JellyApplicationCommandOption): APIApplicationCommandOption {
-        const patched = Command.transformOptionType(option);
+	static transformOption(
+		option: JellyApplicationCommandOption,
+	): APIApplicationCommandOption {
+		const patched = Command.transformOptionType(option);
 
-        const transform = ApplicationCommand['transformOption'].bind(ApplicationCommand);
-        return transform(patched, false) as APIApplicationCommandOption;
-    }
+		const transform =
+			ApplicationCommand['transformOption'].bind(ApplicationCommand);
+		return transform(patched, false) as APIApplicationCommandOption;
+	}
 
-    get applicationCommandData() {
-        const options = this.options.options?.map((o) => Command.transformOption(o));
+	get applicationCommandData() {
+		const options = this.options.options?.map((o) =>
+			Command.transformOption(o),
+		);
 
-        return {
-            ...super.applicationCommandData,
-            description: this.options.description,
-            description_localizations: this.options.descriptionLocalizations,
-            options,
-        };
-    }
+		return {
+			...super.applicationCommandData,
+			description: this.options.description,
+			description_localizations: this.options.descriptionLocalizations,
+			options,
+		};
+	}
 }
 
 export const command = (
-    options: CommandOptions & {
-        run: CommandCallback<ChatInputCommandInteraction>;
-        autocomplete?: AutocompleteHandler;
-    },
+	options: CommandOptions & {
+		run: CommandCallback<ChatInputCommandInteraction>;
+		autocomplete?: AutocompleteHandler;
+	},
 ) => {
-    const { run, autocomplete, ...rest } = options;
+	const { run, autocomplete, ...rest } = options;
 
-    return new Command({
-        run,
-        autocomplete,
-        options: rest,
-    });
+	return new Command({
+		run,
+		autocomplete,
+		options: rest,
+	});
 };

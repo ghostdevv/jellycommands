@@ -2,8 +2,8 @@
 
 ## Loading
 
-- API: [/api/client#events](/api/client#events)
-- Guide: [/guide/events](/guide/events/files) 
+-   API: [/api/client#events](/api/client#events)
+-   Guide: [/guide/events](/guide/events/files)
 
 ## Event File
 
@@ -13,11 +13,11 @@ A event file uses the `event` helper function and exports it. For example:
 import { event } from 'jellycommands';
 
 export default event({
-    name: 'ready',
+	name: 'ready',
 
-    run: () => {
-        console.log('Online');
-    },
+	run: () => {
+		console.log('Online');
+	},
 });
 ```
 
@@ -25,19 +25,19 @@ export default event({
 
 ### name
 
-- Type: [`Event`](https://discord.js.org/#/docs/main/stable/class/Client)
+-   Type: [`Event`](https://discord.js.org/#/docs/main/stable/class/Client)
 
 This is the name of an event, for example `ready` or `messageCreate`
 
 ### once
 
-- Type: `boolean`
+-   Type: `boolean`
 
 When true this event handler will only be ran once
 
 ### disabled
 
-- Type: `boolean`
+-   Type: `boolean`
 
 When true JellyCommands will ignore this command.
 

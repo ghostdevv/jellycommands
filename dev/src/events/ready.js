@@ -1,11 +1,11 @@
 import { event } from 'jellycommands';
 
 export default event({
-    name: 'ready',
+	name: 'ready',
 
-    once: true,
+	once: true,
 
-    run: () => {
-        console.log('Online');
-    },
+	run: () => {
+		console.log('Online');
+	},
 });

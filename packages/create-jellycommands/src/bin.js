@@ -6,6 +6,6 @@ import { run } from './index.js';
 run();
 
 try {
-    const pkg = await readFile('../package.json', 'utf-8');
-    updateNotifier({ pkg: JSON.parse(pkg) }).notify();
+	const pkg = await readFile('../package.json', 'utf-8');
+	updateNotifier({ pkg: JSON.parse(pkg) }).notify();
 } catch {}

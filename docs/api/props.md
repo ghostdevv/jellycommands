@@ -10,10 +10,10 @@ You can set props using the [`props`](/api/client#props) property on the `JellyC
 import { JellyCommands } from 'jellycommands';
 
 const client = new JellyCommands({
-    props: {
-        propOne: 'something'
-    }
-})
+	props: {
+		propOne: 'something',
+	},
+});
 ```
 
 ### Set/Modify dynamically
@@ -35,6 +35,6 @@ You can use the `Props` interface from JellyCommand's ambient types. If you use 
 
 // See https://jellycommands.dev/guide/props
 interface Props {
-    propOne: string;
+	propOne: string;
 }
 ```

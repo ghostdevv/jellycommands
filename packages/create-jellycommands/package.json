@@ -1,44 +1,44 @@
 {
-    "name": "create-jellycommands",
-    "description": "Get started quickly with jellycommands by running npm create jellycommands",
-    "version": "0.1.0-next.16",
-    "type": "module",
-    "bin": {
-        "create-jellycommands": "src/bin.js"
-    },
-    "scripts": {
-        "lint": "publint"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ghostdevv/jellycommands.git"
-    },
-    "bugs": {
-        "url": "https://github.com/ghostdevv/jellycommands/issues"
-    },
-    "homepage": "https://github.com/ghostdevv/jellycommands#readme",
-    "devDependencies": {
-        "@types/node": "^20.12.11",
-        "publint": "^0.2.7"
-    },
-    "dependencies": {
-        "@clack/prompts": "^0.7.0",
-        "cpy": "^11.0.1",
-        "desm": "^1.3.1",
-        "kleur": "^4.1.5",
-        "minimist": "^1.2.8",
-        "update-notifier": "^7.0.0"
-    },
-    "keywords": [
-        "jellycommands",
-        "create",
-        "create jellycommands",
-        "npm create jellycommands"
-    ],
-    "volta": {
-        "node": "20.13.1"
-    },
-    "engines": {
-        "node": ">=20.13.1"
-    }
+	"name": "create-jellycommands",
+	"description": "Get started quickly with jellycommands by running npm create jellycommands",
+	"version": "0.1.0-next.16",
+	"type": "module",
+	"bin": {
+		"create-jellycommands": "src/bin.js"
+	},
+	"scripts": {
+		"lint": "publint"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ghostdevv/jellycommands.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ghostdevv/jellycommands/issues"
+	},
+	"homepage": "https://github.com/ghostdevv/jellycommands#readme",
+	"devDependencies": {
+		"@types/node": "^20.12.11",
+		"publint": "^0.2.7"
+	},
+	"dependencies": {
+		"@clack/prompts": "^0.7.0",
+		"cpy": "^11.0.1",
+		"desm": "^1.3.1",
+		"kleur": "^4.1.5",
+		"minimist": "^1.2.8",
+		"update-notifier": "^7.0.0"
+	},
+	"keywords": [
+		"jellycommands",
+		"create",
+		"create jellycommands",
+		"npm create jellycommands"
+	],
+	"volta": {
+		"node": "20.13.1"
+	},
+	"engines": {
+		"node": ">=20.13.1"
+	}
 }

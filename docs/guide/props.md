@@ -3,7 +3,7 @@
 `Props` are used to pass data around your project. They are typesafe and easily accessible anywhere in your project.
 
 :::tip NOTE
-This page will focus on use cases.  For a detailed explaination of the `props api`, [see the API page on it](/api/props).
+This page will focus on use cases. For a detailed explaination of the `props api`, [see the API page on it](/api/props).
 :::
 
 ## Setting Props
@@ -17,10 +17,10 @@ import knex from 'knex';
 const db = knex();
 
 const client = new JellyCommands({
-    props: {
-        db
-    }
-})
+	props: {
+		db,
+	},
+});
 ```
 
 We should also update our `src/app.d.ts` with the correct type, so that when we use our prop we have intellisense.
@@ -30,7 +30,7 @@ We should also update our `src/app.d.ts` with the correct type, so that when we 
 
 // See https://jellycommands.dev/guide/props
 interface Props {
-    db: import('knex').Knex
+	db: import('knex').Knex;
 }
 ```
 
@@ -44,17 +44,17 @@ To access our database in a `command`, for example, we can use the `props api`:
 import { command } from 'jellycommands';
 
 export default command({
-    name: 'proptest',
-    description: 'A command for testing props',
-    
-    run: ({ interaction, client, props }) => {
-        // It will be correctly typed as Knex!
-        const db = props.db
+	name: 'proptest',
+	description: 'A command for testing props',
 
-        // You could also access it from the client
-        const db = client.props.db
+	run: ({ interaction, client, props }) => {
+		// It will be correctly typed as Knex!
+		const db = props.db;
 
-        // We can now use our knex db
-    }
-})
+		// You could also access it from the client
+		const db = client.props.db;
+
+		// We can now use our knex db
+	},
+});
 ```

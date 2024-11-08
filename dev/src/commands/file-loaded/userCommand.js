@@ -1,13 +1,13 @@
 import { userCommand } from 'jellycommands';
 
 export default userCommand({
-    name: 'Hello World',
+	name: 'Hello World',
 
-    global: true,
+	global: true,
 
-    dev: true,
+	dev: true,
 
-    run: ({ interaction }) => {
-        interaction.reply({ content: `Hello ${interaction.user.tag}` });
-    },
+	run: ({ interaction }) => {
+		interaction.reply({ content: `Hello ${interaction.user.tag}` });
+	},
 });

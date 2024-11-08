@@ -2,8 +2,8 @@
 
 ## Loading
 
-- API: [/api/client#buttons](/api/client#buttons)
-- Guide: [/guide/buttons](/guide/buttons/files) 
+-   API: [/api/client#buttons](/api/client#buttons)
+-   Guide: [/guide/buttons](/guide/buttons/files)
 
 ## Button File
 
@@ -13,41 +13,41 @@ A button file uses the `button` helper function and exports it. For example:
 import { button } from 'jellycommands';
 
 export default button({
-    id: 'hello',
+	id: 'hello',
 
-    run: async ({ interaction }) => {
-        await interaction.reply({
-            content: 'Hello there!'
-        })
-    }
-})
+	run: async ({ interaction }) => {
+		await interaction.reply({
+			content: 'Hello there!',
+		});
+	},
+});
 ```
 
 ## Options
 
 ### id
 
-- Type: `string | RegExp | Awaitable<() => boolean>`
+-   Type: `string | RegExp | Awaitable<() => boolean>`
 
 The `customId` of the button, or a regex/function to match the id to.
 
 ### run
 
-- Type: `Function`
-- Guide: [/guide/buttons/files#run-function](/guide/buttons/files#run-function)
-- Required
+-   Type: `Function`
+-   Guide: [/guide/buttons/files#run-function](/guide/buttons/files#run-function)
+-   Required
 
 The main handler for the button
 
 ### defer
 
-- Type: `boolean | InteractionDeferReplyOptions`
+-   Type: `boolean | InteractionDeferReplyOptions`
 
 Should the interaction be defered
 
 ### disabled
 
-- Type: `boolean`
+-   Type: `boolean`
 
 When true JellyCommands will ignore this button.
 

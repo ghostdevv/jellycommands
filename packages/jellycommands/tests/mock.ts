@@ -11,23 +11,23 @@ export const encodedClientId = Buffer.from(rawClientId).toString('base64');
 export const mockToken = `${encodedClientId}.${encodedToken}`;
 
 export function mockClient() {
-    const client = new Client({ intents: [] });
+	const client = new Client({ intents: [] });
 
-    client.token = mockToken;
-    // @ts-expect-error missing properties
-    client.user = { id: rawClientId };
+	client.token = mockToken;
+	// @ts-expect-error missing properties
+	client.user = { id: rawClientId };
 
-    return client;
+	return client;
 }
 
 export function mockJellyClient() {
-    const client = new JellyCommands({
-        clientOptions: { intents: [] },
-    });
+	const client = new JellyCommands({
+		clientOptions: { intents: [] },
+	});
 
-    client.token = encodedToken;
-    // @ts-expect-error missing properties
-    client.user = { id: rawClientId };
+	client.token = encodedToken;
+	// @ts-expect-error missing properties
+	client.user = { id: rawClientId };
 
-    return client;
+	return client;
 }

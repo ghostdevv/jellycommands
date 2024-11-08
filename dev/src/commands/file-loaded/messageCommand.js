@@ -1,13 +1,13 @@
 import { messageCommand } from 'jellycommands';
 
 export default messageCommand({
-    name: 'test',
+	name: 'test',
 
-    global: true,
+	global: true,
 
-    dev: true,
+	dev: true,
 
-    run: ({ interaction }) => {
-        interaction.reply({ content: 'Hello World :o' });
-    },
+	run: ({ interaction }) => {
+		interaction.reply({ content: 'Hello World :o' });
+	},
 });

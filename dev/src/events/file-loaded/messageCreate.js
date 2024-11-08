@@ -1,11 +1,11 @@
 import { event } from 'jellycommands';
 
 export default event({
-    name: 'messageCreate',
+	name: 'messageCreate',
 
-    once: false,
+	once: false,
 
-    run: () => {
-        console.log('10-4');
-    },
+	run: () => {
+		console.log('10-4');
+	},
 });
