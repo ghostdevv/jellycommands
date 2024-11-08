@@ -18,7 +18,7 @@ import {
 export type AutocompleteHandler = (options: {
 	interaction: AutocompleteInteraction;
 	client: JellyCommands;
-}) => MaybePromise<any | void>;
+}) => MaybePromise<any>;
 
 export class Command extends BaseCommand<
 	CommandOptions,
@@ -50,7 +50,7 @@ export class Command extends BaseCommand<
 		option: JellyApplicationCommandOption,
 	): ApplicationCommandOptionData {
 		const type =
-			typeof option.type == 'string'
+			typeof option.type === 'string'
 				? ApplicationCommandOptionType[option.type]
 				: option.type;
 
@@ -77,7 +77,7 @@ export class Command extends BaseCommand<
 		const patched = Command.transformOptionType(option);
 
 		const transform =
-			ApplicationCommand['transformOption'].bind(ApplicationCommand);
+			ApplicationCommand.transformOption.bind(ApplicationCommand);
 		return transform(patched, false) as APIApplicationCommandOption;
 	}
 

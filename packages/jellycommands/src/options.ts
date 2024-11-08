@@ -47,7 +47,7 @@ export const jellyCommandsOptionsSchema = z.object({
 		})
 		.default({}),
 	cache: z.boolean().default(true),
-	debug: z.boolean().default(() => !!process.env['DEBUG']),
+	debug: z.boolean().default(() => !!process.env.DEBUG),
 	fs: z
 		.object({
 			extensions: z.string().array().default(['.js', '.ts']),

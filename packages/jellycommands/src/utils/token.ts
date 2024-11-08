@@ -2,7 +2,7 @@ import { isSnowflake } from './snowflake';
 import type { Client } from 'discord.js';
 
 export function cleanToken(token?: string): string | null {
-	return typeof token == 'string'
+	return typeof token === 'string'
 		? token.replace(/^(Bot|Bearer)\s*/i, '')
 		: null;
 }

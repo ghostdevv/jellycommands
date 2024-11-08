@@ -20,6 +20,7 @@ interface File {
  * start with `_`.
  */
 async function read(client: JellyCommands, path: string): Promise<File[]> {
+	// biome-ignore lint/style/noNonNullAssertion: has default value elsewhere
 	const extensions = client.joptions.fs!.extensions!;
 	const exists = existsSync(path);
 
@@ -99,7 +100,7 @@ export async function loadComponents(
 	}
 
 	for (const pathOrComponent of inputArray) {
-		if (typeof pathOrComponent != 'string') {
+		if (typeof pathOrComponent !== 'string') {
 			if (isComponent(pathOrComponent)) {
 				await addComponent(pathOrComponent);
 			} else {
@@ -114,7 +115,7 @@ export async function loadComponents(
 
 		const files = await read(client, resolve(pathOrComponent));
 
-		if (files.length == 0) {
+		if (files.length === 0) {
 			client.log.warn(
 				'Found no components at a given path:',
 				pathOrComponent,

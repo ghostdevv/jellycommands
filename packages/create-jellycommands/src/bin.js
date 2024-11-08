@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import updateNotifier from 'update-notifier';
-import { readFile } from 'fs/promises';
+import { readFile } from 'node:fs/promises';
 import { run } from './index.js';
 
 run();

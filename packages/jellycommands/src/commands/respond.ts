@@ -50,7 +50,7 @@ export async function respond(data: CommandReponseData): Promise<void> {
 	// If defer, defer
 	if (options.defer) {
 		await interaction.deferReply(
-			typeof options.defer == 'object' ? options.defer : {},
+			typeof options.defer === 'object' ? options.defer : {},
 		);
 	}
 

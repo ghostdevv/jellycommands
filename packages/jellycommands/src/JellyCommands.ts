@@ -91,7 +91,7 @@ export class JellyCommands extends Client {
 				}
 
 				const contextStr =
-					typeof context.response?._data == 'object'
+					typeof context.response?._data === 'object'
 						? `:\n${JSON.stringify(context.response._data, null, 2)}\n`
 						: ' NO CONTEXT RETURNED';
 

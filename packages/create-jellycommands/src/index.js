@@ -1,5 +1,5 @@
-import { existsSync, readdirSync } from 'fs';
-import { resolve, basename } from 'path';
+import { existsSync, readdirSync } from 'node:fs';
+import { resolve, basename } from 'node:path';
 import minimist from 'minimist';
 import { join } from 'desm';
 import kleur from 'kleur';

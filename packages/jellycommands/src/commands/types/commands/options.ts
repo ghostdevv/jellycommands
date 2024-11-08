@@ -30,7 +30,7 @@ export const commandSchema = baseCommandSchema.extend({
 			'Slash command name must be all lowercase, alphanumeric, and at most 32 chars long',
 		)
 		.refine(
-			(name) => name.toLocaleLowerCase() == name,
+			(name) => name.toLocaleLowerCase() === name,
 			'Name must use lowercase chars where possible',
 		),
 

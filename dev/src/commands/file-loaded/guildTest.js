@@ -4,7 +4,7 @@ export default command({
 	name: 'guildtest',
 	description: 'A testing command bound to guild not global',
 
-	guilds: [process.env['TEST_GUILD']],
+	guilds: [process.env.TEST_GUILD],
 
 	dev: true,
 

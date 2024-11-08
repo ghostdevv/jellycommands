@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { join, resolve } from 'path';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 
 export class Cache {
 	public readonly name;
@@ -11,7 +11,7 @@ export class Cache {
 		this.name = name;
 		this.cacheDirectory = resolve('.jellycommands');
 
-		this.cacheFile = join(this.cacheDirectory, this.name + '.json');
+		this.cacheFile = join(this.cacheDirectory, `${this.name}.json`);
 
 		// If the cache directory doesn't exist, create it
 		if (!existsSync(this.cacheDirectory)) mkdirSync(this.cacheDirectory);

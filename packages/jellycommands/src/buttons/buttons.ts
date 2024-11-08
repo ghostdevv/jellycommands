@@ -10,7 +10,7 @@ export type ButtonCallback = (context: {
 	client: JellyCommands;
 	props: Props;
 	interaction: ButtonInteraction;
-}) => MaybePromise<void | any>;
+}) => MaybePromise<any>;
 
 export class Button extends Component<ButtonOptions> {
 	public readonly options: ButtonOptions;

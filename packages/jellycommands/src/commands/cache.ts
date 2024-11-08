@@ -71,7 +71,7 @@ export class CommandCache {
 		const newIds = this.getHashIds(commands);
 
 		// If the lengths aren't the same then they can't possibly be equal
-		if (newIds.length != ids.length) return false;
+		if (newIds.length !== ids.length) return false;
 
 		// If a id in newIds doesn't exist in the cache then exit
 		for (const id of newIds) {

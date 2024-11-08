@@ -4,7 +4,7 @@ import { IntentsBitField } from 'discord.js';
 import ready from './events/ready.js';
 import pog from './commands/pog.js';
 
-const testGuild = process.env['TEST_GUILD'];
+const testGuild = process.env.TEST_GUILD;
 
 if (typeof testGuild !== 'string') {
 	throw new Error('Please add TEST_GUILD env variable');

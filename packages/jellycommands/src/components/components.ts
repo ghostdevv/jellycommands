@@ -32,7 +32,6 @@ export abstract class Component<
 	 * @param id Machine readable identifier for the component. Changing this is a breaking change.
 	 * @param name A human readable name of the component. Changing this is not considered breaking.
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	constructor(id: string, _name: string) {
 		this[COMPONENT_SYMBOL] = id;
 		// todo
@@ -49,5 +48,5 @@ export abstract class Component<
  * @param thing "Thing" to check.
  */
 export function isComponent(thing: any): thing is Component {
-	return thing && typeof thing == 'object' && COMPONENT_SYMBOL in thing;
+	return thing && typeof thing === 'object' && COMPONENT_SYMBOL in thing;
 }

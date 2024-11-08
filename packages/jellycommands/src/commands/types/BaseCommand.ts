@@ -13,7 +13,7 @@ import { Component } from '../../components/components';
 import { PermissionsBitField } from 'discord.js';
 import { COMMAND_COMPONENT_ID } from '../plugin';
 import { parseSchema } from '../../utils/zod';
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 
 type AnyCommandInteraction = CommandInteraction | ContextMenuCommandInteraction;
 
@@ -25,7 +25,7 @@ export interface RunOptions<InteractionType extends AnyCommandInteraction> {
 
 export type CommandCallback<InteractionType extends AnyCommandInteraction> = (
 	options: RunOptions<InteractionType>,
-) => MaybePromise<void | any>;
+) => MaybePromise<any>;
 
 export abstract class BaseCommand<
 	OptionsType extends BaseOptions = BaseOptions,
@@ -47,7 +47,7 @@ export abstract class BaseCommand<
 	}) {
 		super(COMMAND_COMPONENT_ID, 'todo');
 
-		if (!run || typeof run != 'function')
+		if (!run || typeof run !== 'function')
 			throw new TypeError(
 				`Expected type function for run, received ${typeof run}`,
 			);

@@ -13,7 +13,7 @@ async function findButton(
 
 		switch (typeof id) {
 			case 'string':
-				if (id == incomingId) return button;
+				if (id === incomingId) return button;
 				break;
 
 			case 'function':
@@ -43,7 +43,7 @@ export const buttonsPlugin = defineComponentPlugin<Button>(
 					if (button) {
 						if (button.options.defer) {
 							await interaction.deferReply(
-								typeof button.options.defer == 'object'
+								typeof button.options.defer === 'object'
 									? button.options.defer
 									: {},
 							);
