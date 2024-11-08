@@ -31,9 +31,19 @@ export abstract class BaseCommand<
 	OptionsType extends BaseOptions = BaseOptions,
 	InteractionType extends AnyCommandInteraction = AnyCommandInteraction,
 > extends Component<OptionsType> {
+	/**
+	 * The options you pass to when creating this command.
+	 */
 	public readonly options: OptionsType;
+
+	/**
+	 * The callback function to call when your command is executed.
+	 */
 	public readonly run: CommandCallback<InteractionType>;
 
+	/**
+	 * The command type for API purposes.
+	 */
 	public abstract readonly type: ApplicationCommandType;
 
 	constructor({
@@ -75,6 +85,9 @@ export abstract class BaseCommand<
 		}
 	}
 
+	/**
+	 * This is for internal use and is subject to change.
+	 */
 	get applicationCommandData(): RESTPostAPIApplicationCommandsJSONBody {
 		return {
 			name: this.options.name,
@@ -86,6 +99,9 @@ export abstract class BaseCommand<
 		};
 	}
 
+	/**
+	 * This is for internal use and is subject to change.
+	 */
 	get applicationCommandPermissions(): string | null {
 		if (this.options.guards?.permissions) {
 			const { bitfield } = new PermissionsBitField(
@@ -97,6 +113,9 @@ export abstract class BaseCommand<
 		return null;
 	}
 
+	/**
+	 * This is for internal use and is subject to change.
+	 */
 	get hashId() {
 		return createHash('sha256')
 			.update(JSON.stringify(this.applicationCommandData))

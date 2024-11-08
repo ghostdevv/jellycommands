@@ -6,14 +6,28 @@ import { EVENTS_COMPONENT_ID } from './plugin';
 import type { ClientEvents } from 'discord.js';
 import { parseSchema } from '../../utils/zod';
 
+/**
+ * The Discord event name
+ * @see https://discord.js.org/docs/packages/discord.js/14.16.3/ClientEvents:Interface
+ */
 export type EventName = keyof ClientEvents | (string & {});
 
+/**
+ * This callback will be run when your event is fired.
+ * It takes in a base JellyCommands context as it's first param,
+ * followed by all the arguments your event provides.
+ *
+ * @see https://jellycommands.dev/guide/events/files/
+ */
 export type EventCallback<E extends EventName> = (
 	ctx: { client: JellyCommands; props: Props },
 	...args: E extends keyof ClientEvents ? ClientEvents[E] : any[]
 ) => MaybePromise<any>;
 
 export class Event<T extends EventName = EventName> extends Component {
+	/**
+	 * The options you pass to when creating this event.
+	 */
 	public readonly options: Required<EventOptions<T>>;
 
 	constructor(
@@ -38,13 +52,30 @@ export class Event<T extends EventName = EventName> extends Component {
 		);
 	}
 
+	/**
+	 * Type narrowing utility to check whether something is an event.
+	 * @param item The thing to check
+	 */
 	static is(item: any): item is Event {
 		return isComponent(item) && item.id === EVENTS_COMPONENT_ID;
 	}
 }
 
+/**
+ * This creates an event component for your bot. Events can be used
+ * to respond to actions such as a new user joining a guild.
+ *
+ * @see https://jellycommands.dev/guide/events/files/
+ */
 export const event = <K extends EventName>(
 	options: EventOptions<K> & {
+		/**
+		 * This callback will be run when your event is fired.
+		 * It takes in a base JellyCommands context as it's first param,
+		 * followed by all the arguments your event provides.
+		 *
+		 * @see https://jellycommands.dev/guide/events/files/
+		 */
 		run: EventCallback<K>;
 	},
 ) => {
