@@ -1,0 +1,38 @@
+---
+title: JellyCommands
+description: Jellycommands is a developer experience focused command framework for discord.js. It has support for all types of application commands, including slash commands and conlabel menus. It also includes quality of life features such as caching and developer mode.
+template: splash
+editUrl: false
+lastUpdated: false
+hero:
+    tagline: Make better discord bots. A command framework for discord.js with a focus on developer experience.
+    image:
+        file: $assets/logo.svg
+    actions:
+        - text: Get Started
+          link: /guide/overview
+          icon: right-arrow
+          variant: primary
+---
+
+import { CardGrid, Card } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+	<Card title="Fully Typed" icon="seti:lock">
+		Everything is fully typed whether you are using TypeScript or JavaScript
+	</Card>
+	<Card title="Powerful Config" icon="seti:config">
+		Consume everything you need in a powerful but simple Config
+	</Card>
+	<Card title="Discord.js" icon="heart">
+		Powered by the most popular Discord library
+	</Card>
+	<Card title="Cache" icon="document">
+		Smart caching in developer mode so you can iterate without hitting
+		ratelimits
+	</Card>
+	<Card title="Quickstart" icon="rocket">
+		A simple CLI to quickstart your app, with optional TypeScript and auto
+		restarts out of the box
+	</Card>
+</CardGrid>
