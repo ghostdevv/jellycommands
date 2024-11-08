@@ -25,6 +25,7 @@ export default defineConfig({
 					'https://github.com/ghostdevv/jellycommands/edit/main/packages/docs/',
 			},
 			lastUpdated: true,
+			plugins: [starlightLinksValidator()],
 			sidebar: [
 				{
 					label: 'Guide',

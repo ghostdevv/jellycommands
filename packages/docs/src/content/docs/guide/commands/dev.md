@@ -26,7 +26,7 @@ If `dev` mode is enabled, at least one guild id must be specified within [`dev.g
 
 ## Global Dev Mode
 
-Adding `dev: true` to every command _(and remembering to remove it)_ can be tedious. [global dev mode](/api/client#dev-global) makes this easier.
+Adding `dev: true` to every command _(and remembering to remove it)_ can be tedious. [global dev mode](/api/client#dev) makes this easier.
 
 Enable global dev mode by setting `global` to true.
 

@@ -2,7 +2,7 @@
 title: Components
 ---
 
-This covers components and how they're loaded in-depth. Check [here if you want an overview on components](/guide/overview.html#components), or click one of the guides below to learn about the different component types:
+This covers components and how they're loaded in-depth. Check [here if you want an overview on components](/guide/overview#components), or click one of the guides below to learn about the different component types:
 
 -   [Commands](/guide/commands/files)
 -   [Events](/guide/events/files)

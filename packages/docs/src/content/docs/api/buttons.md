@@ -4,7 +4,6 @@ title: Buttons
 
 ## Loading
 
--   API: [/api/client#buttons](/api/client#buttons)
 -   Guide: [/guide/buttons](/guide/buttons/files)
 
 ## Button File
@@ -36,7 +35,7 @@ The `customId` of the button, or a regex/function to match the id to.
 ### run
 
 -   Type: `Function`
--   Guide: [/guide/buttons/files#run-function](/guide/buttons/files#run-function)
+-   Guide: [/guide/buttons/files#button-run-handler](/guide/buttons/files#button-run-handler)
 -   Required
 
 The main handler for the button

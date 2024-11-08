@@ -4,7 +4,6 @@ title: Commands
 
 ## Loading
 
--   API: [/api/client#commands](/api/client#commands)
 -   Guide: [/guide/commands](/guide/commands/files)
 
 ## Command File
@@ -199,7 +198,7 @@ When using file-loaded commands, you can get the same behavior by adding an `_` 
 ### run
 
 -   Type: `Function`
--   Guide: [/guide/commands/files#run-function](/guide/commands/files#run-function)
+-   Guide: [/guide/commands/files](/guide/commands/files)
 -   Required
 
 The main handler for the command
@@ -207,6 +206,6 @@ The main handler for the command
 ### autocomplete
 
 -   Type: `Function`
--   Guide: [/guide/commands/files#autocomplete](/guide/commands/files#autocomplete)
+-   Guide: [/guide/commands/files](/guide/commands/files)
 
 Handles autocomplete interaction for slash commands
