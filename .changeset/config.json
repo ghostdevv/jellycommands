@@ -9,7 +9,7 @@
 	"commit": false,
 	"linked": [],
 	"access": "public",
-	"ignore": ["packages/dev"],
+	"ignore": ["packages/playground"],
 	"baseBranch": "main",
 	"updateInternalDependencies": "patch"
 }
