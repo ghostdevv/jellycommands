@@ -3,3 +3,6 @@ node_modules
 dist
 .jellycommands
 docs/.vitepress/cache
+.changeset/*.md
+.changeset/pre.json
+pnpm-lock.yaml

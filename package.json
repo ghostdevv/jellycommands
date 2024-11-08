@@ -5,6 +5,7 @@
     "devDependencies": {
         "@changesets/cli": "^2.27.1",
         "@svitejs/changesets-changelog-github-compact": "^1.1.0",
+        "prettier": "^3.2.5",
         "vitepress": "1.1.4"
     },
     "scripts": {
@@ -15,7 +16,7 @@
         "package": "pnpm -r package",
         "release": "changeset publish",
         "lint": "pnpm -r lint",
-        "fix": "pnpm -r fix",
+        "fix": "pnpm prettier --write .",
         "test": "pnpm -r test",
         "docs:dev": "vitepress dev docs",
         "docs:build": "vitepress build docs",

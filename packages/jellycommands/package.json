@@ -37,8 +37,7 @@
     "build": "tsup-node",
     "package": "pnpm build && publint",
     "test": "vitest --coverage",
-    "lint": "prettier --check src && eslint src && publint",
-    "format": "prettier --write src"
+    "lint": "prettier --check . && eslint src && publint"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
