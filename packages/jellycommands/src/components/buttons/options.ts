@@ -1,6 +1,6 @@
-import type { BaseComponentOptions } from '../components/components';
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import type { MaybePromise } from '../utils/types';
+import type { BaseComponentOptions } from '../components';
+import type { MaybePromise } from '../../utils/types';
 import { z } from 'zod';
 
 export interface ButtonOptions extends BaseComponentOptions {

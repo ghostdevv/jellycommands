@@ -1,7 +1,7 @@
-import { baseCommandSchema } from '../../../commands/types/options';
-import type { BaseOptions } from '../../../commands/types/options';
 import type { JellyApplicationCommandOption } from './types';
 import type { Locale } from 'discord-api-types/v10';
+import { baseCommandSchema } from '../options';
+import type { BaseOptions } from '../options';
 import { z } from 'zod';
 
 export interface CommandOptions extends BaseOptions {

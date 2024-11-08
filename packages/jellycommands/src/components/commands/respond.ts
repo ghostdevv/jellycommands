@@ -1,5 +1,5 @@
+import type { JellyCommands } from '../../JellyCommands';
 import { Command } from './types/commands/Command';
-import type { JellyCommands } from '../JellyCommands';
 import type { Interaction } from 'discord.js';
 import type { CommandIDMap } from './types';
 

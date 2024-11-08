@@ -1,10 +1,10 @@
-import { Component, isComponent } from '../components/components';
 import { eventSchema, type EventOptions } from './options';
-import type { JellyCommands } from '../JellyCommands';
-import type { MaybePromise } from '../utils/types';
+import type { JellyCommands } from '../../JellyCommands';
+import { Component, isComponent } from '../components';
+import type { MaybePromise } from '../../utils/types';
 import { EVENTS_COMPONENT_ID } from './plugin';
 import type { ClientEvents } from 'discord.js';
-import { parseSchema } from '../utils/zod';
+import { parseSchema } from '../../utils/zod';
 
 export type EventName = keyof ClientEvents | (string & {});
 

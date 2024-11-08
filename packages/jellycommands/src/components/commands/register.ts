@@ -1,7 +1,7 @@
 import { type APIApplicationCommand, Routes } from 'discord-api-types/v10';
 import type { CommandIDMap, ResolvedCommands } from './types';
-import type { JellyCommands } from '../JellyCommands';
-import { getAuthData } from '../utils/token';
+import type { JellyCommands } from '../../JellyCommands';
+import { getAuthData } from '../../utils/token';
 
 export const registerCommands = async (
 	client: JellyCommands,

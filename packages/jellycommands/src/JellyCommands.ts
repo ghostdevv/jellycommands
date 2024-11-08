@@ -1,7 +1,3 @@
-import {
-	type JellyCommandsOptions,
-	jellyCommandsOptionsSchema,
-} from './options';
 import { type SortedPlugins, sortPlugins } from './plugins/plugins';
 import { type Logger, createLogger } from './utils/logger';
 import { cleanToken, resolveToken } from './utils/token';
@@ -11,6 +7,10 @@ import { type FetchOptions, ofetch } from 'ofetch';
 import { CORE_PLUGINS } from './plugins/core';
 import { parseSchema } from './utils/zod';
 import { Client } from 'discord.js';
+import {
+	type JellyCommandsOptions,
+	jellyCommandsOptionsSchema,
+} from './options';
 
 export class JellyCommands extends Client {
 	// todo these options include data that isn't relevant (like given components) so mayb shouldn't be here

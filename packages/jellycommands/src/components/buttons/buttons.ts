@@ -1,10 +1,10 @@
-import { Component, isComponent } from '../components/components';
 import { type ButtonOptions, buttonSchema } from './options';
-import type { JellyCommands } from '../JellyCommands';
+import type { JellyCommands } from '../../JellyCommands';
+import { Component, isComponent } from '../components';
+import type { MaybePromise } from '../../utils/types';
 import type { ButtonInteraction } from 'discord.js';
-import type { MaybePromise } from '../utils/types';
 import { BUTTONS_COMPONENT_ID } from './plugin';
-import { parseSchema } from '../utils/zod';
+import { parseSchema } from '../../utils/zod';
 
 export type ButtonCallback = (context: {
 	client: JellyCommands;

@@ -1,4 +1,4 @@
-import type { BaseComponentOptions } from '../components/components';
+import type { BaseComponentOptions } from '../components';
 import type { EventName } from './Event';
 
 export interface EventOptions<Event extends EventName>

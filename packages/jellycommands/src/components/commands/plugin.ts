@@ -1,6 +1,6 @@
-import type { GuildCommands, GlobalCommands } from './types.d';
-import { defineComponentPlugin } from '../plugins/plugins';
-import type { JellyCommands } from '../JellyCommands';
+import type { GuildCommands, GlobalCommands } from './types';
+import { defineComponentPlugin } from '../../plugins/plugins';
+import type { JellyCommands } from '../../JellyCommands';
 import type { AnyCommand } from './types/types';
 import { getCommandIdMap } from './cache';
 import { respond } from './respond';

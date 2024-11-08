@@ -1,6 +1,6 @@
-import type { BaseComponentOptions } from '../../components/components';
+import type { BaseComponentOptions } from '../../components';
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import { snowflakeSchema } from '../../utils/snowflake';
+import { snowflakeSchema } from '../../../utils/snowflake';
 import type { PermissionResolvable } from 'discord.js';
 import type { Locale } from 'discord-api-types/v10';
 import { z } from 'zod';

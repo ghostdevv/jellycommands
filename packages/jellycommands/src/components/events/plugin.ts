@@ -1,4 +1,4 @@
-import { defineComponentPlugin } from '../plugins/plugins';
+import { defineComponentPlugin } from '../../plugins/plugins';
 import type { Event } from './Event';
 
 export const EVENTS_COMPONENT_ID = 'jellycommands.event';

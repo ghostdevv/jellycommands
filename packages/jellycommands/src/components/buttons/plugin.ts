@@ -1,4 +1,4 @@
-import { defineComponentPlugin } from '../plugins/plugins';
+import { defineComponentPlugin } from '../../plugins/plugins';
 import type { Button } from './buttons';
 
 export const BUTTONS_COMPONENT_ID = 'jellycommands.button';

@@ -1,9 +1,9 @@
-import type { CommandCallback } from '../../../commands/types/BaseCommand';
 import type { MessageContextMenuCommandInteraction } from 'discord.js';
+import type { CommandCallback } from '../BaseCommand';
 
 import { messageCommandSchema, type MessageCommandOptions } from './options';
-import { BaseCommand } from '../../../commands/types/BaseCommand';
 import { ApplicationCommandType } from 'discord-api-types/v10';
+import { BaseCommand } from '../BaseCommand';
 
 export class MessageCommand extends BaseCommand<
 	MessageCommandOptions,
