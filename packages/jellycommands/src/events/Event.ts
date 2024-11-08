@@ -1,9 +1,9 @@
-import { Feature, isFeature } from '../features/features';
+import { Component, isComponent } from '../components/components';
 import type { JellyCommands } from '../JellyCommands';
 import { eventSchema, EventOptions } from './options';
+import { EVENTS_COMPONENT_ID } from './plugin';
 import type { ClientEvents } from 'discord.js';
 import { MaybePromise } from '../utils/types';
-import { EVENTS_FEATURE_ID } from './plugin';
 import { parseSchema } from '../utils/zod';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -14,7 +14,7 @@ export type EventCallback<E extends EventName> = (
     ...args: E extends keyof ClientEvents ? ClientEvents[E] : any[]
 ) => MaybePromise<void | any>;
 
-export class Event<T extends EventName = EventName> extends Feature {
+export class Event<T extends EventName = EventName> extends Component {
     public readonly options: Required<EventOptions<T>>;
 
     constructor(
@@ -22,7 +22,7 @@ export class Event<T extends EventName = EventName> extends Feature {
         public readonly run: EventCallback<T>,
         _options: EventOptions<T>,
     ) {
-        super(EVENTS_FEATURE_ID, 'Event');
+        super(EVENTS_COMPONENT_ID, 'Event');
 
         if (!name || typeof name != 'string')
             throw new TypeError(`Expected type string for name, received ${typeof name}`);
@@ -36,7 +36,7 @@ export class Event<T extends EventName = EventName> extends Feature {
     }
 
     static is(item: any): item is Event {
-        return isFeature(item) && item.id === EVENTS_FEATURE_ID;
+        return isComponent(item) && item.id === EVENTS_COMPONENT_ID;
     }
 }
 

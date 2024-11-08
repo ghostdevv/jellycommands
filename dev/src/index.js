@@ -16,7 +16,7 @@ const client = new JellyCommands({
     // events: [ready, 'src/events/file-loaded'],
     // buttons: 'src/buttons',
 
-    features: [pog, ready, 'src/commands/file-loaded', 'src/events/file-loaded', 'src/buttons'],
+    components: [pog, ready, 'src/commands/file-loaded', 'src/events/file-loaded', 'src/buttons'],
 
     clientOptions: {
         intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages],

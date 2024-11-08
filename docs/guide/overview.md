@@ -18,7 +18,7 @@ Now you've got your project created, take a moment to familiarise yourself with 
 ├─ src/             - Project source code
 │  ├─ index.js      - Your main file
 │  │
-│  └─ features/     - JellyCommands command automatically loaded from here
+│  └─ components/     - JellyCommands components automatically loaded from here
 │     │   ready.js  - This ready event fires when the client starts
 │     └── hello.js  - Example Hello World command
 │
@@ -41,9 +41,9 @@ const client = new JellyCommands({
 });
 ```
 
-## Features
+## Components
 
-In JellyCommands the components of your bot are called "features". These could include `commands`, `events`, `buttons`, etc. We can pass these to our client manually, or use our automatical file system loader. This will recursively search the path(s) you pass in to find your features!
+In JellyCommands the `commands`/`events`/`buttons`/etc of your bot are called "components". We can pass these to our client manually, or use our automatical file system loader. This will recursively search the path(s) you pass in to find your components!
 
 ```ts
 import { JellyCommands } from 'jellycommands';
@@ -54,13 +54,13 @@ const client = new JellyCommands({
         intents: [IntentsBitField.Flags.Guilds],
     },
     
-    features: ['src/features'],
+    components: ['src/components'],
 });
 
 client.login();
 ```
 
-Features currently include:
+Components currently include:
 
 - [Commands](/guide/commands/files)
 - [Events](/guide/events/files)

@@ -1,24 +1,24 @@
-# Features
+# Components
 
-This covers features and how they're loaded in-depth. Check [here if you want an overview on features](/guide/overview.html#features), or click one of the guides below to learn about the different feature types:
+This covers components and how they're loaded in-depth. Check [here if you want an overview on components](/guide/overview.html#components), or click one of the guides below to learn about the different component types:
 
 - [Commands](/guide/commands/files)
 - [Events](/guide/events/files)
 - [Buttons](/guide/buttons/files)
 
-## Loading Features
+## Loading Components
 
 ### File System Loading
 
-The recommended way is to load features is via the filesystem. You can pass as many paths as you like, both directories and individual file paths. Directories will be searched recursively, so you only need to specify the top level path. Regardless of what the folders are named, you can house any features inside of them. We encourage you to organise them in a way that feels good to you.
+The recommended way is to load components is via the filesystem. You can pass as many paths as you like, both directories and individual file paths. Directories will be searched recursively, so you only need to specify the top level path. Regardless of what the folders are named, you can house any components inside of them. We encourage you to organise them in a way that feels good to you.
 
 ```ts
 const client = new JellyCommands({
     // Pass a single file/directory path
-    features: 'src/features',
+    components: 'src/components',
 
     // or pass multiple
-    features: ['src/commands', 'src/events'],
+    components: ['src/commands', 'src/events'],
 });
 ```
 
@@ -33,13 +33,13 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const client = new JellyCommands({
-    features: join(__dirname, './src/features'),
+    components: join(__dirname, './src/components'),
 });
 ```
 
 ### Exports
 
-The examples in the docs always use `export default` with features for brevity. However, the only requirement for JellyCommands to find a feature is that it's exported. This means you can export them under whatever name you like! Any exports JellyCommands finds that aren't features, are ignored. The name of the export is also ignored.
+The examples in the docs always use `export default` with components for brevity. However, the only requirement for JellyCommands to find a component is that it's exported. This means you can export them under whatever name you like! Any exports JellyCommands finds that aren't components, are ignored. The name of the export is also ignored.
 
 ```ts
 import { command } from 'jellycommands';

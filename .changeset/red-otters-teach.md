@@ -2,4 +2,4 @@
 'jellycommands': minor
 ---
 
-breaking: add new "features" system
+breaking: add new "components" system

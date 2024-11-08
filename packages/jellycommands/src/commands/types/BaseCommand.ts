@@ -4,10 +4,10 @@ import type { ApplicationCommandType } from 'discord-api-types/v10';
 import type { JellyCommands } from '../../JellyCommands';
 import type { AnyZodObject } from 'zod';
 
-import { Feature } from '../../features/features';
+import { Component } from '../../components/components';
 import { PermissionsBitField } from 'discord.js';
 import { MaybePromise } from '../../utils/types';
-import { COMMAND_FEATURE_ID } from '../plugin';
+import { COMMAND_COMPONENT_ID } from '../plugin';
 import { parseSchema } from '../../utils/zod';
 import { BaseOptions } from './options';
 import { createHash } from 'crypto';
@@ -27,7 +27,7 @@ export type CommandCallback<InteractionType extends AnyCommandInteraction> = (
 export abstract class BaseCommand<
     OptionsType extends BaseOptions = BaseOptions,
     InteractionType extends AnyCommandInteraction = AnyCommandInteraction,
-> extends Feature<OptionsType> {
+> extends Component<OptionsType> {
     public readonly options: OptionsType;
     public readonly run: CommandCallback<InteractionType>;
 
@@ -42,7 +42,7 @@ export abstract class BaseCommand<
         schema: AnyZodObject;
         run: CommandCallback<InteractionType>;
     }) {
-        super(COMMAND_FEATURE_ID, 'todo');
+        super(COMMAND_COMPONENT_ID, 'todo');
 
         if (!run || typeof run != 'function')
             throw new TypeError(`Expected type function for run, received ${typeof run}`);

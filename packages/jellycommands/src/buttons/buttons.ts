@@ -1,9 +1,9 @@
+import { Component, isComponent } from '../components/components';
 import { type ButtonOptions, buttonSchema } from './options';
-import { Feature, isFeature } from '../features/features';
 import type { JellyCommands } from '../JellyCommands';
 import type { ButtonInteraction } from 'discord.js';
 import type { MaybePromise } from '../utils/types';
-import { BUTTONS_FEATURE_ID } from './plugin';
+import { BUTTONS_COMPONENT_ID } from './plugin';
 import { parseSchema } from '../utils/zod';
 
 export type ButtonCallback = (context: {
@@ -12,19 +12,19 @@ export type ButtonCallback = (context: {
     interaction: ButtonInteraction;
 }) => MaybePromise<void | any>;
 
-export class Button extends Feature<ButtonOptions> {
+export class Button extends Component<ButtonOptions> {
     public readonly options: ButtonOptions;
 
     constructor(
         _options: ButtonOptions,
         public readonly run: ButtonCallback,
     ) {
-        super(BUTTONS_FEATURE_ID, 'Button');
+        super(BUTTONS_COMPONENT_ID, 'Button');
         this.options = parseSchema('button', buttonSchema, _options);
     }
 
     static is(item: any): item is Button {
-        return isFeature(item) && item.id === BUTTONS_FEATURE_ID;
+        return isComponent(item) && item.id === BUTTONS_COMPONENT_ID;
     }
 }
 

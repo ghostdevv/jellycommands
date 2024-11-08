@@ -1,5 +1,5 @@
 import type { GuildCommands, GlobalCommands } from './types.d';
-import { defineFeaturePlugin } from '../plugins/plugins';
+import { defineComponentPlugin } from '../plugins/plugins';
 import { JellyCommands } from '../JellyCommands';
 import { AnyCommand } from './types/types';
 import { getCommandIdMap } from './cache';
@@ -45,9 +45,9 @@ async function sortCommands(client: JellyCommands, commands: Set<AnyCommand>) {
     };
 }
 
-export const COMMAND_FEATURE_ID = 'jellycommands.command';
+export const COMMAND_COMPONENT_ID = 'jellycommands.command';
 
-export const commandsPlugin = defineFeaturePlugin<AnyCommand>(COMMAND_FEATURE_ID, {
+export const commandsPlugin = defineComponentPlugin<AnyCommand>(COMMAND_COMPONENT_ID, {
     async register(client, _commands) {
         const commands = await sortCommands(client, _commands);
         const commandIdMap = await getCommandIdMap(client, commands);

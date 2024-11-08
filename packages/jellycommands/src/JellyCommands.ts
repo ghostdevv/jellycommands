@@ -2,15 +2,15 @@ import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
 import { SortedPlugins, sortPlugins } from './plugins/plugins';
 import { cleanToken, resolveToken } from './utils/token';
 import { Logger, createLogger } from './utils/logger';
+import { loadComponents } from './components/loader';
 import { RouteBases } from 'discord-api-types/v10';
 import { type FetchOptions, ofetch } from 'ofetch';
-import { loadFeatures } from './features/loader';
 import { CORE_PLUGINS } from './plugins/core';
 import { parseSchema } from './utils/zod';
 import { Client } from 'discord.js';
 
 export class JellyCommands extends Client {
-    // todo these options include data that isn't relevant (like given features) so mayb shouldn't be here
+    // todo these options include data that isn't relevant (like given components) so mayb shouldn't be here
     public readonly joptions: JellyCommandsOptions;
     private readonly plugins: SortedPlugins;
     public readonly props: Props;
@@ -97,11 +97,11 @@ export class JellyCommands extends Client {
             throw new Error('No bot token was found');
         }
 
-        if (this.joptions.features?.length) {
-            this.log.debug('Loading features');
-            await loadFeatures(this, this.joptions.features);
+        if (this.joptions.components?.length) {
+            this.log.debug('Loading components');
+            await loadComponents(this, this.joptions.components);
         } else {
-            this.log.debug('No features given');
+            this.log.debug('No components given');
         }
 
         return super.login(token);

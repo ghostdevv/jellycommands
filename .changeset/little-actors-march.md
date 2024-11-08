@@ -2,4 +2,4 @@
 "jellycommands": minor
 ---
 
-feat: support exporting a feature under any name
+feat: support exporting a component under any name

@@ -1,82 +1,82 @@
+import { Component } from '../components/components';
 import { JellyCommands } from '../JellyCommands';
-import { Feature } from '../features/features';
 import { MaybePromise } from '../utils/types';
 
 /**
- * Feature plugins "provide" for features.
- * Responsible for registering the features.
+ * Component plugins "provide" for components.
+ * Responsible for registering the components.
  *
  * @see todo
  */
-export interface FeaturePlugin<F extends Feature> {
+export interface ComponentPlugin<F extends Component> {
     /**
-     * The plugin id, which is unique and matches the feature id.
+     * The plugin id, which is unique and matches the component id.
      */
     readonly id: string;
 
     /**
      * The type of plugin this is.
      */
-    readonly type: 'feature';
+    readonly type: 'component';
 
     /**
-     * This is called once after all the features have been
+     * This is called once after all the components have been
      * loaded, BEFORE the discord.js client is ready.
-     * It's responsible for setting the feature up.
+     * It's responsible for setting the component up.
      *
      * todo support calling multiple times somehow for dynamic plugins
      *
      * @param client The client this effects.
-     * @param features The features to register.
+     * @param components The components to register.
      *
      * @see todo
      */
-    readonly register: (client: JellyCommands, features: Set<F>) => MaybePromise<void>;
+    readonly register: (client: JellyCommands, components: Set<F>) => MaybePromise<void>;
 }
 
 /**
- * Options used with {@link defineFeaturePlugin}.
+ * Options used with {@link defineComponentPlugin}.
  */
-type FeaturePluginOptions<F extends Feature> = Pick<FeaturePlugin<F>, 'register'>;
+type ComponentPluginOptions<F extends Component> = Pick<ComponentPlugin<F>, 'register'>;
 
 /**
- * Defines a feature plugin, these are "providers" for features.
- * Responsible for registering the features. There can only be one
- * feature plugin for each feature type.
+ * Defines a component plugin, these are "providers" for components.
+ * Responsible for registering the components. There can only be one
+ * component plugin for each component type.
  *
- * @param id The plugin id. Must be unique and MATCH the feature id.
+ * @param id The plugin id. Must be unique and MATCH the component id.
  * @param options The plugin options.
  *
  * @see todo
  */
-export function defineFeaturePlugin<F extends Feature>(
+export function defineComponentPlugin<F extends Component>(
     id: string,
-    options: FeaturePluginOptions<F>,
-): FeaturePlugin<F> {
-    return { ...options, id, type: 'feature' };
+    options: ComponentPluginOptions<F>,
+): ComponentPlugin<F> {
+    return { ...options, id, type: 'component' };
 }
 
 /**
  * Any type of plugin.
  */
-export type AnyPlugin = FeaturePlugin<any>;
+export type AnyPlugin = ComponentPlugin<any>;
 
 export interface SortedPlugins {
     /**
-     * The feature plugins for the client.
+     * The component plugins for the client.
      * @see todo
      */
-    features: Map<string, FeaturePlugin<Feature>>;
+    components: Map<string, ComponentPlugin<Component>>;
 }
 
 /**
  * Parses the given plugins option to something usable.
  */
 export function sortPlugins(client: JellyCommands, plugins: AnyPlugin[]): SortedPlugins {
-    const features = new Map<string, FeaturePlugin<Feature>>();
+    const components = new Map<string, ComponentPlugin<Component>>();
 
     function exists(id: string) {
-        return features.has(id);
+        return components.has(id);
     }
 
     for (const plugin of plugins) {
@@ -86,8 +86,8 @@ export function sortPlugins(client: JellyCommands, plugins: AnyPlugin[]): Sorted
         }
 
         switch (plugin.type) {
-            case 'feature':
-                features.set(plugin.id, plugin);
+            case 'component':
+                components.set(plugin.id, plugin);
                 break;
 
             default:
@@ -96,6 +96,6 @@ export function sortPlugins(client: JellyCommands, plugins: AnyPlugin[]): Sorted
     }
 
     return {
-        features,
+        components: components,
     };
 }

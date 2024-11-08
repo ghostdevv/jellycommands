@@ -1,9 +1,9 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
-import { BaseFeatureOptions } from '../features/features';
+import { BaseComponentOptions } from '../components/components';
 import type { MaybePromise } from '../utils/types';
 import { z } from 'zod';
 
-export interface ButtonOptions extends BaseFeatureOptions {
+export interface ButtonOptions extends BaseComponentOptions {
     /**
      * The customId of the button, or a regex/function to match against
      */

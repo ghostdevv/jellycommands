@@ -1,5 +1,5 @@
-import { isFeature, type Feature } from './features';
 import { basename, extname, join, resolve } from 'node:path';
+import { isComponent, type Component } from './components';
 import { JellyCommands } from '../JellyCommands';
 import { readdir, stat } from 'node:fs/promises';
 import { SetMap } from '../structures/SetMap';
@@ -24,7 +24,7 @@ async function read(client: JellyCommands, path: string): Promise<File[]> {
     const exists = existsSync(path);
 
     if (!exists) {
-        client.log.warn(`Given features path doesn't exist: "${path}"`);
+        client.log.warn(`Given components path doesn't exist: "${path}"`);
         return [];
     }
 
@@ -34,7 +34,9 @@ async function read(client: JellyCommands, path: string): Promise<File[]> {
     function addFile(absolutePath: string, name: string) {
         if (name.startsWith('_')) {
             if (!isDirectory) {
-                client.log.warn(`Given features path starts with _ and will be ignored: "${path}"`);
+                client.log.warn(
+                    `Given components path starts with _ and will be ignored: "${path}"`,
+                );
             }
 
             return;
@@ -64,73 +66,73 @@ async function read(client: JellyCommands, path: string): Promise<File[]> {
 }
 
 /**
- * The features of your bot. For any strings that are passed they
+ * The components of your bot. For any strings that are passed they
  * will be loaded recursively from that path.
  *
- * @see https://jellycommands.dev/guide/features
+ * @see https://jellycommands.dev/guide/components
  */
-export type LoadableFeatures = string | (string | Feature)[];
+export type LoadableComponents = string | (string | Component)[];
 
 /**
- * Load all features, can take in feature instances or paths to recursively load.
+ * Load all components, can take in component instances or paths to recursively load.
  */
-export async function loadFeatures(client: JellyCommands, input: LoadableFeatures) {
+export async function loadComponents(client: JellyCommands, input: LoadableComponents) {
     const inputArray = Array.isArray(input) ? input : [input];
-    const featuresById = new SetMap<string, Feature>();
+    const componentsById = new SetMap<string, Component>();
 
     // @ts-expect-error temporarily privated
     const plugins = client.plugins;
 
-    async function addFeature(feature: Feature) {
+    async function addComponent(component: Component) {
         // todo this should really work dynamically somehow
-        // todo should this be a feature attrib rather than an option?
+        // todo should this be a component attrib rather than an option?
         // should options be locked and attribs dynamic
         // should disabled be a fn?
-        if (feature.options.disabled) {
+        if (component.options.disabled) {
             return;
         }
 
-        featuresById.set(feature.id, feature);
+        componentsById.set(component.id, component);
     }
 
-    for (const pathOrFeature of inputArray) {
-        if (typeof pathOrFeature != 'string') {
-            if (isFeature(pathOrFeature)) {
-                await addFeature(pathOrFeature);
+    for (const pathOrComponent of inputArray) {
+        if (typeof pathOrComponent != 'string') {
+            if (isComponent(pathOrComponent)) {
+                await addComponent(pathOrComponent);
             } else {
                 // todo better log message
-                client.log.warn('A given features item is not a feature or path');
+                client.log.warn('A given components item is not a component or path');
             }
 
             continue;
         }
 
-        const files = await read(client, resolve(pathOrFeature));
+        const files = await read(client, resolve(pathOrComponent));
 
         if (files.length == 0) {
-            client.log.warn('Found no features at a given path:', pathOrFeature);
+            client.log.warn('Found no components at a given path:', pathOrComponent);
         }
 
         for (const file of files) {
             // Import the module, we need a file url here because of windows
             const mod = await import(pathToFileURL(file.absolutePath).href);
 
-            // Find all the valid feature exports and load them
-            for (const maybeFeature of Object.values(mod)) {
-                if (isFeature(maybeFeature)) {
-                    await addFeature(maybeFeature);
+            // Find all the valid component exports and load them
+            for (const maybeComponent of Object.values(mod)) {
+                if (isComponent(maybeComponent)) {
+                    await addComponent(maybeComponent);
                 }
             }
         }
     }
 
-    for (const [id, features] of featuresById.entries()) {
-        const plugin = plugins.features.get(id);
+    for (const [id, components] of componentsById.entries()) {
+        const plugin = plugins.components.get(id);
 
         if (!plugin) {
-            throw new Error(`Unable to find feature plugin for "${id}"`);
+            throw new Error(`Unable to find component plugin for "${id}"`);
         }
 
-        await plugin.register(client, features);
+        await plugin.register(client, components);
     }
 }

@@ -1,7 +1,7 @@
-import { BaseFeatureOptions } from '../features/features';
+import type { BaseComponentOptions } from '../components/components';
 import type { EventName } from './Event';
 
-export interface EventOptions<Event extends EventName> extends BaseFeatureOptions {
+export interface EventOptions<Event extends EventName> extends BaseComponentOptions {
     /**
      * The event name: https://discord.js.org/#/docs/main/stable/class/Client
      */

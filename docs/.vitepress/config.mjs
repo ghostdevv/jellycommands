@@ -129,8 +129,8 @@ export default defineConfig({
                     text: 'Core',
                     items: [
                         {
-                            text: 'Features',
-                            link: '/guide/features',
+                            text: 'Components',
+                            link: '/guide/components',
                         },
                         {
                             text: 'Props',
@@ -146,8 +146,8 @@ export default defineConfig({
                     text: 'Migrate',
                     items: [
                         {
-                            text: 'Features (1.0.0-next.44)',
-                            link: '/guide/migrate/features',
+                            text: 'Components (1.0.0-next.44)',
+                            link: '/guide/migrate/components',
                         },
                         {
                             text: 'Props (1.0.0-next.40)',

@@ -1,18 +1,23 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
-import { LoadableFeatures } from './features/loader';
+import { LoadableComponents } from './components/loader';
+import { isComponent } from './components/components';
 import { snowflakeSchema } from './utils/snowflake';
-import { isFeature } from './features/features';
 // import { AnyPlugin } from './plugins/plugins';
 import { z } from 'zod';
 
 export const jellyCommandsOptionsSchema = z.object({
-    features: z
+    components: z
         .union([
             z.string(),
             z.array(
                 z.union([
                     z.string(),
-                    z.any().refine((feature) => isFeature(feature), 'Should be a feature instance'),
+                    z
+                        .any()
+                        .refine(
+                            (component) => isComponent(component),
+                            'Should be a component instance',
+                        ),
                 ]),
             ),
         ])
@@ -48,12 +53,12 @@ export const jellyCommandsOptionsSchema = z.object({
 
 export interface JellyCommandsOptions {
     /**
-     * The features of your bot. For any strings that are passed they
+     * The components of your bot. For any strings that are passed they
      * will be loaded recursively from that path.
      *
-     * @see https://jellycommands.dev/guide/features
+     * @see https://jellycommands.dev/guide/components
      */
-    features?: LoadableFeatures;
+    components?: LoadableComponents;
 
     /**
      * Base discord.js client options
@@ -109,7 +114,7 @@ export interface JellyCommandsOptions {
 
     /**
      * Options to control how JellyCommands reads from the
-     * filesystem when loading features.
+     * filesystem when loading components.
      */
     fs?: {
         /**

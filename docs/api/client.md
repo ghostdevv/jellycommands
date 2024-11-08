@@ -21,12 +21,12 @@ client.login();
 
 ## Options
 
-### features
+### components
 
-- Type: `string | Array<string | Feature>`
-- Guide: [/guide/features](/guide/features)
+- Type: `string | Array<string | Component>`
+- Guide: [/guide/components](/guide/components)
 
-The recommended way to load features is to pass in a directory path (or paths). JellyCommands will recursively search the given path(s), and load any features it finds. Every export will be checked, and anything that isn't a feature is ignored. Files that start with `_` or don't match the allowed [extensions](#fs-extensions) will also be ignored.
+The recommended way to load components is to pass in a directory path (or paths). JellyCommands will recursively search the given path(s), and load any components it finds. Every export will be checked, and anything that isn't a component is ignored. Files that start with `_` or don't match the allowed [extensions](#fs-extensions) will also be ignored.
 
 ### clientOptions
 

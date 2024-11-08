@@ -1,11 +1,11 @@
-import type { BaseFeatureOptions } from '../../features/features';
+import type { BaseComponentOptions } from '../../components/components';
 import type { InteractionDeferReplyOptions } from 'discord.js';
 import { snowflakeSchema } from '../../utils/snowflake';
 import type { PermissionResolvable } from 'discord.js';
 import type { Locale } from 'discord-api-types/v10';
 import { z } from 'zod';
 
-export interface BaseOptions extends BaseFeatureOptions {
+export interface BaseOptions extends BaseComponentOptions {
     /**
      * The name of the command
      */

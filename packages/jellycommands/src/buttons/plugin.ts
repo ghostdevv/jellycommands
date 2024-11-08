@@ -1,7 +1,7 @@
-import { defineFeaturePlugin } from '../plugins/plugins';
+import { defineComponentPlugin } from '../plugins/plugins';
 import type { Button } from './buttons';
 
-export const BUTTONS_FEATURE_ID = 'jellycommands.button';
+export const BUTTONS_COMPONENT_ID = 'jellycommands.button';
 
 // TODO test this function
 async function findButton(incomingId: string, buttons: Set<Button>): Promise<Button | null> {
@@ -26,7 +26,7 @@ async function findButton(incomingId: string, buttons: Set<Button>): Promise<But
     return null;
 }
 
-export const buttonsPlugin = defineFeaturePlugin<Button>(BUTTONS_FEATURE_ID, {
+export const buttonsPlugin = defineComponentPlugin<Button>(BUTTONS_COMPONENT_ID, {
     register(client, buttons) {
         client.on('interactionCreate', async (interaction) => {
             if (interaction.isButton()) {
