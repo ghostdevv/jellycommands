@@ -17,12 +17,6 @@ export default defineConfig({
             provider: 'local',
         },
 
-        // algolia: {
-        //     apiKey: '8bd73370e0912c6a4f1d8ff68f6f8533',
-        //     indexName: 'jellycommands',
-        //     appId: 'KMNKUKL4NS',
-        // },
-
         socialLinks: [
             { icon: 'github', link: 'https://github.com/ghostdevv/jellycommands' },
             { icon: 'discord', link: 'https://discord.gg/2Vd4wAjJnm' },
@@ -37,7 +31,7 @@ export default defineConfig({
         editLinkText: 'Suggest changes to this page',
 
         nav: [
-            { text: 'Guide', link: '/guide/quickstart' },
+            { text: 'Guide', link: '/guide/overview' },
             { text: 'API', link: '/api/' },
         ],
 
@@ -79,8 +73,8 @@ export default defineConfig({
                     text: 'Get Started',
                     items: [
                         {
-                            text: 'Quick Start',
-                            link: '/guide/quickstart',
+                            text: 'Overview',
+                            link: '/guide/overview',
                         },
                         {
                             text: 'Import vs Require',
@@ -89,25 +83,8 @@ export default defineConfig({
                     ],
                 },
                 {
-                    text: 'Core',
-                    items: [
-                        {
-                            text: 'Props',
-                            link: '/guide/props',
-                        },
-                        {
-                            text: 'Messages',
-                            link: '/guide/messages',
-                        },
-                    ],
-                },
-                {
                     text: 'Commands',
                     items: [
-                        {
-                            text: 'Loading Commands',
-                            link: '/guide/commands/loading',
-                        },
                         {
                             text: 'Creating Commands',
                             link: '/guide/commands/files',
@@ -134,10 +111,6 @@ export default defineConfig({
                     text: 'Events',
                     items: [
                         {
-                            text: 'Loading Events',
-                            link: '/guide/events/loading',
-                        },
-                        {
                             text: 'Creating Events',
                             link: '/guide/events/files',
                         },
@@ -147,12 +120,25 @@ export default defineConfig({
                     text: 'Buttons',
                     items: [
                         {
-                            text: 'Loading Buttons',
-                            link: '/guide/buttons/loading',
-                        },
-                        {
                             text: 'Creating Buttons',
                             link: '/guide/buttons/files',
+                        },
+                    ],
+                },
+                {
+                    text: 'Core',
+                    items: [
+                        {
+                            text: 'Components',
+                            link: '/guide/components',
+                        },
+                        {
+                            text: 'Props',
+                            link: '/guide/props',
+                        },
+                        {
+                            text: 'Messages',
+                            link: '/guide/messages',
                         },
                     ],
                 },
@@ -160,12 +146,16 @@ export default defineConfig({
                     text: 'Migrate',
                     items: [
                         {
-                            text: 'Discord.js v14',
-                            link: '/guide/migrate/djs14',
+                            text: 'Components (1.0.0-next.44)',
+                            link: '/guide/migrate/components',
                         },
                         {
-                            text: 'Props',
+                            text: 'Props (1.0.0-next.40)',
                             link: '/guide/migrate/props',
+                        },
+                        {
+                            text: 'Discord.js v14 (1.0.0-next.31)',
+                            link: '/guide/migrate/djs14',
                         },
                     ],
                 },

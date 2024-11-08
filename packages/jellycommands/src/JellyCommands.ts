@@ -1,21 +1,19 @@
 import { JellyCommandsOptions, jellyCommandsOptionsSchema } from './options';
-import { cleanToken, resolveToken } from './utils/token.js';
+import { SortedPlugins, sortPlugins } from './plugins/plugins';
+import { cleanToken, resolveToken } from './utils/token';
 import { Logger, createLogger } from './utils/logger';
-import { resolveCommands } from './commands/resolve';
-import { getCommandIdMap } from './commands/cache';
-import { registerEvents } from './events/register';
-import { handleButton } from './buttons/handle.js';
+import { loadComponents } from './components/loader';
 import { RouteBases } from 'discord-api-types/v10';
 import { type FetchOptions, ofetch } from 'ofetch';
-import { loadButtons } from './buttons/load.js';
-import { respond } from './commands/respond';
-import { parseSchema } from './utils/zod.js';
+import { CORE_PLUGINS } from './plugins/core';
+import { parseSchema } from './utils/zod';
 import { Client } from 'discord.js';
 
 export class JellyCommands extends Client {
+    // todo these options include data that isn't relevant (like given components) so mayb shouldn't be here
     public readonly joptions: JellyCommandsOptions;
+    private readonly plugins: SortedPlugins;
     public readonly props: Props;
-
     public readonly log: Logger;
 
     constructor(options: JellyCommandsOptions) {
@@ -29,25 +27,26 @@ export class JellyCommands extends Client {
         ) as JellyCommandsOptions;
 
         this.log = createLogger(this);
-
         this.props = options.props || {};
+        // this.plugins = sortPlugins(this, [...CORE_PLUGINS, ...(this.joptions.plugins || [])]);
+        this.plugins = sortPlugins(this, CORE_PLUGINS);
 
         // TODO remove for 1.0
         // Makes need for a migration more obvious for those using props api
         this.props = {
             get() {
                 throw new Error(
-                    'props.get has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                    'props.get has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
                 );
             },
             set() {
                 throw new Error(
-                    'props.set has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                    'props.set has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
                 );
             },
             has() {
                 throw new Error(
-                    'props.has has been removed, SEE: https://jellycommands.dev/guide/migrate/props.html',
+                    'props.has has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
                 );
             },
             ...this.props,
@@ -85,54 +84,26 @@ export class JellyCommands extends Client {
         });
     }
 
+    /**
+     * This must be called once in order to start your Discord Bot.
+     * It initialises all JellyCommands specific code, then calls
+     * the base discord.js `client.login()` fn to run your bot.
+     */
     async login(potentialToken?: string): Promise<string> {
-        if (potentialToken) {
-            this.token = cleanToken(potentialToken);
+        this.token ||= cleanToken(potentialToken);
+        const token = resolveToken(this);
+
+        if (!token) {
+            throw new Error('No bot token was found');
         }
 
-        if (this.joptions.commands) {
-            const commands = await resolveCommands(this, this.joptions.commands);
-            const commandIdMap = await getCommandIdMap(this, commands);
-
-            if (!this.joptions.dev?.guilds?.length) {
-                const hasDevCommand = Array.from(commands.commands).some(
-                    (command) => command.options.dev,
-                );
-
-                // If dev is enabled in some way, make sure they have at least one guild id
-                if (this.joptions.dev?.global || hasDevCommand)
-                    throw new Error(
-                        'You must provide at least one guild id in the dev guilds array to use dev commands',
-                    );
-            }
-
-            // Whenever there is a interactionCreate event respond to it
-            this.on('interactionCreate', (interaction) => {
-                // prettier-ignore
-                this.log.debug(`Interaction received: ${interaction.id} | ${interaction.type} | Command Id: ${interaction.isCommand() && interaction.commandId}`);
-
-                respond({
-                    interaction,
-                    client: this,
-                    commandIdMap,
-                });
-            });
+        if (this.joptions.components?.length) {
+            this.log.debug('Loading components');
+            await loadComponents(this, this.joptions.components);
+        } else {
+            this.log.debug('No components given');
         }
 
-        if (this.joptions.buttons) {
-            const buttons = await loadButtons(this.joptions.buttons);
-
-            this.on('interactionCreate', (interaction) => {
-                if (interaction.isButton()) {
-                    handleButton({ client: this, interaction, buttons });
-                }
-            });
-        }
-
-        if (this.joptions?.events) {
-            await registerEvents(this, this.joptions.events);
-        }
-
-        return super.login(resolveToken(this) || undefined);
+        return super.login(token);
     }
 }

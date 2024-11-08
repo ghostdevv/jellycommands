@@ -1,8 +1,6 @@
 # Creating Commands
 
-`Commands` are files containing a `command` function.  They must be prefixed with `export default` in order to be loaded automatically.
-
-When a `command` is invoked, the command's `run` function is called.  This is where your custom command logic lives.
+`Commands` are files containing a `command` function. When a `command` is invoked, the command's `run` function is called. This is where your custom command logic lives.
 
 ## `Run`
 

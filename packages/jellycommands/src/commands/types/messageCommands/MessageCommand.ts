@@ -1,17 +1,18 @@
 import type { CommandCallback } from '../../../commands/types/BaseCommand';
-import { BaseCommand } from '../../../commands/types/BaseCommand';
-import type { ContextMenuCommandInteraction } from 'discord.js';
-import { ApplicationCommandType } from 'discord-api-types/v10';
+import type { MessageContextMenuCommandInteraction } from 'discord.js';
+
 import { messageCommandSchema, MessageCommandOptions } from './options';
+import { BaseCommand } from '../../../commands/types/BaseCommand';
+import { ApplicationCommandType } from 'discord-api-types/v10';
 
 export class MessageCommand extends BaseCommand<
     MessageCommandOptions,
-    ContextMenuCommandInteraction
+    MessageContextMenuCommandInteraction
 > {
     public readonly type = ApplicationCommandType.Message;
 
     constructor(
-        run: CommandCallback<ContextMenuCommandInteraction>,
+        run: CommandCallback<MessageContextMenuCommandInteraction>,
         options: MessageCommandOptions,
     ) {
         super({ run, options, schema: messageCommandSchema });
@@ -20,7 +21,7 @@ export class MessageCommand extends BaseCommand<
 
 export const messageCommand = (
     options: MessageCommandOptions & {
-        run: CommandCallback<ContextMenuCommandInteraction>;
+        run: CommandCallback<MessageContextMenuCommandInteraction>;
     },
 ) => {
     const { run, ...rest } = options;

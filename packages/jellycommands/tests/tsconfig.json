@@ -5,7 +5,7 @@
         "paths": {
             "$mock": ["./mock.ts"],
             "$src/*": ["../src/*"],
-            "$src": ["../src"],
+            "$src": ["../src"]
         }
     }
 }

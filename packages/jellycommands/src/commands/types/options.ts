@@ -1,10 +1,11 @@
+import type { BaseComponentOptions } from '../../components/components';
 import type { InteractionDeferReplyOptions } from 'discord.js';
 import { snowflakeSchema } from '../../utils/snowflake';
 import type { PermissionResolvable } from 'discord.js';
 import type { Locale } from 'discord-api-types/v10';
 import { z } from 'zod';
 
-export interface BaseOptions {
+export interface BaseOptions extends BaseComponentOptions {
     /**
      * The name of the command
      */
@@ -50,11 +51,6 @@ export interface BaseOptions {
      * @default true
      */
     dm?: boolean;
-
-    /**
-     * Whether or not the slash command should be loaded
-     */
-    disabled?: boolean;
 }
 
 export const baseCommandSchema = z.object({

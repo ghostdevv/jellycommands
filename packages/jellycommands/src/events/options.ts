@@ -1,16 +1,11 @@
+import type { BaseComponentOptions } from '../components/components';
 import type { EventName } from './Event';
 
-export interface EventOptions<Event extends EventName> {
+export interface EventOptions<Event extends EventName> extends BaseComponentOptions {
     /**
      * The event name: https://discord.js.org/#/docs/main/stable/class/Client
      */
     name: Event;
-
-    /**
-     * Whether or not the event should be loaded
-     * @default false
-     */
-    disabled?: boolean;
 
     /**
      * Should the event be ran once or every time it's received

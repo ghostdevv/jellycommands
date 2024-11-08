@@ -17,7 +17,7 @@ export default button({
 [You can view a list of all the button options here](/api/buttons#options)
 
 :::tip TIP
-If you are unsure how to add buttons to messages, checkout the [Discord.js Guide](https://discordjs.guide/interactions/buttons.html)
+If you are unsure how to add buttons to messages, checkout the [Discord.js Guide](https://discordjs.guide/interactions/buttons)
 :::
 
 ## Button `id`
@@ -74,7 +74,7 @@ When an `event` is invoked, the event's `run` function is called.  This is where
 
 When a button is clicked, the `run` function is called. This is where your custom logic for the button lives.
 
-You are provided with [`context`](/guide/buttons/files.html#context), which allows you to get things such as the `interaction`.
+You are provided with [`context`](/guide/buttons/files#context), which allows you to get things such as the `interaction`.
 
 ### Context
 

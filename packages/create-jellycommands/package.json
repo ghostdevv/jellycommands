@@ -36,9 +36,9 @@
         "npm create jellycommands"
     ],
     "volta": {
-        "node": "18.20.2"
+        "node": "20.13.1"
     },
     "engines": {
-        "node": ">= 18"
+        "node": ">=20.13.1"
     }
 }

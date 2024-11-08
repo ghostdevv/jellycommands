@@ -11,7 +11,7 @@ export function clientIdFromToken(token: string): string | null {
 }
 
 export function resolveToken(client: Client): string | null {
-    return client.token || cleanToken(process.env?.DISCORD_TOKEN);
+    return cleanToken(client.token ?? process.env?.DISCORD_TOKEN);
 }
 
 export function resolveClientId(client: Client): string | null {

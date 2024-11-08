@@ -1,7 +1,5 @@
 # Creating Events
 
-`Events` are files containing an `event` function.  They must be prefixed with `export default` in order to be loaded automatically.
-
 ```js
 import { event } from 'jellycommands';
 
@@ -20,7 +18,7 @@ export default event({
 
 When an `event` is invoked, the event's `run` function is called.  This is where your custom event logic lives.
 
-The first variable provided by an event's `run` function will always be [`context`](/guide/events/files.html#context).  Additional, event-specific variables are listed on the [events section](https://discord.js.org/#/docs/discord.js/main/class/Client) of the `client` page.
+The first variable provided by an event's `run` function will always be [`context`](/guide/events/files#context).  Additional, event-specific variables are listed on the [events section](https://discord.js.org/#/docs/discord.js/main/class/Client) of the `client` page.
 
 For example, the [`channelUpdate`](https://discord.js.org/#/docs/discord.js/main/class/Client?scrollTo=e-channelUpdate) event docs show that `channelUpdate` provides the `oldChannel` and `newChannel` variables:
 

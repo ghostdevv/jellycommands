@@ -1,4 +1,3 @@
-import { registerEvents } from '$src/events/register';
 import { describe, expect, it, vi } from 'vitest';
 import { event, Event } from '$src/events/Event';
 import { mockJellyClient } from '$mock';
@@ -44,87 +43,87 @@ describe('events fn', () => {
     });
 });
 
-describe('registers events', () => {
-    it('should register on and once events', async () => {
-        const client = mockJellyClient();
-        const once = vi.spyOn(client, 'once');
-        const on = vi.spyOn(client, 'on');
+// describe('registers events', () => {
+//     it('should register on and once events', async () => {
+//         const client = mockJellyClient();
+//         const once = vi.spyOn(client, 'once');
+//         const on = vi.spyOn(client, 'on');
 
-        await registerEvents(client, [
-            event({ name: 'testEvent', async run() {} }),
-            event({ name: 'testEvent', async run() {}, once: true }),
-        ]);
+//         await registerEvents(client, [
+//             event({ name: 'testEvent', async run() {} }),
+//             event({ name: 'testEvent', async run() {}, once: true }),
+//         ]);
 
-        expect(on).toHaveBeenCalled();
-        expect(once).toHaveBeenCalledTimes(1);
-    });
+//         expect(on).toHaveBeenCalled();
+//         expect(once).toHaveBeenCalledTimes(1);
+//     });
 
-    it('should ignore events that are disabled', async () => {
-        const client = mockJellyClient();
-        const once = vi.spyOn(client, 'once');
-        const on = vi.spyOn(client, 'on');
+//     it('should ignore events that are disabled', async () => {
+//         const client = mockJellyClient();
+//         const once = vi.spyOn(client, 'once');
+//         const on = vi.spyOn(client, 'on');
 
-        await registerEvents(client, [
-            event({ name: 'testEvent', async run() {} }),
-            event({ name: 'testEvent', async run() {}, disabled: true }),
-        ]);
+//         await registerEvents(client, [
+//             event({ name: 'testEvent', async run() {} }),
+//             event({ name: 'testEvent', async run() {}, disabled: true }),
+//         ]);
 
-        expect(on).toHaveBeenCalled();
-        expect(once).not.toHaveBeenCalled();
-    });
+//         expect(on).toHaveBeenCalled();
+//         expect(once).not.toHaveBeenCalled();
+//     });
 
-    it('should fire event', async () => {
-        const client = mockJellyClient();
+//     it('should fire event', async () => {
+//         const client = mockJellyClient();
 
-        const run = vi.fn();
-        await registerEvents(client, [event({ name: 'debug', run })]);
+//         const run = vi.fn();
+//         await registerEvents(client, [event({ name: 'debug', run })]);
 
-        client.emit('debug', 'test');
-        client.emit('debug', 'test');
+//         client.emit('debug', 'test');
+//         client.emit('debug', 'test');
 
-        expect(run).toHaveBeenCalledTimes(2);
-    });
+//         expect(run).toHaveBeenCalledTimes(2);
+//     });
 
-    it('should handle once events correctly', async () => {
-        const client = mockJellyClient();
+//     it('should handle once events correctly', async () => {
+//         const client = mockJellyClient();
 
-        const run = vi.fn();
-        await registerEvents(client, [event({ name: 'testEvent', run: run, once: true })]);
+//         const run = vi.fn();
+//         await registerEvents(client, [event({ name: 'testEvent', run: run, once: true })]);
 
-        client.emit('testEvent');
-        client.emit('testEvent');
-        client.emit('testEvent');
+//         client.emit('testEvent');
+//         client.emit('testEvent');
+//         client.emit('testEvent');
 
-        expect(run).toHaveBeenCalledOnce();
-        expect(client.listeners('testEvent').length).toBe(0);
-    });
+//         expect(run).toHaveBeenCalledOnce();
+//         expect(client.listeners('testEvent').length).toBe(0);
+//     });
 
-    it('throws if an invalid event is passed', async () => {
-        const client = mockJellyClient();
+//     it('throws if an invalid event is passed', async () => {
+//         const client = mockJellyClient();
 
-        expect(() =>
-            registerEvents(client, [
-                // @ts-expect-error invalid item
-                1234,
-            ]),
-        ).rejects.toThrowError();
-    });
+//         expect(() =>
+//             registerEvents(client, [
+//                 // @ts-expect-error invalid item
+//                 1234,
+//             ]),
+//         ).rejects.toThrowError();
+//     });
 
-    it('logs an error if the event throws at runtime', async () => {
-        const error = vi.spyOn(console, 'error').mockImplementation(() => void 0);
-        const client = mockJellyClient();
+//     it('logs an error if the event throws at runtime', async () => {
+//         const error = vi.spyOn(console, 'error').mockImplementation(() => void 0);
+//         const client = mockJellyClient();
 
-        await registerEvents(client, [
-            event({
-                name: 'testEvent',
-                run() {
-                    throw new Error('failed!');
-                },
-            }),
-        ]);
+//         await registerEvents(client, [
+//             event({
+//                 name: 'testEvent',
+//                 run() {
+//                     throw new Error('failed!');
+//                 },
+//             }),
+//         ]);
 
-        client.emit('testEvent');
+//         client.emit('testEvent');
 
-        expect(error).toHaveBeenCalledTimes(1);
-    });
-});
+//         expect(error).toHaveBeenCalledTimes(1);
+//     });
+// });

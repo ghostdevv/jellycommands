@@ -1,5 +1,7 @@
+import { Component, isComponent } from '../components/components';
 import type { JellyCommands } from '../JellyCommands';
 import { eventSchema, EventOptions } from './options';
+import { EVENTS_COMPONENT_ID } from './plugin';
 import type { ClientEvents } from 'discord.js';
 import { MaybePromise } from '../utils/types';
 import { parseSchema } from '../utils/zod';
@@ -12,14 +14,16 @@ export type EventCallback<E extends EventName> = (
     ...args: E extends keyof ClientEvents ? ClientEvents[E] : any[]
 ) => MaybePromise<void | any>;
 
-export class Event<T extends EventName = EventName> {
+export class Event<T extends EventName = EventName> extends Component {
     public readonly options: Required<EventOptions<T>>;
 
     constructor(
         public readonly name: EventName,
         public readonly run: EventCallback<T>,
-        options: EventOptions<T>,
+        _options: EventOptions<T>,
     ) {
+        super(EVENTS_COMPONENT_ID, 'Event');
+
         if (!name || typeof name != 'string')
             throw new TypeError(`Expected type string for name, received ${typeof name}`);
 
@@ -27,8 +31,12 @@ export class Event<T extends EventName = EventName> {
             throw new TypeError(`Expected type function for run, received ${typeof run}`);
 
         this.options = <Required<EventOptions<T>>>(
-            parseSchema('event options', eventSchema, options)
+            parseSchema('event options', eventSchema, _options)
         );
+    }
+
+    static is(item: any): item is Event {
+        return isComponent(item) && item.id === EVENTS_COMPONENT_ID;
     }
 }
 

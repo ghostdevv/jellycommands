@@ -28,7 +28,7 @@ We should also update our `src/app.d.ts` with the correct type, so that when we 
 ```ts
 /// <reference types="jellycommands/ambient" />
 
-// See https://jellycommands.dev/guide/props.html
+// See https://jellycommands.dev/guide/props
 interface Props {
     db: import('knex').Knex
 }

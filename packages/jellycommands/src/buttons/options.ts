@@ -1,8 +1,9 @@
 import type { InteractionDeferReplyOptions } from 'discord.js';
+import { BaseComponentOptions } from '../components/components';
 import type { MaybePromise } from '../utils/types';
 import { z } from 'zod';
 
-export interface ButtonOptions {
+export interface ButtonOptions extends BaseComponentOptions {
     /**
      * The customId of the button, or a regex/function to match against
      */
@@ -12,11 +13,6 @@ export interface ButtonOptions {
      * Should the interaction be defered?
      */
     defer?: boolean | InteractionDeferReplyOptions;
-
-    /**
-     * Should the button be loaded?
-     */
-    disabled?: boolean;
 }
 
 export const buttonSchema = z.object({

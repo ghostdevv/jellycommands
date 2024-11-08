@@ -1,19 +1,30 @@
 import type { ClientOptions, InteractionReplyOptions, MessagePayload } from 'discord.js';
-import { BaseCommand } from './commands/types/BaseCommand.js';
-import type { AnyCommand } from './commands/types/types';
-import { snowflakeSchema } from './utils/snowflake.js';
-import { Button } from './buttons/buttons';
-import { Event } from './events/Event';
+import { LoadableComponents } from './components/loader';
+import { isComponent } from './components/components';
+import { snowflakeSchema } from './utils/snowflake';
+// import { AnyPlugin } from './plugins/plugins';
 import { z } from 'zod';
 
 export const jellyCommandsOptionsSchema = z.object({
-    commands: z
-        .union([z.string(), z.union([z.string(), z.instanceof(BaseCommand)]).array()])
+    components: z
+        .union([
+            z.string(),
+            z.array(
+                z.union([
+                    z.string(),
+                    z
+                        .any()
+                        .refine(
+                            (component) => isComponent(component),
+                            'Should be a component instance',
+                        ),
+                ]),
+            ),
+        ])
         .optional(),
-    events: z.union([z.string(), z.union([z.string(), z.instanceof(Event)]).array()]).optional(),
-    buttons: z.union([z.string(), z.union([z.string(), z.instanceof(Button)]).array()]).optional(),
     clientOptions: z.object({}).passthrough(),
     props: z.object({}).passthrough().default({}),
+    // plugins: z.array(z.object({}).passthrough()).optional(),
     messages: z
         .object({
             unknownCommand: z.union([
@@ -33,28 +44,32 @@ export const jellyCommandsOptionsSchema = z.object({
         .default({}),
     cache: z.boolean().default(true),
     debug: z.boolean().default(() => !!process.env['DEBUG']),
+    fs: z
+        .object({
+            extensions: z.string().array().default(['.js', '.ts']),
+        })
+        .default({}),
 });
 
 export interface JellyCommandsOptions {
     /**
-     * Either an array of commands, or path(s) to commands
+     * The components of your bot. For any strings that are passed they
+     * will be loaded recursively from that path.
+     *
+     * @see https://jellycommands.dev/guide/components
      */
-    commands?: string | Array<string | AnyCommand>;
-
-    /**
-     * Either an array of events, or path(s) to events
-     */
-    events?: string | Array<string | Event<any>>;
-
-    /**
-     * Either an array of buttons, or path(s) to buttons
-     */
-    buttons?: string | Array<string | Button>;
+    components?: LoadableComponents;
 
     /**
      * Base discord.js client options
      */
     clientOptions: ClientOptions;
+
+    // /**
+    //  * JellyCommands plugins
+    //  * @see todo
+    //  */
+    // plugins?: AnyPlugin[];
 
     /**
      * Inital props
@@ -96,4 +111,16 @@ export interface JellyCommandsOptions {
      * Whether jelly should emit debug messages
      */
     debug?: boolean;
+
+    /**
+     * Options to control how JellyCommands reads from the
+     * filesystem when loading components.
+     */
+    fs?: {
+        /**
+         * Only files that end in these extensions are loaded.
+         * @default ['.js', '.ts']
+         */
+        extensions?: string[];
+    };
 }
