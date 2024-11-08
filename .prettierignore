@@ -2,7 +2,7 @@ node_modules
 .env
 dist
 .jellycommands
-docs/.vitepress/cache
+.vitepress/cache
 .changeset/*.md
 .changeset/pre.json
 pnpm-lock.yaml

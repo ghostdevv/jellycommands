@@ -20,9 +20,6 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
-      vitepress:
-        specifier: 1.1.4
-        version: 1.1.4(@algolia/client-search@4.23.3)(@types/node@20.12.11)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.5)
 
   dev:
     devDependencies:
@@ -69,6 +66,12 @@ importers:
       publint:
         specifier: ^0.2.7
         version: 0.2.7
+
+  packages/docs:
+    devDependencies:
+      vitepress:
+        specifier: 1.1.4
+        version: 1.1.4(@algolia/client-search@4.23.3)(@types/node@20.12.11)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.5)
 
   packages/jellycommands:
     dependencies:
