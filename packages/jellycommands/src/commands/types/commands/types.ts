@@ -1,6 +1,6 @@
-import {
-	type ApplicationCommandOptionChoiceData,
-	type BaseApplicationCommandOptionsData,
+import type {
+	ApplicationCommandOptionChoiceData,
+	BaseApplicationCommandOptionsData,
 	ApplicationCommandOptionType,
 	ChannelType,
 } from 'discord.js';
