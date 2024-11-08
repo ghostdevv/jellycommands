@@ -1,4 +1,4 @@
-import { commandSchema } from '$src/commands/types/commands/options';
+import { commandSchema } from '$src/components/commands/types/commands/options';
 import { parseSchema } from '$src/utils/zod';
 import { describe, expect, it } from 'vitest';
 
