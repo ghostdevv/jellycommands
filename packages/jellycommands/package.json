@@ -35,6 +35,7 @@
   "scripts": {
     "dev": "tsup-node --watch src",
     "build": "tsup-node",
+    "package": "pnpm build && publint",
     "test": "vitest --coverage",
     "lint": "prettier --check src && eslint src && publint",
     "format": "prettier --write src"
