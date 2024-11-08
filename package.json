@@ -20,6 +20,7 @@
         "docs:build": "vitepress build docs",
         "test-create": "node packages/create-jellycommands/src/bin.js"
     },
+    "packageManager": "pnpm@9.12.3",
     "engines": {
         "pnpm": "^9.12.3",
         "npm": "forbidden, use pnpm",
