@@ -12,11 +12,47 @@ import {
 	jellyCommandsOptionsSchema,
 } from './options';
 
+/**
+ * JellyCommands wraps the discord.js Client to provide a framework for building Discord Bots.
+ * If you’re familiar with discord.js you’ll see the similarities:
+ *
+ * ```js
+ * import { JellyCommands } from 'jellycommands';
+ * import { IntentsBitField } from 'discord.js';
+ *
+ * const client = new JellyCommands({
+ *   clientOptions: {
+ *     intents: [IntentsBitField.Flags.Guilds],
+ *   },
+ * });
+ *
+ * client.login();
+ * ```
+ *
+ * @see https://jellycommands.dev/guide/overview/#the-client
+ */
 export class JellyCommands extends Client {
 	// todo these options include data that isn't relevant (like given components) so mayb shouldn't be here
+	/**
+	 * The options you pass to JellyCommands when creating your client.
+	 */
 	public readonly joptions: JellyCommandsOptions;
+
+	/**
+	 * todo https://github.com/ghostdevv/jellycommands/issues/209
+	 */
 	private readonly plugins: SortedPlugins;
+
+	/**
+	 * Props are used to pass data around your client.
+	 * @see https://jellycommands.dev/guide/props/
+	 */
 	public readonly props: Props;
+
+	/**
+	 * A wrapper of console.log that adds a nice prefix.
+	 * Designed for internal use, so won't expand upon current functionality.
+	 */
 	public readonly log: Logger;
 
 	constructor(options: JellyCommandsOptions) {
@@ -56,6 +92,10 @@ export class JellyCommands extends Client {
 		};
 	}
 
+	/**
+	 * Internal fetch wrapper for making Discord API requests.
+	 * Please don't use this, as it may have breaking changes or disappear.
+	 */
 	async $fetch<
 		R = any,
 		D extends Record<string, any> = any,

@@ -11,6 +11,9 @@ export interface BaseComponentOptions {
 
 export const COMPONENT_SYMBOL = Symbol.for('jellycommands.component');
 
+/**
+ * In JellyCommands component is a part of your Discord bot such as a `command`/`event`/etc.
+ */
 export abstract class Component<
 	O extends BaseComponentOptions = BaseComponentOptions,
 > {

@@ -20,6 +20,10 @@ export type AutocompleteHandler = (options: {
 	client: JellyCommands;
 }) => MaybePromise<any>;
 
+/**
+ * Represents a slash command.
+ * @see https://jellycommands.dev/guide/commands/files/#slash-commands
+ */
 export class Command extends BaseCommand<
 	CommandOptions,
 	ChatInputCommandInteraction
@@ -46,6 +50,9 @@ export class Command extends BaseCommand<
 		this.autocomplete = autocomplete;
 	}
 
+	/**
+	 * This is for internal use and is subject to change.
+	 */
 	static transformOptionType(
 		option: JellyApplicationCommandOption,
 	): ApplicationCommandOptionData {
@@ -71,6 +78,9 @@ export class Command extends BaseCommand<
 		return { ...option, options, type } as ApplicationCommandOption;
 	}
 
+	/**
+	 * This is for internal use and is subject to change.
+	 */
 	static transformOption(
 		option: JellyApplicationCommandOption,
 	): APIApplicationCommandOption {
@@ -96,8 +106,15 @@ export class Command extends BaseCommand<
 	}
 }
 
+/**
+ * Creates a slash command.
+ * @see https://jellycommands.dev/guide/commands/files/#slash-commands
+ */
 export const command = (
 	options: CommandOptions & {
+		/**
+		 * The callback function to call when your command is executed.
+		 */
 		run: CommandCallback<ChatInputCommandInteraction>;
 		autocomplete?: AutocompleteHandler;
 	},

@@ -4,7 +4,8 @@ import type { EventName } from './Event';
 export interface EventOptions<Event extends EventName>
 	extends BaseComponentOptions {
 	/**
-	 * The event name: https://discord.js.org/#/docs/main/stable/class/Client
+	 * The Discord event name
+	 * @see https://discord.js.org/docs/packages/discord.js/14.16.3/ClientEvents:Interface
 	 */
 	name: Event;
 

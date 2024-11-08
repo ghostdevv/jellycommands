@@ -65,7 +65,10 @@ export interface JellyCommandsOptions {
 	components?: LoadableComponents;
 
 	/**
-	 * Base discord.js client options
+	 * You can use this to pass options to the base Discord.js client.
+	 * This will need to be used to set `intents` at a minimum.
+	 *
+	 * @see https://discord.js.org/docs/packages/discord.js/14.16.3/ClientOptions:Interface
 	 */
 	clientOptions: ClientOptions;
 
@@ -76,22 +79,37 @@ export interface JellyCommandsOptions {
 	// plugins?: AnyPlugin[];
 
 	/**
-	 * Inital props
+	 * Props are used to pass data around your client.
+	 * @see https://jellycommands.dev/guide/props/
 	 */
 	props?: Props;
 
 	/**
-	 * Customisable responses
+	 * This allows you to control the default messages sent by JellyCommands
+	 * when your code is unable to handle them. Currently only handles
+	 * an unknownCommand state.
+	 *
+	 * @see https://jellycommands.dev/guide/messages/
 	 */
 	messages?: {
 		/**
-		 * This is sent when a unknown command is given
+		 * This is sent when your bot recieves an unknown command. This only
+		 * happens if your user sends a command just as you re-register them
+		 * as we respond to commands based on id rather than name currently.
+		 *
+		 * @see https://jellycommands.dev/guide/messages/#unknown-command
 		 */
 		unknownCommand?: string | MessagePayload | InteractionReplyOptions;
 	};
 
 	/**
-	 * Developer mode options
+	 * Developer mode makes it easier to iterate on your commands
+	 * by registering them locally to a guild rather than locally.
+	 * Discord checks for fresh guild commands every time, while global
+	 * commands are only checked periodically. You should enable this
+	 * when developing, and disable this in production.
+	 *
+	 * @see https://jellycommands.dev/guide/commands/dev/
 	 */
 	dev?: {
 		/**
@@ -106,13 +124,22 @@ export interface JellyCommandsOptions {
 	};
 
 	/**
-	 * Should jelly cache commands - highly recommended
+	 * Controls whether commands should be cached. This allows for restarting
+	 * your Discord Bot repeatedly without having to re-register commands each
+	 * time. It computes a hash of all your commands, and stores it locally to
+	 * the `.jellycommands` folder which you should add to your git ignore.
+	 * When you run your bot it uses this to see if you made any changes to your
+	 * commands. If you have it'll automatically re-register them!
+	 *
+	 * We recommend you leave this on, at least when developing.
+	 *
 	 * @default true
 	 */
 	cache?: boolean;
 
 	/**
-	 * Whether jelly should emit debug messages
+	 * Controls whether debug messages are logged to console.
+	 * By default it's false, unless the `DEBUG` environment variable is set.
 	 */
 	debug?: boolean;
 

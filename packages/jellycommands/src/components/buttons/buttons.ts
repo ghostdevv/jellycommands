@@ -12,6 +12,10 @@ export type ButtonCallback = (context: {
 	interaction: ButtonInteraction;
 }) => MaybePromise<any>;
 
+/**
+ * Represents a button.
+ * @see https://jellycommands.dev/guide/buttons/files/
+ */
 export class Button extends Component<ButtonOptions> {
 	public readonly options: ButtonOptions;
 
@@ -28,6 +32,10 @@ export class Button extends Component<ButtonOptions> {
 	}
 }
 
+/**
+ * Creates a button.
+ * @see https://jellycommands.dev/guide/buttons/files/
+ */
 export const button = (options: ButtonOptions & { run: ButtonCallback }) => {
 	const { run, ...rest } = options;
 	return new Button(rest, run);
