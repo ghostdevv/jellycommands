@@ -1,5 +1,5 @@
+import { event, Event } from '$src/components/events/Event';
 import { describe, expect, it, vi } from 'vitest';
-import { event, Event } from '$src/events/Event';
 import { mockJellyClient } from '$mock';
 
 declare module 'discord.js' {
