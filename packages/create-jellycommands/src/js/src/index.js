@@ -3,7 +3,7 @@ import { JellyCommands } from 'jellycommands';
 import { IntentsBitField } from 'discord.js';
 
 const client = new JellyCommands({
-	// https://jellycommands.dev/guide/overview#components
+	// https://jellycommands.dev/components
 	components: 'src/components',
 
 	clientOptions: {
@@ -12,11 +12,11 @@ const client = new JellyCommands({
 
 	dev: {
 		// In testing we should enable this, it will make all our commands register in our testing guild
-		// https://jellycommands.dev/guide/commands/dev#global-dev-mode
+		// https://jellycommands.dev/components/commands/dev
 		global: true,
 
 		// Put your testing guild id here
-		// https://jellycommands.dev/guide/commands/dev#setup
+		// https://jellycommands.dev/components/commands/dev
 		guilds: [''],
 	},
 });

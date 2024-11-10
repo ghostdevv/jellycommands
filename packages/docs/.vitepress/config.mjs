@@ -134,7 +134,7 @@ export default defineConfig({
 					items: [
 						{
 							text: 'Components',
-							link: '/guide/components',
+							link: '/components',
 						},
 						{
 							text: 'Props',

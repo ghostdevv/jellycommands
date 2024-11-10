@@ -1,0 +1,88 @@
+---
+title: Commands
+description: Learn about the different types of Discord commands, which include slash, user, and message.
+---
+
+JellyCommands supports all 3 types of modern Discord commands: `Slash`, `User`, and `Message`. They all follow the same core, requiring a `name` and `run` fn. Let's create a slash command as an example:
+
+```js
+import { command } from 'jellycommands';
+
+export default command({
+	name: 'hello-world',
+	description: 'demo command', // slash commands also require a description
+
+	async run() {
+		// This is called when the command is executed
+	},
+});
+```
+
+## Handling Commands
+
+Your `run` fn is called every time the command is executed. It's passed a context object, which includes the `interaction`, `client`, and [`props`](/components/props). You always need to respond to the command using either `interaction.reply` or `interaction.followUp` (read more on [deferring](#deferring)). Let's respond with a simple "Hello World" message:
+
+```js {7-9}
+import { command } from 'jellycommands';
+
+export default command({
+	name: 'hello-world',
+	description: 'demo command',
+
+	async run({ interaction }) {
+		await interaction.reply('Hello World');
+	},
+});
+```
+
+### Deferring
+
+By default Discord requires you to respond to a command within 3 seconds, otherwise it marks the interaction as failed. Often it'll take longer than 3 seconds to respond, so you need to "defer" your reply. If you defer your command you need to use `followUp` instead of reply:
+
+```js {7,11} ins="followUp" del="reply"
+import { command } from 'jellycommands';
+
+export default command({
+	name: 'hello-world',
+	description: 'demo command',
+
+	defer: true,
+
+	async run({ interaction }) {
+		await interaction.reply('Hello World');
+		await interaction.followUp('Hello World');
+	},
+});
+```
+
+[Read more on deferring](/components/deferring).
+
+## Command Contexts
+
+Commands can run in different contexts. The most common is globally, which means that it's available in every guild your bot is in and, by default, DMs. However, you can also have guild specific commands.
+
+You can configure the context they run in using the following options:
+
+```js {7-8,10-11,13-14}
+import { command } from 'jellycommands';
+
+export default command({
+	name: 'hello-world',
+	description: 'demo command',
+
+	// This is the default
+	global: true,
+
+	// This also defaults to true
+	dm: true,
+
+	// An array of guild ids
+	guilds: ['...'],
+
+	async run({ interaction }) {
+		await interaction.reply('Hello World');
+	},
+});
+```
+
+Guild commands work best for development, which is why we created a dev mode around them. You can read more about that in the next chapter. You can combine the different contexts how you like, but we recommend global for most usecases.

@@ -1,8 +1,9 @@
 ---
 title: Props API
+description: Guide on migrating to the v1.0.0-next.40 JellyCommands pre-release.
 ---
 
-As of `1.0.0-next.40` the props api has changed, read this guide to figure out how to change your code.
+As of `1.0.0-next.40` the props api has changed, read this guide to figure out how to change your code. [Read the full changelog](https://github.com/ghostdevv/jellycommands/blob/main/packages/jellycommands/CHANGELOG.md#100-next40).
 
 ## Add App Types
 
@@ -11,7 +12,7 @@ You will need to add a file called `src/app.d.ts` with the following contents:
 ```ts
 /// <reference types="jellycommands/ambient" />
 
-// See https://jellycommands.dev/guide/props
+// See https://jellycommands.dev/components/props
 interface Props {}
 ```
 

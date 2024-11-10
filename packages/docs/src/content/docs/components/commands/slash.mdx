@@ -1,0 +1,91 @@
+---
+title: Slash Commands
+description: Learn how to write Slash Commands for your Discord bot with JellyCommands.
+---
+
+On top of the [base options](/components/commands), slash commands require a `description`. These can be localized with `descriptionLocalizations` just like with the `name`.
+
+## Options
+
+Slash Commands are special as they can take input directly from the user, in the form of `options`. As an example let's make a command that returns a channel's id:
+
+```js
+import { command } from 'jellycommands';
+
+export default command({
+	name: 'channel-id',
+	description: 'Get the id of a given channel',
+
+	options: [
+		{
+			type: 'Channel',
+			name: 'channel',
+			description: 'Channel to get the id of',
+			required: true,
+		},
+	],
+
+	async run({ interaction }) {
+		// You can use `true` as the second argument when it's required
+		const channel = interaction.options.getChannel('channel', true);
+
+		// We can then use this channel!
+		const id = channel.id;
+
+		await interaction.reply(`Channel id: \`${id}\``);
+	},
+});
+```
+
+We can then run it:
+
+![shows the /channel-id command in action]($assets/docs/channel-id-command.png)
+
+### Autocomplete
+
+Some options support the `autocomplete` property, which when enabled allows you to automatically suggest items to the user as they type. For example, let's write a command that returns a colour and provides autocomplete on the colour names:
+
+```js
+import { command } from 'jellycommands';
+
+const colors = ['Violet', 'Indigo', 'Blue', 'Green', 'Yellow', 'Orange', 'Red'];
+
+export default command({
+	name: 'color',
+	description: 'get a colour of the rainbow',
+
+	options: [
+		{
+			type: 'String',
+			name: 'color',
+			description: 'The color of the thing idk',
+			required: true,
+			// Enable autocomplete
+			autocomplete: true,
+		},
+	],
+
+	async run({ interaction }) {
+		const colour = interaction.options.getString('color', true);
+
+		await interaction.reply(`You chose the colour: ${colour}`);
+	},
+
+	async autocomplete({ interaction }) {
+		// Get the name of the option that is being autocompleted
+		const focused = interaction.options.getFocused(true);
+
+		if (focused.name === 'color') {
+			// Respond with 3 colours that match the current input
+			interaction.respond(
+				colors
+					.filter((color) => color.startsWith(focused.value))
+					.map((color) => ({ name: color, value: color }))
+					.slice(0, 3),
+			);
+		}
+	},
+});
+```
+
+![shows the /color command in action]($assets/docs/color-command.png)

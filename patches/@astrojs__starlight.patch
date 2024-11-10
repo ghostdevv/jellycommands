@@ -1,0 +1,27 @@
+diff --git a/user-components/LinkCard.astro b/user-components/LinkCard.astro
+index 8cf6fbd90fd6eb128bdcdcd35731a252ef74c44a..a044e67d1023c618382b09a5299cf5abe1e54689 100644
+--- a/user-components/LinkCard.astro
++++ b/user-components/LinkCard.astro
+@@ -1,13 +1,20 @@
+ ---
+ import Icon from './Icon.astro';
+ import type { HTMLAttributes } from 'astro/types';
++import { getRouteBySlugParam } from '../utils/routing'
+ 
+ interface Props extends Omit<HTMLAttributes<'a'>, 'title'> {
+-	title: string;
++	title?: string;
+ 	description?: string;
+ }
+ 
+-const { title, description, ...attributes } = Astro.props;
++const route = getRouteBySlugParam(Astro.props.href.replace(/^\//, ''))
++
++const { title = route?.entry.data.title, description = route?.entry.data.description, ...attributes } = Astro.props;
++
++if (!title) {
++	throw new Error('Starlight LinkCard requires a `title`, and one couldn\'t be determind from your `href`')
++}
+ ---
+ 
+ <div class="sl-link-card">

@@ -70,7 +70,7 @@ async function read(client: JellyCommands, path: string): Promise<File[]> {
  * The components of your bot. For any strings that are passed they
  * will be loaded recursively from that path.
  *
- * @see https://jellycommands.dev/guide/components
+ * @see https://jellycommands.dev/components
  */
 export type LoadableComponents = string | (string | Component)[];
 

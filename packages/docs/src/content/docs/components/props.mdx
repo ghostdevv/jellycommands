@@ -1,0 +1,84 @@
+---
+title: Props
+description: Learn how props allow you to store custom data on your JellyCommands client, and how you can access and even type them.
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+Props can be used to store custom data on your `client`, and consume it wherever your `client` is accessed. With optional type safety. They're stored on the `client.props` object and can be read/modified at any time, including when you create your client.
+
+```js {9-13,16-17,19-20}
+import { JellyCommands } from 'jellycommands';
+import { IntentsBitField } from 'discord.js';
+
+const client = new JellyCommands({
+	clientOptions: {
+		intents: [IntentsBitField.Flags.Guilds],
+	},
+
+	// We can set the props object here
+	props: {
+		// With any data we like
+		example: 'hello world',
+	},
+});
+
+// We can read the props anytime
+console.log(client.props.example);
+
+// and modify it too
+client.props.example2 = 'hello again!';
+
+client.login();
+```
+
+## Type Safety
+
+When we read our props TypeScript hasn't got a clue what props you've added, and everything you read will be typed as `any`. This isn't great as we loose all benefits of typing when we use props.
+
+To fix this we provide an ambient `Props` interface declaration that you can add properties to. The default template comes with this setup like this:
+
+```ts title="app.d.ts"
+/// <reference types="jellycommands/ambient" />
+
+interface Props {
+	example: string;
+}
+```
+
+{/* prettier-ignore */}
+<FileTree>
+- package.json
+- src/
+    - index.js
+    - **app.d.ts**
+</FileTree>
+
+You'll now get intellisense and type checking for the props that you've told TypeScript about. You'll still be able to access props that don't exist, they'll just continue to be typed as any.
+
+:::caution
+You can't use any `import` or `export` statements in your `app.d.ts` file, as it'll cause it to stop working. However, to get around this you're able to use inline imports. For example:
+
+```ts {4}
+/// <reference types="jellycommands/ambient" />
+
+interface Props {
+	db: import('knex').Knex;
+}
+```
+
+:::
+
+## Component Shortcut
+
+All of the built-in components which have a `run` handler also provide the props directly in the context as a shortcut, rather than needing to do `client.props`. For example:
+
+```ts {4-6} ins="props"
+import { command } from 'jellycommands';
+
+export default command({
+	async run({ client, props }) {
+		// Can use `props` or `client.props`, they're the same
+	},
+});
+```

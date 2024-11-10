@@ -1,8 +1,9 @@
 ---
 title: Components
+description: Guide on migrating to the v1.0.0-next.44 JellyCommands pre-release.
 ---
 
-This guide covers breaking changes introduced in JellyCommands `1.0.0-next.44`. [View the full changelog](https://github.com/ghostdevv/jellycommands/blob/main/packages/jellycommands/CHANGELOG.md#100-next44)
+This guide covers breaking changes introduced in JellyCommands `1.0.0-next.44`. [Read the full changelog](https://github.com/ghostdevv/jellycommands/blob/main/packages/jellycommands/CHANGELOG.md#100-next44).
 
 ## Dependency Changes
 
@@ -37,7 +38,7 @@ const client = new JellyCommands({
 });
 ```
 
-[Read more on components here](/guide/components).
+[Read more on components here](/components).
 
 ## Client Logger
 

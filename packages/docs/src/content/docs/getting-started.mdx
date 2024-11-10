@@ -1,0 +1,60 @@
+---
+title: Getting Started
+description: Learn how to get started with JellyCommands. Including how to setup a fresh project, an overview of the structure, and how it interacts with Discord.js.
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+:::danger[Warning]
+JellyCommands is not in a stable release yet, and as such there will be breaking changes! While we won't warn you not to use it in production, as we are, please don't update the version without first checking the [changelog](https://github.com/ghostdevv/jellycommands/blob/main/packages/create-jellycommands/CHANGELOG.md). If there breaking changes, there will always be an upgrade guide in these docs.
+:::
+
+---
+
+Welcome to JellyCommands! A framework built around [discord.js](https://discord.js.org/) that allows you to easily create fully featured Discord bots. This guide will be easier to follow with our official template, which setups all the necessary boilerplate for you:
+
+```bash
+npm create jellycommands@latest
+```
+
+:::note
+If you select TypeScript in the template your code will be run with [`tsm`](https://github.com/lukeed/tsm) to avoid the compilation step. JellyCommands doesn't have any requirements here, so you could easily replace it with your preffered ts loader, or a compilation step.
+:::
+
+## Project Structure
+
+Now you've got your project created, take a moment to familiarise yourself with the structure:
+
+{/* prettier-ignore */}
+<FileTree>
+- package.json
+- README.md Helpful tips/reminders about your project
+- .env.example This shows what your `.env` file should look like
+- src/ Project source code
+    - index.js Your main file
+	- app.d.ts Contains app types
+    - components/
+        - ready.js This ready event fires when the client starts
+		- hello.js Demo Hello World command
+</FileTree>
+
+## The Client
+
+JellyCommands wraps the standard discord.js [`Client`](https://discord.js.org/docs/packages/discord.js/14.16.3/Client:Class) to add in extra goodies for developing Discord Bots. If you're familiar with discord.js you'll be right at home. Setting up the client is simple, you need to create a new instance and pass it your intents. The intents tell Discord what your bot is going to do, and what events it needs to recieve. For now we'll just stick with the guild intent:
+
+```ts
+import { JellyCommands } from 'jellycommands';
+import { IntentsBitField } from 'discord.js';
+
+const client = new JellyCommands({
+	clientOptions: {
+		intents: [IntentsBitField.Flags.Guilds],
+	},
+});
+
+client.login();
+```
+
+Once we call `client.login()` JellyCommands gets to work. It'll load and register any components (we'll learn about these next), then delegate to Discord.js to actually start up your bot and open a websocket connection to Discord.
+
+If this is your first time building a Discord bot, we recommend checking out [discordjs.guide](https://discordjs.guide/#before-you-begin) and having the [Discord.js docs](https://discord.js.org/docs) handy. There are also plenty of tutorials available on YouTube. From here we'll assume some prerequisite knowledge on building Discord bots.
