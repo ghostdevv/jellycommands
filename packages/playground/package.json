@@ -1,7 +1,8 @@
 {
 	"name": "@jellycommands/playground",
-	"type": "module",
 	"private": true,
+	"version": "0.1.0",
+	"type": "module",
 	"scripts": {
 		"dev": "nodemon src/index.js"
 	},
