@@ -22,7 +22,7 @@ export type AutocompleteHandler = (options: {
 
 /**
  * Represents a slash command.
- * @see https://jellycommands.dev/guide/commands/files/#slash-commands
+ * @see https://jellycommands.dev/components/commands
  */
 export class Command extends BaseCommand<
 	CommandOptions,
@@ -30,6 +30,12 @@ export class Command extends BaseCommand<
 > {
 	public readonly type = ApplicationCommandType.ChatInput;
 
+	/**
+	 * On some options you can enable autocomplete, which allows you to
+	 * provide suggestions as a user types your command option.
+	 *
+	 * @see https://jellycommands.dev/components/commands/slash#autocomplete
+	 */
 	public readonly autocomplete?: AutocompleteHandler;
 
 	constructor({
@@ -108,14 +114,22 @@ export class Command extends BaseCommand<
 
 /**
  * Creates a slash command.
- * @see https://jellycommands.dev/guide/commands/files/#slash-commands
+ * @see https://jellycommands.dev/components/commands
  */
 export const command = (
 	options: CommandOptions & {
 		/**
 		 * The callback function to call when your command is executed.
+		 * @see http://localhost:4321/components/commands#handling-commands
 		 */
 		run: CommandCallback<ChatInputCommandInteraction>;
+
+		/**
+		 * On some options you can enable autocomplete, which allows you to
+		 * provide suggestions as a user types your command option.
+		 *
+		 * @see https://jellycommands.dev/components/commands/slash#autocomplete
+		 */
 		autocomplete?: AutocompleteHandler;
 	},
 ) => {

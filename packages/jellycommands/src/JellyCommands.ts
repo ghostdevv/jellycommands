@@ -29,7 +29,7 @@ import {
  * client.login();
  * ```
  *
- * @see https://jellycommands.dev/guide/overview/#the-client
+ * @see https://jellycommands.dev/getting-started#the-client
  */
 export class JellyCommands extends Client {
 	// todo these options include data that isn't relevant (like given components) so mayb shouldn't be here
@@ -45,7 +45,7 @@ export class JellyCommands extends Client {
 
 	/**
 	 * Props are used to pass data around your client.
-	 * @see https://jellycommands.dev/guide/props/
+	 * @see https://jellycommands.dev/components/props/
 	 */
 	public readonly props: Props;
 
@@ -75,17 +75,17 @@ export class JellyCommands extends Client {
 		this.props = {
 			get() {
 				throw new Error(
-					'props.get has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
+					'props.get has been removed, SEE: https://jellycommands.dev/migrate/props',
 				);
 			},
 			set() {
 				throw new Error(
-					'props.set has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
+					'props.set has been removed, SEE: https://jellycommands.dev/migrate/props',
 				);
 			},
 			has() {
 				throw new Error(
-					'props.has has been removed, SEE: https://jellycommands.dev/guide/migrate/props',
+					'props.has has been removed, SEE: https://jellycommands.dev/migrate/props',
 				);
 			},
 			...this.props,

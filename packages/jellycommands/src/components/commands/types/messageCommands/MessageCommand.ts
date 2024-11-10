@@ -7,7 +7,7 @@ import { BaseCommand } from '../BaseCommand';
 
 /**
  * Represents a Message Context Menu command.
- * @see https://jellycommands.dev/guide/commands/files/#message-commands
+ * @see https://jellycommands.dev/components/commands/context-menu#message-commands
  */
 export class MessageCommand extends BaseCommand<
 	MessageCommandOptions,
@@ -25,12 +25,13 @@ export class MessageCommand extends BaseCommand<
 
 /**
  * Creates a Message Context Menu command.
- * @see https://jellycommands.dev/guide/commands/files/#message-commands
+ * @see https://jellycommands.dev/components/commands/context-menu#message-commands
  */
 export const messageCommand = (
 	options: MessageCommandOptions & {
 		/**
 		 * The callback function to call when your command is executed.
+		 * @see http://localhost:4321/components/commands#handling-commands
 		 */
 		run: CommandCallback<MessageContextMenuCommandInteraction>;
 	},

@@ -60,7 +60,7 @@ export interface JellyCommandsOptions {
 	 * The components of your bot. For any strings that are passed they
 	 * will be loaded recursively from that path.
 	 *
-	 * @see https://jellycommands.dev/guide/components
+	 * @see https://jellycommands.dev/components
 	 */
 	components?: LoadableComponents;
 
@@ -80,7 +80,7 @@ export interface JellyCommandsOptions {
 
 	/**
 	 * Props are used to pass data around your client.
-	 * @see https://jellycommands.dev/guide/props/
+	 * @see https://jellycommands.dev/components/props/
 	 */
 	props?: Props;
 
@@ -89,7 +89,7 @@ export interface JellyCommandsOptions {
 	 * when your code is unable to handle them. Currently only handles
 	 * an unknownCommand state.
 	 *
-	 * @see https://jellycommands.dev/guide/messages/
+	 * @see https://jellycommands.dev/guides/messages/
 	 */
 	messages?: {
 		/**
@@ -97,7 +97,7 @@ export interface JellyCommandsOptions {
 		 * happens if your user sends a command just as you re-register them
 		 * as we respond to commands based on id rather than name currently.
 		 *
-		 * @see https://jellycommands.dev/guide/messages/#unknown-command
+		 * @see https://jellycommands.dev/guides/messages#unknown-command
 		 */
 		unknownCommand?: string | MessagePayload | InteractionReplyOptions;
 	};
@@ -109,7 +109,7 @@ export interface JellyCommandsOptions {
 	 * commands are only checked periodically. You should enable this
 	 * when developing, and disable this in production.
 	 *
-	 * @see https://jellycommands.dev/guide/commands/dev/
+	 * @see https://jellycommands.dev/components/commands/dev
 	 */
 	dev?: {
 		/**
@@ -134,6 +134,8 @@ export interface JellyCommandsOptions {
 	 * We recommend you leave this on, at least when developing.
 	 *
 	 * @default true
+	 *
+	 * @see https://jellycommands.dev/components/commands/caching
 	 */
 	cache?: boolean;
 
@@ -146,11 +148,15 @@ export interface JellyCommandsOptions {
 	/**
 	 * Options to control how JellyCommands reads from the
 	 * filesystem when loading components.
+	 *
+	 * @see https://jellycommands.dev/guides/fs
 	 */
 	fs?: {
 		/**
 		 * Only files that end in these extensions are loaded.
 		 * @default ['.js', '.ts']
+		 *
+		 * @see https://jellycommands.dev/guides/fs#file-extensions
 		 */
 		extensions?: string[];
 	};

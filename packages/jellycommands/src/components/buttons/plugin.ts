@@ -17,6 +17,7 @@ async function findButton(
 				break;
 
 			case 'function':
+				// todo should this be sync only? might cause issues when not deffered
 				if (await id(incomingId)) return button;
 				break;
 

@@ -14,7 +14,7 @@ export type ButtonCallback = (context: {
 
 /**
  * Represents a button.
- * @see https://jellycommands.dev/guide/buttons/files/
+ * @see https://jellycommands.dev/components/buttons
  */
 export class Button extends Component<ButtonOptions> {
 	public readonly options: ButtonOptions;
@@ -34,7 +34,7 @@ export class Button extends Component<ButtonOptions> {
 
 /**
  * Creates a button.
- * @see https://jellycommands.dev/guide/buttons/files/
+ * @see https://jellycommands.dev/components/buttons
  */
 export const button = (options: ButtonOptions & { run: ButtonCallback }) => {
 	const { run, ...rest } = options;
