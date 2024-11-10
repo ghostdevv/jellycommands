@@ -1,0 +1,80 @@
+---
+title: Events
+description: Learn how to handle Discord.js events with JellyCommands.
+---
+
+The event component wraps the discord.js' built in events so you should be able to hit the ground running. There is also complete type safety so your editor will be able to provide helpful hints! As an example let's create an event that reacts when your bot is online and ready:
+
+```js
+import { event } from 'jellycommands';
+
+export default event({
+	name: 'ready',
+
+	run() {
+		console.log('Hello World!');
+	},
+});
+```
+
+## Handling Events
+
+When an event is emitted, it's handler function (`run`) recieves specific **ordered** arguments. The first argument is always the [event context](#event-context) (which includes the `client` and `props`). The remaining arguments correspond to the event type, as defined in the Discord.js docs.
+
+Let's look at the [`channelUpdate`](https://discord.js.org/docs/packages/discord.js/14.16.3/Client:Class#channelUpdate) event as an example. According to the Discord.js Client documentation, this event provides two arguments: `oldChannel` and `newChannel`.
+
+![discord.js showing `channelUpdate(oldChannel, newChannel)`]($assets/docs/channel-update-event.png)
+
+We can then combine that to create our event handler:
+
+```js {6} ins="ctx, oldChannel, newChannel"
+import { event } from 'jellycommands';
+
+export default event({
+	name: 'channelUpdate',
+
+	run(ctx, oldChannel, newChannel) {},
+});
+```
+
+:::tip
+Your IDE should be able to provide intellisense for the event arguments once you've added the `name`. If it doesn't you can find docs on the [discord.js `Client` docs under the "Events" tab](https://discord.js.org/docs/packages/discord.js/14.16.3/Client:Class#channelUpdate).
+
+![intellisense for event args]($assets/docs/event-arg-intellisense.png)
+:::
+
+### Event Context
+
+We pass the "event context" as the first argument to the `run` fn, which is an object that includes:
+
+-   `client` - this is your JellyCommands client
+-   `props` - this is a shortcut to your [`client.props`](/components/props)
+
+For example, let's destructure these from the context of the above example:
+
+```js {6} ins="{ client, props }"
+import { event } from 'jellycommands';
+
+export default event({
+	name: 'channelUpdate',
+
+	run({ client, props }, oldChannel, newChannel) {
+		// use your client and props
+	},
+});
+```
+
+## Running only once
+
+You can configure an event handler to run only `once`, then automatically remove itself. This `once` option is specific to each individual component - other event components listening for the same event will continue to run normally.
+
+```js {4-5}
+export default event({
+	name: 'channelUpdate',
+
+	// This handler will only run once
+	once: true,
+
+	run(ctx, oldChannel, newChannel) {},
+});
+```

@@ -1,0 +1,18 @@
+---
+title: Caching
+description: Learn about how command caching helps save you from Discord rate limits when developing
+---
+
+When developing, you'll be restarting your bot repeatedly. This is a pain since you have to re-register your commands each time, which takes time and is rate limted by Discord. JellyCommands can help with this by caching your commands. It computes a hash of all your commands, and stores it locally to the `.jellycommands` folder (which you should add to your `.gitignore`). When your bot starts, it'll check if you've made any changes, and if so, will automatically re-register your commands!
+
+We **don't** recommend disabling cache, but if you want to, you can with the `cache` option:
+
+```js {4}
+import { JellyCommands } from 'jellycommands';
+
+const client = new JellyCommands({
+	cache: true,
+});
+
+client.login();
+```

@@ -26,45 +26,47 @@ export default defineConfig({
 			},
 			lastUpdated: true,
 			plugins: [starlightLinksValidator()],
+			tableOfContents: {
+				maxHeadingLevel: 4,
+			},
 			sidebar: [
 				{
-					label: 'Guide',
+					label: 'Getting Started',
+					link: '/getting-started',
+				},
+				{
+					label: 'Components',
 					items: [
 						{
-							label: 'Get Started',
-							items: [
-								{
-									label: 'Overview',
-									link: '/guide/overview',
-								},
-								{
-									label: 'Import vs Require',
-									link: '/guide/require',
-								},
-							],
+							label: 'Understanding Components',
+							link: '/components',
 						},
 						{
 							label: 'Commands',
 							items: [
 								{
 									label: 'Creating Commands',
-									link: '/guide/commands/files',
-								},
-								{
-									label: 'Registering Commands',
-									link: '/guide/commands/registering',
+									link: '/components/commands',
 								},
 								{
 									label: 'Dev Mode',
-									link: '/guide/commands/dev',
+									link: '/components/commands/dev',
 								},
 								{
-									label: 'Slash Commands Extras',
-									link: '/guide/commands/slash',
+									label: 'Slash Commands',
+									link: '/components/commands/slash',
+								},
+								{
+									label: 'Context Menu Commands',
+									link: '/components/commands/context-menu',
 								},
 								{
 									label: 'Guards',
-									link: '/guide/commands/guards',
+									link: '/components/commands/guards',
+								},
+								{
+									label: 'Caching',
+									link: '/components/commands/caching',
 								},
 							],
 						},
@@ -73,7 +75,7 @@ export default defineConfig({
 							items: [
 								{
 									label: 'Creating Events',
-									link: '/guide/events/files',
+									link: '/components/events',
 								},
 							],
 						},
@@ -82,77 +84,55 @@ export default defineConfig({
 							items: [
 								{
 									label: 'Creating Buttons',
-									link: '/guide/buttons/files',
+									link: '/components/buttons',
 								},
 							],
 						},
 						{
-							label: 'Core',
-							items: [
-								{
-									label: 'Components',
-									link: '/guide/components',
-								},
-								{
-									label: 'Props',
-									link: '/guide/props',
-								},
-								{
-									label: 'Messages',
-									link: '/guide/messages',
-								},
-							],
+							label: 'Props',
+							link: '/components/props',
 						},
 						{
-							label: 'Migrate',
-							items: [
-								{
-									label: 'Components (1.0.0-next.44)',
-									link: '/guide/migrate/components',
-								},
-								{
-									label: 'Props (1.0.0-next.40)',
-									link: '/guide/migrate/props',
-								},
-								{
-									label: 'Discord.js v14 (1.0.0-next.31)',
-									link: '/guide/migrate/djs14',
-								},
-							],
+							label: 'Deferring Interactions',
+							link: '/components/deferring',
 						},
 					],
 				},
 				{
-					label: 'API',
+					label: 'Guides',
+					items: [
+						// {
+						// 	label: 'Going to production',
+						// 	link: '/guides/production',
+						// },
+						{
+							label: 'File Loading Expanded',
+							link: '/guides/fs',
+						},
+						{
+							label: 'Messages',
+							link: '/guides/messages',
+						},
+						{
+							label: 'Import vs Require',
+							link: '/guides/require',
+						},
+					],
+				},
+				{
+					label: 'Breaking Changes',
 					items: [
 						{
-							label: 'Core',
-							items: [
-								{
-									label: 'Client',
-									link: '/api/client',
-								},
-								{
-									label: 'Props',
-									link: '/api/props',
-								},
-								{
-									label: 'Commands',
-									link: '/api/commands',
-								},
-								{
-									label: 'Events',
-									link: '/api/events',
-								},
-								{
-									label: 'Buttons',
-									link: '/api/buttons',
-								},
-								{
-									label: 'App Types',
-									link: '/api/types',
-								},
-							],
+							label: 'Components (1.0.0-next.44)',
+							link: '/migrate/components',
+						},
+						{
+							label: 'Props (1.0.0-next.40)',
+							link: '/migrate/props',
+						},
+						{
+							label: 'Discord.js v14 (1.0.0-next.32)',
+							link: '/migrate/djs14',
 						},
 					],
 				},

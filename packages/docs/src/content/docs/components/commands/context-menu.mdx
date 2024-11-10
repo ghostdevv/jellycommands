@@ -1,0 +1,47 @@
+---
+title: Context Menu Commands
+description: Learn how to write User and Message context menu commands for your Discord bot with JellyCommands.
+---
+
+Context menu commands appear when you right-click on a `message` or `user` in Discord. They provide quick actions without needing to type a slash command. Therefore there are two types: `messageCommand` and `userCommand`. Unlike slash commands, these are more relaxed on the name casing.
+
+## Message Commands
+
+Message commands appear in the context menu when right-clicking a message. They're perfect for actions like translating, bookmarking, or reporting messages. Here's how to create one:
+
+```js
+import { messageCommand } from 'jellycommands';
+
+export default messageCommand({
+	name: 'Save Message',
+
+	async run({ interaction }) {
+		const message = interaction.targetMessage;
+		await interaction.reply(`Saved message: ${message.content}`);
+	},
+});
+```
+
+![message command in action]($assets/docs/message-command.png)
+
+## User Commands
+
+User commands show up when you right-click a user's avatar or name. They're useful for actions like viewing profiles, sending friend requests, or adding roles. Here's an example:
+
+```js
+import { userCommand } from 'jellycommands';
+
+export default userCommand({
+	name: 'Get Join Date',
+
+	async run({ interaction }) {
+		const targetUser = interaction.targetUser;
+
+		await interaction.reply(
+			`${targetUser.tag} joined discord on ${targetUser.createdAt}`,
+		);
+	},
+});
+```
+
+![user command in action]($assets/docs/user-command.png)

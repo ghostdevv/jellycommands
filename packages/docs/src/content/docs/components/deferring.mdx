@@ -1,0 +1,43 @@
+---
+title: Deferring Interactions
+description: Learn about deffering your interactions, and why it's required with Discord.
+---
+
+If your component is interaction based (i.e. `commands`/`buttons`/...), you can optionally defer that interaction. Discord requires you to respond to an interaction within 3 seconds, otherwise it marks it as failed. Often it'll take longer than 3 seconds to respond, so you need to "defer" your reply. You can do this by enabling the `defer` option, and replacing any instance of `reply` with `followUp`. For example:
+
+```js {7,11} ins="followUp" del="reply"
+import { command } from 'jellycommands';
+
+export default command({
+	name: 'hello-world',
+	description: 'demo command',
+
+	defer: true,
+
+	async run({ interaction }) {
+		await interaction.reply('Hello World');
+		await interaction.followUp('Hello World');
+	},
+});
+```
+
+## Ephemeral
+
+If you want deffered replies to be `ephemeral`, as in only the person who created the interaction can see it. You have to set it in the defer options. You can't change whether it's ephemeral or not part way through an interaction:
+
+```js {7-9}
+import { command } from 'jellycommands';
+
+export default command({
+	name: 'hello-world',
+	description: 'demo command',
+
+	defer: {
+		ephemeral: true,
+	},
+
+	async run({ interaction }) {
+		await interaction.followUp('Hello World');
+	},
+});
+```

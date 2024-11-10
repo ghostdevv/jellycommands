@@ -35,5 +35,10 @@
 	"bugs": {
 		"url": "https://github.com/ghostdevv/jellycommands/issues"
 	},
-	"homepage": "https://github.com/ghostdevv/jellycommands#readme"
+	"homepage": "https://github.com/ghostdevv/jellycommands#readme",
+	"pnpm": {
+		"patchedDependencies": {
+			"@astrojs/starlight": "patches/@astrojs__starlight.patch"
+		}
+	}
 }

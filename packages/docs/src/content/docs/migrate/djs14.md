@@ -1,8 +1,9 @@
 ---
 title: Discord.js v14
+description: Guide on migrating to the v1.0.0-next.32 JellyCommands pre-release.
 ---
 
-JellyCommands now only supports Discord.js v14. The last version to support Discord.js v13 was `1.0.0-next.31`.
+JellyCommands now only supports Discord.js v14. [Read the full changelog](https://github.com/ghostdevv/jellycommands/blob/main/packages/jellycommands/CHANGELOG.md#100-next32).
 
 ## Migration
 

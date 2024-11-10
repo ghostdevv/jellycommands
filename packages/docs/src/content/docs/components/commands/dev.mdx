@@ -1,0 +1,30 @@
+---
+title: Dev Mode
+description: Learn about how developer mode for commands allows you to iterate faster on your commands
+---
+
+Dev mode exists to make it easier to iterate on your commands. When enabled it will register all your commands in a given guild, regardless of the command settings. This is important because guild commands refresh instantly, but global commands are cached.
+
+To get started you can enable `dev` in your client settings, we'll also need to provide our development guild id:
+
+```ts {9-12}
+import { JellyCommands } from 'jellycommands';
+import { IntentsBitField } from 'discord.js';
+
+const client = new JellyCommands({
+	clientOptions: {
+		intents: [IntentsBitField.Flags.Guilds],
+	},
+
+	dev: {
+		global: true,
+		guilds: ['...'],
+	},
+});
+
+client.login();
+```
+
+:::caution
+You should always use a seperate bot for development, since JellyCommands overwrites commands to ensure they're set correctly.
+:::

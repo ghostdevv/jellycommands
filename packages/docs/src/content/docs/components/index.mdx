@@ -1,0 +1,97 @@
+---
+title: Components
+description: Components are a core feature of JellyCommands. They encapsulate commands/events/buttons/etc, and are the thing you spend a large amount of your time interacting with in modern Discord bots.
+---
+
+import { FileTree, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+In JellyCommands "Components" are the `commands`/`events`/`interactions`/etc that make up your bot. For example you might use an `event` component which allows you to run code when a user joins a guild, or you might use a `button` component to make a cookie clicker. It's up to you!
+
+## Creating Components
+
+Each component will have a function you call to create it. Let's use an `event` component as an example. We can import the `event` fn from JellyCommands, and pass in the required options. This will then create an event component that we can load into our client shortly.
+
+```js title="readyEvent.js"
+import { event } from 'jellycommands';
+
+export default event({
+	// An event needs a name of course
+	name: 'ready',
+	// I'm called every time the `ready` event occurs
+	run() {
+		console.log('Ready!');
+	},
+});
+```
+
+As you can imagine there are different options for each component, but they all follow this basic structure: a utility function that creates an instance based on the options provided.
+
+## Loading Components
+
+You can load your components manually by passing them into the client, or load them automatically from files.
+
+### Automatically
+
+Having to import every component will get quite tedious as your bot grows, so we recommend using our file loader. It'll scan the path(s) you configure recursively to find any components. Any component that's exported from the files it finds will be loaded. This means you're free to organise your components in a way that makes sense for your bot!
+
+Let's take our `readyEvent.js` example from above, and move it into a directory called `src/components`.
+
+{/* prettier-ignore */}
+<FileTree>
+- package.json
+- src
+    - index.js
+    - components/
+        - **readyEvent.js**
+</FileTree>
+
+We can use the `components` option in our client config to configure this directory:
+
+```js {9} title="index.js"
+import { JellyCommands } from 'jellycommands';
+import { IntentsBitField } from 'discord.js';
+
+const client = new JellyCommands({
+	clientOptions: {
+		intents: [IntentsBitField.Flags.Guilds],
+	},
+
+	components: ['src/components'],
+});
+
+client.login();
+```
+
+If you need information regarding path resolution or custom file extensions, [read our fs guide](/guides/fs).
+
+### Manually
+
+If you want to load your components manually, you can also use the `components` option as above. You'll just need to import them yourself, then pass it in:
+
+```js {4,11} title="index.js"
+import { JellyCommands } from 'jellycommands';
+import { IntentsBitField } from 'discord.js';
+
+import readyEvent from './readyEvent.js';
+
+const client = new JellyCommands({
+	clientOptions: {
+		intents: [IntentsBitField.Flags.Guilds],
+	},
+
+	components: [readyEvent],
+});
+
+client.login();
+```
+
+## Component Types
+
+There are many different types of components built-in to JellyCommands, or even create your own with plugins.
+
+<CardGrid>
+	<LinkCard href="/components/commands" />
+	<LinkCard href="/components/events" />
+	<LinkCard href="/components/buttons" />
+	{/* todo add link to custom component guide */}
+</CardGrid>

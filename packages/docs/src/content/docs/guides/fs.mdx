@@ -1,0 +1,98 @@
+---
+title: File Loading Expanded
+description: Further details on how JellyCommands load files, currently just components, from the file system.
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+This guide expands on the behaviours described in [Understanding Components](/components).
+
+## Finding Components
+
+You can pass file or directory paths to the client `components` option. Any directories will be read recursively to find all the files. Any [ignored files](#ignored-files) or files that don't have a [supported extension](#file-extensions) will be ignored/skipped.
+
+For example, if we set the `components` to be `src/components` the highlighted files will be loaded and checked for components:
+
+{/* prettier-ignore */}
+<FileTree>
+- package.json
+- src/
+	- index.js
+	- components/
+		- **some-component.js**
+		- assignment.odt
+		- **example.ts**
+		- _living-on-the-edge.js
+		- demo/
+			- **task.ts**
+			- krabby-patty-formula.txt
+			- ...
+</FileTree>
+
+### Exports
+
+After a file is loaded by JellyCommands we'll read all the exports to find components. The name of the export is ignored, and the only the immediate value is checked. For example:
+
+```js ins={4,7,10} del={14,19}
+import { command } from 'jellycommands';
+
+// This will be found
+export const test = command();
+
+// so will this
+export const test2 = command();
+
+// this too
+export default command();
+
+export const test3 = [
+	// This won't be found
+	command()
+]
+
+export default {
+	// neither will this
+	test
+}
+```
+
+## Path Resolution
+
+Paths are "resolved" to the current working directory (cwd), from which you run your bot. This is in previous examples we can do `src/components` and it works. Since we're running the bot from the same parent directory as `src`. However, this can cause portability problems with your bot. You can't run it from different directories without your components failing to be found.
+
+You can fix this by passing in an absolute path to your components. That means that we don't have to try and work one out for you. The best way to get this is to use a relative path to your current file (`index.js`). Fortunately modern versions of node provide [`import.meta.dirname`](https://nodejs.org/docs/latest-v20.x/api/esm.html#importmetadirname) to do this.
+
+```js title="index.js" ins={3,11} del={10}
+import { JellyCommands } from 'jellycommands';
+import { IntentsBitField } from 'discord.js';
+import { join } from 'node:path';
+
+const client = new JellyCommands({
+	clientOptions: {
+		intents: [IntentsBitField.Flags.Guilds],
+	},
+
+	components: ['src/components'],
+	components: [join(import.meta.dirname, './components')],
+});
+
+client.login();
+```
+
+## Ignored Files
+
+Any file name that starts with a `_` will be completely ignored. We consider this an escape hatch and don't recommend using it, since any modules with side effects great enough to require this should be moved or rewritten.
+
+## File Extensions
+
+By default JellyCommands will load `.ts` and `.js` files, if you need to change this you can use the `fs.extensions` option. This will overwrite the defaults, so you'll need to specify all extensions you want to support. For example:
+
+```js {4-6}
+import { JellyCommands } from 'jellycommands';
+
+const client = new JellyCommands({
+  fs: {
+    extensions: ['.js', '.ts', ...],
+  },
+});
+```
