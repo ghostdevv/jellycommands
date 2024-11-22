@@ -18,8 +18,8 @@
 	},
 	"homepage": "https://github.com/ghostdevv/jellycommands#readme",
 	"devDependencies": {
-		"@types/node": "^20.12.11",
-		"publint": "^0.2.7"
+		"@types/node": "^20.17.6",
+		"publint": "^0.2.12"
 	},
 	"dependencies": {
 		"@clack/prompts": "^0.7.0",
