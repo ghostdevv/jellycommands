@@ -1,5 +1,13 @@
 # jellycommands
 
+## 1.0.0-next.45
+
+### Patch Changes
+
+-   feat: add more jsdoc comments to exports ([#217](https://github.com/ghostdevv/jellycommands/pull/217))
+
+-   chore: update jsdoc comments ([#228](https://github.com/ghostdevv/jellycommands/pull/228))
+
 ## 1.0.0-next.44
 
 ### Minor Changes
