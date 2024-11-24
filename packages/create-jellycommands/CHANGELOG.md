@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.1.0-next.17
+
+### Patch Changes
+
+-   chore: update jsdoc comments ([#228](https://github.com/ghostdevv/jellycommands/pull/228))
+
 ## 0.1.0-next.16
 
 ### Minor Changes
