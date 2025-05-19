@@ -25,3 +25,7 @@ export type { EventOptions } from './components/events/options';
 // Export button related
 export { button, Button } from './components/buttons/buttons';
 export type { ButtonOptions } from './components/buttons/options';
+
+// Export modal related
+export { modal, Modal } from './components/modals/modals';
+export type { ModalOptions } from './components/modals/options';
