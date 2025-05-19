@@ -19,6 +19,7 @@ const client = new JellyCommands({
 	components: [
 		pog,
 		ready,
+		'src/modals',
 		'src/commands/file-loaded',
 		'src/events/file-loaded',
 		'src/buttons',
