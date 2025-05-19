@@ -1,9 +1,15 @@
-import type { InteractionDeferReplyOptions } from 'discord.js';
+import {
+	type InteractionDeferReplyOptions,
+	type TextInputComponentData,
+} from 'discord.js';
 import type { BaseComponentOptions } from '../components';
 import type { MaybePromise } from '../../utils/types';
 import { z } from 'zod';
 
-export interface ModalOptions extends BaseComponentOptions {
+export type ModalField = Omit<TextInputComponentData, 'type' | 'value'>;
+
+export interface ModalOptions<T extends ModalField>
+	extends BaseComponentOptions {
 	/**
 	 * The customId of the modal, or a regex/function to match against
 	 */
@@ -13,6 +19,11 @@ export interface ModalOptions extends BaseComponentOptions {
 	 * Should the interaction be defered?
 	 */
 	defer?: boolean | InteractionDeferReplyOptions;
+
+	/**
+	 * The text input fields of the modal
+	 */
+	fields: (T & ModalField)[];
 }
 
 export const modalSchema = z.object({
@@ -37,4 +48,5 @@ export const modalSchema = z.object({
 		.optional(),
 
 	disabled: z.boolean().default(false).optional(),
+	fields: z.any().array().min(1).max(4),
 });
