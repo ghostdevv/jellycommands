@@ -89,8 +89,21 @@ export default defineConfig({
 							],
 						},
 						{
+							label: 'Modals',
+							items: [
+								{
+									label: 'Creating Modals',
+									link: '/components/modals',
+								},
+							],
+						},
+						{
 							label: 'Props',
 							link: '/components/props',
+						},
+						{
+							label: 'Custom Ids',
+							link: '/components/custom-ids',
 						},
 						{
 							label: 'Deferring Interactions',
