@@ -4,7 +4,9 @@
   "initialVersions": {
     "jellycommands": "1.0.0-next.14",
     "dev": "0.0.0",
-    "create-jellycommands": "0.0.0"
+    "create-jellycommands": "0.0.0",
+    "@jellycommands/docs": "0.1.0",
+    "@jellycommands/playground": "0.1.0"
   },
   "changesets": [
     "angry-ladybugs-study",
@@ -28,6 +30,7 @@
     "five-trees-flow",
     "forty-apes-scream",
     "forty-jeans-speak",
+    "four-buses-knock",
     "four-panthers-tap",
     "funny-falcons-mix",
     "gentle-flowers-tease",
@@ -37,7 +40,9 @@
     "hip-lions-vanish",
     "hungry-olives-allow",
     "khaki-roses-sin",
+    "large-feet-applaud",
     "large-spoons-move",
+    "lemon-eggs-grow",
     "lemon-walls-sin",
     "light-boats-guess",
     "little-actors-march",

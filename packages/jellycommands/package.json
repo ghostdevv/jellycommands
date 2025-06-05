@@ -1,6 +1,6 @@
 {
 	"name": "jellycommands",
-	"version": "1.0.0-next.44",
+	"version": "1.0.0-next.45",
 	"author": "Willow (GHOST) <ghostdevbusiness@gmail.com> (https://ghostdev.xyz)",
 	"license": "MIT",
 	"main": "./dist/index.cjs",
