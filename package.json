@@ -12,6 +12,7 @@
 		"dev": "pnpm --parallel -r dev",
 		"build": "pnpm -r build",
 		"package": "pnpm -r package",
+		"release": "changeset publish",
 		"lint": "prettier --check . && biome check && pnpm -r lint",
 		"fix": "prettier --write .",
 		"test": "pnpm -r test",
