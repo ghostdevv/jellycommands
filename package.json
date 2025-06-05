@@ -17,15 +17,15 @@
 		"test": "pnpm -r test",
 		"test-create": "node packages/create-jellycommands/src/bin.js"
 	},
-	"packageManager": "pnpm@9.12.3",
+	"packageManager": "pnpm@9.15.9",
 	"engines": {
-		"pnpm": "^9.12.3",
+		"pnpm": "^9.15.9",
 		"npm": "forbidden, use pnpm",
 		"node": ">=20.13.1"
 	},
 	"volta": {
 		"node": "20.13.1",
-		"pnpm": "9.12.3"
+		"pnpm": "9.15.9"
 	},
 	"repository": {
 		"type": "git",
