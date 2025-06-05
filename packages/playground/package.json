@@ -7,10 +7,10 @@
 		"dev": "nodemon src/index.js"
 	},
 	"devDependencies": {
-		"@types/node": "^20.12.11",
+		"@types/node": "^20.17.6",
 		"discord.js": "^14.15.3",
 		"dotenv": "^16.4.5",
 		"jellycommands": "workspace:*",
-		"nodemon": "^3.1.0"
+		"nodemon": "^3.1.7"
 	}
 }
