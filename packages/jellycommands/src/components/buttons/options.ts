@@ -6,6 +6,7 @@ import { z } from 'zod';
 export interface ButtonOptions extends BaseComponentOptions {
 	/**
 	 * The customId of the button, or a regex/function to match against
+	 * @see https://jellycommands.dev/components/custom-ids
 	 */
 	id: string | RegExp | ((id: string) => MaybePromise<boolean>);
 

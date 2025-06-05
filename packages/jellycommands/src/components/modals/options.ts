@@ -6,6 +6,7 @@ import { z } from 'zod';
 export interface ModalOptions extends BaseComponentOptions {
 	/**
 	 * The customId of the modal, or a regex/function to match against
+	 * @see https://jellycommands.dev/components/custom-ids
 	 */
 	id: string | RegExp | ((id: string) => MaybePromise<boolean>);
 
