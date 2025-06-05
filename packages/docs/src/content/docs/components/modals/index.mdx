@@ -5,7 +5,7 @@ description: Learn about how to create modals with JellyCommands.
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-A modal component can be used to respond to modal submissions, from modal you create. You'll need to create and send these modal yourself, so let's get started by creating a simple slash command to do so:
+A modal component can be used to respond to modal submissions. You'll need to create and send these modals yourself, so let's get started by creating a simple slash command to do so:
 
 <Tabs>
   <TabItem label="TypeScript">
@@ -45,7 +45,7 @@ A modal component can be used to respond to modal submissions, from modal you cr
     ```
 
   </TabItem>
-  
+
   <TabItem label="JavaScript">
     ```js {2-7,14-18,20-23,25-29,31-32}
     import { command } from 'jellycommands';
@@ -91,7 +91,7 @@ On running this command, your modal is opened! However, you'll notice that when 
 
 !["Something went wrong" message on the modal created earlier]($assets/docs/modal-failed.png)
 
-This is where the JellyCommands comes in, it allows us to create a modal component that can respond to modal submissions. All we need is the modal's "custom id", which you might have noticed us setting in the above example. From here we can read the value of the text input using [`interaction.fields.getTextInputValue`](https://discordjs.guide/interactions/modals.html#extracting-data-from-modal-submissions).
+This is where the JellyCommands comes in, it allows us to create a modal component that can respond to these submissions. All we need is the modal's "custom id", which you might have noticed us setting in the above example. From here we can read the value of the text input using [`interaction.fields.getTextInputValue`](https://discordjs.guide/interactions/modals.html#extracting-data-from-modal-submissions).
 
 ```ts
 import { modal } from 'jellycommands';
