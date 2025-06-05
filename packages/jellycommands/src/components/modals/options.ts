@@ -3,9 +3,9 @@ import type { BaseComponentOptions } from '../components';
 import type { MaybePromise } from '../../utils/types';
 import { z } from 'zod';
 
-export interface ButtonOptions extends BaseComponentOptions {
+export interface ModalOptions extends BaseComponentOptions {
 	/**
-	 * The customId of the button, or a regex/function to match against
+	 * The customId of the modal, or a regex/function to match against
 	 * @see https://jellycommands.dev/components/custom-ids
 	 */
 	id: string | RegExp | ((id: string) => MaybePromise<boolean>);
@@ -16,7 +16,7 @@ export interface ButtonOptions extends BaseComponentOptions {
 	defer?: boolean | InteractionDeferReplyOptions;
 }
 
-export const buttonSchema = z.object({
+export const modalSchema = z.object({
 	id: z.union([
 		z.string(),
 		z.instanceof(RegExp),
