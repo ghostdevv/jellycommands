@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"lib": ["ESNext"],
+		"module": "ESNext",
+		"target": "ESNext",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"strict": true,
+		"checkJs": true,
+		"allowJs": true
+	},
+	"include": ["./src/**/*.js"],
+	"exclude": ["./src/js/**", "./src/ts/**", "node_modules/**"]
+}
