@@ -18,7 +18,7 @@ npm create jellycommands@latest
 ```
 
 :::note
-If you select TypeScript in the template your code will be run with [`tsm`](https://github.com/lukeed/tsm) to avoid the compilation step. JellyCommands doesn't have any requirements here, so you could easily replace it with your preffered ts loader, or a compilation step.
+If you select TypeScript in the template your code will be run with [`tsx`](https://www.npmjs.com/package/tsx) to avoid the compilation step. If you're on Node 22 you should consider using [--experimental-strip-types](https://nodejs.org/en/learn/typescript/run-natively), or Node 24 which works with [TypeScript erasable syntax](https://nodejs.org/api/typescript.html#type-stripping) out of the box.
 :::
 
 ## Project Structure

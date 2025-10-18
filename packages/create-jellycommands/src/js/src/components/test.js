@@ -8,6 +8,7 @@ export default command({
 	global: true,
 
 	run: ({ interaction }) => {
+		/** @type {ActionRowBuilder<ButtonBuilder>} */
 		const row = new ActionRowBuilder();
 
 		const button = new ButtonBuilder()

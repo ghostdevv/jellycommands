@@ -1,17 +1,13 @@
 {
 	"type": "module",
-	"main": "src/index.js",
 	"scripts": {
-		"dev": "nodemon .",
-		"start": "node ."
+		"dev": "node --watch src/index.js",
+		"start": "node src/index.js"
 	},
 	"dependencies": {
-		"discord.js": "^14.15.3",
-		"dotenv": "^16.4.5",
-		"jellycommands": "1.0.0-next.44"
-	},
-	"devDependencies": {
-		"nodemon": "^3.1.7"
+		"discord.js": "^14.23.2",
+		"dotenv": "^17.2.3",
+		"jellycommands": "1.0.0-next.45"
 	},
 	"engines": {
 		"node": ">=20.13.1"
