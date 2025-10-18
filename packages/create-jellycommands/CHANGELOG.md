@@ -1,5 +1,11 @@
 # create-jellycommands
 
+## 0.1.0-next.19
+
+### Patch Changes
+
+- perf: replace kleur with picocolors ([`6fefb23`](https://github.com/ghostdevv/jellycommands/commit/6fefb23a98c229e919c37af83217a65b55f8e6f8))
+
 ## 0.1.0-next.18
 
 ### Minor Changes

@@ -2,7 +2,7 @@
 	"name": "create-jellycommands",
 	"description": "Get started quickly with jellycommands by running npm create jellycommands",
 	"license": "MIT",
-	"version": "0.1.0-next.18",
+	"version": "0.1.0-next.19",
 	"type": "module",
 	"bin": {
 		"create-jellycommands": "src/bin.js"
