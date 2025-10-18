@@ -1,12 +1,12 @@
 {
-	"name": "jellycommands-monorepo",
+	"name": "@jellycommands/monorepo",
 	"private": true,
 	"license": "MIT",
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"@changesets/cli": "^2.29.4",
+		"@changesets/cli": "^2.29.7",
 		"@svitejs/changesets-changelog-github-compact": "^1.2.0",
-		"prettier": "^3.3.3"
+		"prettier": "^3.6.2"
 	},
 	"scripts": {
 		"dev": "pnpm --parallel -r dev",

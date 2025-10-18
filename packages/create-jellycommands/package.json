@@ -19,7 +19,7 @@
 	},
 	"homepage": "https://github.com/ghostdevv/jellycommands#readme",
 	"devDependencies": {
-		"@types/node": "^20.17.6",
+		"@types/node": "catalog:",
 		"publint": "catalog:"
 	},
 	"dependencies": {

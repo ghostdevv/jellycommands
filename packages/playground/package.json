@@ -7,7 +7,7 @@
 		"dev": "node --watch src/index.js"
 	},
 	"devDependencies": {
-		"@types/node": "^20.17.6",
+		"@types/node": "catalog:",
 		"discord.js": "^14.23.2",
 		"dotenv": "^17.2.3",
 		"jellycommands": "workspace:*"

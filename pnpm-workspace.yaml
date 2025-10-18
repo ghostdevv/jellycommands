@@ -3,3 +3,4 @@ packages:
 
 catalog:
     publint: ^0.3.14
+    '@types/node': ^20.13.0
