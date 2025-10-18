@@ -1,17 +1,10 @@
+import { confirm, cancel, isCancel, spinner, outro } from '@clack/prompts';
 import { resolve, basename, join, dirname } from 'node:path';
 import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { copy } from './copy.js';
 import kleur from 'kleur';
 import mri from 'mri';
-import {
-	intro,
-	confirm,
-	cancel,
-	isCancel,
-	spinner,
-	outro,
-} from '@clack/prompts';
 
 function exit() {
 	cancel('create-jellycommands exited');
@@ -20,8 +13,6 @@ function exit() {
 
 export async function run() {
 	const args = mri(process.argv.slice(2));
-
-	intro(kleur.magenta(`create-jellycommands ${kleur.bold('v1')}`));
 
 	const rawTarget = args._[0];
 
