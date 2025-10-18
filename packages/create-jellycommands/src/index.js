@@ -1,8 +1,8 @@
 import { resolve, basename, join, dirname } from 'node:path';
 import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import minimist from 'minimist';
 import kleur from 'kleur';
+import mri from 'mri';
 import cpy from 'cpy';
 import {
 	intro,
@@ -19,7 +19,7 @@ function exit() {
 }
 
 export async function run() {
-	const args = minimist(process.argv.slice(2));
+	const args = mri(process.argv.slice(2));
 
 	intro(kleur.magenta(`create-jellycommands ${kleur.bold('v1')}`));
 
