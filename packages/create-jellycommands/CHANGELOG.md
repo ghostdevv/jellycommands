@@ -1,5 +1,23 @@
 # create-jellycommands
 
+## 0.1.0-next.18
+
+### Minor Changes
+
+- feat: update templates ([`411b65d`](https://github.com/ghostdevv/jellycommands/commit/411b65d0a7f99509b3a8a0ae5fcb7c2ae5c24dff))
+
+### Patch Changes
+
+- fix: add license to package.json ([`eb53d98`](https://github.com/ghostdevv/jellycommands/commit/eb53d984f30d7a1e24c82c278c4be62eef756718))
+
+- perf: remove cpy dependency ([`f008d92`](https://github.com/ghostdevv/jellycommands/commit/f008d925cd548ab72cf2e901bd27634d6be84b6a))
+
+- perf: remove update-notifier dependency ([`2da3d4d`](https://github.com/ghostdevv/jellycommands/commit/2da3d4d1184d2f15f0e2601d6473a6729646d760))
+
+- perf: remove desm dependency ([`f9a1ac3`](https://github.com/ghostdevv/jellycommands/commit/f9a1ac3060fcc09d798ff2fa939cc034a91e25e0))
+
+- perf: replace minimist with mri ([`c005ca0`](https://github.com/ghostdevv/jellycommands/commit/c005ca0658af0bdb1a43366eeaa248bc45d3f439))
+
 ## 0.1.0-next.17
 
 ### Patch Changes
