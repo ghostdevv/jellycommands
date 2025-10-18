@@ -15,15 +15,15 @@
 		"sharp": "^0.32.5",
 		"typescript": "^5.7.2"
 	},
-	"packageManager": "pnpm@9.15.9",
+	"packageManager": "pnpm@10.18.3",
 	"engines": {
-		"pnpm": "^9.15.9",
+		"pnpm": "^10.18.3",
 		"npm": "forbidden, use pnpm",
 		"node": ">=20.13.1"
 	},
 	"volta": {
 		"node": "20.13.1",
-		"pnpm": "9.15.9"
+		"pnpm": "10.18.3"
 	},
 	"devDependencies": {
 		"starlight-links-validator": "^0.13.2"

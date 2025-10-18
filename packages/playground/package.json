@@ -12,14 +12,14 @@
 		"dotenv": "^17.2.3",
 		"jellycommands": "workspace:*"
 	},
-	"packageManager": "pnpm@9.15.9",
+	"packageManager": "pnpm@10.18.3",
 	"engines": {
-		"pnpm": "^9.15.9",
+		"pnpm": "^10.18.3",
 		"npm": "forbidden, use pnpm",
 		"node": ">=20.13.1"
 	},
 	"volta": {
 		"node": "20.13.1",
-		"pnpm": "9.15.9"
+		"pnpm": "10.18.3"
 	}
 }

@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@astrojs/starlight':
-    hash: aox5onyzinhoo4bau7ys34hibe
+    hash: 4f20c50533ffcacee5d349b8003e52c95146f8a528ff41d09b2a86319d58ce39
     path: patches/@astrojs__starlight.patch
 
 importers:
@@ -52,7 +52,7 @@ importers:
         version: 0.9.4(prettier@3.3.3)(typescript@5.7.2)
       '@astrojs/starlight':
         specifier: ^0.28.6
-        version: 0.28.6(patch_hash=aox5onyzinhoo4bau7ys34hibe)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))
+        version: 0.28.6(patch_hash=4f20c50533ffcacee5d349b8003e52c95146f8a528ff41d09b2a86319d58ce39)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))
       astro:
         specifier: ^4.16.14
         version: 4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2)
@@ -65,7 +65,7 @@ importers:
     devDependencies:
       starlight-links-validator:
         specifier: ^0.13.2
-        version: 0.13.2(@astrojs/starlight@0.28.6(patch_hash=aox5onyzinhoo4bau7ys34hibe)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2)))(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))
+        version: 0.13.2(@astrojs/starlight@0.28.6(patch_hash=4f20c50533ffcacee5d349b8003e52c95146f8a528ff41d09b2a86319d58ce39)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2)))(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))
 
   packages/jellycommands:
     dependencies:
@@ -4230,7 +4230,7 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.23.8
 
-  '@astrojs/starlight@0.28.6(patch_hash=aox5onyzinhoo4bau7ys34hibe)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))':
+  '@astrojs/starlight@0.28.6(patch_hash=4f20c50533ffcacee5d349b8003e52c95146f8a528ff41d09b2a86319d58ce39)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))':
     dependencies:
       '@astrojs/mdx': 3.1.9(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))
       '@astrojs/sitemap': 3.2.1
@@ -8091,9 +8091,9 @@ snapshots:
 
   stackback@0.0.2: {}
 
-  starlight-links-validator@0.13.2(@astrojs/starlight@0.28.6(patch_hash=aox5onyzinhoo4bau7ys34hibe)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2)))(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2)):
+  starlight-links-validator@0.13.2(@astrojs/starlight@0.28.6(patch_hash=4f20c50533ffcacee5d349b8003e52c95146f8a528ff41d09b2a86319d58ce39)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2)))(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2)):
     dependencies:
-      '@astrojs/starlight': 0.28.6(patch_hash=aox5onyzinhoo4bau7ys34hibe)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))
+      '@astrojs/starlight': 0.28.6(patch_hash=4f20c50533ffcacee5d349b8003e52c95146f8a528ff41d09b2a86319d58ce39)(astro@4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2))
       '@types/picomatch': 2.3.3
       astro: 4.16.14(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.7.2)
       github-slugger: 2.0.0

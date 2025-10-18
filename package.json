@@ -17,15 +17,15 @@
 		"test": "pnpm -r test",
 		"test-create": "node packages/create-jellycommands/src/bin.js"
 	},
-	"packageManager": "pnpm@9.15.9",
+	"packageManager": "pnpm@10.18.3",
 	"engines": {
-		"pnpm": "^9.15.9",
+		"pnpm": "^10.18.3",
 		"npm": "forbidden, use pnpm",
 		"node": ">=20.13.1"
 	},
 	"volta": {
 		"node": "20.13.1",
-		"pnpm": "9.15.9"
+		"pnpm": "10.18.3"
 	},
 	"repository": {
 		"type": "git",
@@ -38,6 +38,11 @@
 	"pnpm": {
 		"patchedDependencies": {
 			"@astrojs/starlight": "patches/@astrojs__starlight.patch"
-		}
+		},
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"esbuild",
+			"sharp"
+		]
 	}
 }
