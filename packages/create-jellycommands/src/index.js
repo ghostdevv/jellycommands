@@ -1,9 +1,9 @@
 import { resolve, basename, join, dirname } from 'node:path';
 import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { copy } from './copy.js';
 import kleur from 'kleur';
 import mri from 'mri';
-import cpy from 'cpy';
 import {
 	intro,
 	confirm,
@@ -63,16 +63,12 @@ export async function run() {
 
 	s.start('Copying your template');
 
-	const templateGlob = join(
+	const templatePath = join(
 		dirname(fileURLToPath(import.meta.url)),
 		useTypeScript ? 'ts' : 'js',
-		'/**',
 	);
 
-	await cpy(templateGlob, target, {
-		rename: (basename) =>
-			basename.startsWith('_') ? `.${basename.slice(1)}` : basename,
-	});
+	await copy(templatePath, target);
 
 	s.stop('Copied!');
 
