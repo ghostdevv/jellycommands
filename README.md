@@ -24,16 +24,16 @@ Jellycommands is a developer experience focused command framework for discord.js
 
 # Support
 
--   ### Join the [discord](https://discord.gg/2Vd4wAjJnm)
--   ### Create a issue on the [github](https://github.com/ghostdevv/jellycommands)
+- ### Join the [discord](https://discord.gg/2Vd4wAjJnm)
+- ### Create a issue on the [github](https://github.com/ghostdevv/jellycommands)
 
 # Support Development
 
--   ### Patreon / PayPal
+- ### Patreon / PayPal
 
     [Click me](https://ghostdev.xyz/donate)
 
--   ### Add the badge to your readme
+- ### Add the badge to your readme
 
     Copy the text below to get our readme badge
 
