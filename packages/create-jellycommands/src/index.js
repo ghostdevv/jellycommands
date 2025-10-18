@@ -3,7 +3,7 @@ import { resolve, basename, join, dirname } from 'node:path';
 import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { copy } from './copy.js';
-import kleur from 'kleur';
+import pc from 'picocolors';
 import mri from 'mri';
 
 function exit() {
@@ -32,7 +32,7 @@ export async function run() {
 
 	if (existsSync(target) && readdirSync(target).length > 0) {
 		const shouldContinue = await confirm({
-			message: `Directory "${basename(target)}" is ${kleur.bold('not')} empty, continue?`,
+			message: `Directory "${basename(target)}" is ${pc.bold('not')} empty, continue?`,
 			initialValue: false,
 		});
 
@@ -42,7 +42,7 @@ export async function run() {
 	}
 
 	const useTypeScript = await confirm({
-		message: `Would you like to use ${kleur.blue('TypeScript')}?`,
+		message: `Would you like to use ${pc.blue('TypeScript')}?`,
 		initialValue: true,
 	});
 
@@ -63,9 +63,9 @@ export async function run() {
 
 	s.stop('Copied!');
 
-	outro(kleur.green('Your project has been created!'));
+	outro(pc.green('Your project has been created!'));
 
-	console.log(kleur.underline('To get started:'));
+	console.log(pc.underline('To get started:'));
 
 	const numbered = [
 		rawTarget && `cd ${rawTarget}`,
@@ -77,6 +77,6 @@ export async function run() {
 	numbered
 		.filter(Boolean)
 		.forEach((item, index) =>
-			console.log(`  ${kleur.gray(index + 1)}) ${item}`),
+			console.log(`  ${pc.gray(index + 1)}) ${item}`),
 		);
 }
