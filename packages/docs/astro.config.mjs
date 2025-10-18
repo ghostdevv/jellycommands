@@ -15,9 +15,13 @@ export default defineConfig({
 			title: 'JellyCommands',
 			description:
 				'Jellycommands is a developer experience focused command framework for discord.js. It has support for all types of application commands, including slash commands and conlabel menus. It also includes quality of life features such as caching and developer mode.',
-			social: {
-				github: 'https://github.com/ghostdevv/jellycommands',
-			},
+			social: [
+				{
+					icon: 'github',
+					label: 'GitHub',
+					href: 'https://github.com/ghostdevv/jellycommands',
+				},
+			],
 			favicon: '/logo.svg',
 			customCss: ['./src/theme.css'],
 			editLink: {
