@@ -1,10 +1,9 @@
+import { resolve, basename, join, dirname } from 'node:path';
 import { existsSync, readdirSync } from 'node:fs';
-import { resolve, basename } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import minimist from 'minimist';
-import { join } from 'desm';
 import kleur from 'kleur';
 import cpy from 'cpy';
-
 import {
 	intro,
 	confirm,
@@ -65,7 +64,7 @@ export async function run() {
 	s.start('Copying your template');
 
 	const templateGlob = join(
-		import.meta.url,
+		dirname(fileURLToPath(import.meta.url)),
 		useTypeScript ? 'ts' : 'js',
 		'/**',
 	);
