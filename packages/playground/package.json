@@ -4,13 +4,22 @@
 	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
-		"dev": "nodemon src/index.js"
+		"dev": "node --watch src/index.js"
 	},
 	"devDependencies": {
 		"@types/node": "^20.17.6",
-		"discord.js": "^14.15.3",
-		"dotenv": "^16.4.5",
-		"jellycommands": "workspace:*",
-		"nodemon": "^3.1.7"
+		"discord.js": "^14.23.2",
+		"dotenv": "^17.2.3",
+		"jellycommands": "workspace:*"
+	},
+	"packageManager": "pnpm@9.15.9",
+	"engines": {
+		"pnpm": "^9.15.9",
+		"npm": "forbidden, use pnpm",
+		"node": ">=20.13.1"
+	},
+	"volta": {
+		"node": "20.13.1",
+		"pnpm": "9.15.9"
 	}
 }

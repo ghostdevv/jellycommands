@@ -1,10 +1,10 @@
+import { command } from 'jellycommands';
 import {
 	TextInputBuilder,
 	TextInputStyle,
 	ModalBuilder,
 	ActionRowBuilder,
 } from 'discord.js';
-import { command } from 'jellycommands';
 
 export default command({
 	name: 'test-modal',
