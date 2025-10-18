@@ -1,2 +1,5 @@
 packages:
     - 'packages/*'
+
+catalog:
+    publint: ^0.3.14

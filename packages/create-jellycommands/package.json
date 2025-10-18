@@ -19,7 +19,7 @@
 	"homepage": "https://github.com/ghostdevv/jellycommands#readme",
 	"devDependencies": {
 		"@types/node": "^20.17.6",
-		"publint": "^0.3.14"
+		"publint": "catalog:"
 	},
 	"dependencies": {
 		"@clack/prompts": "^0.11.0",
